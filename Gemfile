@@ -13,8 +13,9 @@ gem 'uglifier', '>= 1.3.0'
 
 
 gem 'biola_deploy'
-gem 'biola_frontend_toolkit'
+gem 'biola_frontend_toolkit', '~> 0.4.0'
 gem 'blazing'
+gem 'bourbon', '~> 3.2'
 gem 'buweb_content_models', '~> 0.76.0'
 gem 'jbuilder', '~> 2.0'
 gem 'mongoid', '~> 4.0.1'
@@ -23,7 +24,7 @@ gem 'pinglish'
 gem 'pundit'
 gem 'rack-cas', '>= 0.9.2'
 gem 'rails_config'
-gem 'slim', '>= 3.0.1'
+gem 'slim', '>= 2.1'
 gem 'therubyracer', platforms: :ruby
 gem 'turnout'
 

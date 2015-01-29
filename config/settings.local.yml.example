@@ -1,0 +1,2 @@
+# Run rake secret to generate a new token
+secret_token:

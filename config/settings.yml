@@ -1,0 +1,24 @@
+app:
+  name: WCMS
+  host: wcms.biola.edu
+  relative_url_root:
+
+# Overwrite this in production
+secret_token:
+
+urn_namespaces:
+- "urn:biola:apps:wcms:"
+- "urn:biola:apps:all:"
+
+cas:
+  url: "https://login.biola.edu/cas"
+
+email:
+  from: no-reply@biola.edu
+  developer: appdev@biola.edu
+  smtp:
+    server: postfix.biola.edu
+
+exceptions:
+  mail_to:
+  - appdev@biola.edu

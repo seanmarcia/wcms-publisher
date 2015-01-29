@@ -1,0 +1,7 @@
+app:
+  name: Academic Publisher
+  host: academic-publisher.dev
+  relative_url_root: /
+
+# Run rake secret to generate a new token
+secret_token: c9db39665e0d640e41a48eac33f621ce09c2c21f795599dc77ca2d85213564ac5f577fb0a49fb17caf9dbd09278223a4a88225d7d431d7eeaa87009154925161

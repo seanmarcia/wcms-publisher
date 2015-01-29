@@ -1,0 +1,18 @@
+//====================================
+// Base Type - This should only be tag level styles.
+//====================================
+h1, h2, h3, h4, h5, h6 { font-family:'proxima-nova',Helvetica,Arial,sans-serif; font-weight:bold; }
+h1, h2, h3, h4 { margin:0 0 0.75em; }
+h5, h6 { margin:0 0 1.1em; }
+h1 { font-size:2.57em; }
+h2 { font-size:2.14em; }
+h3 { font-size:1.71em; }
+h4 { font-size:1.28em; }
+h5 { font-size:1.00em; }
+h6 { font-size:1.00em; }
+
+p, ul, ol, dl, .lead { margin-bottom:1.2em; }
+
+img { max-width:100%; height:auto; }
+
+html, body { background-color: white; }

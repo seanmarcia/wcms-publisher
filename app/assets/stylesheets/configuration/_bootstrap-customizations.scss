@@ -1,0 +1,25 @@
+.table.hide-top-border {
+  tr:first-child {
+    th, td { border-top: none; }
+  }
+}
+
+.label.label-light { background-color: #EFEFEF; color: #333; font-weight: 400; }
+
+textarea { resize: vertical; }
+
+.modal {
+  .modal-header {
+    h1, h2, h3, h4 { margin: 0; }
+  }
+}
+
+form {
+  label.required:after { color: red; content:"*"; padding-left: 4px; }
+}
+
+.pagination.pagination-blocky {
+  > li > a { margin-top: -1px; text-align: center; }
+  > li:first-child > a { border-radius: 0px; }
+  > li:last-child > a { border-radius: 0px; }
+}

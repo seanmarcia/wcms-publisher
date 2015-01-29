@@ -4,13 +4,18 @@ html
     / handles default html head tags and csrf_meta_tags
     = render 'frontend_toolkit/head', title: 'WCMS'
     = stylesheet_link_tag "application", media: "all"
-    = yield :extra_headers
+
+    / Load Proxima Nova and Minion Pro
+    = javascript_include_tag '//use.typekit.net/zvt1wex.js'
+    javascript:
+      try{Typekit.load();}catch(e){}
+
   body class="#{controller_name} #{action_name}"
 
     = render 'frontend_toolkit/biola_header', enable_auth: true
 
-    .container
-      - unless (alerts = all_alerts).empty?
+    - unless (alerts = all_alerts).empty?
+      .container
         #message_list
           - alerts.each do |msg|
             div.alert class=alert_class(msg[:type]) data-type=msg[:type]
@@ -28,4 +33,3 @@ html
           p ♥ from the Biola Apps team
 
     = javascript_include_tag "application"
-    = yield :extra_javascript

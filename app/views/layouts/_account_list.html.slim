@@ -1,0 +1,9 @@
+/ This file will provide the frontend toolkit with a dropdown list
+/   if you are authenticated when you click the user icon in the top right.
+
+- if current_user
+  - content_for :account_list do
+
+    / - if my_profile = current_user.find_person
+    /  li = link_to fa_icon("user", text: "My Profile"), my_profile
+    li = link_to fa_icon('power-off', text: 'Logout'), logout_path

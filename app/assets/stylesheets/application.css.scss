@@ -1,18 +1,14 @@
 // External resources
-@import "bourbon";   // general use mixins and settings. See: http://bourbon.io/
 @import "biola-frontend-toolkit";  // biola specific mixins, settins, and stylesheets
+@import "biola-wcms-components";
 
 // Settings and configuration
-@import "./configuration/settings";
-@import "./configuration/mixins";
-@import "./configuration/bootstrap-customizations";
-@import "./configuration/base";
 
 // Component specific resources
 @import "./components/*";
 
 // Controller or view specific resources
-@import "./application/*";
+// @import "./application/*";
 
 
 //====================================

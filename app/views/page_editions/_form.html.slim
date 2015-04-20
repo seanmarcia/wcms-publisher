@@ -1,0 +1,26 @@
+= form_for @page_edition do |f|
+  .row.form-section
+    .col-md-6
+      .form-group
+        = f.label :title
+        = f.text_field :title, class: 'form-control'
+
+      .form-group
+        = f.label :site
+        = f.collection_select :site, Site.all, :id, :to_s, {}, class: 'form-control'
+
+      .form-group
+        = f.label :slug
+        .input-group
+          span.input-group-addon www.biola.edu/
+          = f.text_field :slug, class: 'form-control'
+
+
+    .clearfix
+    hr
+
+  .form-footer
+    .pull-right
+      = f.submit 'Save', class: 'btn btn-biola'
+      = link_to "Cancel", page_editions_path, class: 'btn btn-link'
+    .clearfix

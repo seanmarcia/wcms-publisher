@@ -1,3 +1,7 @@
 br
 .container
   h1 WCMS Publishers
+
+  ul
+    - @publishers.each do |publisher|
+      li = link_to publisher.name, publisher.url

@@ -1,0 +1,18 @@
+.table-responsive
+  table.table.table-striped
+    thead
+      tr
+        th
+        th Title
+        th Site
+        th Slug
+    tbody
+      - @page_editions.each do |page|
+        tr
+          td
+          td = link_to page.title, page
+          td = page.site
+          td = page.slug
+          td
+            - if page.published?
+              = fa_icon 'check'

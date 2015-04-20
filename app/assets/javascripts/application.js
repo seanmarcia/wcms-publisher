@@ -11,4 +11,5 @@
 // about supported directives.
 //
 //= require biola-frontend-toolkit
+//= require biola-wcms-components
 //= require_tree .

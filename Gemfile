@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.0'
+gem 'rails', '4.2.1'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -14,10 +14,12 @@ gem 'uglifier', '>= 1.3.0'
 
 gem 'biola_deploy'
 gem 'biola_frontend_toolkit', '~> 0.4.0'
+gem 'biola_wcms_components', '~> 0.6'
 gem 'blazing'
-gem 'bourbon', '~> 3.2'
-gem 'buweb_content_models', '~> 0.76.0'
+gem 'buweb_content_models', path: '/Users/ryanh17/Dropbox/projects/Gems/buweb-content-models'
 gem 'jbuilder', '~> 2.0'
+gem 'kaminari-bootstrap'
+gem 'logging', '~> 1.8'  # until blazing is fixed or removed. Version 2.0 conflicts with blazing.
 gem 'mongoid', '~> 4.0.1'
 gem 'newrelic_rpm'
 gem 'pinglish'

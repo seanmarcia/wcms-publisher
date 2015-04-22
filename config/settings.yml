@@ -19,6 +19,11 @@ email:
   smtp:
     server: postfix.biola.edu
 
-exceptions:
-  mail_to:
-  - appdev@biola.edu
+roz:
+  access_id: # set in settings.local.yml
+  secret_key: # set in settings.local.yml
+
+redis:
+  # This is overridden in config/settings/[staging|production].yml
+  url: "********************"
+  name: 'wcms-publisher'

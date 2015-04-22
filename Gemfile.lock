@@ -1,7 +1,7 @@
 PATH
   remote: /Users/ryanh17/Dropbox/projects/Gems/buweb-content-models
   specs:
-    buweb_content_models (0.101.0)
+    buweb_content_models (0.103.0)
       aasm (~> 3.3)
       carrierwave-mongoid (~> 0.7)
       carrierwave-roz (~> 0.3)

@@ -5,7 +5,8 @@ class PageEditionsController < ApplicationController
   before_filter :pundit_authorize
 
   def index
-    @page_editions = PageEdition.all
+    @page_editions = policy_scope(PageEdition)
+    @page_editions = @page_editions.desc(:title).page(params[:page]).per(25)
   end
 
   def show

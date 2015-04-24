@@ -51,7 +51,13 @@ class PageEditionsController < ApplicationController
   end
 
   def page_edition_params
-    params.require(:page_edition).permit(*policy(@page_edition || PageEdition).permitted_attributes)
+    # params.require(:page_edition).permit(*policy(@page_edition || PageEdition).permitted_attributes)
+
+    # I'm not using `require` here because it could be blank when updating presentation data
+    ActionController::Parameters.new(params[:page_edition]).permit(*policy(@page_edition || PageEdition).permitted_attributes).tap do |whitelisted|
+      # You have to whitelist the hash this way, see https://github.com/rails/rails/issues/9454
+      whitelisted[:presentation_data] = params[:pdata] if params[:pdata].present?
+    end
   end
 
   def set_page_edition

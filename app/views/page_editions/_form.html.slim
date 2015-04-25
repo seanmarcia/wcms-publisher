@@ -5,8 +5,8 @@
       = f.text_field :title, class: 'form-control'
 
     .form-group
-      = f.label :site
-      = f.collection_select :site, Site.all, :id, :url, {}, class: 'form-control'
+      = f.label :site_id, "Site"
+      = f.collection_select :site_id, Site.all, :id, :url, {}, class: 'form-control'
 
     .form-group
       = f.label :slug
@@ -44,7 +44,7 @@
 
 
 javascript:
-  $('#page_edition_site').change(function(){
+  $('#page_edition_site_id').change(function(){
     var new_text = this.options[this.selectedIndex].text + '/';
     $('#site_url_preview').html(new_text);
   });

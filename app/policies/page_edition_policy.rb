@@ -19,7 +19,7 @@ class PageEditionPolicy < ApplicationPolicy
   alias :destroy? :create?
 
   def permitted_attributes
-    attrs = [:title, :slug, :site, :body, :page_template]
+    attrs = [:title, :slug, :site_id, :body, :page_template]
     attrs
   end
 

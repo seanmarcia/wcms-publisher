@@ -7,6 +7,10 @@
 # Ignore bundler config.
 /.bundle
 
+# Ignore Pow config. See https://rvm.io/integration/pow
+/.powenv
+/.powrc
+
 # Ignore the default SQLite database.
 /db/*.sqlite3
 /db/*.sqlite3-journal

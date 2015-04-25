@@ -25,7 +25,9 @@
 
     .form-group
       = f.label :body
-      = f.text_area :body, class: 'form-control'
+      = wcms_component "forms/redactor_editor",
+        form: f,
+        attribute: :body
 
     .form-group
       - if f.object.presentation_data_template.present?

@@ -1,0 +1,8 @@
+.side-menu
+  .list-group
+    .list-group-item.top-item
+      = @page_edition.title
+    = menu_block(class: 'list-group-item') do |menu|
+      = menu.add_item('Overview', default: true) { edit_page_edition_path(@page_edition, page: 'profile') }
+      = menu.add_item('Permissions') {  edit_page_edition_path(@page_edition, page: 'permissions') } if policy(@page_edition).can_manage?(:permissions)
+

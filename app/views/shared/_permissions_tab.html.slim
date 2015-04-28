@@ -1,0 +1,43 @@
+- policy = ActorPolicy.new(current_user, obj)
+
+.panel.panel-default
+  .panel-heading
+    strong Permissions
+  .panel-body
+    - if obj.actors.empty?
+      .alert.alert-info No users have permission to edit this #{obj.class.to_s.downcase}.
+    - else
+      table.table
+        tr
+          th
+          th Name
+          th Email
+        - obj.actors.sort_by{|a| a.first_name }.each do |actor|
+          tr
+            td
+              - if policy.destroy?
+                .dropdown.pull-left
+                  .dropdown-toggle id="dropdownMenu1" data-toggle="dropdown"
+                    = link_to fa_icon('cog')
+                  ul.dropdown-menu role="menu" aria-labelledby="dropdownMenu1"
+                    li
+                      - if actor != current_user
+                        = link_to 'Revoke Permissions', send("#{obj.class.to_s.downcase}_actor_path", obj.id.to_s, id: actor.id.to_s), method: :delete, data: { confirm: "Are you sure that you want to revoke #{actor.name}'s permissions?" }, class: 'btn-default'
+
+                      - else
+                        = link_to 'Revoke Permissions', '#', onclick: "alert('You cannot remove your own permissions.')", class: 'btn btn-link'
+
+            td = actor
+            td = actor.email
+
+    - if policy.create?
+      br
+      = form_tag [ obj, :actors ]
+        #new_permission_form
+          .form-inline
+            .form-group> = wcms_component 'forms/person_lookup', person_id_key: :_person_id
+            .form-group = submit_tag '+ add user', class: 'btn btn-default'
+      div#note
+        br
+        strong> NOTE:
+        | Only people who have logged into this site in the past can be added.

@@ -28,8 +28,8 @@ class PageEditionPolicy < ApplicationPolicy
     case attribute.try(:to_sym)
     when nil, :profile
       true
-    when :activity_logs
-      user.try(:admin?)
+    when :activity_logs, :permissions
+      user.admin? || user.developer?
     else
       false
     end

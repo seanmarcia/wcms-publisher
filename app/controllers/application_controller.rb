@@ -3,6 +3,7 @@ class ApplicationController < WcmsApplicationController
   # We are inheriting from WcmsApplicationController.
   #  This contains many of the controller configuration code.
 
+  before_filter :set_parent
 
   protected
 

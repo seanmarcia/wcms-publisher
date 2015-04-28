@@ -20,7 +20,15 @@
 !/log/.keep
 /tmp
 
-# Ignore local settings files, these can contain sensitive data.
+# Ignore config and local settings files, these can contain sensitive data.
+config/blazing.rb
+config/mongoid.yml
 config/settings.local.yml
 config/settings/*.local.yml
 config/environments/*.local.yml
+
+# Ignore redis dump files
+dump.rdb
+
+# Ignore uploaded files
+public/uploads

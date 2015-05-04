@@ -6,13 +6,55 @@ app:
 # Run rake secret to generate a new token
 secret_token: c9db39665e0d640e41a48eac33f621ce09c2c21f795599dc77ca2d85213564ac5f577fb0a49fb17caf9dbd09278223a4a88225d7d431d7eeaa87009154925161
 
-
+# Keep this list in alphabetical order
 publishers:
-  - name: Forms
-    url: http://forms.biola.edu/admin
-  - name: Groups
-    url: http://profile-publisher.dev/groups
+  - name: Academic Programs
+    url: http://academic-publisher.dev/academic_programs
+  - name: Academic Subjects
+    url: http://academic-publisher.dev/academic_subjects
+  - name: Articles
+    url: http://news-publisher.dev/articles
+  - name: Attachments
+    url: http://academic-publisher.dev/attachments
+  - name: Catalogs
+    url: http://academic-publisher.dev/catalogs
+  - name: Courses
+    url: http://academic-publisher.dev/courses
+  - name: Data Templates
+    url: http://academic-publisher.dev/presentation_data_templates
   - name: Departments
     url: http://profile-publisher.dev/offices-services
+  - name: Events
+    url: http://news-publisher.dev/events
+  - name: External Articles
+    url: http://news-publisher.dev/external_articles
+  - name: External Blogs
+    url: http://news-publisher.dev/external_blogs
+  - name: Features
+    url: http://news-publisher.dev/features
+  - name: Forms
+    url: http://forms.biola.edu/admin
+  - name: Generic Objects
+    url: http://academic-publisher.dev/generic_objects
+  - name: Groups
+    url: http://profile-publisher.dev/groups
+  - name: Outcome Pages
+    url: http://academic-publisher.dev/outcome_editions
+  - name: Page Editions
+    url: http://wcms.dev/page_editions
   - name: People
     url: http://profile-publisher.dev/people
+  - name: Publications
+    url: http://news-publisher.dev/publications
+  - name: Publication Categories
+    url: http://news-publisher.dev/publication_categories
+  - name: Schools
+    url: http://academic-publisher.dev/schools
+  - name: Sites
+    url: http://news-publisher.dev/sites
+  - name: University Learning Outcomes
+    url: http://academic-publisher.dev/university_learning_outcomes
+  - name: Users
+    url: http://news-publisher.dev/users
+
+

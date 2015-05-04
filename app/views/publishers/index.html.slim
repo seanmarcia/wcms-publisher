@@ -1,7 +1,8 @@
 br
 .container
-  h1 WCMS Publishers
-
-  ul
+  .list-group
+    - last_letter = nil
     - @publishers.each do |publisher|
-      li = link_to publisher.name, publisher.url
+      - if last_letter != (current_letter = publisher.name.first.upcase)
+        .group-divider = (last_letter = current_letter)
+      = link_to publisher.name, publisher.url, class: 'list-group-item'

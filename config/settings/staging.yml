@@ -14,7 +14,7 @@ publishers:
   - name: Data Templates
     url: http://wcms.staging.biola.edu/academics/presentation_data_templates
   - name: Departments
-    url: http://wcms.biola.edu/profiles/offices-services
+    url: http://wcms.staging.biola.edu/profiles/offices-services
   - name: Events
     url: http://wcms.staging.biola.edu/news/events
   - name: External Articles
@@ -28,13 +28,13 @@ publishers:
   - name: Generic Objects
     url: http://wcms.staging.biola.edu/academics/generic_objects
   - name: Groups
-    url: http://wcms.biola.edu/profiles/groups
+    url: http://wcms.staging.biola.edu/profiles/groups
   - name: Outcome Pages
     url: http://wcms.staging.biola.edu/academics/outcome_editions
   - name: Page Editions
     url: http://wcms.staging.biola.edu/page_editions
   - name: People
-    url: http://wcms.biola.edu/profiles/people
+    url: http://wcms.staging.biola.edu/profiles/people
   - name: Publications
     url: http://wcms.staging.biola.edu/news/publications
   - name: Publication Categories

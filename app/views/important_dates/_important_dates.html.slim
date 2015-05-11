@@ -1,0 +1,9 @@
+.table-responsive
+  table.table.table-striped
+    thead
+      tr
+        th Title
+    tbody
+      - @important_dates.each do |important_date|
+        tr
+          td = link_to important_date.title, important_date

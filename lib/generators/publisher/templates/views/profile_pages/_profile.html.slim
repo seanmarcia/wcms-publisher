@@ -5,6 +5,7 @@
       <% if attribute.type == :date %>= wcms_component "forms/date", form: f, attribute: :<%= attribute.name %>
       <% elsif attribute.type == :datetime %>= wcms_component "forms/datetime", form: f, attribute: :<%= attribute.name %>
       <% elsif attribute.type == :array %>= wcms_component "forms/tag_input", form: f, attribute: :<%= attribute.name %>
+      <% elsif attribute.type == :boolean %>= f.check_box :<%= attribute.name %>
       <% else %>= f.text_field :<%= attribute.name %>, class: "form-control"
       <% end %>
     <% end %>

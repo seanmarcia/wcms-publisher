@@ -16,7 +16,7 @@ class PublisherGenerator < Rails::Generators::NamedBase
   end
 
   def create_views
-    template "views/_index_partial.html.slim", File.join("app/views/#{plural_table_name}", "_#{singular_table_name}.html.slim")
+    template "views/_index_partial.html.slim", File.join("app/views/#{plural_table_name}", "_#{plural_table_name}.html.slim")
     template "views/_menu.html.slim", File.join("app/views/#{plural_table_name}", "_menu.html.slim")
     template "views/edit.html.slim", File.join("app/views/#{plural_table_name}", "edit.html.slim")
     template "views/index.html.slim", File.join("app/views/#{plural_table_name}", "index.html.slim")
@@ -29,11 +29,11 @@ class PublisherGenerator < Rails::Generators::NamedBase
   end
 
   def create_specs
+    puts "Skipping tests for now"
   end
 
   def add_to_menu
+    puts "TODO: Add #{class_name} to the application menu and to the settings file list"
   end
 
-  def add_to_settings
-  end
 end

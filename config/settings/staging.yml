@@ -7,6 +7,8 @@ publishers:
     url: http://wcms.staging.biola.edu/news/articles
   - name: Attachments
     url: http://wcms.staging.biola.edu/academics/attachments
+  - name: Calendars
+    url: http://wcms.stagingbiola.edu/calendars
   - name: Catalogs
     url: http://wcms.staging.biola.edu/academics/catalogs
   - name: Courses

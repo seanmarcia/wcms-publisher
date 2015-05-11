@@ -1,0 +1,9 @@
+.table-responsive
+  table.table.table-striped
+    thead
+      tr
+        th Title
+    tbody
+      - @calendars.each do |calendar|
+        tr
+          td = link_to calendar.title, calendar

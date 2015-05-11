@@ -16,6 +16,8 @@ publishers:
     url: http://news-publisher.dev/articles
   - name: Attachments
     url: http://academic-publisher.dev/attachments
+  - name: Calendars
+    url: http://academic-publisher.dev/calendars
   - name: Catalogs
     url: http://academic-publisher.dev/catalogs
   - name: Courses

@@ -1,11 +1,13 @@
 = form_for @<%= singular_table_name %> do |f|
   .form-section
-    <% Array(attributes).each do |attribute| %>
-    .form-group
+    <% Array(attributes).each do |attribute| %>.form-group
       = f.label :<%= attribute.name %>
-      = f.text_field :<%= attribute.name %>, class: "form-control"
+      <% if attribute.type == :date %>= wcms_component "forms/date", form: f, attribute: :<%= attribute.name %>
+      <% elsif attribute.type == :datetime %>= wcms_component "forms/datetime", form: f, attribute: :<%= attribute.name %>
+      <% elsif attribute.type == :array %>= wcms_component "forms/tag_input", form: f, attribute: :<%= attribute.name %>
+      <% else %>= f.text_field :<%= attribute.name %>, class: "form-control"
+      <% end %>
     <% end %>
-
   hr
   .form-footer
     .pull-right

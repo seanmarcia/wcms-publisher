@@ -1,0 +1,25 @@
+= form_for @calendar do |f|
+  .form-section
+    .form-group
+      = f.label :title
+      = f.text_field :title, class: "form-control"
+      
+    .form-group
+      = f.label :start_date
+      = wcms_component "forms/date", form: f, attribute: :start_date
+      
+    .form-group
+      = f.label :end_date
+      = wcms_component "forms/date", form: f, attribute: :end_date
+      
+    .form-group
+      = f.label :tags
+      = wcms_component "forms/tag_input", form: f, attribute: :tags
+      
+    
+  hr
+  .form-footer
+    .pull-right
+      = f.submit "Save", class: "btn btn-biola"
+      = link_to "Cancel", calendars_path, class: "btn btn-link"
+    .clearfix

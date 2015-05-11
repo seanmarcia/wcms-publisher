@@ -1,4 +1,4 @@
-class <%= class_name %>Policy < ApplicationPolicy
+class CalendarPolicy < ApplicationPolicy
   class Scope < Struct.new(:user, :scope)
     def resolve
       scope.all
@@ -19,13 +19,7 @@ class <%= class_name %>Policy < ApplicationPolicy
   alias :destroy? :create?
 
   def permitted_attributes
-    attrs = <%= Array(attributes).map do |attr|
-      if attr.type == :array
-        { attr.name.to_sym => [] }
-      else
-        attr.name.to_sym
-      end
-    end %>
+    attrs = [:title, :start_date, :end_date, {:tags=>[]}]
     attrs
   end
 

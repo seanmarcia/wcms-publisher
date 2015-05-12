@@ -28,7 +28,9 @@
       = f.label :body
       = wcms_component "forms/redactor_editor",
         form: f,
-        attribute: :body
+        attribute: :body,
+        buttons: ['formatting', 'bold', 'italic', 'underline', 'deleted', 'unorderedlist', 'orderedlist', 'outdent', 'indent', 'image', 'video', 'table', 'link', 'alignment', 'horizontalrule'], 
+        formatting: ['p', 'blockquote', 'h1', 'h2', 'h3', 'h4', 'h5']
 
     .form-group
       - if f.object.presentation_data_template.present?

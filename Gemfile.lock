@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/biola/biola-wcms-components.git
-  revision: 70cccf77df9b0bd71370b79e753afed429cf11b3
+  revision: 844b5854865f6a014788d4fd9b93bc3585118acb
   specs:
-    biola_wcms_components (0.6.1)
+    biola_wcms_components (0.7.0)
       ace-rails-ap (~> 3.0)
       buweb_content_models (>= 0.82)
       chronic_ping (~> 0.4)

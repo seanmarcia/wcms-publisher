@@ -30,6 +30,10 @@
       = f.label :audiences
       = wcms_component "forms/tag_input", form: f, attribute: :audiences
 
+    .form-group
+      = f.label :calendar_ids, "Show on calendars"
+      = wcms_component "forms/multiselect", form: f, attribute: :calendar_ids, collection: Calendar.asc(:title), value_method: :id, text_method: :title
+
 
   hr
   .form-footer

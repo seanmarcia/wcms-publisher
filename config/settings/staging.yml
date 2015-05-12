@@ -31,6 +31,8 @@ publishers:
     url: http://wcms.staging.biola.edu/academics/generic_objects
   - name: Groups
     url: http://wcms.staging.biola.edu/profiles/groups
+  - name: Important Dates
+    url: http://wcms.staging.biola.edu/important_dates
   - name: Outcome Pages
     url: http://wcms.staging.biola.edu/academics/outcome_editions
   - name: Page Editions

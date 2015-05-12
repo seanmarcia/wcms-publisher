@@ -19,7 +19,7 @@ class ImportantDatePolicy < ApplicationPolicy
   alias :destroy? :create?
 
   def permitted_attributes
-    attrs = [:title, :url, :start_date, :end_date, :deadline, {:categories=>[]}, {:audiences=>[]}]
+    attrs = [:title, :url, :start_date, :end_date, :deadline, {categories: []}, {audiences: []}, {calendar_ids: []}]
     attrs
   end
 

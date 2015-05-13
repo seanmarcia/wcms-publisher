@@ -4,4 +4,5 @@
       = @calendar.title
     = menu_block(class: 'list-group-item') do |menu|
       = menu.add_item('Overview', default: true) { edit_calendar_path(@calendar, page: 'profile') }
+      = menu.add_item('Sections') { edit_calendar_path(@calendar, page: 'calendar_sections') }
 

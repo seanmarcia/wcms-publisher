@@ -19,7 +19,7 @@ class CalendarPolicy < ApplicationPolicy
   alias :destroy? :create?
 
   def permitted_attributes
-    attrs = [:title, :start_date, :end_date, {:tags=>[]}]
+    attrs = [:title, :start_date, :end_date, tags: []]
     attrs
   end
 
@@ -28,7 +28,7 @@ class CalendarPolicy < ApplicationPolicy
     case attribute.try(:to_sym)
     when nil, :profile
       true
-    when :activity_logs, :permissions
+    when :activity_logs, :permissions, :calendar_sections
       user.admin? || user.developer?
     else
       false

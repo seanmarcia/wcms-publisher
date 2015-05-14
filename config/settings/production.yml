@@ -29,10 +29,10 @@ publishers:
     url: https://forms.biola.edu/admin
   - name: Generic Objects
     url: https://wcms.biola.edu/academics/generic_objects
-  - name: Important Dates
-    url: http://wcms.biola.edu/important_dates
   - name: Groups
     url: https://wcms.biola.edu/profiles/groups
+  - name: Important Dates
+    url: https://wcms.biola.edu/important_dates
   - name: Outcome Pages
     url: https://wcms.biola.edu/academics/outcome_editions
   - name: Page Editions

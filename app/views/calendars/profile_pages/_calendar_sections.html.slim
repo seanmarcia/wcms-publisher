@@ -1,0 +1,25 @@
+.panel.panel-default.calendar_section
+  .panel-heading
+    strong Calendar Sections
+  .panel-body
+    = form_for @calendar do |f|
+      = hidden_field_tag :page, 'calendar_sections'
+      .table-responsive
+        table.table.table-striped
+          thead
+            tr
+              th Title
+              th Start Date
+              th End Date
+              th = fa_icon('trash')
+          tbody
+            - @calendar.calendar_sections.asc(:start_date).each do |calendar_section|
+              = f.fields_for 'calendar_sections[]', calendar_section, index: (calendar_section.new_record? ? "new_record" : calendar_section.id.to_s) do |section_fields|
+                tr
+                  td = section_fields.text_field :title, class: 'form-control'
+                  td = wcms_component "forms/date", form: section_fields, attribute: :start_date
+                  td = wcms_component "forms/date", form: section_fields, attribute: :end_date
+                  th = section_fields.check_box :_destroy
+
+      .form-footer
+        = f.submit 'Save', class: "btn btn-biola"

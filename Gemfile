@@ -14,9 +14,9 @@ gem 'uglifier', '>= 1.3.0'
 
 gem 'biola_deploy'
 gem 'biola_frontend_toolkit', '~> 0.4.0'
-gem 'biola_wcms_components', github: 'biola/biola-wcms-components'
+gem 'biola_wcms_components', '~> 0.8.0'
 gem 'blazing'
-gem 'buweb_content_models', '~> 0.104.0'
+gem 'buweb_content_models', '~> 0.110.0'
 gem 'jbuilder', '~> 2.0'
 gem 'kaminari-bootstrap'
 gem 'logging', '~> 1.8'  # until blazing is fixed or removed. Version 2.0 conflicts with blazing.

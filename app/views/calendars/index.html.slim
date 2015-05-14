@@ -1,0 +1,17 @@
+.container.page
+  .page-header
+    .pull-right
+      = form_tag calendars_path, method: :get do
+        = text_field_tag 'q', params[:q], class: 'form-control', placeholder: 'Search', tabindex: '1'
+    .pull-right.pad-right
+      - if policy(Calendar).create?
+        = link_to 'New Calendar', new_calendar_path, class: 'btn btn-default'
+    .clearfix
+
+  - if @calendars.empty?
+    .alert.alert-warning
+      = fa_icon 'warning', text: "No calendars were found"
+  - else
+    = render 'calendars'
+
+  .text-center = paginate @calendars

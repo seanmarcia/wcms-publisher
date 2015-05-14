@@ -1,16 +1,3 @@
-GIT
-  remote: git://github.com/biola/biola-wcms-components.git
-  revision: 70cccf77df9b0bd71370b79e753afed429cf11b3
-  specs:
-    biola_wcms_components (0.6.1)
-      ace-rails-ap (~> 3.0)
-      buweb_content_models (>= 0.82)
-      chronic_ping (~> 0.4)
-      coffee-rails (>= 4.0)
-      pundit (~> 0.3)
-      sass-rails (>= 4.0)
-      slim (>= 2.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -66,6 +53,14 @@ GEM
       font-awesome-rails (~> 4.2)
       sass-rails (>= 4.0)
       slim (~> 2.0)
+    biola_wcms_components (0.8.0)
+      ace-rails-ap (~> 3.0)
+      buweb_content_models (>= 0.82)
+      chronic_ping (~> 0.4)
+      coffee-rails (>= 4.0)
+      pundit (~> 0.3)
+      sass-rails (>= 4.0)
+      slim (>= 2.0)
     blazing (0.4.1)
       activesupport
       grit
@@ -77,7 +72,7 @@ GEM
       sass (>= 3.2.19)
     bson (2.3.0)
     builder (3.2.2)
-    buweb_content_models (0.104.0)
+    buweb_content_models (0.110.0)
       aasm (~> 3.3)
       carrierwave-mongoid (~> 0.7)
       carrierwave-roz (~> 0.3)
@@ -212,7 +207,7 @@ GEM
     newrelic_rpm (3.11.2.286)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
-    nori (2.5.0)
+    nori (2.6.0)
     optionable (0.2.0)
     origin (2.1.1)
     pinglish (0.2.1)
@@ -329,10 +324,10 @@ PLATFORMS
 DEPENDENCIES
   biola_deploy
   biola_frontend_toolkit (~> 0.4.0)
-  biola_wcms_components!
+  biola_wcms_components (~> 0.8.0)
   blazing
   bootstrap-sass (~> 3.3.3)
-  buweb_content_models (~> 0.104.0)
+  buweb_content_models (~> 0.110.0)
   byebug
   coffee-rails (>= 4.1)
   exception_notification

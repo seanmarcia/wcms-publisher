@@ -1,0 +1,43 @@
+= form_for @important_date do |f|
+  .form-section
+    .form-group
+      = f.label :title
+      = f.text_field :title, class: "form-control"
+
+    .form-group
+      = f.label :url
+      = f.text_field :url, class: "form-control"
+
+    .form-group
+      = f.label :start_date
+      = wcms_component "forms/date", form: f, attribute: :start_date
+
+    .form-group
+      = f.label :end_date
+      = wcms_component "forms/date", form: f, attribute: :end_date
+
+    .form-group
+      label
+        = " Is a Deadline"
+        br
+        = f.check_box :deadline
+
+    .form-group
+      = f.label :categories
+      = wcms_component "forms/tag_input", form: f, attribute: :categories
+
+    .form-group
+      = f.label :audiences
+      = wcms_component "forms/tag_input", form: f, attribute: :audiences
+
+    .form-group
+      = f.label :calendar_ids, "Show on calendars"
+      = wcms_component "forms/multiselect", form: f, attribute: :calendar_ids, collection: Calendar.asc(:title), value_method: :id, text_method: :title
+
+
+  hr
+  .form-footer
+    .pull-right
+      = f.submit "Save", class: "btn btn-biola"
+      = link_to "Cancel", important_dates_path, class: "btn btn-link"
+    .clearfix

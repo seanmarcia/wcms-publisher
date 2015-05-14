@@ -16,6 +16,8 @@ publishers:
     url: http://news-publisher.dev/articles
   - name: Attachments
     url: http://academic-publisher.dev/attachments
+  - name: Calendars
+    url: http://wcms.dev/calendars
   - name: Catalogs
     url: http://academic-publisher.dev/catalogs
   - name: Courses
@@ -38,6 +40,8 @@ publishers:
     url: http://academic-publisher.dev/generic_objects
   - name: Groups
     url: http://profile-publisher.dev/groups
+  - name: Important Dates
+    url: http://wcms.dev/important_dates
   - name: Outcome Pages
     url: http://academic-publisher.dev/outcome_editions
   - name: Page Editions

@@ -1,4 +1,4 @@
-class <%= class_name %>Controller < ApplicationController
+class <%= plural_table_name.camelize %>Controller < ApplicationController
 
   before_filter :set_<%= singular_table_name %>, only: [:show, :edit, :update]
   before_filter :new_<%= singular_table_name %>_from_params, only: [:new, :create]
@@ -10,16 +10,13 @@ class <%= class_name %>Controller < ApplicationController
   end
 
   def show
-    @<%= singular_table_name %> = <%= class_name %>.find(params[:id])
     redirect_to [:edit, @<%= singular_table_name %>]
   end
 
   def new
-    @<%= singular_table_name %> = <%= class_name %>.new
   end
 
   def create
-    @<%= singular_table_name %> = <%= class_name %>.new(<%= singular_table_name %>_params)
     if @<%= singular_table_name %>.save
       redirect_to [:edit, @<%= singular_table_name %>]
     else
@@ -28,11 +25,9 @@ class <%= class_name %>Controller < ApplicationController
   end
 
   def edit
-    @<%= singular_table_name %> = <%= class_name %>.find(params[:id])
   end
 
   def update
-    @<%= singular_table_name %> = <%= class_name %>.find(params[:id])
     if @<%= singular_table_name %>.update_attributes(<%= singular_table_name %>_params)
       redirect_to [:edit, @<%= singular_table_name %>]
     else
@@ -51,9 +46,11 @@ class <%= class_name %>Controller < ApplicationController
   end
 
   def <%= singular_table_name %>_params
+    <%- Array(attributes).each do |attr| -%><%- if attr.type == :array -%>
+    params[:<%= singular_table_name %>][:<%= attr.name.to_sym %>] = params[:<%= singular_table_name %>][:<%= attr.name.to_sym %>].split(',')
+    <%- end -%><%- end -%>
     <%- if options[:presentation_data] -%>
-    # I'm not using `require` here because it could be blank when updating presentation data
-    ActionController::Parameters.new(params[:<%= singular_table_name %>]).permit(*policy(@<%= singular_table_name %> || <%= class_name %>).permitted_attributes).tap do |whitelisted|
+    params.require(:<%= singular_table_name %>).permit(*policy(@<%= singular_table_name %> || <%= class_name %>).permitted_attributes).tap do |whitelisted|
       # You have to whitelist the hash this way, see https://github.com/rails/rails/issues/9454
       whitelisted[:presentation_data] = params[:pdata] if params[:pdata].present?
     end

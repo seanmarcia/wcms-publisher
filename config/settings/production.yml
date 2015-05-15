@@ -9,6 +9,8 @@ publishers:
     url: https://wcms.biola.edu/academics/attachments
   - name: Calendars
     url: https://wcms.biola.edu/calendars
+  - name: Campus Location
+    url: https://wcms.biola.edu/campus_locations
   - name: Catalogs
     url: https://wcms.biola.edu/academics/catalogs
   - name: Courses

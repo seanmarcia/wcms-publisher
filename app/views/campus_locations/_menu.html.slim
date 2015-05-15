@@ -1,0 +1,7 @@
+.side-menu
+  .list-group
+    .list-group-item.top-item
+      = @campus_location.title
+    = menu_block(class: 'list-group-item') do |menu|
+      = menu.add_item('Overview', default: true) { edit_campus_location_path(@campus_location, page: 'profile') }
+

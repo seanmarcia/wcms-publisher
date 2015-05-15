@@ -18,6 +18,8 @@ publishers:
     url: http://academic-publisher.dev/attachments
   - name: Calendars
     url: http://wcms.dev/calendars
+  - name: Campus Location
+    url: http://wcms.dev/campus_locations
   - name: Catalogs
     url: http://academic-publisher.dev/catalogs
   - name: Courses

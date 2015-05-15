@@ -1,0 +1,17 @@
+.container.page
+  .page-header
+    .pull-right
+      = form_tag campus_locations_path, method: :get do
+        = text_field_tag 'q', params[:q], class: 'form-control', placeholder: 'Search', tabindex: '1'
+    .pull-right.pad-right
+      - if policy(CampusLocation).create?
+        = link_to 'New Campus Location', new_campus_location_path, class: 'btn btn-default'
+    .clearfix
+
+  - if @campus_locations.empty?
+    .alert.alert-warning
+      = fa_icon 'warning', text: "No campus locations were found"
+  - else
+    = render 'campus_locations'
+
+  .text-center = paginate @campus_locations

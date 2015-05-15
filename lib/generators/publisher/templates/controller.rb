@@ -6,6 +6,7 @@ class <%= plural_table_name.camelize %>Controller < ApplicationController
 
   def index
     @<%= plural_table_name %> = policy_scope(<%= class_name %>)
+    @<%= plural_table_name %> = @<%= plural_table_name %>.custom_search(params[:q]) if params[:q]
     @<%= plural_table_name %> = @<%= plural_table_name %>.desc(:title).page(params[:page]).per(25)
   end
 
@@ -67,5 +68,4 @@ class <%= plural_table_name.camelize %>Controller < ApplicationController
   def pundit_authorize
     authorize (@<%= singular_table_name %> || <%= class_name %>)
   end
-
 end

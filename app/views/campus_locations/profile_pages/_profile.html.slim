@@ -1,0 +1,29 @@
+= form_for @campus_location do |f|
+  .form-section
+    .form-group
+      = f.label :name
+      = f.text_field :name, class: "form-control", placeholder: 'Art 81'
+
+    .form-group
+      = f.label :external_id, 'External ID'
+      = f.text_field :external_id, class: "form-control", placeholder: '137'
+
+    .form-group
+      = f.label :description
+      = f.text_field :description, class: "form-control", placeholder: 'Rood Building'
+
+    .form-group
+      = f.label :latitude
+      = f.text_field :latitude, class: "form-control", placeholder: '33.903421'
+
+    .form-group
+      = f.label :longitude
+      = f.text_field :longitude, class: "form-control", placeholder: '-118.016010'
+
+
+  hr
+  .form-footer
+    .pull-right
+      = f.submit "Save", class: "btn btn-biola"
+      = link_to "Cancel", campus_locations_path, class: "btn btn-link"
+    .clearfix

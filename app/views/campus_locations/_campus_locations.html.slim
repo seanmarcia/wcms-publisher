@@ -1,0 +1,9 @@
+.table-responsive
+  table.table.table-striped
+    thead
+      tr
+        th Title
+    tbody
+      - @campus_locations.each do |campus_location|
+        tr
+          td = link_to campus_location.title, campus_location

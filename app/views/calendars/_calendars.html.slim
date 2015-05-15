@@ -3,7 +3,11 @@
     thead
       tr
         th Title
+        th Dates
+        th Tags
     tbody
       - @calendars.each do |calendar|
         tr
           td = link_to calendar.title, calendar
+          td = "#{calendar.start_date.to_s(:long)} - #{calendar.end_date.to_s(:long)}"
+          td = calendar.tags.join(', ')

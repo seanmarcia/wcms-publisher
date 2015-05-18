@@ -4,4 +4,5 @@
       = @campus_location.title
     = menu_block(class: 'list-group-item') do |menu|
       = menu.add_item('Overview', default: true) { edit_campus_location_path(@campus_location, page: 'profile') }
+      = menu.add_item('History') { edit_campus_location_path(@campus_location, page: 'activity_logs') } if policy(@campus_location).can_manage?(:activity_logs)
 

@@ -1,4 +1,5 @@
 class CalendarsController < ApplicationController
+  include ActivityLoggable
 
   before_filter :set_calendar, only: [:show, :edit, :update]
   before_filter :new_calendar_from_params, only: [:new, :create]
@@ -6,7 +7,7 @@ class CalendarsController < ApplicationController
 
   def index
     @calendars = policy_scope(Calendar)
-    @calendars = @calendars.desc(:title).page(params[:page]).per(25)
+    @calendars = @calendars.desc(:start_date).page(params[:page]).per(25)
   end
 
   def show
@@ -18,6 +19,7 @@ class CalendarsController < ApplicationController
 
   def create
     if @calendar.save
+      log_activity(@calendar.previous_changes, parent: @calendar)
       redirect_to [:edit, @calendar]
     else
       render :new
@@ -43,8 +45,10 @@ class CalendarsController < ApplicationController
       section = @calendar.calendar_sections.where(id: k).first || @calendar.calendar_sections.new
       if v[:_destroy] == "1"
         section.destroy
+        log_activity(section.previous_changes, parent: section.calendar, child: "#<CalendarSection _id: #{section.id}, title: \"#{section.title}\">", activity: 'destroy')
       else
         section.update_attributes(v.permit(*policy(section).permitted_attributes))
+        log_activity(section.previous_changes, parent: section.calendar, child: "#<CalendarSection _id: #{section.id}, title: \"#{section.title}\">")
       end
     end
 
@@ -53,12 +57,12 @@ class CalendarsController < ApplicationController
 
   def normal_update
     if @calendar.update_attributes(calendar_params)
+      log_activity(@calendar.previous_changes, parent: @calendar)
       redirect_to edit_calendar_path(@calendar, page: params[:page])
     else
       render :edit
     end
   end
-
 
   def new_calendar_from_params
     if params[:calendar]

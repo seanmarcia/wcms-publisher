@@ -1,8 +1,0 @@
-= render 'shared/activity_logs_tab', obj: @important_date
-
-- if ActivityLogPolicy.new(current_user, @important_date).create?
-  hr
-  button.btn.btn-default.pull-right data-toggle="modal" data-target="#activity-logs-modal" + new action
-  .modal.fade#activity-logs-modal data-remote=new_important_date_activity_log_path(@important_date) tabindex="-1" role="dialog" aria-labelledby="activityLog" aria-hidden="true"
-    .modal-dialog
-      .modal-content

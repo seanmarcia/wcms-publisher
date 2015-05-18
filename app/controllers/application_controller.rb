@@ -14,8 +14,8 @@ class ApplicationController < WcmsApplicationController
       @parent = Calendar.find(params[:calendar_id])
     elsif params[:important_date_id].present?
       @parent = ImportantDate.find(params[:important_date_id])
-    elsif params[:campus_location].present?
-      @parent = CampusLocation.find(params[:campus_location])
+    elsif params[:campus_location_id].present?
+      @parent = CampusLocation.find(params[:campus_location_id])
     else
       @parent = nil
     end

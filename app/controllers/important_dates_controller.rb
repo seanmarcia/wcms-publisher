@@ -13,6 +13,7 @@ class ImportantDatesController < ApplicationController
       @available_categories = @important_dates.distinct(:categories).sort_by{|a| a.downcase }
       @available_audiences = @important_dates.distinct(:audiences).sort_by{|a| a.downcase }
 
+      @important_dates = @important_dates.custom_search(params[:q]) if params[:q]
       @important_dates = @important_dates.by_calendar(params[:calendar]) if params[:calendar]
       @important_dates = @important_dates.by_category(params[:category]) if params[:category]
       @important_dates = @important_dates.by_audience(params[:audience]) if params[:audience]

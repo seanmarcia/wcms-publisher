@@ -1,5 +1,6 @@
 class PageEditionsController < ApplicationController
-
+  include ActivityLoggable
+  
   before_filter :set_page_edition, only: [:show, :edit, :update]
   before_filter :new_page_edition_from_params, only: [:new, :create]
   before_filter :pundit_authorize
@@ -21,6 +22,7 @@ class PageEditionsController < ApplicationController
   def create
     @page_edition = PageEdition.new(page_edition_params)
     if @page_edition.save
+      log_activity(@page_edition.previous_changes, parent: @page_edition)
       redirect_to [:edit, @page_edition]
     else
       render :new
@@ -34,6 +36,7 @@ class PageEditionsController < ApplicationController
   def update
     @page_edition = PageEdition.find(params[:id])
     if @page_edition.update_attributes(page_edition_params)
+      log_activity(@page_edition.previous_changes, parent: @page_edition)
       redirect_to [:edit, @page_edition]
     else
       render :edit

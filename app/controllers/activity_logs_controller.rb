@@ -45,7 +45,7 @@ class ActivityLogsController < ApplicationController
   end
 
   def activity_log_params
-    params.require(:activity_log).permit(:reviewer_ids, :action_performed, :message, :snapshot, :child)
+    params.require(:activity_log).permit(*policy(@activity_log || ActivityLog).permitted_attributes)
   end
 
   def initialize_attrs

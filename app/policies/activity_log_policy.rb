@@ -14,4 +14,9 @@ class ActivityLogPolicy < ApplicationPolicy
   alias :new? :create?
   alias :update? :create?
   alias :edit? :create?
+
+  def permitted_attributes
+    [:reviewer_ids, :action_performed, :message, :snapshot, :child]
+  end
+  
 end

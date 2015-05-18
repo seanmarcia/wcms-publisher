@@ -1,5 +1,6 @@
 class ImportantDatesController < ApplicationController
-
+  include ActivityLoggable
+  
   before_filter :set_important_date, only: [:show, :edit, :update]
   before_filter :new_important_date_from_params, only: [:new, :create]
   before_filter :pundit_authorize
@@ -29,6 +30,7 @@ class ImportantDatesController < ApplicationController
 
   def create
     if @important_date.save
+      log_activity(@important_date.previous_changes, parent: @important_date)
       redirect_to [:edit, @important_date]
     else
       render :new
@@ -40,6 +42,7 @@ class ImportantDatesController < ApplicationController
 
   def update
     if @important_date.update_attributes(important_date_params)
+      log_activity(@important_date.previous_changes, parent: @important_date)
       redirect_to [:edit, @important_date]
     else
       render :edit

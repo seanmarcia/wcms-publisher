@@ -6,6 +6,28 @@
     .pull-right.pad-right
       - if policy(ImportantDate).create?
         = link_to 'New Important Date', new_important_date_path, class: 'btn btn-default'
+    ul.nav.nav-pills.pull-left
+      = nav_pill_header 'Options'
+      - if @available_calendars.present?
+        = nav_pill_dropdown 'Calendar', :calendar do
+          - @available_calendars.each do |cal|
+            = nav_list_link cal, :calendar, cal.id
+      - if @available_categories.present?
+        = nav_pill_dropdown 'Category', :category do
+          - @available_categories.each do |cat|
+            = nav_list_link cat, :category, cat
+      - if @available_audiences.present?
+        = nav_pill_dropdown 'Audience', :audience do
+          - @available_audiences.each do |aud|
+            = nav_list_link aud, :audience, aud
+      = nav_pill_link 'Deadline?', :deadline
+      / # TODO: Add Mongoid::Timestamps to model in the gem file first!
+      / = nav_pill_dropdown 'Last Changed', :last_change do
+      /   = nav_list_link 'Today', :last_change, Date.today
+      /   = nav_list_link 'Yesterday', :last_change, 1.day.ago.to_date
+      /   = nav_list_link "Last #{1.week.ago.strftime('%A')}", :last_change, 1.week.ago.to_date
+      /   = nav_list_link 1.month.ago.strftime('%B %e'), :last_change, 1.month.ago.to_date
+
     .clearfix
 
   - if @important_dates.empty?

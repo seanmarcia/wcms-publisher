@@ -3,7 +3,11 @@
     thead
       tr
         th Title
+        th Dates
+        th Calendar(s)
     tbody
       - @important_dates.each do |important_date|
         tr
           td = link_to important_date.title, important_date
+          td = "#{important_date.start_date.to_s(:long)}" + (important_date.end_date.present? ? " - #{important_date.end_date.to_s(:long)}" : "")
+          td = important_date.calendars.join(', ')

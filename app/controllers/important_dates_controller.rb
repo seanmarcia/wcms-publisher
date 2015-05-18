@@ -7,6 +7,17 @@ class ImportantDatesController < ApplicationController
   def index
     @important_dates = policy_scope(ImportantDate)
     @important_dates = @important_dates.desc(:title).page(params[:page]).per(25)
+    unless @important_dates.blank?
+      @available_calendars = Calendar.in(id: @important_dates.distinct(:calendar_ids)).asc(:title)
+      @available_categories = @important_dates.distinct(:categories).sort_by{|a| a.downcase }
+      @available_audiences = @important_dates.distinct(:audiences).sort_by{|a| a.downcase }
+
+      @important_dates = @important_dates.by_calendar(params[:calendar]) if params[:calendar]
+      @important_dates = @important_dates.by_category(params[:category]) if params[:category]
+      @important_dates = @important_dates.by_audience(params[:audience]) if params[:audience]
+      @important_dates = @important_dates.is_a_deadline if params[:deadline]
+      @important_dates = @important_dates.by_last_change(params[:last_change]) if params[:last_change]
+    end
   end
 
   def show

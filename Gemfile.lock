@@ -47,13 +47,13 @@ GEM
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     biola_deploy (0.7.1)
-    biola_frontend_toolkit (0.4.3)
+    biola_frontend_toolkit (0.4.4)
       bootstrap-sass (~> 3.1)
       coffee-rails (~> 4.0)
       font-awesome-rails (~> 4.2)
       sass-rails (>= 4.0)
-      slim (~> 2.0)
-    biola_wcms_components (0.8.0)
+      slim (>= 2.0)
+    biola_wcms_components (0.9.0)
       ace-rails-ap (~> 3.0)
       buweb_content_models (>= 0.82)
       chronic_ping (~> 0.4)
@@ -323,8 +323,8 @@ PLATFORMS
 
 DEPENDENCIES
   biola_deploy
-  biola_frontend_toolkit (~> 0.4.0)
-  biola_wcms_components (~> 0.8.0)
+  biola_frontend_toolkit (~> 0.4.4)
+  biola_wcms_components (~> 0.9.0)
   blazing
   bootstrap-sass (~> 3.3.3)
   buweb_content_models (~> 0.111.0)

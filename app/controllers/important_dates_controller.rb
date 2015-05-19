@@ -32,6 +32,7 @@ class ImportantDatesController < ApplicationController
   def create
     if @important_date.save
       log_activity(@important_date.previous_changes, parent: @important_date)
+      flash[:notice] = "'#{@important_date.title}' created."
       redirect_to [:edit, @important_date]
     else
       render :new
@@ -44,6 +45,7 @@ class ImportantDatesController < ApplicationController
   def update
     if @important_date.update_attributes(important_date_params)
       log_activity(@important_date.previous_changes, parent: @important_date)
+      flash[:notice] = "'#{@important_date.title}' updated."
       redirect_to [:edit, @important_date]
     else
       render :edit

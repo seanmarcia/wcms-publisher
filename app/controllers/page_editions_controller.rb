@@ -34,6 +34,7 @@ class PageEditionsController < ApplicationController
     @page_edition = PageEdition.new(page_edition_params)
     if @page_edition.save
       log_activity(@page_edition.previous_changes, parent: @page_edition)
+      flash[:notice] = "'#{@page_edition.title}' created."
       redirect_to [:edit, @page_edition]
     else
       render :new
@@ -48,6 +49,7 @@ class PageEditionsController < ApplicationController
     @page_edition = PageEdition.find(params[:id])
     if @page_edition.update_attributes(page_edition_params)
       log_activity(@page_edition.previous_changes, parent: @page_edition)
+      flash[:notice] = "'#{@page_edition.title}' updated."
       redirect_to [:edit, @page_edition]
     else
       render :edit

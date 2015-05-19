@@ -7,7 +7,18 @@ class PageEditionsController < ApplicationController
 
   def index
     @page_editions = policy_scope(PageEdition)
-    @page_editions = @page_editions.desc(:title).page(params[:page]).per(25)
+    unless @page_editions.blank?
+      # Filter Values
+      @available_sites = Site.in(id: @page_editions.distinct(:site_id)).asc(:title)
+      @available_page_templates = @page_editions.distinct(:page_template).sort_by{|a| a.downcase }
+
+      # Filter Results
+      @page_editions = @page_editions.custom_search(params[:q]) if params[:q]
+      @page_editions = @page_editions.by_status(params[:status]) if params[:status]
+      @page_editions = @page_editions.by_site(params[:site]) if params[:site]
+      @page_editions = @page_editions.by_last_change(params[:last_change]) if params[:last_change]
+      @page_editions = @page_editions.desc(:title).page(params[:page]).per(25)
+    end
   end
 
   def show

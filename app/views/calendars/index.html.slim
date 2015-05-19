@@ -6,6 +6,12 @@
     .pull-right.pad-right
       - if policy(Calendar).create?
         = link_to 'New Calendar', new_calendar_path, class: 'btn btn-default'
+    ul.nav.nav-pills.pull-left
+      = nav_pill_header 'Options'
+      - if @available_tags.present?
+        = nav_pill_dropdown 'Tag', :tag do
+          - @available_tags.each do |tag|
+            = nav_list_link tag, :tag, tag
     .clearfix
 
   - if @calendars.empty?

@@ -7,7 +7,13 @@ class CalendarsController < ApplicationController
 
   def index
     @calendars = policy_scope(Calendar)
-    @calendars = @calendars.desc(:start_date).page(params[:page]).per(25)
+    unless @calendars.blank?
+      @available_tags = @calendars.distinct(:tags).flatten.uniq
+
+      @calendars = @calendars.custom_search(params[:q]) if params[:q]
+      @calendars = @calendars.by_tag(params[:tag]) if params[:tag]
+      @calendars = @calendars.desc(:start_date).page(params[:page]).per(25)
+    end
   end
 
   def show

@@ -3,7 +3,11 @@
     thead
       tr
         th Title
+        th R25 ID
+        th Description
     tbody
       - @campus_locations.each do |campus_location|
         tr
           td = link_to campus_location.title, campus_location
+          td = campus_location.external_id
+          td = campus_location.description

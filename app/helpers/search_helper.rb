@@ -8,6 +8,7 @@ module SearchHelper
   end
 
   def nav_list_link(title, param, value = true, options = {})
+    return if title.blank?
     css_class = (params[param] == value.to_s ? 'active' : nil)
 
     content_tag(:li, class: css_class) do

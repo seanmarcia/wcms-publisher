@@ -1,14 +1,14 @@
 class ImportantDatesController < ApplicationController
   include ActivityLoggable
-  
+
   before_filter :set_important_date, only: [:show, :edit, :update]
   before_filter :new_important_date_from_params, only: [:new, :create]
   before_filter :pundit_authorize
 
   def index
     @important_dates = policy_scope(ImportantDate)
-    @important_dates = @important_dates.desc(:title).page(params[:page]).per(25)
-    unless @important_dates.blank?
+
+    unless @important_dates.none?
       @available_calendars = Calendar.in(id: @important_dates.distinct(:calendar_ids)).asc(:title)
       @available_categories = @important_dates.distinct(:categories).sort_by{|a| a.downcase }
       @available_audiences = @important_dates.distinct(:audiences).sort_by{|a| a.downcase }
@@ -20,6 +20,8 @@ class ImportantDatesController < ApplicationController
       @important_dates = @important_dates.is_a_deadline if params[:deadline]
       @important_dates = @important_dates.by_last_change(params[:last_change]) if params[:last_change]
     end
+
+    @important_dates = @important_dates.desc(:title).page(params[:page]).per(25)
   end
 
   def show

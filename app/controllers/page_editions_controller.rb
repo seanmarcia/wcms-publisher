@@ -1,13 +1,14 @@
 class PageEditionsController < ApplicationController
   include ActivityLoggable
-  
+
   before_filter :set_page_edition, only: [:show, :edit, :update]
   before_filter :new_page_edition_from_params, only: [:new, :create]
   before_filter :pundit_authorize
 
   def index
     @page_editions = policy_scope(PageEdition)
-    unless @page_editions.blank?
+
+    unless @page_editions.none?
       # Filter Values
       @available_sites = Site.in(id: @page_editions.distinct(:site_id)).asc(:title)
       @available_page_templates = @page_editions.distinct(:page_template).sort_by{|a| a.downcase }
@@ -17,8 +18,9 @@ class PageEditionsController < ApplicationController
       @page_editions = @page_editions.by_status(params[:status]) if params[:status]
       @page_editions = @page_editions.by_site(params[:site]) if params[:site]
       @page_editions = @page_editions.by_last_change(params[:last_change]) if params[:last_change]
-      @page_editions = @page_editions.desc(:title).page(params[:page]).per(25)
     end
+
+    @page_editions = @page_editions.desc(:title).page(params[:page]).per(25)
   end
 
   def show

@@ -21,6 +21,7 @@ class CampusLocationsController < ApplicationController
   def create
     if @campus_location.save
       log_activity(@campus_location.previous_changes, parent: @campus_location)
+      flash[:notice] = "'#{@campus_location.title}' created."
       redirect_to [:edit, @campus_location]
     else
       render :new
@@ -33,6 +34,7 @@ class CampusLocationsController < ApplicationController
   def update
     if @campus_location.update_attributes(campus_location_params)
       log_activity(@campus_location.previous_changes, parent: @campus_location)
+      flash[:notice] = "'#{@campus_location.title}' updated."
       redirect_to [:edit, @campus_location]
     else
       render :edit

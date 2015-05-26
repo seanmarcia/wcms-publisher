@@ -7,6 +7,14 @@ class CalendarsController < ApplicationController
 
   def index
     @calendars = policy_scope(Calendar)
+
+    unless @calendars.none?
+      @available_tags = @calendars.distinct(:tags).flatten.uniq
+
+      @calendars = @calendars.custom_search(params[:q]) if params[:q]
+      @calendars = @calendars.by_tag(params[:tag]) if params[:tag]
+    end
+
     @calendars = @calendars.desc(:start_date).page(params[:page]).per(25)
   end
 
@@ -20,6 +28,7 @@ class CalendarsController < ApplicationController
   def create
     if @calendar.save
       log_activity(@calendar.previous_changes, parent: @calendar)
+      flash[:notice] = "'#{@calendar.title}' created."
       redirect_to [:edit, @calendar]
     else
       render :new
@@ -58,6 +67,7 @@ class CalendarsController < ApplicationController
   def normal_update
     if @calendar.update_attributes(calendar_params)
       log_activity(@calendar.previous_changes, parent: @calendar)
+      flash[:notice] = "'#{@calendar.title}' updated."
       redirect_to edit_calendar_path(@calendar, page: params[:page])
     else
       render :edit

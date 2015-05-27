@@ -20,6 +20,7 @@ class PageEditionPolicy < ApplicationPolicy
 
   def permitted_attributes
     attrs = [:title, :slug, :site_id, :body, :page_template]
+    attrs += [:presentation_data_json, :presentation_data_template_id]
     attrs
   end
 
@@ -28,7 +29,7 @@ class PageEditionPolicy < ApplicationPolicy
     case attribute.try(:to_sym)
     when nil, :profile
       true
-    when :activity_logs, :permissions
+    when :activity_logs, :permissions, :presentation_data
       user.admin? || user.developer?
     else
       false

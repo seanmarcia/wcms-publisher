@@ -1,0 +1,19 @@
+.panel.panel-default
+  .panel-heading
+    strong Presentation Data
+  .panel-body
+    = form_for @page_edition do |f|
+      = hidden_field_tag :page, params[:page]
+      .row.form-section
+        .col-xs-12
+          .form-group
+            = wcms_component "forms/data_template_picker", form: f
+            - if @page_edition.presentation_data_template
+              hr
+              = wcms_component "forms/presentation_data_editor", form: f
+
+      .form-footer
+        .pull-right
+          = f.submit 'Save', class: 'btn btn-biola'
+          = link_to "Cancel", page_editions_path, class: 'btn btn-link'
+        .clearfix

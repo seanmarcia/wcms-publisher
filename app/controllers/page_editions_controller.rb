@@ -52,7 +52,7 @@ class PageEditionsController < ApplicationController
     if @page_edition.update_attributes(page_edition_params)
       log_activity(@page_edition.previous_changes, parent: @page_edition)
       flash[:notice] = "'#{@page_edition.title}' updated."
-      redirect_to [:edit, @page_edition]
+      redirect_to edit_page_edition_path @page_edition, page: params[:page]
     else
       render :edit
     end

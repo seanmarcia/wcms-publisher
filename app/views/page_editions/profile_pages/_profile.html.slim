@@ -42,10 +42,19 @@
 
   hr
   .form-footer
-    .pull-right
+    .text-right
+      .checkbox.checkbox-inline
+        - if @page_edition.draft?
+          label
+            = check_box_tag :published
+            | Publish?
+        - elsif @page_edition.published?
+          label
+            = check_box_tag :archived
+            | Archive?
+
       = f.submit 'Save', class: 'btn btn-biola'
       = link_to "Cancel", page_editions_path, class: 'btn btn-link'
-    .clearfix
 
 
 javascript:

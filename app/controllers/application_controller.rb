@@ -3,9 +3,6 @@ class ApplicationController < WcmsApplicationController
   # We are inheriting from WcmsApplicationController.
   #  This contains many of the controller configuration code.
 
-  # Although this is being inherited from WcmsApplicationController
-  #  brakeman seems to thing that it isnt being initiallized.
-  #  So it'll be in both for the time being.
   protect_from_forgery with: :exception
 
   before_filter :set_parent

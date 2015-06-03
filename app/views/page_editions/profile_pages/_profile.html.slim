@@ -44,7 +44,7 @@
   .form-footer
     .text-right
       .checkbox.checkbox-inline
-        - if @page_edition.draft?
+        - if @page_edition.draft? || @page_edition.archived?
           label
             = check_box_tag :published
             | Publish?

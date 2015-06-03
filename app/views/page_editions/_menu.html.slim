@@ -8,3 +8,12 @@
       = menu.add_item('Permissions') {  edit_page_edition_path(@page_edition, page: 'permissions') } if policy(@page_edition).can_manage?(:permissions)
       = menu.add_item('History') { edit_page_edition_path(@page_edition, page: 'activity_logs') } if policy(@page_edition).can_manage?(:activity_logs)
 
+  .list-group
+    - if @page_edition.draft?
+      .list-group-item.list-group-item-warning = fa_icon 'exclamation-triangle', text: "#{@page_edition.title} is a draft"
+
+    - elsif @page_edition.published?
+      .list-group-item.list-group-item-success = fa_icon 'check', text: "#{@page_edition.title} is published"
+
+    - else
+      .list-group-item.list-group-item-warning = fa_icon 'archive', text: "#{@page_edition.title} is archived"

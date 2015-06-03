@@ -36,6 +36,7 @@ class PageEditionsController < ApplicationController
     @page_edition = PageEdition.new(page_edition_params)
     if @page_edition.save
       log_activity(@page_edition.previous_changes, parent: @page_edition)
+      update_state
       flash[:notice] = "'#{@page_edition.title}' created."
       redirect_to [:edit, @page_edition]
     else
@@ -51,6 +52,7 @@ class PageEditionsController < ApplicationController
     @page_edition = PageEdition.find(params[:id])
     if @page_edition.update_attributes(page_edition_params)
       log_activity(@page_edition.previous_changes, parent: @page_edition)
+      update_state
       flash[:notice] = "'#{@page_edition.title}' updated."
       redirect_to edit_page_edition_path @page_edition, page: params[:page]
     else
@@ -85,6 +87,16 @@ class PageEditionsController < ApplicationController
 
   def pundit_authorize
     authorize (@page_edition || PageEdition)
+  end
+
+  def update_state
+    if params[:published].present? && !@page_edition.published?
+      @page_edition.publish!
+      log_activity(@page_edition.previous_changes, parent: @page_edition)
+    elsif params[:archived].present? && !@page_edition.archived?
+      @page_edition.archive!
+      log_activity(@page_edition.previous_changes, parent: @page_edition)
+    end
   end
 
 end

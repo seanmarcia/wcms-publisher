@@ -4,6 +4,7 @@
       = @page_edition.title
     = menu_block(class: 'list-group-item') do |menu|
       = menu.add_item('Overview', default: true) { edit_page_edition_path(@page_edition, page: 'profile') }
+      = menu.add_item('Attachments') { edit_page_edition_path(@page_edition, page: 'attachments')} if policy(@page_edition).can_manage?(:attachments)
       = menu.add_item('Presentation Data') { edit_page_edition_path(@page_edition, page: 'presentation_data') }
       = menu.add_item('Permissions') {  edit_page_edition_path(@page_edition, page: 'permissions') } if policy(@page_edition).can_manage?(:permissions)
       = menu.add_item('History') { edit_page_edition_path(@page_edition, page: 'activity_logs') } if policy(@page_edition).can_manage?(:activity_logs)

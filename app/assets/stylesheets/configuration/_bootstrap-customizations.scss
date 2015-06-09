@@ -41,18 +41,3 @@ form {
 }
 
 .checkbox-inline { margin: 0; margin-right: 25px; }
-
-#attachments {
-  .fa.fa-cog { text-decoration: none; color: #333; }
-}
-
-form#new_attachment{
-  .well {
-    padding: 5px;
-    margin-top: -6px;
-  }
-  #upload-attachment {
-    width: 51%;
-    display: -webkit-inline-box;
-  }
-}

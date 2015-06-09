@@ -12,7 +12,6 @@ class AttachmentsController < ApplicationController
     if @parent_class
       @attachment.metadata = params[:attachment][:metadata]
       if @attachment.save
-        binding.pry
         log_activity(@attachment.previous_changes, parent: @parent_class.find(@attachment.attachable_id))
         flash[:info] = "Attachment was created."
         redirect_to :back

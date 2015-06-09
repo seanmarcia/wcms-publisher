@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   end
 
   resources :page_editions do
+    resources :attachments
     resources :actors, only: [:create, :destroy]
     resources :activity_logs, except: [:index, :show, :destroy]
   end

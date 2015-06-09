@@ -1,0 +1,48 @@
+.panel.panel-default
+  .panel-heading
+    strong Attachments
+  .panel-body
+    = hidden_field_tag :page, params[:page]
+
+    - if @page_edition.attachments.empty?
+      p No Attachments
+
+    - else
+      .table-responsive#attachments
+        table.table.table-striped
+          thead
+            tr
+              th
+              th Name
+              th Filename/URL
+          tbody
+            - @page_edition.attachments.each do |attachment|
+              tr
+                td.ignore-width
+                  .dropdown.pull-left
+                    .dropdown-toggle id="dropdownMenu-#{attachment.id}" data-toggle="dropdown"
+                      = link_to fa_icon('cog')
+                    ul.dropdown-menu role="menu" aria-labelledby="dropdownMenu-#{attachment.id}"
+                      li = link_to 'Remove Attachment', [@page_edition, attachment], method: :delete, data: { confirm: "Are you sure that you want to remove #{attachment}?" }
+                td = attachment.to_s
+                td.ignore-width
+                  - if attachment.attachment_url.present?
+                    = link_to attachment.attachment_url.truncate(80), attachment.attachment_url, title: attachment.attachment_url
+                  - else
+                    = link_to attachment.attachment.file.filename.truncate(80), attachment.attachment_url, title: attachment.attachment.file.filename
+    hr
+    = form_for [@page_edition, @page_edition.attachments.new], html: {multipart: true} do |f|
+      .text-right
+        .row.form-footer#new_attachment_form
+          = f.hidden_field :attachable_id
+          = f.hidden_field :attachable_type
+          .form-group.col-md-3
+            = f.text_field :name, placeholder: 'Name', required: true, class: 'form-control'
+          .form-inline.col-md-7.well
+            = f.file_field :attachment, id: 'upload-attachment'
+            span style="margin-right: 15px;" - or -
+            = f.text_field :remote_attachment_url, class: 'form-control'
+          .form-group.col-md-2
+            = submit_tag '+ add', class: 'btn btn-success'
+
+          .clearfix

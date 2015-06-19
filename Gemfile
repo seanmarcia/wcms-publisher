@@ -8,7 +8,7 @@ gem 'bootstrap-sass', '~> 3.3.3'
 gem 'coffee-rails', '>= 4.1'
 gem 'font-awesome-rails', '~> 4.3'
 gem 'jquery-rails', '~> 4.0'
-gem 'sass-rails',   '>= 5.0.1'
+gem 'sass-rails', '>= 5.0.1'
 gem 'uglifier', '>= 1.3.0'
 
 
@@ -16,7 +16,7 @@ gem 'biola_deploy'
 gem 'biola_frontend_toolkit', '~> 0.4.4'
 gem 'biola_wcms_components', '~> 0.13.0'
 gem 'blazing'
-gem 'buweb_content_models', '~> 0.115.0'
+gem 'buweb_content_models', '~> 0.117.0'
 gem 'jbuilder', '~> 2.0'
 gem 'kaminari-bootstrap'
 gem 'logging', '~> 1.8'  # until blazing is fixed or removed. Version 2.0 conflicts with blazing.

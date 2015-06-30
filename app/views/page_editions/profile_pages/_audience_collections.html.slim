@@ -1,0 +1,110 @@
+= form_for @page_edition do |f|
+  .panel.panel-default
+    .panel-heading
+      strong Audience Collections
+    .panel-body
+      = f.fields_for :audience_collection, @page_edition.audience_collection do |ac|
+        = hidden_field_tag :page, params[:page]
+
+        .row.form-section
+          - if AudienceCollection.available_affiliations.compact.present?
+            .col-xs-6
+              .form-group
+                = ac.label :affiliations
+                = wcms_component "forms/multiselect",
+                  form: ac,
+                  attribute: :affiliations,
+                  collection: AudienceCollection.available_affiliations.compact,
+                  value_method: :to_s,
+                  text_method: :to_s,
+                  multiple: true
+
+          - if AudienceCollection.available_schools.compact.present?
+            .col-xs-6
+              .form-group
+                = ac.label :schools
+                = wcms_component "forms/multiselect",
+                  form: ac,
+                  attribute: :schools,
+                  collection: AudienceCollection.available_schools.compact,
+                  value_method: :to_s,
+                  text_method: :to_s,
+                  multiple: true
+
+          - if AudienceCollection.available_student_levels.compact.present?
+            .col-xs-6
+              .form-group
+                = ac.label :student_levels
+                = wcms_component "forms/multiselect",
+                  form: ac,
+                  attribute: :student_levels,
+                  collection: AudienceCollection.available_student_levels.compact,
+                  value_method: :to_s,
+                  text_method: :to_s,
+                  multiple: true
+
+          - if AudienceCollection.available_class_standings.compact.present?
+            .col-xs-6
+              .form-group
+                = ac.label :class_standings
+                = wcms_component "forms/multiselect",
+                  form: ac,
+                  attribute: :class_standings,
+                  collection: AudienceCollection.available_class_standings.compact,
+                  value_method: :to_s,
+                  text_method: :to_s,
+                  multiple: true
+
+          - if AudienceCollection.available_majors.compact.present?
+            .col-xs-6
+              .form-group
+                = ac.label :majors
+                = wcms_component "forms/multiselect",
+                  form: ac,
+                  attribute: :majors,
+                  collection: AudienceCollection.available_majors.compact,
+                  value_method: :to_s,
+                  text_method: :to_s,
+                  multiple: true
+
+          - if AudienceCollection.available_housing_statuses.compact.present?
+            .col-xs-6
+              .form-group
+                = ac.label :housing_statuses
+                = wcms_component "forms/multiselect",
+                  form: ac,
+                  attribute: :housing_statuses,
+                  collection: AudienceCollection.available_housing_statuses.compact,
+                  value_method: :to_s,
+                  text_method: :to_s,
+                  multiple: true
+
+          - if AudienceCollection.available_employee_types.compact.present?
+            .col-xs-6
+              .form-group
+                = ac.label :employee_types
+                = wcms_component "forms/multiselect",
+                  form: ac,
+                  attribute: :employee_types,
+                  collection: AudienceCollection.available_employee_types.compact,
+                  value_method: :to_s,
+                  text_method: :to_s,
+                  multiple: true
+
+          - if AudienceCollection.available_departments.compact.present?
+            .col-xs-6
+              .form-group
+                = ac.label :departments
+                = wcms_component "forms/multiselect",
+                  form: ac,
+                  attribute: :departments,
+                  collection: AudienceCollection.available_departments.compact,
+                  value_method: :to_s,
+                  text_method: :to_s,
+                  multiple: true
+
+        .form-footer
+          .pull-right
+            = f.submit 'Save', class: 'btn btn-biola'
+            = link_to "Cancel", page_editions_path, class: 'btn btn-link'
+          .clearfix

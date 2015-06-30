@@ -4,6 +4,7 @@ class PageEditionsController < ApplicationController
   before_filter :set_page_edition, only: [:show, :edit, :update]
   before_filter :new_page_edition_from_params, only: [:new, :create]
   before_filter :pundit_authorize
+  before_filter :new_audience_collection
 
   def index
     @page_editions = policy_scope(PageEdition)
@@ -61,6 +62,10 @@ class PageEditionsController < ApplicationController
   end
 
   private
+
+  def new_audience_collection
+    @page_edition.audience_collection = AudienceCollection.new if @page_edition.audience_collection.nil?
+  end
 
   def new_page_edition_from_params
     if params[:page_edition]

@@ -4,7 +4,7 @@ class PageEditionsController < ApplicationController
   before_filter :set_page_edition, only: [:show, :edit, :update]
   before_filter :new_page_edition_from_params, only: [:new, :create]
   before_filter :pundit_authorize
-  before_filter :new_audience_collection
+  before_filter :new_audience_collection, only: [:edit, :update, :new, :create]
 
   def index
     @page_editions = policy_scope(PageEdition)

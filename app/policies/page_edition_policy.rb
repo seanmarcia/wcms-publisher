@@ -32,7 +32,7 @@ class PageEditionPolicy < PermissionsPolicy
   alias :edit? :create?
 
   def permitted_attributes
-    attrs = [:title, :slug, :site_id, :body, :page_template, attachment_ids: []]
+    attrs = [:title, :slug, :site_id, :body, :page_template, attachment_ids: [], audience_collection: [affiliations: [], schools: [], student_levels: [], class_standings: [], majors: [], housing_statuses: [], employee_types: [], departments: []]]
     attrs += [:presentation_data_json, :presentation_data_template_id]
     attrs += [:publish_at, :archive_at, :featured] if page_publisher?
 
@@ -44,7 +44,7 @@ class PageEditionPolicy < PermissionsPolicy
     case attribute.try(:to_sym)
     when nil, :profile
       true
-    when :activity_logs, :permissions, :presentation_data, :attachments
+    when :activity_logs, :permissions, :presentation_data, :attachments, :audience_collections
       page_admin?
     else
       false

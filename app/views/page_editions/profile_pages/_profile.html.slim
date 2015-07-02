@@ -7,7 +7,7 @@
     .form-group
       = f.label :site_id, "Site"
       / The javascript below looks for changes on this and updates the site_url_preview
-      = f.collection_select :site_id, Site.all, :id, :url, {}, class: 'form-control'
+      = f.collection_select :site_id, Site.where(has_page_editions: true), :id, :url, {}, class: 'form-control'
 
     .form-group
       = f.label :slug

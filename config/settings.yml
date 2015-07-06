@@ -19,6 +19,10 @@ email:
   smtp:
     server: postfix.biola.edu
 
+elasticsearch:
+  hosts:  # set in environment settings, leave nil for development
+  index_name: 'directory'
+
 roz:
   access_id: # set in settings.local.yml
   secret_key: # set in settings.local.yml

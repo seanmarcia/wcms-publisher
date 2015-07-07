@@ -32,10 +32,13 @@ class PageEditionPolicy < PermissionsPolicy
   alias :edit? :create?
 
   def permitted_attributes
-    attrs = [:title, :slug, :site_id, :body, :page_template, attachment_ids: [], audience_collection: [affiliations: [], schools: [], student_levels: [], class_standings: [], majors: [], housing_statuses: [], employee_types: [], departments: []]]
-    attrs += [:presentation_data_json, :presentation_data_template_id]
+    attrs = [ :title, :slug, :site_id, :body, :page_template, attachment_ids: [], department_ids: [],
+      audience_collection: [ affiliations: [], schools: [], student_levels: [], class_standings: [],
+      majors: [], housing_statuses: [], employee_types: [], departments: [] ]
+    ]
     attrs += [:topics_string, :keywords_string]
-    attrs += [:publish_at, :archive_at, :featured] if page_publisher?
+    attrs += [ :presentation_data_json, :presentation_data_template_id ]
+    attrs += [ :publish_at, :archive_at, :featured ] if page_publisher?
 
     attrs
   end

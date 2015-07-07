@@ -19,6 +19,18 @@
       = f.label :page_template
       = f.text_field :page_template, class: 'form-control'
 
+    .form-group
+      = f.label :topics
+      = wcms_component "forms/tag_input",
+        form: f,
+        attribute: :topics_string
+
+    .form-group
+      = f.label :keywords
+      = wcms_component "forms/tag_input",
+        form: f,
+        attribute: :keywords_string
+
   .form-section
     br
     h3 Page Content

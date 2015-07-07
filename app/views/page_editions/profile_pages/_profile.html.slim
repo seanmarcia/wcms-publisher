@@ -24,7 +24,7 @@
       = wcms_component "forms/multiselect",
         form: f,
         attribute: :department_ids,
-        collection: Department.asc(:title),
+        collection: Department.published.asc(:title),
         value_method: :id,
         text_method: :title,
         multiple: true

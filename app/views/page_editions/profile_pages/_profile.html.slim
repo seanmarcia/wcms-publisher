@@ -19,6 +19,16 @@
       = f.label :page_template
       = f.text_field :page_template, class: 'form-control'
 
+    .form-group
+      = label_tag 'page_edition[department_ids]', 'Owning Departments'
+      = wcms_component "forms/multiselect",
+        form: f,
+        attribute: :department_ids,
+        collection: Department.published.asc(:title),
+        value_method: :id,
+        text_method: :title,
+        multiple: true
+
   .form-section
     br
     h3 Page Content

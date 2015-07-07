@@ -1,4 +1,4 @@
-Rails.application.routes.draw do
+Wcms::Application.routes.draw do
 
   resources :calendars, :campus_locations, :important_dates do
     resources :activity_logs, except: [:index, :show, :destroy]

@@ -1,2 +1,5 @@
 # Run rake secret to generate a new token
 secret_token: 73dea7a86a6e64252c496ebe2bdbd25262bcf745d7e79365bc858af10fd47583da8e5ab46bff5198fd48d1d6a66228c2e1947a51ca5027f680834c16d788d632
+
+elasticsearch:
+  index_name: directory_test

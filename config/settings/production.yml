@@ -1,3 +1,9 @@
+elasticsearch:
+  hosts:
+  - elastic1a.prod.biola.edu
+  - elastic1b.prod.biola.edu
+  index_name: directory
+
 publishers:
   - name: Academic Programs
     url: https://wcms.biola.edu/academics/academic_programs

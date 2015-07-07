@@ -1,3 +1,8 @@
+elasticsearch:
+  hosts:
+  - elastic1.staging.biola.edu
+  index_name: directory
+
 publishers:
   - name: Academic Programs
     url: https://wcms.staging.biola.edu/academics/academic_programs

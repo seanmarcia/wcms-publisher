@@ -1,0 +1,36 @@
+= form_for form_object do |f|
+  = hidden_field_tag :page, 'seo'
+  .panel.panel-default
+    .panel-heading
+      strong SEO Data
+    .panel-body
+      .row.form-section
+        .col-md-12
+          .form-group
+            = label_tag :page_title
+            span.text-muted = " [leave blank to use '#{form_object.first.title}']"
+            br
+            = f.text_field :page_title, class: 'form-control'
+
+
+          .form-group
+            = label_tag :meta_description
+            = f.text_field :meta_description, class: 'form-control'
+
+          .form-group
+            = label_tag :meta_robots
+            = f.select :meta_robots, Department::META_ROBOTS_OPTIONS.map {|option| [option.to_s.humanize.titleize, option]}, {include_blank: true}, class: 'form-control'
+
+          .form-group
+            = f.label :meta_keywords
+            = wcms_component "forms/tag_input", form: f, attribute: :meta_keywords
+
+          .form-group
+            = label_tag :canonical_url
+            = f.text_field :canonical_url, class: 'form-control'
+
+      hr
+      .form-footer
+        .pull-right.form-inline
+          .form-group.pull-right.pad-right
+            = f.submit 'Save', class: 'btn btn-biola'

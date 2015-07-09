@@ -84,6 +84,7 @@ class CalendarsController < ApplicationController
 
   def calendar_params
     params[:calendar][:tags] = params[:calendar][:tags].split(',') if params[:calendar][:tags]
+    params[:calendar][:meta_keywords] = params[:calendar][:meta_keywords].split(',') unless params[:calendar][:meta_keywords].nil?
     params.require(:calendar).permit(*policy(@calendar || Calendar).permitted_attributes)
   end
 

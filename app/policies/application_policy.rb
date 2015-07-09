@@ -5,6 +5,8 @@ class ApplicationPolicy
 
   attr_reader :user, :record
 
+  SEO_FIELDS = [:page_title, :meta_description, :meta_robots, {meta_keywords: []}, :canonical_url]
+
   def initialize(user, record)
     @user = user
     @record = record

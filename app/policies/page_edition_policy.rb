@@ -39,6 +39,7 @@ class PageEditionPolicy < PermissionsPolicy
     attrs += [:topics_string, :keywords_string]
     attrs += [ :presentation_data_json, :presentation_data_template_id ]
     attrs += [ :publish_at, :archive_at, :featured ] if page_publisher?
+    attrs = attrs | SEO_FIELDS if user.admin? || user.developer? # Inherited from ApplicationPolicy
 
     attrs
   end
@@ -48,7 +49,7 @@ class PageEditionPolicy < PermissionsPolicy
     case attribute.try(:to_sym)
     when nil, :profile
       true
-    when :activity_logs, :permissions, :presentation_data, :attachments, :audience_collections
+    when :activity_logs, :permissions, :presentation_data, :attachments, :audience_collections, :seo
       page_admin?
     else
       false

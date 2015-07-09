@@ -77,6 +77,7 @@ class PageEditionsController < ApplicationController
 
   def page_edition_params
     # params.require(:page_edition).permit(*policy(@page_edition || PageEdition).permitted_attributes)
+    params[:page_edition][:meta_keywords] = params[:page_edition][:meta_keywords].split(',') unless params[:page_edition][:meta_keywords].nil?
 
     # I'm not using `require` here because it could be blank when updating presentation data
     ActionController::Parameters.new(params[:page_edition]).permit(*policy(@page_edition || PageEdition).permitted_attributes).tap do |whitelisted|

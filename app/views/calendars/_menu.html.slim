@@ -5,5 +5,6 @@
     = menu_block(class: 'list-group-item') do |menu|
       = menu.add_item('Overview', default: true) { edit_calendar_path(@calendar, page: 'profile') }
       = menu.add_item('Sections') { edit_calendar_path(@calendar, page: 'calendar_sections') }
+      = menu.add_item('SEO') { edit_calendar_path(@calendar, page: 'seo') } if policy(@calendar).can_manage?(:seo)
       = menu.add_item('History') { edit_calendar_path(@calendar, page: 'activity_logs') } if policy(@calendar).can_manage?(:activity_logs)
 

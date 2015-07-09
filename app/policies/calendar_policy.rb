@@ -20,6 +20,7 @@ class CalendarPolicy < ApplicationPolicy
 
   def permitted_attributes
     attrs = [:title, :start_date, :end_date, tags: []]
+    attrs = attrs | SEO_FIELDS if user.admin? || user.developer? # Inherited from ApplicationPolicy
     attrs
   end
 
@@ -28,7 +29,7 @@ class CalendarPolicy < ApplicationPolicy
     case attribute.try(:to_sym)
     when nil, :profile
       true
-    when :activity_logs, :permissions, :calendar_sections
+    when :activity_logs, :permissions, :calendar_sections, :seo
       user.admin? || user.developer?
     else
       false

@@ -26,7 +26,7 @@
                     = link_to fa_icon('cog')
                   ul.dropdown-menu role="menu" aria-labelledby="dropdownMenu1"
                     li
-                      a href=send("edit_#{obj.class.to_s.underscore}_activity_log_path", obj.id, activity_log.id) data-toggle="modal" data-target="#activity-log-edit-#{activity_log.id.to_s}" Edit Action
+                      a href=url_for([:edit, obj, activity_log]) data-toggle="modal" data-target="#activity-log-edit-#{activity_log.id.to_s}" Edit Action
               td = activity_log.action_performed.try(:humanize)
               td = activity_log.acting_user
               td = activity_log.acting_user_email
@@ -38,7 +38,7 @@
                 - if activity_log.message.present?
                   => activity_log.message.try(:humanize)
                   - if activity_log.snapshot.present? && activity_log.changes_made.present?
-                    | &ndash; 
+                    | &ndash;
                     em = activity_log.changes_made.collect{|c| c.truncate(300) }.join(' ')
                 - elsif activity_log.snapshot.present? && activity_log.changes_made.present?
                   span.changes = activity_log.changes_made.collect{|c| c.truncate(300) }.join(' ')

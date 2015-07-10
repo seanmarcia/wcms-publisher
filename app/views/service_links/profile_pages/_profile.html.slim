@@ -1,0 +1,37 @@
+= form_for @service_link do |f|
+  .form-section
+    .form-group
+      = f.label :title
+      = f.text_field :title, class: 'form-control'
+
+    .form-group
+      = f.label :slug
+      = f.text_field :slug, class: 'form-control'
+
+    .form-group
+      = f.label :url
+      = f.text_field :url, class: 'form-control'
+    
+    .form-group
+      = f.label :description
+      = f.text_area :description, class: 'form-control'
+
+    hr
+
+    .form-group
+      = f.label :topics
+      = wcms_component "forms/tag_input",
+        form: f,
+        attribute: :topics_string
+
+    .form-group
+      = f.label :keywords
+      = wcms_component "forms/tag_input",
+        form: f,
+        attribute: :keywords_string
+
+  hr
+  .form-footer
+    .text-right
+      = f.submit 'Save', class: 'btn btn-biola'
+      = link_to "Cancel", service_links_path, class: 'btn btn-link'

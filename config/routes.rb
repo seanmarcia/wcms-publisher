@@ -9,6 +9,9 @@ Wcms::Application.routes.draw do
     resources :actors, only: [:create, :destroy]
     resources :activity_logs, except: [:index, :show, :destroy]
   end
+  resources :service_links do
+    resources :activity_logs, except: [:index, :show, :destroy]
+  end
 
   root 'publishers#index'
 end

@@ -52,7 +52,7 @@ class PageEditionsController < ApplicationController
   def update
     @page_edition = PageEdition.find(params[:id])
     if @page_edition.update_attributes(page_edition_params)
-      log_activity(@page_edition.previous_changes, parent: @page_edition)
+      log_activity(@page_edition.previous_changes, parent: @page_edition, child: @page_edition.audience_collection.previous_changes)
       update_state
       flash[:notice] = "'#{@page_edition.title}' updated."
       redirect_to edit_page_edition_path @page_edition, page: params[:page]

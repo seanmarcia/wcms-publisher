@@ -44,7 +44,7 @@ class ServiceLinksController < ApplicationController
   def update
     @service_link = ServiceLink.find(params[:id])
     if @service_link.update_attributes(service_link_params)
-      log_activity(@service_link.previous_changes, parent: @service_link)
+      log_activity(@service_link.previous_changes, parent: @service_link, child: @service_link.audience_collection.previous_changes)
       flash[:notice] = "'#{@service_link.title}' updated."
       redirect_to edit_service_link_path @service_link, page: params[:page]
     else

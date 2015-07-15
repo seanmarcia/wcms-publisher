@@ -60,11 +60,11 @@ publishers:
     url: http://news-publisher.dev/publication_categories
   - name: Schools
     url: http://academic-publisher.dev/schools
+  - name: Service Links
+    url: http://wcms.dev/service_links
   - name: Sites
     url: http://news-publisher.dev/sites
   - name: University Learning Outcomes
     url: http://academic-publisher.dev/university_learning_outcomes
   - name: Users
     url: http://news-publisher.dev/users
-
-

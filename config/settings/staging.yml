@@ -52,6 +52,8 @@ publishers:
     url: https://wcms.staging.biola.edu/news/publication_categories
   - name: Schools
     url: https://wcms.staging.biola.edu/academics/schools
+  - name: Service Links
+    url: https://wcms.staging.biola.edu/service_links
   - name: Sites
     url: https://wcms.staging.biola.edu/news/sites
   - name: University Learning Outcomes

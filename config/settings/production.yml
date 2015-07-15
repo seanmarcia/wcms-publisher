@@ -53,6 +53,8 @@ publishers:
     url: https://wcms.biola.edu/news/publication_categories
   - name: Schools
     url: https://wcms.biola.edu/academics/schools
+  - name: Service Links
+    url: https://wcms.biola.edu/service_links
   - name: Sites
     url: https://wcms.biola.edu/news/sites
   - name: University Learning Outcomes

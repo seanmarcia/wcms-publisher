@@ -1,0 +1,11 @@
+.table-responsive
+  table.table.table-striped
+    thead
+      tr
+        th Title
+        th Url
+    tbody
+      - @service_links.each do |service_link|
+        tr
+          td = link_to service_link.title, service_link
+          td = service_link.url

@@ -4,7 +4,7 @@
       = form_tag service_links_path, method: :get do
         = text_field_tag 'q', params[:q], class: 'form-control', placeholder: 'Search', tabindex: '1'
     .pull-right.pad-right
-      - if policy(PageEdition).create?
+      - if policy(ServiceLink).create?
         = link_to 'New Service Link', new_service_link_path, class: 'btn btn-default'
     .clearfix
 

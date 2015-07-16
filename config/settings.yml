@@ -23,6 +23,9 @@ elasticsearch:
   hosts:  # set in environment settings, leave nil for development
   index_name: 'directory'
 
+sentry:
+  url: # Sentry URL goes here in settings.local.yml
+
 roz:
   access_id: # set in settings.local.yml
   secret_key: # set in settings.local.yml

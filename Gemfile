@@ -49,5 +49,5 @@ group :development, :test do
 end
 
 group :production do
-  gem 'exception_notification'
+  gem 'sentry-raven'
 end

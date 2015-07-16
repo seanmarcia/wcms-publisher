@@ -1,2 +1,5 @@
 # Run rake secret to generate a new token
 secret_token:
+
+sentry:
+  url: # Set me!

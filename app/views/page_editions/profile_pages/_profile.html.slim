@@ -13,7 +13,7 @@
       = f.label :slug
       .input-group
         span.input-group-addon#site_url_preview = "#{(f.object.site || Site.first).url}/"
-        = f.text_field :slug, class: 'form-control'
+        = f.text_field :slug, class: 'form-control', placeholder: 'leave blank to autofill'
 
     .form-group
       = f.label :page_template

@@ -1,0 +1,5 @@
+javascript:
+  var site_categories = #{site_categories.to_json.html_safe};
+- if obj.try(:site_category_ids)
+  javascript:
+    var preselected_categories = #{obj.site_category_ids.map(&:to_s).to_json.html_safe}

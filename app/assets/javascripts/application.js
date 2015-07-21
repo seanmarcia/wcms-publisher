@@ -12,4 +12,5 @@
 //
 //= require biola-frontend-toolkit
 //= require biola-wcms-components
+//= require_tree ./components
 //= require_tree .

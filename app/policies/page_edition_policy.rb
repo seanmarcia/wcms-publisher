@@ -32,7 +32,7 @@ class PageEditionPolicy < PermissionsPolicy
   alias :edit? :create?
 
   def permitted_attributes
-    attrs = [ :title, :slug, :site_id, :body, :page_template, attachment_ids: [], department_ids: [],
+    attrs = [ :title, :slug, :site_id, :body, :page_template, site_category_ids: [], attachment_ids: [], department_ids: [],
       audience_collection: [ affiliations: [], schools: [], student_levels: [], class_standings: [],
       majors: [], housing_statuses: [], employee_types: [], departments: [] ]
     ]

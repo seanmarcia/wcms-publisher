@@ -22,7 +22,7 @@
                   ul.dropdown-menu role="menu" aria-labelledby="dropdownMenu1"
                     li
                       - if actor != current_user
-                        = link_to 'Revoke Permissions', [obj, actor], method: :delete, data: { confirm: "Are you sure that you want to revoke #{actor.name}'s permissions?" }, class: 'btn-default'
+                        = link_to 'Revoke Permissions', send("#{obj.class.to_s.underscore}_actor_path", obj.id.to_s, id: actor.id.to_s), method: :delete, data: { confirm: "Are you sure that you want to revoke #{actor.name}'s permissions?" }, class: 'btn-default'
 
                       - else
                         = link_to 'Revoke Permissions', '#', onclick: "alert('You cannot remove your own permissions.')", class: 'btn btn-link'

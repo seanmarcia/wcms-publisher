@@ -73,7 +73,7 @@ GEM
       sass (>= 3.2.19)
     bson (3.1.0)
     builder (3.2.2)
-    buweb_content_models (0.124.0)
+    buweb_content_models (0.126.0)
       aasm (~> 3.3)
       carrierwave-mongoid (~> 0.7)
       carrierwave-roz (~> 0.3)
@@ -329,7 +329,7 @@ DEPENDENCIES
   biola_wcms_components (~> 0.15.0)
   blazing
   bootstrap-sass (~> 3.3.3)
-  buweb_content_models (~> 0.124.0)
+  buweb_content_models (~> 0.126.0)
   byebug
   coffee-rails (>= 4.1)
   factory_girl_rails
@@ -356,3 +356,6 @@ DEPENDENCIES
   turnout
   uglifier (>= 1.3.0)
   web-console (~> 2.0)
+
+BUNDLED WITH
+   1.10.5

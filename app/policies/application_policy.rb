@@ -52,5 +52,22 @@ class ApplicationPolicy
   def can_manage?(attribute)
     false
   end
+
+  def can_change?(parameter)
+    flat_permitted_attributes = permitted_attributes.map { |attribute|
+      case attribute
+      when Hash
+        attribute.keys
+      else
+        attribute
+      end
+    }.flatten
+
+    flat_permitted_attributes.include? parameter.to_sym
+  end
+
+  def cant_change?(parameter)
+    !can_change?(parameter)
+  end
 end
 

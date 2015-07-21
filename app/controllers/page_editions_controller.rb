@@ -1,8 +1,10 @@
 class PageEditionsController < ApplicationController
   include ActivityLoggable
+  include SetSiteCategories
 
   before_filter :set_page_edition, only: [:show, :edit, :update]
   before_filter :new_page_edition_from_params, only: [:new, :create]
+  before_filter :set_categories_for_page_edition
   before_filter :pundit_authorize
   before_filter :new_audience_collection, only: [:edit, :update, :new, :create]
 
@@ -51,6 +53,7 @@ class PageEditionsController < ApplicationController
 
   def update
     @page_edition = PageEdition.find(params[:id])
+    @page_edition.site_categories = []
     if @page_edition.update_attributes(page_edition_params)
       log_activity(@page_edition.previous_changes, parent: @page_edition, child: @page_edition.audience_collection.previous_changes)
       update_state
@@ -105,4 +108,7 @@ class PageEditionsController < ApplicationController
     end
   end
 
+  def set_categories_for_page_edition
+    set_categories('Page Edition')
+  end
 end

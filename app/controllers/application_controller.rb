@@ -18,6 +18,8 @@ class ApplicationController < WcmsApplicationController
       @parent = ImportantDate.find(params[:important_date_id])
     elsif params[:campus_location_id].present?
       @parent = CampusLocation.find(params[:campus_location_id])
+    elsif params[:menu_id].present?
+      @parent = Menu.find(params[:menu_id])
     else
       @parent = nil
     end

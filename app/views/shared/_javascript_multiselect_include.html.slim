@@ -1,5 +1,15 @@
-javascript:
-  var site_categories = #{site_categories.to_json.html_safe};
-- if obj.try(:site_category_ids)
+- if defined?(site_categories).present?
   javascript:
-    var preselected_categories = #{obj.site_category_ids.map(&:to_s).to_json.html_safe}
+    var site_categories = #{site_categories.to_json.html_safe};
+  - if obj.try(:site_category_ids)
+    javascript:
+      var preselected_categories = #{obj.site_category_ids.map(&:to_s).to_json.html_safe}
+
+/ It may be that site categories and page edition select fields will be on the same page,
+/  so for the time being this we will use an if statment rather than an elsif one.
+- if defined?(page_editions).present?
+  javascript:
+    var page_editions = #{page_editions.to_json.html_safe};
+  - if obj.try(:page_edition_ids)
+    javascript:
+      var preselected_pages = #{obj.page_edition_ids.map(&:to_s).to_json.html_safe}

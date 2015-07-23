@@ -1,3 +1,18 @@
+PATH
+  remote: ../buweb-content-models
+  specs:
+    buweb_content_models (0.127.0)
+      aasm (~> 3.3)
+      carrierwave-mongoid (~> 0.7)
+      carrierwave-roz (~> 0.3)
+      elasticsearch (~> 1.0)
+      elasticsearch-model (~> 0.1)
+      email_validator (~> 1.4)
+      lisbn (~> 0.2)
+      mini_magick (~> 3.7)
+      mongoid (~> 4.0)
+      mongoid_slug (~> 3.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -73,17 +88,6 @@ GEM
       sass (>= 3.2.19)
     bson (3.1.0)
     builder (3.2.2)
-    buweb_content_models (0.126.0)
-      aasm (~> 3.3)
-      carrierwave-mongoid (~> 0.7)
-      carrierwave-roz (~> 0.3)
-      elasticsearch (~> 1.0)
-      elasticsearch-model (~> 0.1)
-      email_validator (~> 1.4)
-      lisbn (~> 0.2)
-      mini_magick (~> 3.7)
-      mongoid (~> 4.0)
-      mongoid_slug (~> 3.2)
     byebug (4.0.5)
       columnize (= 0.9.0)
     carrierwave (0.10.0)
@@ -329,7 +333,7 @@ DEPENDENCIES
   biola_wcms_components (~> 0.15.0)
   blazing
   bootstrap-sass (~> 3.3.3)
-  buweb_content_models (~> 0.126.0)
+  buweb_content_models (~> 0.127.0)!
   byebug
   coffee-rails (>= 4.1)
   factory_girl_rails

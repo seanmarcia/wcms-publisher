@@ -1,0 +1,9 @@
+.table-responsive
+  table.table.table-striped
+    thead
+      tr
+        th Title
+    tbody
+      - @menus.each do |menu|
+        tr
+          td = link_to menu.title, menu

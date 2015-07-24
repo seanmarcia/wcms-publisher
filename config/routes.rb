@@ -1,6 +1,7 @@
 Wcms::Application.routes.draw do
 
   resources :menus do
+    resources :menu_links, except: [:index, :show]
     resources :activity_logs, except: [:index, :show, :destroy]
   end
 

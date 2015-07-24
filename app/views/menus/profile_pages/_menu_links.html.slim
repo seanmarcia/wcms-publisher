@@ -1,0 +1,38 @@
+.panel.panel-default
+  .panel-heading
+    strong Links
+  .panel-body
+    .row.form-section
+      .form-group.col-md-12
+        table.table.table-striped
+          thead
+            th
+            th Title
+            th Url
+            th Page Edition ID
+            th
+          tbody
+            - @menu.menu_links.each do |menu_link|
+              - if menu_link.persisted?
+                tr
+                  .modal.fade tabindex="-1" role="dialog" aria-labelledby="menu_link" aria-hidden="true" id="menu_link-edit-#{menu_link.id.to_s}"
+                    .modal-dialog
+                      .modal-content
+                  td.dropdown
+                    .dropdown-toggle id="dropdownMenu1" data-toggle="dropdown"
+                      = link_to fa_icon('cog')
+                    ul.dropdown-menu role="menu" aria-labelledby="dropdownMenu1"
+                      li
+                        a href=send("edit_menu_menu_link_path", @menu.id, menu_link.id) data-toggle="modal" data-target="#menu_link-edit-#{menu_link.id.to_s}" Edit Ticket
+                      - if policy(menu_link).destroy?
+                        li = link_to 'Delete', [@menu] + [menu_link], confirm: 'Are you sure?', method: :delete
+                  td = menu_link.title
+                  td = link_to menu_link.url, menu_link.url
+                  td = menu_link.page_edition_id
+                  td
+
+    hr
+    button.btn.btn-default.pull-right data-toggle="modal" data-target="#menu_link-modal" + new link
+    .modal.fade#menu_link-modal data-remote=new_menu_menu_link_path(@menu) tabindex="-1" role="dialog" aria-labelledby="menu_link" aria-hidden="true"
+      .modal-dialog
+        .modal-content

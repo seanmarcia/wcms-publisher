@@ -28,7 +28,7 @@ class MenuPolicy < ApplicationPolicy
     case attribute.try(:to_sym)
     when nil, :profile
       true
-    when :activity_logs, :permissions
+    when :activity_logs, :menu_links, :permissions
       user.admin? || user.developer?
     else
       false

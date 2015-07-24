@@ -1,7 +1,7 @@
 = form_for [@parent, @activity_log] do |f|
   .modal-header
     button.close type="button" data-dismiss="modal" aria-hidden="true"  &times;
-    h4.modal-title Add an Action
+    h4.modal-title = "#{params[:action].try(:titleize)} an Action"
   .modal-body
     .form-section
       .form-group
@@ -15,7 +15,4 @@
 
   .modal-footer
     button.btn.btn-default type="button" data-dismiss="modal" Cancel
-    = f.submit '+ Add Action', class: 'btn btn-primary'
-    / - if params[:action] == 'new'
-    / - elsif params[:action] == 'edit'
-    /   = f.submit 'Save', class: 'btn btn-primary'
+    = f.submit "#{params[:action].try(:titleize)} Action", class: 'btn btn-primary'

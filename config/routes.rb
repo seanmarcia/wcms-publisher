@@ -1,5 +1,9 @@
 Wcms::Application.routes.draw do
 
+  resources :menus do
+    resources :activity_logs, except: [:index, :show, :destroy]
+  end
+
   resources :calendars, :campus_locations, :important_dates do
     resources :activity_logs, except: [:index, :show, :destroy]
   end

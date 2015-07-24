@@ -1,0 +1,17 @@
+.container.page
+  .row
+    .col-sm-3
+      = render 'menu'
+
+    .col-sm-9
+
+      / validate that current user can manage the page
+      - if policy(@menu).can_manage?(params[:page])
+        .profile-pages
+        - case params[:page]
+        - when 'activity_logs'
+          = render 'shared/activity_logs', obj: @menu
+        - else
+          = render profile_page_path
+      - else
+        .alert.alert-danger You do not have permission to manage this view. #{link_to('Back to overview', edit_menu_path(@menu))}

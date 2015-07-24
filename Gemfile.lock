@@ -71,9 +71,9 @@ GEM
     bootstrap-sass (3.3.4.1)
       autoprefixer-rails (>= 5.0.0.1)
       sass (>= 3.2.19)
-    bson (3.1.0)
+    bson (3.2.0)
     builder (3.2.2)
-    buweb_content_models (0.126.0)
+    buweb_content_models (0.127.2)
       aasm (~> 3.3)
       carrierwave-mongoid (~> 0.7)
       carrierwave-roz (~> 0.3)
@@ -202,7 +202,7 @@ GEM
       bson (~> 3.0)
       connection_pool (~> 2.0)
       optionable (~> 0.2.0)
-    multi_json (1.11.1)
+    multi_json (1.11.2)
     multipart-post (2.0.0)
     newrelic_rpm (3.11.2.286)
     nokogiri (1.6.6.2)
@@ -329,7 +329,7 @@ DEPENDENCIES
   biola_wcms_components (~> 0.15.0)
   blazing
   bootstrap-sass (~> 3.3.3)
-  buweb_content_models (~> 0.126.0)
+  buweb_content_models (~> 0.127.2)
   byebug
   coffee-rails (>= 4.1)
   factory_girl_rails

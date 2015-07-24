@@ -1,4 +1,5 @@
 class <%= plural_table_name.camelize %>Controller < ApplicationController
+  include ActivityLoggable
 
   before_filter :set_<%= singular_table_name %>, only: [:show, :edit, :update]
   before_filter :new_<%= singular_table_name %>_from_params, only: [:new, :create]

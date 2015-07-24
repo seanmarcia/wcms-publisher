@@ -1,0 +1,32 @@
+= render 'shared/javascript_multiselect_include', obj: @menu, page_editions: @page_editions, site_titles: @site_titles
+= form_for @menu do |f|
+  .form-section
+    .form-group
+      = f.label :title
+      = f.text_field :title, class: 'form-control', autocomplete: :off
+
+    .form-group
+      = f.label :slug
+      .pull-right.text-muted = '(manually set)'
+      = f.text_field :slug, class: 'form-control', placeholder: 'example-slug', autocomplete: :off
+
+    .form-group
+      = f.label :site_id, "Site"
+      = f.collection_select :site_id, Site.where(has_page_editions: true), :id, :url, {}, class: 'form-control site_multiselect'
+
+    .form-group
+      = f.label :page_editions
+      br
+      - if policy(@menu).can_change?(:page_edition_ids)
+        .multi_page_select
+          = select_tag 'menu[page_edition_ids]', options_for_select([], @menu.page_edition_ids), multiple: true, class: "multiselect"
+      - else
+        .well.well-faux-input
+          = @menu.page_edition_ids.join(', ')
+
+  hr
+  .form-footer
+    .pull-right
+      = f.submit "Save", class: "btn btn-biola"
+      = link_to "Cancel", menus_path, class: "btn btn-link"
+    .clearfix

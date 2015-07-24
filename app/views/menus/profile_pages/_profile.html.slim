@@ -3,12 +3,12 @@
   .form-section
     .form-group
       = f.label :title
-      = f.text_field :title, class: 'form-control'
+      = f.text_field :title, class: 'form-control', autocomplete: :off
 
     .form-group
       = f.label :slug
       .pull-right.text-muted = '(manually set)'
-      = f.text_field :slug, class: 'form-control', placeholder: 'example-slug'
+      = f.text_field :slug, class: 'form-control', placeholder: 'example-slug', autocomplete: :off
 
     .form-group
       = f.label :site_id, "Site"
@@ -23,7 +23,6 @@
       - else
         .well.well-faux-input
           = @menu.page_edition_ids.join(', ')
-
 
   hr
   .form-footer

@@ -8,6 +8,7 @@ class MenuLinkPolicy < ApplicationPolicy
   def create?
     user.admin? || user.developer?
   end
+  alias :sort? :create?
   alias :new? :create?
   alias :update? :create?
   alias :edit? :create?

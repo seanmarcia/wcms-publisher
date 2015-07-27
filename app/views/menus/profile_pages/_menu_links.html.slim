@@ -4,17 +4,18 @@
   .panel-body
     .row.form-section
       .form-group.col-md-12
-        table.table.table-striped
+        table.table.table-striped.table-sortable data-update_url=sort_menu_menu_links_path(@menu)
           thead
-            th
-            th Title
-            th Url
-            th Page Edition ID
-            th
+            tr
+              th
+              th Title
+              th Url
+              th Page Edition
+              th
           tbody
-            - @menu.menu_links.each do |menu_link|
+            - @menu.menu_links.sort_by{|ml| ml.order }.each do |menu_link|
               - if menu_link.persisted?
-                tr
+                = content_tag_for :tr, menu_link, class: 'sortable-item' do
                   .modal.fade tabindex="-1" role="dialog" aria-labelledby="menu_link" aria-hidden="true" id="menu_link-edit-#{menu_link.id.to_s}"
                     .modal-dialog
                       .modal-content
@@ -23,14 +24,13 @@
                       = link_to fa_icon('cog')
                     ul.dropdown-menu role="menu" aria-labelledby="dropdownMenu1"
                       li
-                        a href=send("edit_menu_menu_link_path", @menu.id, menu_link.id) data-toggle="modal" data-target="#menu_link-edit-#{menu_link.id.to_s}" Edit Ticket
+                        a href=send("edit_menu_menu_link_path", @menu.id, menu_link.id) data-toggle="modal" data-target="#menu_link-edit-#{menu_link.id.to_s}" Edit Link
                       - if policy(menu_link).destroy?
                         li = link_to 'Delete', [@menu] + [menu_link], confirm: 'Are you sure?', method: :delete
                   td = menu_link.title
                   td = link_to menu_link.url, menu_link.url
-                  td = menu_link.page_edition_id
-                  td
-
+                  td title=menu_link.page_edition_id = PageEdition.find(menu_link.page_edition_id)
+                  td.handle.ignore-width = fa_icon 'bars'
     hr
     button.btn.btn-default.pull-right data-toggle="modal" data-target="#menu_link-modal" + new link
     .modal.fade#menu_link-modal data-remote=new_menu_menu_link_path(@menu) tabindex="-1" role="dialog" aria-labelledby="menu_link" aria-hidden="true"

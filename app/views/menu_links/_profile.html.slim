@@ -6,11 +6,11 @@
     .form-section
       .form-group
         = f.label :title
-        = f.text_field :title, class: 'form-control'
+        = f.text_field :title, class: 'form-control', required: true
 
       .form-group
         = f.label :url
-        = f.text_field :url, class: 'form-control'
+        = f.text_field :url, class: 'form-control', required: true
 
       .form-group
         = f.label :page_edition_id, 'Page Edition'

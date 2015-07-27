@@ -2,7 +2,7 @@ class MenuLinksController < ApplicationController
   layout false
 
   before_filter :set_menu
-  before_filter :set_menu_link, only: [:show, :edit, :update]
+  before_filter :set_menu_link, only: [:show, :edit, :update, :destroy]
   before_filter :new_menu_link_from_params, only: [:new, :create]
   before_filter :pundit_authorize
 
@@ -10,8 +10,7 @@ class MenuLinksController < ApplicationController
   end
 
   def create
-    # TODO: Fix this. Its not hitting the before create hooks so the order isnt being set.
-    if @menu.menu_links.create menu_link_params
+    if @menu_link.valid? && @menu.menu_links.create(menu_link_params)
       flash[:info] = 'Link successfully added.'
     else
       flash[:error] = 'Something went wrong. Please try again.'
@@ -38,6 +37,15 @@ class MenuLinksController < ApplicationController
       flash[:error] = "Somthing went wrong. Please try again."
     end
     redirect_to :back
+  end
+
+  def sort
+    params[:menu_link].each_with_index do |id, index|
+      menu_link = @menu.menu_links.find(id)
+      menu_link.update(order: index+1)
+    end
+
+    render nothing: true
   end
 
   private

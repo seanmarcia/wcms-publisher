@@ -3,6 +3,6 @@
     .list-group-item.top-item
       = @menu.title
     = menu_block(class: 'list-group-item') do |menu|
-      = menu.add_item('Overview', default: true) { edit_menu_path(@menu, page: 'profile') }
+      = menu.add_item('Overview', default: true) { edit_menu_path(@menu, page: 'form') }
       = menu.add_item('Links') { edit_menu_path(@menu, page: 'menu_links') }
       = menu.add_item('History') { edit_menu_path(@menu, page: 'activity_logs') } if policy(@menu).can_manage?(:activity_logs)

@@ -21,7 +21,7 @@ class PublisherGenerator < Rails::Generators::NamedBase
     template "views/edit.html.slim", File.join("app/views/#{plural_table_name}", "edit.html.slim")
     template "views/index.html.slim", File.join("app/views/#{plural_table_name}", "index.html.slim")
     template "views/new.html.slim", File.join("app/views/#{plural_table_name}", "new.html.slim")
-    template "views/profile_pages/_profile.html.slim", File.join("app/views/#{plural_table_name}/profile_pages", "_profile.html.slim")
+    template "views/edit_partials/_form.html.slim", File.join("app/views/#{plural_table_name}/edit_partials", "_form.html.slim")
   end
 
   def create_route

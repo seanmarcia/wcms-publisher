@@ -7,11 +7,11 @@
 
       / validate that current user can manage the page
       - if policy(@calendar).can_manage?(params[:page])
-        .profile-pages 
+        .edit-partials
           - case params[:page]
           - when 'activity_logs'
             = render 'shared/activity_logs', obj: @calendar
           - else
-            = render profile_page_path
+            = render form_page_path
       - else
         .alert.alert-danger You do not have permission to manage this view. #{link_to('Back to overview', edit_calendar_path(@calendar))}

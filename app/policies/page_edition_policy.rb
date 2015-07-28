@@ -47,7 +47,7 @@ class PageEditionPolicy < PermissionsPolicy
   ##### Special non-action permissions
   def can_manage?(attribute)
     case attribute.try(:to_sym)
-    when nil, :profile
+    when nil, :form
       true
     when :activity_logs, :permissions, :presentation_data, :attachments, :audience_collections, :seo
       page_admin?

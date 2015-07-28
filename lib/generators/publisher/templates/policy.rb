@@ -32,7 +32,7 @@ class <%= class_name %>Policy < ApplicationPolicy
   ##### Special non-action permissions
   def can_manage?(attribute)
     case attribute.try(:to_sym)
-    when nil, :profile
+    when nil, :form
       true
     when :activity_logs, :permissions
       user.admin? || user.developer?

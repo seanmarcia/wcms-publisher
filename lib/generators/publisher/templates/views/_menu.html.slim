@@ -3,5 +3,5 @@
     .list-group-item.top-item
       = @<%= singular_table_name %>.title
     = menu_block(class: 'list-group-item') do |menu|
-      = menu.add_item('Overview', default: true) { edit_<%= singular_table_name %>_path(@<%= singular_table_name %>, page: 'profile') }
+      = menu.add_item('Overview', default: true) { edit_<%= singular_table_name %>_path(@<%= singular_table_name %>, page: 'form') }
 

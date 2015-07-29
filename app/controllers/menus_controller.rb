@@ -48,7 +48,6 @@ class MenusController < ApplicationController
       log_activity(@menu.previous_changes, parent: @menu)
 
       flash[:notice] = "'#{@menu.title}' updated."
-      binding.pry
       redirect_to edit_menu_path(@menu, page: params[:page])
     else
       render :edit

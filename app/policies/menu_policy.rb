@@ -19,7 +19,7 @@ class MenuPolicy < ApplicationPolicy
   alias :destroy? :create?
 
   def permitted_attributes
-    attrs = [:title, :slug, :site_id, menu_link_ids: [], page_edition_ids: []]
+    attrs = [:title, :slug, :site_id, :menu_links_json, page_edition_ids: []]
     attrs
   end
 
@@ -28,7 +28,7 @@ class MenuPolicy < ApplicationPolicy
     case attribute.try(:to_sym)
     when nil, :form
       true
-    when :activity_logs, :permissions
+    when :activity_logs, :menu_links, :permissions
       user.admin? || user.developer?
     else
       false

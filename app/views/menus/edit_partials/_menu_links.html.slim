@@ -1,0 +1,23 @@
+= form_for @menu do |f|
+  .form-section
+    .form-group
+      = hidden_field_tag :page, params[:page]
+      strong Links
+      span = link_to 'Show Example', '#', class: 'btn button btn-sm pull-right', id: 'example-button'
+
+      br
+      br
+
+      pre#example style="display: none;" = "[\n  {\n    \"title\": \"value\",\n    \"url\": \"http://something.com\",\n    \"page_edition_slug\": \"this-slug\",\n    \"menu_links\": [{\n      \"title\": \"value\",\n      \"url\": \"http://something.com\",\n      \"page_edition_slug\": \"that-slug\"\n    }]\n  },\n  {\n    \"title\": \"value\",\n    \"url\": \"http://something.com\",\n    \"page_edition_slug\": \"this-slug\"\n  }\n]"
+
+      br
+
+      = wcms_component 'forms/json_editor',
+        form: f,
+        attribute: :menu_links_json
+  hr
+  .form-footer
+    .pull-right
+      = f.submit "Save", class: "btn btn-biola"
+      = link_to "Cancel", menus_path, class: "btn btn-link"
+    .clearfix

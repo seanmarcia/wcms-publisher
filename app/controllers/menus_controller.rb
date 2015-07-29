@@ -33,7 +33,7 @@ class MenusController < ApplicationController
       log_activity(@menu.previous_changes, parent: @menu)
 
       flash[:notice] = "'#{@menu.title}' created."
-      redirect_to [:edit, @menu]
+      redirect_to edit_menu_path(@menu, page: params[:page])
     else
       render :new
     end
@@ -45,10 +45,10 @@ class MenusController < ApplicationController
   def update
     @menu.page_editions = [] # allows for unsetting of all previously set page_editions
     if @menu.update_attributes(menu_params)
-      log_activity(@menu.previous_changes, parent: @menu) #, child: @menu.menu_link.previous_changes)
+      log_activity(@menu.previous_changes, parent: @menu)
 
       flash[:notice] = "'#{@menu.title}' updated."
-      redirect_to [:edit, @menu]
+      redirect_to edit_menu_path(@menu, page: params[:page])
     else
       render :edit
     end

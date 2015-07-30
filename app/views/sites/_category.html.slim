@@ -1,0 +1,64 @@
+.panel.panel-default
+  .panel-heading
+    strong = "#{obj.titleize} Categories"
+  .panel-body
+
+    button.btn.btn-biola.pull-right data-toggle="modal" data-target="#site_categories" + New Category
+    .modal.fade aria-hidden="true" tabindex="-1" id="site_categories"
+      .modal-dialog
+        .modal-content
+          = form_for [@site, @site.site_categories.new] do |f|
+            .modal-header
+              button.close aria-label="Close" data-dismiss="modal" type="button"
+                span aria-hidden="true"  &times;
+              h4#myModalLabel.modal-title New Category
+            .modal-body
+              .form-group
+                = f.hidden_field :type, value: obj.titleize
+                = f.label :title
+                = f.text_field :title, class: 'form-control'
+              .form-group
+                = f.label :description
+                = f.text_field :description, class: 'form-control'
+            .modal-footer
+              button.btn.btn-default data-dismiss="modal" type="button"  Close
+              = f.submit 'Save', class: 'btn btn-biola'
+
+
+    .lead Categories
+    .table-responsive
+      table.table.table-striped.table-hover
+        thead
+          tr
+            th Title
+            th Description
+            th
+        tbody
+        - @site.categories(obj.titleize).sort_by{ |cat| cat.title.downcase }.each do |category|
+            tr
+              td = category.title
+              td = category.description
+              td
+                .text-right
+                  a href="#" data-toggle="modal" data-target="#edit#{category.id}" =' fa_icon 'pencil'
+                  =' link_to fa_icon('trash-o'), site_site_category_path(@site, category), data: { confirm: "Are you sure?" }, method: :delete
+
+                .modal.fade aria-hidden="true" tabindex="-1" id="edit#{category.id}"
+                  .modal-dialog
+                    .modal-content
+                      = form_for [@site, category] do |f|
+                        .modal-header
+                          button.close aria-label="Close" data-dismiss="modal" type="button"
+                            span aria-hidden="true"  &times;
+                          h4#myModalLabel.modal-title = category
+                        .modal-body
+                          .form-group
+                            = f.hidden_field obj.to_sym, value: true
+                            = f.label :title
+                            = f.text_field :title, class: 'form-control'
+                          .form-group
+                            = f.label :description
+                            = f.text_field :description, class: 'form-control'
+                        .modal-footer
+                          button.btn.btn-default data-dismiss="modal" type="button"  Close
+                          = f.submit 'Save', class: 'btn btn-biola'

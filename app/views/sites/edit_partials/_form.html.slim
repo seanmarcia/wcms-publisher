@@ -1,0 +1,38 @@
+= form_for @site do |f|
+  .panel.panel-default
+    .panel-heading
+      strong Basic Info
+    .panel-body
+      .row.form-section
+        .form-group.col-md-6
+          = f.label :title
+          = f.text_field :title, class: 'form-control'
+        .form-group.col-md-6
+          = f.label :url
+          = f.text_field :url, class: 'form-control'
+        .form-group.col-md-4
+          label
+            =' f.check_box :has_events
+            | Has Events?
+        .form-group.col-md-4
+          label
+            =' f.check_box :has_articles
+            | Has Articles?
+        .form-group.col-md-4
+          label
+            =' f.check_box :has_features
+            | Has Features?
+        .form-group.col-md-4
+          label
+            =' f.check_box :has_page_editions
+            | Has Page Editions?
+        .form-group.col-md-4
+          label
+            =' f.check_box :has_audience_collections
+            | Has Audiences?
+
+      hr
+      .form-footer
+        .pull-right.form-inline
+          .form-group.pull-right.pad-right
+            = f.submit 'Save', class: 'btn btn-biola'

@@ -31,4 +31,18 @@ class PermissionsPolicy < ApplicationPolicy
     site_page_publisher?(site) ||
     site.has_permission_to?(:page_editor, user)
   end
+
+  #############################################
+  ############# SITES PERMISSIONS #############
+  #############################################
+
+  def site_admin?
+    user.admin? ||
+    Site.with_permission_to(:site_admin, user).present?
+  end
+
+  def site_admin_for?(site)
+    user.admin? ||
+    site.has_permission_to?(:site_admin, user)
+  end
 end

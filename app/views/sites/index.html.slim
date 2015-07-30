@@ -1,0 +1,17 @@
+.container.page
+  .page-header
+    .pull-right
+      = form_tag sites_path, method: :get do
+        = text_field_tag 'q', params[:q], class: 'form-control', placeholder: 'Search', tabindex: '1'
+    .pull-right.pad-right
+      - if policy(Site).create?
+        = link_to 'New Site', new_site_path, class: 'btn btn-default'
+    .clearfix
+
+  - if @sites.empty?
+    .alert.alert-warning
+      = fa_icon 'warning', text: "No sites were found"
+  - else
+    = render 'sites'
+
+  .text-center = paginate @sites

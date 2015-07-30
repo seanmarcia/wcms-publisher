@@ -1,0 +1,12 @@
+.side-menu
+  .list-group
+    .list-group-item.top-item
+      = @site.title
+    = menu_block(class: 'list-group-item') do |menu|
+      = menu.add_item('Overview', default: true) { edit_site_path(@site, page: 'form') }
+      = menu.add_item('Permissions') { edit_site_path(@site, page: 'permissions') } if policy(@site).can_manage?(:permissions)
+      = menu.add_item('Article Categories') { edit_site_path(@site, page: 'article_categories') } if policy(@site).can_manage?(:article_categories)
+      = menu.add_item('Event Categories') { edit_site_path(@site, page: 'event_categories') } if policy(@site).can_manage?(:event_categories)
+      = menu.add_item('Page Edition Categories') { edit_site_path(@site, page: 'page_edition_categories') } if policy(@site).can_manage?(:page_edition_categories)
+      = menu.add_item('Feature Locations') { edit_site_path(@site, page: 'feature_locations') } if policy(@site).can_manage?(:feature_locations)
+      = menu.add_item('History') { edit_site_path(@site, page: 'activity_logs') } if policy(@site).can_manage?(:activity_logs)

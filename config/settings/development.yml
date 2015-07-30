@@ -65,7 +65,7 @@ publishers:
   - name: Service Links
     url: http://wcms.dev/service_links
   - name: Sites
-    url: http://news-publisher.dev/sites
+    url: http://wcms.dev/sites
   - name: University Learning Outcomes
     url: http://academic-publisher.dev/university_learning_outcomes
   - name: Users

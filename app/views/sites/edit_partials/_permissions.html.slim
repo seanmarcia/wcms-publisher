@@ -1,0 +1,12 @@
+= render 'shared/permissions_tab', obj: @site
+
+- policy = ActorPolicy.new(current_user, @site)
+
+.panel.panel-default
+  .panel-heading
+    strong Group Author Permissions
+  .panel-body
+    - if policy.create?
+      = render 'group_permissions', site: @site
+    - else
+      p You don't have permission to edit group permissions.

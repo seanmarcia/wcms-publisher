@@ -1,0 +1,13 @@
+.table-responsive
+  table.table.table-striped
+    thead
+      tr
+        th
+        th Title
+        th Url
+    tbody
+      - @sites.each do |site|
+        tr
+          td
+          td = link_to site.title, site
+          td = link_to site.url, site.url

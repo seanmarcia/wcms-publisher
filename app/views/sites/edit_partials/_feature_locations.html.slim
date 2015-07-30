@@ -1,0 +1,78 @@
+.panel.panel-default
+  .panel-heading
+    strong Basic Info
+  .panel-body
+    = form_for [@site, FeatureLocation.new] do |f|
+      .row.form-section
+        = f.hidden_field :site_id, value: @site.id
+        .form-group.col-xs-12
+          = f.label :title
+          = f.text_field :title, class: 'form-control'
+        .form-group.col-xs-12
+          = f.label :url
+          = f.text_field :url, class: 'form-control'
+        .form-group.col-xs-12
+          = f.label :slug
+          = f.text_field :slug, class: 'form-control'
+        .form-group.col-md-6
+          =' f.label :preferred_image_width
+          = f.text_field :preferred_image_width, class: 'form-control'
+        .form-group.col-md-6
+          = f.label :preferred_image_height
+          = f.text_field :preferred_image_height, class: 'form-control'
+        .col-md-12
+          .pull-right.form-inline
+            .form-group.pull-right
+              = f.submit 'Save', class: 'btn btn-biola'
+
+    .lead Feature Locations
+    .table-responsivex
+      table.table.table-striped.table-hover
+        thead
+          tr
+            th Title
+            th Url
+            th Slug
+            th Preferred Dimensions
+            th
+        tbody
+        - @site.feature_locations.each do |fl|
+            tr
+              td = fl.title
+              td = link_to fl.url
+              td = fl.slug
+              td = "#{fl.preferred_image_width}x#{fl.preferred_image_height}" unless fl.preferred_image_width.blank?
+              td
+                .text-right
+                  a href="#" data-toggle="modal" data-target="#edit#{fl.id}" =' fa_icon 'pencil'
+                  =' link_to fa_icon('trash-o'), site_feature_location_path(@site, fl), data: { confirm: "Are you sure?" }, method: :delete
+
+                .modal.fade aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="edit#{fl.id}"
+                  .modal-dialog
+                    .modal-content
+                      = form_for [@site, fl] do |f|
+                        .modal-header
+                          button.close aria-label="Close" data-dismiss="modal" type="button"
+                            span aria-hidden="true"  &times;
+                          h4#myModalLabel.modal-title = fl
+                        .modal-body
+                          .row.form-section
+                            = f.hidden_field :site_id, value: @site.id
+                            .form-group.col-md-12
+                              = f.label :title
+                              = f.text_field :title, class: 'form-control'
+                            .form-group.col-md-12
+                              = f.label :url
+                              = f.text_field :url, class: 'form-control'
+                            .form-group.col-xs-12
+                              = f.label :slug
+                              = f.text_field :slug, class: 'form-control'
+                            .form-group.col-md-6
+                              =' f.label :preferred_image_width
+                              = f.text_field :preferred_image_width, class: 'form-control'
+                            .form-group.col-md-6
+                              = f.label :preferred_image_height
+                              = f.text_field :preferred_image_height, class: 'form-control'
+                        .modal-footer
+                          button.btn.btn-default data-dismiss="modal" type="button"  Close
+                          = f.submit 'Save', class: 'btn btn-biola'

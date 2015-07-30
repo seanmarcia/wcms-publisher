@@ -1,0 +1,18 @@
+- if @site.enabled_mediums.present?
+  = form_tag @site, method: :patch do
+    = hidden_field_tag :page, 'permissions'
+    - @site.enabled_mediums.each do |medium|
+      h4 = "#{medium} Author"
+      .row
+        = hidden_field_tag "site[#{medium.downcase}_author_roles][]", nil
+        - Array(Settings.author_roles).each do |role|
+          .col-md-3
+            label
+              =' check_box_tag "site[#{medium.downcase}_author_roles][]", role, Array(@site.send("#{medium.downcase}_author_roles")).include?(role)
+              = role.titleize
+      br
+    = submit_tag 'Save', class: 'btn btn-biola'
+- else
+  p
+    strong> NOTE:
+    | Articles and/or Events need to be enabled for this site before group permissions can be assigned.

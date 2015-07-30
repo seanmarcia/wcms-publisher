@@ -20,6 +20,8 @@ class ApplicationController < WcmsApplicationController
       @parent = CampusLocation.find(params[:campus_location_id])
     elsif params[:menu_id].present?
       @parent = Menu.find(params[:menu_id])
+    elsif params[:site_id].present?
+      @parent = Site.find(params[:site_id])
     else
       @parent = nil
     end

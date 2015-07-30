@@ -34,3 +34,9 @@ redis:
   # This is overridden in config/settings/[staging|production].yml
   url: "********************"
   name: 'wcms-publisher'
+
+author_roles: # This could be overwritten in chef
+  - employee
+  - faculty
+  - student
+  - student worker

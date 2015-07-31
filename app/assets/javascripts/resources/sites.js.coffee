@@ -7,6 +7,10 @@ $(document).ready ->
     template = Handlebars.compile($("#subpage-template").html())
     selectedNode = {}
 
+    # Return all the children of a given node
+    childPages = (node_id) -> page_editions.filter (el) -> el.parent_id == node_id
+
+    # Find the node with the given id
     findNode = (node_id) ->
       if node = page_editions.find((el) -> el.id == node_id)
         # Cache child pages into selected node.
@@ -29,10 +33,12 @@ $(document).ready ->
       else
         []
 
-    childPages = (node_id) ->
-      children = page_editions.filter (el) -> el.parent_id == node_id
+    refreshNodeBrowser = ->
+      # Get node id from the url Hash. This way page history works.
+      node_id = document.location.hash.substring(1) || "site"
+      selectedNode = findNode(node_id)
 
-    resetPageBrowser = ->
+      # Feed data into template and render html
       html = template
         breadcrumbs: breadcrumbs(selectedNode.id, true)
         parent_node: parentNode(selectedNode)
@@ -41,12 +47,5 @@ $(document).ready ->
       # Send the rendered template to the DOM
       $('#node_browser').html(html)
 
-    refreshNodeBrowser = ->
-      # Get node id from the url Hash. This way page history works.
-      node_id = document.location.hash.substring(1) || "site"
-      selectedNode = findNode(node_id)
-      resetPageBrowser()
-
-    # $('#node_browser').on 'click', 'a', -> refreshNodeBrowser()
     window.onpopstate = (event) -> refreshNodeBrowser()
     refreshNodeBrowser()

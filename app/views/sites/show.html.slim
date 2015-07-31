@@ -4,9 +4,4 @@ javascript:
   var page_editions = #{@page_editions.to_json.html_safe}
 
 .container.page
-  .well
-    = link_to 'Edit Site', @site, class: "btn btn-primary pull-right"
-    h3 = @site.title
-    div = link_to @site.url, @site.url
-
   #node_browser Loading...

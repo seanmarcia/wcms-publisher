@@ -29,6 +29,7 @@ class SitesController < ApplicationController
         title: page.title,
         url: page_edition_url(page),
         preview_url: page.url,
+        slug: page.slug,
         parent_id: (page.parent_page_id || 'site').try(:to_s),
         status: page.aasm_state,
         has_children: page.child_page_ids.length > 0

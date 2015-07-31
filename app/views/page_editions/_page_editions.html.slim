@@ -1,17 +1,16 @@
-.table-responsive
-  table.table.table-striped
-    thead
+table.table.table-striped
+  thead
+    tr
+      th
+      th Title
+      th Site
+      th Slug
+      th Status
+  tbody
+    - @page_editions.each do |page|
       tr
-        th
-        th Title
-        th Site
-        th Slug
-        th Status
-    tbody
-      - @page_editions.each do |page|
-        tr
-          td
-          td = link_to page.title, page
-          td = page.site
-          td = page.slug
-          td = status_for page
+        td
+        td = link_to page.title, page
+        td = page.site
+        td = page.slug
+        td = status_for page

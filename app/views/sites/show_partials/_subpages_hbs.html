@@ -1,0 +1,64 @@
+<script id="node-list" type="text/x-handlebars-template">
+  <li >
+    <div class="nodename-col"><i class="fa fa-file-text-o"></i> <a href="{{url}}">{{title}}</a></div>
+    <div class="status-col">{{status_tag this}}</div>
+    {{#ifequals selected_id id}}
+    <div class="child-col"><a href="#{{parent_id}}"><span class="text">Back</span> <i class="fa fa-chevron-left"></i></a></div>
+    {{else}}
+      {{#if has_children}}
+      <div class="child-col"><a href="#{{id}}"><span class="text">Subpages</span> <i class="fa fa-chevron-right"></i></a></div>
+      {{/if}}
+    {{/ifequals}}
+    <div class="clearfix"></div>
+  </li>
+</script>
+
+<script id="subpage-template" type="text/x-handlebars-template">
+  <div class="row">
+    <div class="col-md-9">
+      <ol class="breadcrumb">
+        {{#each breadcrumbs}}{{breadcrumb}}{{/each}}
+      </ol>
+    </div>
+    <div class="col-md-3">
+      <input type="search" class="form-control pull-right" placeholder="Search">
+    </div>
+  </div>
+
+  <!-- {{#if node.status}}
+    <div id="selected_page_details" class="well">
+
+      <div class="pull-right">
+        <strong>Preview:</strong> <a href="{{node.preview_url}}">{{node.preview_url}}</a>
+      </div>
+      <strong>{{node.title}}</strong>
+      <span class="bullet">•</span>
+      <span class="text-muted">{{node.status}}</span>
+
+      <hr/>
+      <div>
+        {{#if node.url}}<a href="{{node.url}}" class="btn btn-primary btn-xs">Edit Page</a>{{/if}}
+      </div>
+    </div>
+  {{/if}} -->
+
+  <h4>Subpages</h4>
+  <div class="col-container count-{{nodecount}}">
+    <ol class="node-col">
+      {{#if node.root}}
+        <li>
+          <div class="nodename-col"><i class="fa fa-globe"></i> <a href="{{node.url}}">{{node.title}}</a></div>
+          <div class="clearfix"></div>
+        </li>
+      {{else}}
+        {{#each parent_node.pages}}{{> nodeList selected_id=../node.id}}{{/each}}
+      {{/if}}
+    </ol>
+    <ol class="node-col">
+      {{#each node.pages}}{{> nodeList}}{{/each}}
+      {{#unless node.has_children}}
+      <li><div class="nodename-col">No child pages</div><div class="clearfix"></div></li>
+      {{/unless}}
+    </ol>
+  </div>
+</script>

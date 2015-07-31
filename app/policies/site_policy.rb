@@ -24,14 +24,14 @@ class SitePolicy < PermissionsPolicy
   alias :new? :create?
 
   def index?
-   site_admin?
+    true # anyone can index and show these
   end
   alias :search? :index?
+  alias :show? :index?
 
   def edit?
     site_admin_for?(record)
   end
-  alias :show? :edit?
   alias :update? :edit?
 
   def destroy?

@@ -1,0 +1,42 @@
+<!-- Handlebars template -->
+<div class="row">
+  <div class="col-md-9">
+    <ol class="breadcrumb">
+      {{#each breadcrumbs}}{{breadcrumb}}{{/each}}
+    </ol>
+  </div>
+  <div class="col-md-3">
+    <input type="search" class="form-control pull-right" placeholder="Search">
+  </div>
+</div>
+
+{{#if node.status}}
+  <div id="selected_page_details" class="well">
+
+    <div class="pull-right">
+      <strong>Preview:</strong> <a href="{{node.preview_url}}">{{node.preview_url}}</a>
+    </div>
+    <strong>{{node.title}}</strong>
+    <span class="bullet">•</span>
+    <span class="text-muted">{{node.status}}</span>
+
+    <hr/>
+    <div>
+      {{#if node.url}}<a href="{{node.url}}" class="btn btn-primary btn-xs">Edit Page</a>{{/if}}
+    </div>
+  </div>
+{{/if}}
+
+<table class="table table-striped">
+  <tr>
+    <th>Subpages</th>
+    <th></th>
+  </tr>
+
+  {{#each node.pages}}
+  <tr>
+    <td><a href="#{{id}}">{{title}}</a></td>
+    <td>{{status_tag this}}</td>
+  </tr>
+  {{/each}}
+</ol>

@@ -9,21 +9,11 @@ class PageEditionsController < ApplicationController
   before_filter :new_audience_collection, only: [:edit, :update, :new, :create]
 
   def index
-    @page_editions = policy_scope(PageEdition)
+    @page_editions = policy_scope(PageEdition).asc(:title)
+    @available_sites = Site.in(id: @page_editions.distinct(:site_id)).asc(:title)
 
-    unless @page_editions.none?
-      # Filter Values
-      @available_sites = Site.in(id: @page_editions.distinct(:site_id)).asc(:title)
-      @available_page_templates = @page_editions.distinct(:page_template).sort_by{|a| a.downcase }
-
-      # Filter Results
-      @page_editions = @page_editions.custom_search(params[:q]) if params[:q]
-      @page_editions = @page_editions.by_status(params[:status]) if params[:status]
-      @page_editions = @page_editions.by_site(params[:site]) if params[:site]
-      @page_editions = @page_editions.by_last_change(params[:last_change]) if params[:last_change]
-    end
-
-    @page_editions = @page_editions.desc(:title).page(params[:page]).per(25)
+    @page_tree = build_tree(@available_sites, @page_editions)
+    # render json: @page_tree
   end
 
   def show
@@ -110,5 +100,29 @@ class PageEditionsController < ApplicationController
 
   def set_categories_for_page_edition
     set_categories('Page Edition')
+  end
+
+  def build_tree(sites, pages)
+    [{id: 'sites', title: "Sites"}] +
+    sites.map do |site|
+      {
+        type: 'site',
+        id: site.id.to_s,
+        title: site.title,
+        url: nil,
+        parent_id: 'sites'
+      }
+    end +
+    pages.map do |page|
+      {
+        type: 'page_edition',
+        id: page.id.to_s,
+        title: page.title,
+        url: page_edition_url(page),
+        preview_url: page.url,
+        parent_id: (page.parent_page_id || page.site_id).try(:to_s),
+        status: page.aasm_state
+      }
+    end
   end
 end

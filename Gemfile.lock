@@ -1,3 +1,18 @@
+PATH
+  remote: ~/projects/gems/buweb-content-models
+  specs:
+    buweb_content_models (0.128.0)
+      aasm (~> 3.3)
+      carrierwave-mongoid (~> 0.7)
+      carrierwave-roz (~> 0.3)
+      elasticsearch (~> 1.0)
+      elasticsearch-model (~> 0.1)
+      email_validator (~> 1.4)
+      lisbn (~> 0.2)
+      mini_magick (~> 3.7)
+      mongoid (~> 4.0)
+      mongoid_slug (~> 3.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -77,17 +92,6 @@ GEM
       sass (>= 3.2.19)
     bson (3.2.0)
     builder (3.2.2)
-    buweb_content_models (0.128.0)
-      aasm (~> 3.3)
-      carrierwave-mongoid (~> 0.7)
-      carrierwave-roz (~> 0.3)
-      elasticsearch (~> 1.0)
-      elasticsearch-model (~> 0.1)
-      email_validator (~> 1.4)
-      lisbn (~> 0.2)
-      mini_magick (~> 3.7)
-      mongoid (~> 4.0)
-      mongoid_slug (~> 3.2)
     carrierwave (0.10.0)
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
@@ -140,7 +144,7 @@ GEM
       railties (>= 3.0.0)
     faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
-    font-awesome-rails (4.3.0.0)
+    font-awesome-rails (4.4.0.0)
       railties (>= 3.2, < 5.0)
     globalid (0.3.5)
       activesupport (>= 4.1.0)
@@ -327,10 +331,10 @@ DEPENDENCIES
   biola_wcms_components (~> 0.15.0)
   blazing
   bootstrap-sass (~> 3.3.3)
-  buweb_content_models (~> 0.128.0)
+  buweb_content_models!
   coffee-rails (>= 4.1)
   factory_girl_rails
-  font-awesome-rails (~> 4.3)
+  font-awesome-rails (~> 4.4)
   jbuilder (~> 2.0)
   jquery-rails (~> 4.0.4)
   kaminari-bootstrap

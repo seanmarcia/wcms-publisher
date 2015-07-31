@@ -12,6 +12,7 @@
 //
 //= require biola-frontend-toolkit
 //= require biola-wcms-components
+//= require_tree ./polyfills
 //= require_tree ./components
 //= require_tree ./resources
 //= require_tree .

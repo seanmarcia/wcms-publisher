@@ -25,7 +25,7 @@
         .form-group
           - if @page_edition.parent_page
             = f.label :parent_page, "Parent page"
-            p = link_to @page_edition.parent_page, [:edit, @page_edition.parent_page]
+            p = link_to @page_edition.parent_page.slug, [:edit, @page_edition.parent_page]
 
     .form-group
       = f.label :page_template

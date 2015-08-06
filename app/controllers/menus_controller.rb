@@ -43,7 +43,6 @@ class MenusController < ApplicationController
   end
 
   def update
-    @menu.page_editions = [] # allows for unsetting of all previously set page_editions
     if @menu.update_attributes(menu_params)
       log_activity(@menu.previous_changes, parent: @menu)
 
@@ -81,7 +80,7 @@ class MenusController < ApplicationController
     @sites = Site.where(has_page_editions: true)
     @page_editions = {}
     @sites.each do |site|
-      @page_editions[site.id] = site.page_editions.map{ |pe| { title: pe.title, id: pe.id.to_s } }
+      @page_editions[site.id] = site.page_editions.asc(:title).map{ |pe| { title: pe.title, id: pe.id.to_s } }
     end
   end
 end

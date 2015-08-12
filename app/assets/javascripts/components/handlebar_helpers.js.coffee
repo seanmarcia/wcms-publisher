@@ -3,7 +3,8 @@ $(document).ready ->
     string = if this.active
       "<li class='active'>#{this.title}</li>"
     else
-      "<li><a href='##{this.id}'>#{this.title}</a></li>"
+      id = this.id || ''
+      "<li><a href='##{id}'>#{this.title}</a></li>"
     new Handlebars.SafeString(string)
 
   Handlebars.registerHelper 'status_tag', (node) ->

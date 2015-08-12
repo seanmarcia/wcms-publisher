@@ -1,7 +1,8 @@
 = render "sites/show_partials/subpages_hbs"
 
 javascript:
-  var page_editions = #{@page_editions.to_json.html_safe}
+  var site_id = "#{@site.id.to_s}";
+  var page_editions = #{@page_editions.to_json.html_safe};
 
 .container.page
   #node_browser Loading...

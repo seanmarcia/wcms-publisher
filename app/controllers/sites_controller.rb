@@ -15,7 +15,7 @@ class SitesController < ApplicationController
     @page_editions = [
       {
         title: @site.title,
-        id: 'site',
+        id: nil,
         root: true,
         url: edit_site_url(@site),
         preview_url: @site.url,
@@ -30,7 +30,7 @@ class SitesController < ApplicationController
         url: page_edition_url(page),
         preview_url: page.url,
         slug: page.slug,
-        parent_id: (page.parent_page_id || 'site').try(:to_s),
+        parent_id: (page.parent_page_id).try(:to_s),
         status: page.aasm_state,
         has_children: page.child_page_ids.length > 0
       }

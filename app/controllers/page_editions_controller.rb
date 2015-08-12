@@ -33,6 +33,11 @@ class PageEditionsController < ApplicationController
 
   def new
     @page_edition = PageEdition.new
+    @page_edition.site_id = params[:site_id]
+    @page_edition.parent_page_id = params[:parent_page_id]
+    if @page_edition.parent_page
+      @page_edition.slug ||= @page_edition.parent_page.slug + '/'
+    end
   end
 
   def create
@@ -80,7 +85,9 @@ class PageEditionsController < ApplicationController
 
   def page_edition_params
     # params.require(:page_edition).permit(*policy(@page_edition || PageEdition).permitted_attributes)
-    params[:page_edition][:meta_keywords] = params[:page_edition][:meta_keywords].split(',') unless params[:page_edition][:meta_keywords].nil?
+    if params[:page_edition] && params[:page_edition][:meta_keywords]
+      params[:page_edition][:meta_keywords] = params[:page_edition][:meta_keywords].split(',')
+    end
 
     # I'm not using `require` here because it could be blank when updating presentation data
     ActionController::Parameters.new(params[:page_edition]).permit(*policy(@page_edition || PageEdition).permitted_attributes).tap do |whitelisted|

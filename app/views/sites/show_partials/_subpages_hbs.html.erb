@@ -34,6 +34,10 @@
       {{#unless node.has_children}}
       <li><div class="nodename-col">No child pages</div><div class="clearfix"></div></li>
       {{/unless}}
+      <li><div class="nodename-col">
+        <i class="fa fa-plus-square-o"></i>
+        <a href="<%= new_page_edition_url %>?site_id={{site_id}}&parent_page_id={{node.id}}" target="_blank">New page</a>
+      </div><div class="clearfix"></div></li>
     </ol>
   </div>
 </script>

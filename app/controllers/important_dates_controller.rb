@@ -4,6 +4,8 @@ class ImportantDatesController < ApplicationController
   before_filter :set_important_date, only: [:show, :edit, :update]
   before_filter :new_important_date_from_params, only: [:new, :create]
   before_filter :pundit_authorize
+  before_filter :new_audience_collection, only: [:edit, :update, :new, :create]
+
 
   def index
     @important_dates = policy_scope(ImportantDate)
@@ -46,15 +48,19 @@ class ImportantDatesController < ApplicationController
 
   def update
     if @important_date.update_attributes(important_date_params)
-      log_activity(@important_date.previous_changes, parent: @important_date)
+      log_activity(@important_date.previous_changes, parent: @important_date, child: @important_date.audience_collection.previous_changes)
       flash[:notice] = "'#{@important_date.title}' updated."
-      redirect_to [:edit, @important_date]
+      redirect_to edit_important_date_path @important_date, page: params[:page]
     else
       render :edit
     end
   end
 
   private
+
+  def new_audience_collection
+    @important_date.audience_collection = AudienceCollection.new if @important_date.audience_collection.nil?
+  end
 
   def new_important_date_from_params
     if params[:important_date]
@@ -65,8 +71,7 @@ class ImportantDatesController < ApplicationController
   end
 
   def important_date_params
-    params[:important_date][:categories] = params[:important_date][:categories].split(',')
-    params[:important_date][:audiences] = params[:important_date][:audiences].split(',')
+    params[:important_date][:categories] = params[:important_date][:categories].split(',') if params[:important_date][:categories].present?
     params.require(:important_date).permit(*policy(@important_date || ImportantDate).permitted_attributes)
   end
 

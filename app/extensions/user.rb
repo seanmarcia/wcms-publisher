@@ -1,5 +1,11 @@
 User.class_eval do
-  [:admin, :developer, :faculty, :student, :employee, :alumnus, :student_worker, :trustee, :volunteer].each do |affl|
+  [:admin, :developer]
+    define_method "#{affl}?" do
+      has_role? :developer
+    end
+  end
+
+  [:faculty, :student, :employee, :alumnus, :student_worker, :trustee, :volunteer].each do |affl|
     define_method "#{affl}?" do
       has_role? affl
     end

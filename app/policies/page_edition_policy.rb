@@ -36,7 +36,7 @@ class PageEditionPolicy < PermissionsPolicy
       audience_collection: [ affiliations: [], schools: [], student_levels: [], class_standings: [],
       majors: [], housing_statuses: [], employee_types: [], departments: [] ]
     ]
-    attrs += [:topics_string, :keywords_string]
+    attrs += [ :topics_string, :keywords_string ]
     attrs += [ :presentation_data_json, :presentation_data_template_id ]
     attrs += [ :publish_at, :archive_at, :featured ] if page_publisher?
     attrs = attrs | SEO_FIELDS if user.admin? || user.developer? # Inherited from ApplicationPolicy

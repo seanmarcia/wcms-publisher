@@ -1,6 +1,93 @@
 = render 'shared/javascript_multiselect_include', obj: @page_edition, site_categories: @site_categories, site_titles: @site_titles
 = form_for @page_edition do |f|
   .form-section
+    .row
+      .col-md-6
+        .form-group
+          = label_tag 'Page Type'
+          = wcms_component "forms/multiselect",
+            attribute: :source_type,
+            collection: PageEdition::AVAILABLE_SOURCE_TYPES,
+            value_method: :to_s,
+            text_method: :titleize,
+            multiple: false,
+            prompt: "None",
+            selected: @page_edition.source_type.try(:underscore)
+
+      .col-md-6.source_select#academic_subject hidden=true
+        .form-group
+          = label_tag 'Academic subjects'
+          = wcms_component "forms/multiselect",
+            attribute: :academic_subject,
+            collection: AcademicSubject.asc(:title),
+            value_method: :id,
+            text_method: :to_s,
+            multiple: false,
+            prompt: "Select one",
+            selected: @page_edition.source_id
+
+      .col-md-6.source_select#academic_program hidden=true
+        .form-group
+          = label_tag 'Academic programs'
+          = wcms_component "forms/multiselect",
+            attribute: :academic_program,
+            collection: AcademicProgram.asc(:full_name),
+            value_method: :id,
+            text_method: :to_s,
+            multiple: false,
+            prompt: "Select one",
+            selected: @page_edition.source_id
+
+      .col-md-6.source_select#concentration hidden=true
+        .form-group
+          = label_tag 'Concentrations'
+          = wcms_component "forms/multiselect",
+            attribute: :concentration,
+            collection: Concentration.asc(:title),
+            value_method: :id,
+            text_method: :to_s,
+            multiple: false,
+            prompt: "Select one",
+            selected: @page_edition.source_id
+
+      .col-md-6.source_select#department hidden=true
+        .form-group
+          = label_tag 'Departments'
+          = wcms_component "forms/multiselect",
+            attribute: :department,
+            collection: Department.asc(:title),
+            value_method: :id,
+            text_method: :to_s,
+            multiple: false,
+            prompt: "Select one",
+            selected: @page_edition.source_id
+
+      .col-md-6.source_select#event hidden=true
+        .form-group
+          = label_tag 'Events'
+          = wcms_component "forms/multiselect",
+            attribute: :event,
+            collection: Event.asc(:title),
+            value_method: :id,
+            text_method: :to_s,
+            multiple: false,
+            prompt: "Select one",
+            selected: @page_edition.source_id
+
+      .col-md-6.source_select#group hidden=true
+        .form-group
+          = label_tag 'Groups'
+          = wcms_component "forms/multiselect",
+            attribute: :group,
+            collection: Group.asc(:title),
+            value_method: :id,
+            text_method: :to_s,
+            multiple: false,
+            prompt: "Select one",
+            selected: @page_edition.source_id
+
+    hr
+
     .form-group
       = f.label :title
       = f.text_field :title, class: 'form-control'

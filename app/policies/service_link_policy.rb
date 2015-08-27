@@ -40,7 +40,7 @@ class ServiceLinkPolicy < PermissionsPolicy
     case attribute.try(:to_sym)
     when nil, :form
       true
-    when :activity_logs, :audience_collections
+    when :activity_logs
       page_admin?
     else
       false

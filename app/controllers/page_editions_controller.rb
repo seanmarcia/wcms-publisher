@@ -5,6 +5,7 @@ class PageEditionsController < ApplicationController
   before_filter :set_page_edition, only: [:show, :edit, :update]
   before_filter :new_page_edition_from_params, only: [:new, :create]
   before_filter :set_categories_for_page_edition
+  before_filter :set_source, only: [:create, :update]
   before_filter :pundit_authorize
   before_filter :new_audience_collection, only: [:edit, :update, :new, :create]
 
@@ -36,8 +37,9 @@ class PageEditionsController < ApplicationController
   end
 
   def create
-    @page_edition = PageEdition.new(page_edition_params)
-    if @page_edition.save
+    if @error
+      flash[:notice] = @error
+    elsif @page_edition.save
       log_activity(@page_edition.previous_changes, parent: @page_edition)
       update_state
       flash[:notice] = "'#{@page_edition.title}' created."
@@ -52,9 +54,11 @@ class PageEditionsController < ApplicationController
   end
 
   def update
-    @page_edition = PageEdition.find(params[:id])
     @page_edition.site_categories = []
-    if @page_edition.update_attributes(page_edition_params)
+    if @error
+      flash[:warning] = @error
+      render :edit
+    elsif @page_edition.update_attributes(page_edition_params)
       log_activity(@page_edition.previous_changes, parent: @page_edition, child: @page_edition.audience_collection.previous_changes)
       update_state
       flash[:notice] = "'#{@page_edition.title}' updated."
@@ -65,6 +69,29 @@ class PageEditionsController < ApplicationController
   end
 
   private
+
+  def set_source
+    case params[:source_type]
+    when 'academic_subject'
+      source = AcademicSubject.where(id: params[:academic_subject]).first
+    when 'academic_program'
+      source = AcademicProgram.where(id: params[:academic_program]).first
+    when 'concentration'
+      source = Concentration.where(id: params[:concentration]).first
+    when 'department'
+      source = Department.where(id: params[:department]).first
+    when 'event'
+      source = Event.where(id: params[:event]).first
+    when 'group'
+      source = Group.where(id: params[:group]).first
+    else
+      source = nil
+    end
+    if params[:source_type].present? && source.nil?
+      @error = "A #{params[:source_type].titleize} needs to be selected."
+    end
+    @page_edition.source = source
+  end
 
   def new_audience_collection
     @page_edition.audience_collection = AudienceCollection.new if @page_edition.audience_collection.nil?

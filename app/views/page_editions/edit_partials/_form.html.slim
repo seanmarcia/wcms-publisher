@@ -4,7 +4,7 @@
     .row
       .col-md-6
         .form-group
-          = label_tag 'Type'
+          = label_tag 'Page Type'
           = wcms_component "forms/multiselect",
             attribute: :source_type,
             collection: PageEdition::AVAILABLE_SOURCE_TYPES,

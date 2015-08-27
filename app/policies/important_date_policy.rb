@@ -30,7 +30,7 @@ class ImportantDatePolicy < ApplicationPolicy
     case attribute.try(:to_sym)
     when nil, :form
       true
-    when :activity_logs, :permissions, :audience_collections
+    when :activity_logs, :permissions
       user.admin? || user.developer?
     else
       false

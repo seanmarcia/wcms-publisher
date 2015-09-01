@@ -4,11 +4,17 @@
   .panel-body
     = form_for @page_edition do |f|
       = hidden_field_tag :page, params[:page]
+      = hidden_field_tag :choose_template, params[:choose_template]
+
       .row.form-section
         .col-xs-12
           .form-group
-            = wcms_component "forms/data_template_picker", form: f
-            - if @page_edition.presentation_data_template
+            - if params[:choose_template]
+              .text-right = link_to 'Edit Data', params.merge(choose_template: nil)
+              = wcms_component "forms/data_template_picker", form: f
+
+            - else
+              .text-right = link_to 'Choose Template', params.merge(choose_template: true)
               hr
               = wcms_component "forms/presentation_data_editor", form: f
 

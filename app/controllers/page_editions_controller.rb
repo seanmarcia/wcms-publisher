@@ -61,7 +61,7 @@ class PageEditionsController < ApplicationController
       log_activity(@page_edition.previous_changes, parent: @page_edition, child: @page_edition.audience_collection.previous_changes)
       update_state
       flash[:notice] = "'#{@page_edition.title}' updated."
-      redirect_to edit_page_edition_path @page_edition, page: params[:page]
+      redirect_to edit_page_edition_path @page_edition, page: params[:page], choose_template: params[:choose_template]
     else
       render :edit
     end
@@ -105,14 +105,8 @@ class PageEditionsController < ApplicationController
   end
 
   def page_edition_params
-    # params.require(:page_edition).permit(*policy(@page_edition || PageEdition).permitted_attributes)
     params[:page_edition][:meta_keywords] = params[:page_edition][:meta_keywords].split(',') unless params[:page_edition][:meta_keywords].nil?
-
-    # I'm not using `require` here because it could be blank when updating presentation data
-    ActionController::Parameters.new(params[:page_edition]).permit(*policy(@page_edition || PageEdition).permitted_attributes).tap do |whitelisted|
-      # You have to whitelist the hash this way, see https://github.com/rails/rails/issues/9454
-      whitelisted[:presentation_data] = params[:pdata] if params[:pdata].present?
-    end
+    params.require(:page_edition).permit(*policy(@page_edition || PageEdition).permitted_attributes)
   end
 
   def set_page_edition

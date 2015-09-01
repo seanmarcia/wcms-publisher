@@ -9,7 +9,7 @@
       .row.form-section
         .col-xs-12
           .form-group
-            - if params[:choose_template]
+            - if params[:choose_template].present?
               .text-right = link_to 'Edit Data', params.merge(choose_template: nil)
               = wcms_component "forms/data_template_picker", form: f
 

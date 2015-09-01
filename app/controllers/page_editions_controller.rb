@@ -54,7 +54,7 @@ class PageEditionsController < ApplicationController
   end
 
   def update
-    @page_edition.site_categories = []
+    # @page_edition.site_categories = []
     if @error
       flash[:warning] = @error
       render :edit

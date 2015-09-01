@@ -102,6 +102,7 @@
       br
       - if policy(@page_edition).can_change?(:site_category_ids)
         .multi_category_select
+          input name="page_edition[site_category_ids][]" type="hidden" value=""
           = select_tag 'page_edition[site_category_ids]', options_for_select([], @page_edition.site_category_ids), multiple: true, class: "multiselect"
       - else
         .well.well-faux-input

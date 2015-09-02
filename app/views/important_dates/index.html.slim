@@ -21,12 +21,11 @@
           - @available_audiences.each do |aud|
             = nav_list_link aud, :audience, aud
       = nav_pill_link 'Deadline?', :deadline
-      / # TODO: Add Mongoid::Timestamps to model in the gem file first!
-      / = nav_pill_dropdown 'Last Changed', :last_change do
-      /   = nav_list_link 'Today', :last_change, Date.today
-      /   = nav_list_link 'Yesterday', :last_change, 1.day.ago.to_date
-      /   = nav_list_link "Last #{1.week.ago.strftime('%A')}", :last_change, 1.week.ago.to_date
-      /   = nav_list_link 1.month.ago.strftime('%B %e'), :last_change, 1.month.ago.to_date
+      = nav_pill_dropdown 'Last Changed', :last_change do
+        = nav_list_link 'Today', :last_change, Date.today
+        = nav_list_link 'Yesterday', :last_change, 1.day.ago.to_date
+        = nav_list_link "Last #{1.week.ago.strftime('%A')}", :last_change, 1.week.ago.to_date
+        = nav_list_link 1.month.ago.strftime('%B %e'), :last_change, 1.month.ago.to_date
 
     .clearfix
 
@@ -37,3 +36,4 @@
     = render 'important_dates'
 
   .text-center = paginate @important_dates
+

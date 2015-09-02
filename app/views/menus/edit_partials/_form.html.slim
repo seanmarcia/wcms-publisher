@@ -19,6 +19,7 @@
       br
       - if policy(@menu).can_change?(:page_edition_ids)
         .multi_page_select
+          = hidden_field_tag "menu[page_edition_ids][]", nil
           = select_tag 'menu[page_edition_ids]', options_for_select([], @menu.page_edition_ids), multiple: true, class: "multiselect"
       - else
         .well.well-faux-input

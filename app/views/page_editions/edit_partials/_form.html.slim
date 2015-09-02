@@ -181,7 +181,7 @@
             .form-group
               = r.label :query_string_handling
               = r.select :query_string_handling, Redirect::STRING_HANDLING_OPTIONS, { include_blank: true }, class: 'form-control'
-  - elsif @page_edition.redirect.present? && @page_edition.redirect.destination.present?
+  - elsif @page_edition.redirected?
     .form-section
       br
       h3 Redirect

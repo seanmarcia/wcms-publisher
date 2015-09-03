@@ -20,3 +20,8 @@
 
     - else
       .list-group-item.list-group-item-warning = fa_icon 'archive', text: "#{@page_edition.title} is archived"
+
+    - if @page_edition.redirected?
+      .list-group-item.list-group-item-danger
+        = link_to fa_icon('external-link', text: "This page is being redirected"), set_destination(@page_edition.redirect.destination)
+

@@ -10,6 +10,9 @@ class ActorsController < ApplicationController
     # Find the user record for that person, since it is the user we need to authenticate
     actor = User.where(person_id: person_record_for_actor.id).first
 
+    # Site permissions should let you set the role, page edition permissions is just edit
+    ability = params[:role] || :edit
+
     # Not all people belong to a user. They need to log in before their user record gets created.
     if actor.nil?
       if person_record_for_actor.nil?
@@ -18,9 +21,9 @@ class ActorsController < ApplicationController
         flash[:info] = "#{person_record_for_actor.name} needs to log into this site before he/she can be given access to this profile."
       end
     # @parent refers to the person we are adding the actor to
-    elsif @parent.actors.include? actor
-      flash[:info] = "#{actor.name} is already an editor for this #{params[:controller].singularize}."
-    elsif @parent.authorize!(actor, :edit)
+    elsif @parent.has_permission_to?(ability, actor)
+      flash[:info] = "#{actor.name} already has the \"#{ability.to_s.titleize}\" role."
+    elsif @parent.authorize!(actor, ability)
       log_activity({"added"=>[nil, actor.id]}, parent: @parent, user: current_user, activity: 'create', child: 'actor')
       flash[:info] = "#{actor.name}'s permissions have been successfully saved."
     else
@@ -31,8 +34,9 @@ class ActorsController < ApplicationController
 
   def destroy
     actor = User.find(params[:id])
-    if @parent.unauthorize! actor, :edit
-      log_activity({"removed"=>[actor.id, nil]}, parent: @parent, user: current_user, activity: 'destroy', child: 'actor')
+    actor_roles = @parent.permissions.by_actor(actor).map{|perm| perm.ability}.to_sentence.humanize
+    if @parent.unauthorize_all! actor
+      log_activity({"removed"=>[actor.id, nil]}, parent: @parent, user: current_user, activity: 'destroy', child: 'actor', message: "Removed #{actor.to_s} as an #{actor_roles}.")
       flash[:info] = "#{actor.name}'s permissions have been successfully removed."
     else
       flash[:error] = "Something went wrong. Please try again."

@@ -6,6 +6,7 @@ table.table.table-striped
       th Site
       th Slug
       th Status
+      th
   tbody
     - @page_editions.each do |page|
       tr
@@ -14,3 +15,6 @@ table.table.table-striped
         td = page.site
         td = page.slug
         td = status_for page
+        td
+          - if page.redirected?
+            = content_tag :span, 'Redirected', class: "label label-danger", title: "This page has been redirected to #{page.redirect.destination}"

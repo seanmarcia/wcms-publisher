@@ -10,7 +10,7 @@ class PageEditionPolicy < PermissionsPolicy
       if page_admin?
         scope.all
       elsif page_publisher?
-        scope.in(site_id: Site.with_any_permission_to([:page_editor], user).pluck(:id))
+        scope.in(site_id: Site.with_any_permission_to([:page_editor, :page_publisher], user).pluck(:id))
       elsif page_editor?
         scope.in(site_id: Site.with_any_permission_to([:page_editor], user).pluck(:id))
       else

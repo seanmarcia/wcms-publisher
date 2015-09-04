@@ -1,0 +1,43 @@
+<script id="node-list" type="text/x-handlebars-template">
+  <li >
+    <div class="nodename-col"><i class="fa fa-file-text-o"></i> <a href="{{url}}" target="_blank">{{title}}</a></div>
+    <div class="status-col">{{status_tag this}}</div>
+    {{#ifequals selected_id id}}
+    <div class="child-col"><a href="#{{parent_id}}"><span class="text">Back</span> <i class="fa fa-chevron-left"></i></a></div>
+    {{else}}
+      {{#if has_children}}
+      <div class="child-col"><a href="#{{id}}"><span class="text">Subpages</span> <i class="fa fa-chevron-right"></i></a></div>
+      {{/if}}
+    {{/ifequals}}
+    <div class="clearfix"></div>
+  </li>
+</script>
+
+<script id="subpage-template" type="text/x-handlebars-template">
+  <ol class="breadcrumb">
+    {{#each breadcrumbs}}{{breadcrumb}}{{/each}}
+  </ol>
+
+  <div class="col-container">
+    <ol class="node-col">
+      {{#if node.root}}
+        <li>
+          <div class="nodename-col"><i class="fa fa-globe"></i> <a href="{{node.url}}">{{node.title}}</a></div>
+          <div class="clearfix"></div>
+        </li>
+      {{else}}
+        {{#each parent_node.pages}}{{> nodeList selected_id=../node.id}}{{/each}}
+      {{/if}}
+    </ol>
+    <ol class="node-col">
+      {{#each node.pages}}{{> nodeList}}{{/each}}
+      {{#unless node.has_children}}
+      <li><div class="nodename-col">No child pages</div><div class="clearfix"></div></li>
+      {{/unless}}
+      <li><div class="nodename-col">
+        <i class="fa fa-plus-square-o"></i>
+        <a href="<%= new_page_edition_url %>?site_id={{site_id}}&parent_page_id={{node.id}}" target="_blank">New page</a>
+      </div><div class="clearfix"></div></li>
+    </ol>
+  </div>
+</script>

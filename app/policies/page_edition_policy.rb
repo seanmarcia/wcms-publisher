@@ -9,37 +9,52 @@ class PageEditionPolicy < PermissionsPolicy
     def resolve
       if page_admin?
         scope.all
-      elsif page_publisher?
-        scope.in(site_id: Site.with_any_permission_to([:page_editor], user).pluck(:id))
-      elsif page_editor?
-        scope.in(site_id: Site.with_any_permission_to([:page_editor], user).pluck(:id))
       else
-        scope.none
+        scope.where({
+          "$or" => [
+            # Either user has permission to a page through sites
+            { "site_id" => { "$in"=> Array(permitted_site_ids) } },
+            # Or through the page itself
+            {
+              "permissions.actor_type"=>"User",
+              "permissions.actor_id"=>user.id.to_s,
+              "permissions.ability"=>:edit
+            }
+          ]
+        })
       end
+    end
+
+    def permitted_site_ids
+      Site.with_any_permission_to([:page_editor, :page_publisher], user).pluck(:id)
     end
   end
 
   def index?
-    user.admin?
+    page_editor?
   end
   alias :show? :index?
 
   def create?
-    page_editor?
+    site_page_editor?
   end
   alias :new? :create?
-  alias :update? :create?
-  alias :edit? :create?
+
+  def edit?
+    page_editor_for?(record)
+  end
+  alias :update? :edit?
 
   def permitted_attributes
-    attrs = [ :title, :slug, :site_id, :body, :page_template, site_category_ids: [], attachment_ids: [], department_ids: [],
+    attrs = [ :title, :slug, :site_id, :parent_page_id, :body, :page_template,
+      site_category_ids: [], attachment_ids: [], department_ids: [],
       audience_collection: [ affiliations: [], schools: [], student_levels: [], class_standings: [],
       majors: [], housing_statuses: [], employee_types: [], departments: [] ]
     ]
     attrs += [ :topics_string, :keywords_string ]
     attrs += [ :presentation_data_json, :presentation_data_template_id ]
     attrs += [ redirect: [ :destination, :type, :query_string_handling ] ] if user.admin?
-    attrs += [ :publish_at, :archive_at, :featured ] if page_publisher?
+    attrs += [ :publish_at, :archive_at, :featured ] if page_publisher_for?(record)
     attrs = attrs | SEO_FIELDS if user.admin? # Inherited from ApplicationPolicy
 
     attrs

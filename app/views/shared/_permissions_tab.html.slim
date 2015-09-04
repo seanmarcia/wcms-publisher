@@ -1,5 +1,4 @@
 - policy = ActorPolicy.new(current_user, obj)
-- show_roles ||= obj.respond_to?(:enabled_roles)
 
 .panel.panel-default
   .panel-heading
@@ -13,8 +12,7 @@
           th
           th Name
           th Email
-          - if show_roles
-            th Role
+          th Role
         - obj.actors.uniq.sort_by{|a| a.first_name }.each do |actor|
           tr
             td
@@ -32,8 +30,7 @@
 
             td = actor
             td = actor.email
-            - if show_roles
-              td = obj.permissions.by_actor(actor).map{|perm| perm.ability.to_s.titleize}.join(', ')
+            td = obj.permissions.by_actor(actor).map{|perm| perm.ability.to_s.titleize}.join(', ')
 
     - if policy.create?
       br
@@ -41,7 +38,7 @@
         #new_permission_form
           .form-inline
             .form-group> = wcms_component 'forms/person_lookup', person_id_key: :_person_id
-            - if show_roles
+            - if obj.respond_to?(:enabled_roles)
               .form-group>
                 = select_tag :role, grouped_options_for_select(obj.enabled_roles), class: "form-control multiselect"
 

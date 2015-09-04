@@ -194,7 +194,7 @@
       = f.fields_for :redirect, @page_edition.redirect do |r|
         .form-group
           = r.label :destination
-          = r.text_field :destination, class: 'form-control'
+          = r.text_field :destination, class: 'form-control', placeholder: 'e.g. http://biola.edu or /this/location'
 
         .row
           .col-md-6

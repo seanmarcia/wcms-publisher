@@ -7,7 +7,7 @@ class ServiceLinkPolicy < PermissionsPolicy
     end
 
     def resolve
-      if page_admin?
+      if user.admin?
         scope.all
       else
         scope.none
@@ -16,12 +16,12 @@ class ServiceLinkPolicy < PermissionsPolicy
   end
 
   def index?
-    user.admin? || user.developer?
+    user.admin?
   end
   alias :show? :index?
 
   def create?
-    page_editor?
+    user.admin?
   end
   alias :new? :create?
   alias :update? :create?
@@ -41,7 +41,7 @@ class ServiceLinkPolicy < PermissionsPolicy
     when nil, :form
       true
     when :activity_logs
-      page_admin?
+      user.admin?
     else
       false
     end

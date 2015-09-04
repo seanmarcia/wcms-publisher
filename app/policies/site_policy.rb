@@ -9,22 +9,20 @@ class SitePolicy < PermissionsPolicy
     def resolve
       if user.admin?
         scope.all
-      elsif site_admin?
-        scope.with_any_permission_to([:site_admin], user)
       else
-        scope.none
+        scope.with_any_permission_to([:site_admin], user)
       end
     end
   end
 
 
   def create?
-    user.admin?
+    site_admin?
   end
   alias :new? :create?
 
   def index?
-    true # anyone can index and show these
+    site_admin?
   end
   alias :search? :index?
   alias :show? :index?

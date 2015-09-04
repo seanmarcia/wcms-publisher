@@ -25,7 +25,14 @@ class PermissionsPolicy < ApplicationPolicy
 
   # Only a page publisher if you have permissions to a page through site or role
   def page_publisher_for?(page)
-    site_page_editor_for?(page.site)
+    # On create the class is passed into this method instead of an instance
+    # So if that is the case we can only check if the person is a site_page_publisher,
+    #  which isn't strictly correct, but it is probably better than restricting only to admins.
+    if page == PageEdition
+      site_page_publisher?
+    else
+      site_page_editor_for?(page.site)
+    end
   end
 
   # States that the user is a page_publisher for at least one site

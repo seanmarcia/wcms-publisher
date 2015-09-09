@@ -24,9 +24,10 @@ class PageEditionsController < ApplicationController
       @page_editions = @page_editions.by_status(params[:status]) if params[:status]
       @page_editions = @page_editions.by_site(params[:site]) if params[:site]
       @page_editions = @page_editions.by_last_change(params[:last_change]) if params[:last_change]
+      @page_editions = @page_editions.by_page_template(params[:page_template]) if params[:page_template]
     end
 
-    @page_editions = @page_editions.desc(:title).page(params[:page]).per(25)
+    @page_editions = @page_editions.asc(:slug).page(params[:page]).per(25)
   end
 
   def show

@@ -53,3 +53,6 @@ $(document).ready ->
     if preselectedPagesExist()
       determinePages(this.value)
 
+  if $('.bs-multiselect').length > 0
+    $('i.glyphicon.glyphicon-search').removeClass('glyphicon glyphicon-search').addClass('fa fa-search');
+    $('i.glyphicon.glyphicon-remove-circle').removeClass('glyphicon glyphicon-remove-circle').addClass('fa fa-times-circle');

@@ -29,7 +29,7 @@ class MenusController < ApplicationController
   end
 
   def create
-    if @menu.save
+    if @menu.save && @menu.update_attributes(page_edition_ids: menu_params[:page_edition_ids])
       log_activity(@menu.previous_changes, parent: @menu)
 
       flash[:notice] = "'#{@menu.title}' created."

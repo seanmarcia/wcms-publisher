@@ -4,7 +4,9 @@
     .row
       .col-md-6
         .form-group
+
           = label_tag 'Page Type'
+           input name="page_edition[source_type][]" type="hidden" value=""
           = wcms_component "forms/multiselect",
             attribute: :source_type,
             collection: PageEdition::AVAILABLE_SOURCE_TYPES,
@@ -97,16 +99,29 @@
       / The javascript below looks for changes on this and updates the site_url_preview
       = f.collection_select :site_id, Site.where(has_page_editions: true), :id, :url, {}, class: 'form-control site_multiselect'
 
-    .form-group
-      = f.label :site_categories
-      br
-      - if policy(@page_edition).can_change?(:site_category_ids)
-        .multi_category_select
-          input name="page_edition[site_category_ids][]" type="hidden" value=""
-          = select_tag 'page_edition[site_category_ids]', options_for_select([], @page_edition.site_category_ids), multiple: true, class: "multiselect"
-      - else
-        .well.well-faux-input
-          = @page_edition.site_categories.join(', ')
+    .row
+      .col-sm-6
+        .form-group
+          = f.label :site_categories
+          br
+          - if policy(@page_edition).can_change?(:site_category_ids)
+            .multi_category_select
+              input name="page_edition[site_category_ids][]" type="hidden" value=""
+              = select_tag 'page_edition[site_category_ids]', options_for_select([], @page_edition.site_category_ids), multiple: true, class: "multiselect"
+          - else
+            .well.well-faux-input
+              = @page_edition.site_categories.join(', ')
+
+      .col-sm-6
+        .form-group
+          = label_tag 'page_edition[department_ids]', 'Owning Departments'
+          = wcms_component "forms/multiselect",
+            form: f,
+            attribute: :department_ids,
+            collection: Department.published.asc(:title),
+            value_method: :id,
+            text_method: :title,
+            multiple: true
 
     .form-group
       = f.label :slug
@@ -141,28 +156,6 @@
         form: f,
         attribute: :keywords_string
 
-    .row
-      .col-sm-6
-        .form-group
-          = f.label :site_categories
-          br
-          - if policy(@page_edition).can_change?(:site_category_ids)
-            .multi_category_select
-              = select_tag 'page_edition[site_category_ids]', options_for_select([], @page_edition.site_category_ids), multiple: true, class: "multiselect"
-          - else
-            .well.well-faux-input
-              = @page_edition.site_categories.join(', ')
-
-      .col-sm-6
-        .form-group
-          = label_tag 'page_edition[department_ids]', 'Owning Departments'
-          = wcms_component "forms/multiselect",
-            form: f,
-            attribute: :department_ids,
-            collection: Department.published.asc(:title),
-            value_method: :id,
-            text_method: :title,
-            multiple: true
 
 
   .form-section

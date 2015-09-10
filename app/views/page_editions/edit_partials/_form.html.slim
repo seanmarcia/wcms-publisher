@@ -6,7 +6,7 @@
         .form-group
 
           = label_tag 'Page Type'
-           input name="page_edition[source_type][]" type="hidden" value=""
+          input name="page_edition[source_type][]" type="hidden" value=""
           = wcms_component "forms/multiselect",
             attribute: :source_type,
             collection: PageEdition::AVAILABLE_SOURCE_TYPES,

@@ -19,8 +19,17 @@
       br
       - if policy(@menu).can_change?(:page_edition_ids)
         .multi_page_select
-          = hidden_field_tag "menu[page_edition_ids][]", nil
-          = select_tag 'menu[page_edition_ids]', options_for_select([], @menu.page_edition_ids), multiple: true, class: "multiselect"
+          input name="menu[page_edition_ids][]" type="hidden" value=""
+          = wcms_component "forms/multiselect",
+            attribute: 'menu[page_edition_ids][]',
+            collection: @menu.page_edition_ids,
+            value_method: :to_s,
+            text_method: :to_s,
+            multiple: true,
+            prompt: "None",
+            selected: @menu.page_edition_ids
+
+
       - else
         .well.well-faux-input
           = @menu.page_edition_ids.join(', ')

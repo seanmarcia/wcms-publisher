@@ -6,9 +6,15 @@
       = f.text_field :title, class: 'form-control', autocomplete: :off
 
     .form-group
+      = f.label :url
+      = f.text_field :url, class: 'form-control', autocomplete: :off
+      p.text-muted This will be where the header title links too.
+
+    .form-group
       = f.label :slug
       .pull-right.text-muted = '(manually set)'
       = f.text_field :slug, class: 'form-control', placeholder: 'example-slug', autocomplete: :off
+      p.text-muted This field is currently not being used. You may leave blank.
 
     .form-group
       = f.label :site_id, "Site"

@@ -2,7 +2,7 @@ doctype html
 html lang="en-us"
   head
     / handles default html head tags and csrf_meta_tags
-    = render 'frontend_toolkit/head', title: 'WCMS'
+    = render 'frontend_toolkit/head', title: page_title
     = stylesheet_link_tag "application", media: "all"
     = javascript_include_tag "application"
 

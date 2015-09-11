@@ -57,6 +57,7 @@ class FeatureLocationsController < ApplicationController
 
   def set_feature_location
     @feature_location = FeatureLocation.find(params[:id])
+    @page_name = @feature_location.try(:name)
   end
 
   def pundit_authorize

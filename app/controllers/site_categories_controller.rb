@@ -50,6 +50,7 @@ class SiteCategoriesController < ApplicationController
 
   def set_site_category
     @site_category = @site.site_categories.where(id: params[:id]).first
+    @page_name = @site_category.try(:name)
   end
 
   def new_site_category_from_params

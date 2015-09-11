@@ -49,6 +49,7 @@ class AttachmentsController < ApplicationController
 
   def set_attachment
     @attachment = Attachment.find(params[:id])
+    @page_name = @attachment.try(:name)
   end
 
   def new_attachment_from_params

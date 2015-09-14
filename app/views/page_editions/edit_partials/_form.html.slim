@@ -171,13 +171,6 @@
         buttons: ['formatting', 'bold', 'italic', 'underline', 'deleted', 'unorderedlist', 'orderedlist', 'outdent', 'indent', 'image', 'video', 'table', 'link', 'alignment', 'horizontalrule'],
         formatting: ['p', 'blockquote', 'h1', 'h2', 'h3', 'h4', 'h5']
 
-    .form-group
-      - if f.object.presentation_data_template.present?
-        = wcms_component "forms/presentation_data_editor",
-          form: f,
-          schema: f.object.presentation_data_template.schema,
-          presentation_data: f.object.presentation_data
-
   - if policy(@page_edition).can_change?(:redirect)
     .form-section
       br

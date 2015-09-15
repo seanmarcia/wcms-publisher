@@ -170,7 +170,8 @@
         form: f,
         attribute: :body,
         buttons: ['formatting', 'bold', 'italic', 'underline', 'deleted', 'unorderedlist', 'orderedlist', 'outdent', 'indent', 'image', 'video', 'table', 'link', 'alignment', 'horizontalrule'],
-        formatting: ['p', 'blockquote', 'h1', 'h2', 'h3', 'h4', 'h5']
+        formatting: ['p', 'blockquote', 'h1', 'h2', 'h3', 'h4', 'h5'],
+        allow_divs: true
 
   - if policy(@page_edition).can_change?(:redirect)
     .form-section

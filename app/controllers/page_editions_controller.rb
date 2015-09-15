@@ -78,26 +78,28 @@ class PageEditionsController < ApplicationController
   private
 
   def set_source
-    case params[:source_type]
-    when 'academic_subject'
-      source = AcademicSubject.where(id: params[:academic_subject]).first
-    when 'academic_program'
-      source = AcademicProgram.where(id: params[:academic_program]).first
-    when 'concentration'
-      source = Concentration.where(id: params[:concentration]).first
-    when 'department'
-      source = Department.where(id: params[:department]).first
-    when 'event'
-      source = Event.where(id: params[:event]).first
-    when 'group'
-      source = Group.where(id: params[:group]).first
-    else
-      source = nil
+    if params[:source_change].present?
+      case params[:source_type]
+      when 'academic_subject'
+        source = AcademicSubject.where(id: params[:academic_subject]).first
+      when 'academic_program'
+        source = AcademicProgram.where(id: params[:academic_program]).first
+      when 'concentration'
+        source = Concentration.where(id: params[:concentration]).first
+      when 'department'
+        source = Department.where(id: params[:department]).first
+      when 'event'
+        source = Event.where(id: params[:event]).first
+      when 'group'
+        source = Group.where(id: params[:group]).first
+      else
+        source = nil
+      end
+      if params[:source_type].present? && source.nil?
+        @error = "A #{params[:source_type].titleize} needs to be selected."
+      end
+      @page_edition.source = source
     end
-    if params[:source_type].present? && source.nil?
-      @error = "A #{params[:source_type].titleize} needs to be selected."
-    end
-    @page_edition.source = source
   end
 
   def new_audience_collection

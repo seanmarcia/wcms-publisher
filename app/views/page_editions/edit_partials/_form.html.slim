@@ -3,8 +3,9 @@
   .form-section
     .row
       .col-md-6
+        / lets the controller know when to redo the source
+        = hidden_field_tag :source_change, 'source_change'
         .form-group
-
           = label_tag 'Page Type'
           input name="page_edition[source_type][]" type="hidden" value=""
           = wcms_component "forms/multiselect",

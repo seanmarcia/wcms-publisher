@@ -15,7 +15,7 @@ class CalendarsController < ApplicationController
       @calendars = @calendars.by_tag(params[:tag]) if params[:tag]
     end
 
-    @calendars = @calendars.desc(:start_date).page(params[:page]).per(25)
+    @calendars = @calendars.asc(:start_date).page(params[:page]).per(25)
   end
 
   def show

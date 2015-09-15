@@ -14,7 +14,7 @@ class ServiceLinksController < ApplicationController
       @service_links = @service_links.custom_search(params[:q]) if params[:q]
     end
 
-    @service_links = @service_links.desc(:title).page(params[:page]).per(25)
+    @service_links = @service_links.asc(:title).page(params[:page]).per(25)
   end
 
   def show

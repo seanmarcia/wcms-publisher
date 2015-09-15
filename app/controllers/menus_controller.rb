@@ -18,7 +18,7 @@ class MenusController < ApplicationController
       @menus = @menus.by_site(params[:site]) if params[:site]
     end
 
-    @menus = @menus.desc(:title).page(params[:page]).per(25)
+    @menus = @menus.asc(:title).page(params[:page]).per(25)
   end
 
   def show

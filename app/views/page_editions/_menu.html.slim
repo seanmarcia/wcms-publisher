@@ -27,5 +27,5 @@
 
   .list-group
     - if policy(@page_edition).destroy?
-      .list-group-item.list-group-item-danger = link_to fa_icon('trash', text: "Destroy this page"), [@page_edition], method: :delete, data: { confirm: "Are you sure that you want to delete #{@page_edition}? Children: #{@page_edition.child_pages.map(&:slug).join(', ') }" }
+      .list-group-item.list-group-item-danger = link_to fa_icon('trash', text: "Delete this page"), [@page_edition], method: :delete, data: { confirm: "Are you sure that you want to delete #{@page_edition}? Children: #{@page_edition.child_pages.map(&:slug).join(', ') }" }
 

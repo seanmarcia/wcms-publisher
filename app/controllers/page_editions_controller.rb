@@ -76,14 +76,11 @@ class PageEditionsController < ApplicationController
   end
 
   def destroy
-
-    if @page_edition.child_pages.present?
-      @page_edition.child_pages.each do |child|
-        child.update_attributes(parent_page_id: nil)
-      end
-    end
+    child_pages = @page_edition.child_pages
 
     if @page_edition.destroy
+      child_pages.each{|child| child.update_attributes(parent_page_id: nil)} if child_pages.present?
+
       flash[:info] = "Page has been successfully removed."
     else
       flash[:error] = "Something went wrong. Please try again."

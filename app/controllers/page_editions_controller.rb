@@ -2,7 +2,7 @@ class PageEditionsController < ApplicationController
   include ActivityLoggable
   include SetSiteCategories
 
-  before_filter :set_page_edition, only: [:show, :edit, :update]
+  before_filter :set_page_edition, only: [:show, :edit, :update, :destroy]
   before_filter :new_page_edition_from_params, only: [:new, :create]
   before_filter :set_categories_for_page_edition
   before_filter :set_source, only: [:create, :update]
@@ -73,6 +73,22 @@ class PageEditionsController < ApplicationController
     else
       render :edit
     end
+  end
+
+  def destroy
+
+    if @page_edition.child_pages.present?
+      @page_edition.child_pages.each do |child|
+        child.update_attributes(parent_page_id: nil)
+      end
+    end
+
+    if @page_edition.destroy
+      flash[:info] = "Page has been successfully removed."
+    else
+      flash[:error] = "Something went wrong. Please try again."
+    end
+    redirect_to page_editions_path
   end
 
   private

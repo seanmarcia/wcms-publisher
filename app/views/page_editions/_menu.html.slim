@@ -25,3 +25,7 @@
       .list-group-item.list-group-item-danger
         = link_to fa_icon('external-link', text: "This page is being redirected"), set_destination(@page_edition.redirect.destination)
 
+  .list-group
+    - if policy(@page_edition).destroy?
+      .list-group-item.list-group-item-danger = link_to fa_icon('trash', text: "Destroy Page"), [@page_edition], method: :delete, data: { confirm: "Are you sure that you want to delete #{@page_edition}? Children: #{@page_edition.child_pages.map(&:slug).join(', ') }" }
+

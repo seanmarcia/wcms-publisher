@@ -45,6 +45,10 @@ class PageEditionPolicy < PermissionsPolicy
   end
   alias :update? :edit?
 
+  def destroy?
+    user.admin?
+  end
+
   def permitted_attributes
     attrs = [ :title, :slug, :site_id, :parent_page_id, :body, :page_template,
       site_category_ids: [], attachment_ids: [], department_ids: [],

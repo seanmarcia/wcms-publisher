@@ -12,6 +12,10 @@
       = menu.add_item('History') { edit_page_edition_path(@page_edition, page: 'activity_logs') } if policy(@page_edition).can_manage?(:activity_logs)
 
   .list-group
+    - if @page_edition.source.present? && @page_edition.source_type != "Concentration"
+      .list-group-item.list-group-item
+        = link_to fa_icon('external-link', text: "View related #{@page_edition.source_type.underscore.titleize} source"), source_path(@page_edition.source)
+
     - if @page_edition.draft?
       .list-group-item.list-group-item-warning = fa_icon 'exclamation-triangle', text: "#{@page_edition.title} is a draft"
 
@@ -22,7 +26,7 @@
       .list-group-item.list-group-item-warning = fa_icon 'archive', text: "#{@page_edition.title} is archived"
 
     - if @page_edition.redirected?
-      .list-group-item.list-group-item-danger
+      .list-group-item.list-group-item-warning
         = link_to fa_icon('external-link', text: "This page is being redirected"), set_destination(@page_edition.redirect.destination)
 
   .list-group

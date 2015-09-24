@@ -15,8 +15,11 @@
     .list-group-item.top-item
       | Associated Sources
     - if @page_edition.source.present?
-      .list-group-item.list-group-item
+      .list-group-item
         = source_link_for @page_edition.source, text: "View related #{@page_edition.source_type.underscore.titleize} source"
+    - else
+      .list-group-item
+        | This page does not have a source
 
   .list-group
     - if @page_edition.draft?

@@ -40,3 +40,12 @@ author_roles: # This could be overwritten in chef
   - faculty
   - student
   - student worker
+
+external_routes:
+  academic_program: "https://wcms.biola.edu/academics/academic_programs"
+  academic_subject: "https://wcms.biola.edu/academics/academic_subjects"
+  department: "https://wcms.biola.edu/profiles/departments"
+  event: "https://wcms.biola.edu/profiles/events"
+  group: "https://wcms.biola.edu/profiles/groups"
+  # Concentrations don't have their own show pages but are rather listed in academic programs
+  # concentration: "https://wcms.biola.edu/academics/academic_programs"

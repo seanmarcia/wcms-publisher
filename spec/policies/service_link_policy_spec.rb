@@ -1,9 +1,9 @@
 require 'spec_helper'
-describe CalendarPolicy do
-  subject { described_class } # describe class uses the parent describe class: CalendarPolicy
+describe ServiceLinkPolicy do
+  subject { described_class } # describe class uses the parent describe class: ServiceLinkPolicy
   let(:user) { build :user, attrs }
 
-  permissions :index?, :show?, :create?, :new?, :update?, :edit?, :destroy? do
+  permissions :index?, :show?, :create?, :new?, :update?, :edit? do
     context "user is a developer" do
       let(:attrs) {{affiliations: ["developer"]}}
       it { expect(subject).to permit(user) }
@@ -26,8 +26,8 @@ describe CalendarPolicy do
   end
 
   describe "can_manage?" do
-    subject { CalendarPolicy.new(user, calendar) }
-    let(:calendar) { build :calendar }
+    subject { ServiceLinkPolicy.new(user, service_link) }
+    let(:service_link) { build :service_link }
     let(:user) { build :user, attrs }
 
     context "user is a developer" do
@@ -35,9 +35,6 @@ describe CalendarPolicy do
       it { expect(subject.can_manage?(nil)).to be_truthy }
       it { expect(subject.can_manage?(:form)).to be_truthy }
       it { expect(subject.can_manage?(:activity_logs)).to be_truthy }
-      it { expect(subject.can_manage?(:permissions)).to be_truthy }
-      it { expect(subject.can_manage?(:calendar_sections)).to be_truthy }
-      it { expect(subject.can_manage?(:seo)).to be_truthy }
     end
 
     context "user is an admin" do
@@ -45,9 +42,6 @@ describe CalendarPolicy do
       it { expect(subject.can_manage?(nil)).to be_truthy }
       it { expect(subject.can_manage?(:form)).to be_truthy }
       it { expect(subject.can_manage?(:activity_logs)).to be_truthy }
-      it { expect(subject.can_manage?(:permissions)).to be_truthy }
-      it { expect(subject.can_manage?(:calendar_sections)).to be_truthy }
-      it { expect(subject.can_manage?(:seo)).to be_truthy }
     end
 
     context "user is any other affiliation" do
@@ -55,9 +49,6 @@ describe CalendarPolicy do
       it { expect(subject.can_manage?(nil)).to be_truthy }
       it { expect(subject.can_manage?(:form)).to be_truthy }
       it { expect(subject.can_manage?(:activity_logs)).to be_falsey }
-      it { expect(subject.can_manage?(:permissions)).to be_falsey }
-      it { expect(subject.can_manage?(:calendar_sections)).to be_falsey }
-      it { expect(subject.can_manage?(:seo)).to be_falsey }
     end
   end
 end

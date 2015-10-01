@@ -6,12 +6,12 @@ class CampusLocationPolicy < ApplicationPolicy
   end
 
   def index?
-    user.admin? || user.developer?
+    user.admin?
   end
   alias :show? :index?
 
   def create?
-    user.admin? || user.developer?
+    user.admin?
   end
   alias :new? :create?
   alias :update? :create?
@@ -29,7 +29,7 @@ class CampusLocationPolicy < ApplicationPolicy
     when nil, :form
       true
     when :activity_logs, :permissions
-      user.admin? || user.developer?
+      user.admin?
     else
       false
     end

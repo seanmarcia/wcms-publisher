@@ -10,7 +10,7 @@ Mongoid.load!('spec/config/mongoid.yml')
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
-# Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
+Dir[Rails.root.join("spec/support/*.rb")].each { |f| require f }
 Dir[Rails.root.join("spec/helpers/*.rb")].each { |f| require f }
 
 RSpec.configure do |config|
@@ -39,12 +39,9 @@ RSpec.configure do |config|
   # Otherwise you will need to manually label spec types
   config.infer_spec_type_from_file_location!
 
-  config.before(:suite) do
-    FactoryGirl.lint
-  end
-
   config.before(:each) do
     Mongoid::Sessions.default.collections.select {|c| c.name !~ /system/ }.each(&:drop)
+    FactoryGirl.lint
 
     response = OpenStruct.new(code: 200)
     CarrierwaveRoz::Client.any_instance.stub(upload: response, delete: response)

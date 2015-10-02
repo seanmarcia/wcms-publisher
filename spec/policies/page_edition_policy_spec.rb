@@ -1,11 +1,13 @@
 require 'spec_helper'
+# todo: get rid of duplication where possible
 describe PageEditionPolicy do
   subject { PageEditionPolicy.new(user, page_edition) }
   let(:user) { create :user, affiliations: affiliations, entitlements: entitlements }
   let(:affiliations) {[]}
   let(:entitlements) {[]}
-  let(:page_edition) { create :page_edition, site: site, permissions: page_permissions }
+  let(:page_edition) { create :page_edition, site: site, permissions: page_permissions, aasm_state: page_state }
   let(:page_permissions) {[]}
+  let(:page_state) {}
   let(:site) { create :site, permissions: site_permissions }
   let(:site_permissions) {[]}
 
@@ -51,7 +53,18 @@ describe PageEditionPolicy do
       it { expect(subject).to sanction(:show)}
       it { expect(subject).to sanction(:edit)}
       it { expect(subject).to sanction(:update)}
-      it { expect(subject).not_to sanction(:destroy)}
+      context "page edition is a draft" do
+        let(:page_state) { "draft" }
+        it { expect(subject).to sanction(:destroy)}
+      end
+      context "page edition is published" do
+        let(:page_state) { "published" }
+        it { expect(subject).not_to sanction(:destroy)}
+      end
+      context "page edition is archived" do
+        let(:page_state) { "archived" }
+        it { expect(subject).not_to sanction(:destroy)}
+      end
     end
 
     context "user is a page editor" do
@@ -62,7 +75,18 @@ describe PageEditionPolicy do
       it { expect(subject).to sanction(:show)}
       it { expect(subject).to sanction(:edit)}
       it { expect(subject).to sanction(:update)}
-      it { expect(subject).not_to sanction(:destroy)}
+      context "page edition is a draft" do
+        let(:page_state) { "draft" }
+        it { expect(subject).to sanction(:destroy)}
+      end
+      context "page edition is published" do
+        let(:page_state) { "published" }
+        it { expect(subject).not_to sanction(:destroy)}
+      end
+      context "page edition is archived" do
+        let(:page_state) { "archived" }
+        it { expect(subject).not_to sanction(:destroy)}
+      end
     end
 
     context "user is a site page editor" do
@@ -73,8 +97,20 @@ describe PageEditionPolicy do
       it { expect(subject).to sanction(:show)}
       it { expect(subject).to sanction(:edit)}
       it { expect(subject).to sanction(:update)}
-      it { expect(subject).not_to sanction(:destroy)}
+      context "page edition is a draft" do
+        let(:page_state) { "draft" }
+        it { expect(subject).to sanction(:destroy)}
+      end
+      context "page edition is published" do
+        let(:page_state) { "published" }
+        it { expect(subject).not_to sanction(:destroy)}
+      end
+      context "page edition is archived" do
+        let(:page_state) { "archived" }
+        it { expect(subject).not_to sanction(:destroy)}
+      end
     end
+
 
     context "user is a particular page editor" do
       let(:page_permissions) { [Permission.new(actor_id: user.id, actor_type: 'User', ability: :edit)] }
@@ -84,10 +120,21 @@ describe PageEditionPolicy do
       it { expect(subject).to sanction(:show)}
       it { expect(subject).to sanction(:edit)}
       it { expect(subject).to sanction(:update)}
-      it { expect(subject).not_to sanction(:destroy)}
+      context "page edition is a draft" do
+        let(:page_state) { "draft" }
+        it { expect(subject).to sanction(:destroy)}
+      end
+      context "page edition is published" do
+        let(:page_state) { "published" }
+        it { expect(subject).not_to sanction(:destroy)}
+      end
+      context "page edition is archived" do
+        let(:page_state) { "archived" }
+        it { expect(subject).not_to sanction(:destroy)}
+      end
     end
 
-    context "user is a particular page editor" do
+    context "user is a page publisher" do
       let(:site_permissions) { [Permission.new(actor_id: user.id, actor_type: 'User', ability: :page_edition_publisher)] }
       it { expect(subject).to sanction(:create)}
       it { expect(subject).to sanction(:new)}
@@ -95,7 +142,18 @@ describe PageEditionPolicy do
       it { expect(subject).to sanction(:show)}
       it { expect(subject).to sanction(:edit)}
       it { expect(subject).to sanction(:update)}
-      it { expect(subject).not_to sanction(:destroy)}
+      context "page edition is a draft" do
+        let(:page_state) { "draft" }
+        it { expect(subject).to sanction(:destroy)}
+      end
+      context "page edition is published" do
+        let(:page_state) { "published" }
+        it { expect(subject).not_to sanction(:destroy)}
+      end
+      context "page edition is archived" do
+        let(:page_state) { "archived" }
+        it { expect(subject).not_to sanction(:destroy)}
+      end
     end
   end
 

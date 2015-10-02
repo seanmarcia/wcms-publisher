@@ -46,7 +46,7 @@ class PageEditionPolicy < PermissionsPolicy
   alias :update? :edit?
 
   def destroy?
-    user.admin?
+    user.admin? || (page_editor? && record.draft?)
   end
 
   def permitted_attributes

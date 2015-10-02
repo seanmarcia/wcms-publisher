@@ -1,6 +1,6 @@
 require 'spec_helper'
 describe PageEditionPolicy do
-  subject { PageEditionPolicy.new(user, page_edition) } # describe class uses the parent describe class: PageEditionPolicy
+  subject { PageEditionPolicy.new(user, page_edition) }
   let(:user) { create :user, affiliations: affiliations, entitlements: entitlements }
   let(:affiliations) {[]}
   let(:entitlements) {[]}

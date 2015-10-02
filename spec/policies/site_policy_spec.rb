@@ -1,6 +1,6 @@
 require 'spec_helper'
 describe SitePolicy do
-  subject { SitePolicy.new(user, site) } # describe class uses the parent describe class: SitePolicy
+  subject { SitePolicy.new(user, site) }
   let(:user) { build :user, attrs }
   let(:attrs) {{}}
   let(:site) { create :site, permissions: [permissions] }
@@ -29,53 +29,53 @@ describe SitePolicy do
     context "user is any other affiliation and has no roles" do
       let(:attrs) {{affiliations: ["student", "faculty", "staff", "alumni"]}}
       let(:permissions) { }
-      it { expect(subject).not_to sanction(:create)}
-      it { expect(subject).not_to sanction(:new)}
-      it { expect(subject).not_to sanction(:index)}
-      it { expect(subject).not_to sanction(:search)}
-      it { expect(subject).not_to sanction(:show)}
-      it { expect(subject).not_to sanction(:edit)}
-      it { expect(subject).not_to sanction(:update)}
-      it { expect(subject).not_to sanction(:destroy)}
+      it { expect(subject).not_to sanction(:create) }
+      it { expect(subject).not_to sanction(:new) }
+      it { expect(subject).not_to sanction(:index) }
+      it { expect(subject).not_to sanction(:search) }
+      it { expect(subject).not_to sanction(:show) }
+      it { expect(subject).not_to sanction(:edit) }
+      it { expect(subject).not_to sanction(:update) }
+      it { expect(subject).not_to sanction(:destroy) }
     end
 
     context "user is any other affiliation but is a site_admin" do
       let(:attrs) {{affiliations: ["student", "faculty", "staff", "alumni"]}}
       let(:permissions) { Permission.new(actor_id: user.id, actor_type: 'User', ability: :site_admin) }
-      it { expect(subject).to sanction(:create)}
-      it { expect(subject).to sanction(:new)}
-      it { expect(subject).to sanction(:index)}
-      it { expect(subject).to sanction(:search)}
-      it { expect(subject).to sanction(:show)}
-      it { expect(subject).to sanction(:edit)}
-      it { expect(subject).to sanction(:update)}
-      it { expect(subject).not_to sanction(:destroy)}
+      it { expect(subject).to sanction(:create) }
+      it { expect(subject).to sanction(:new) }
+      it { expect(subject).to sanction(:index) }
+      it { expect(subject).to sanction(:search) }
+      it { expect(subject).to sanction(:show) }
+      it { expect(subject).to sanction(:edit) }
+      it { expect(subject).to sanction(:update) }
+      it { expect(subject).not_to sanction(:destroy) }
     end
 
     context "user is an admin and a site_admin" do
       let(:attrs) {{affiliations: ["admin"]}}
       let(:permissions) { Permission.new(actor_id: user.id, actor_type: 'User', ability: :site_admin) }
-      it { expect(subject).to sanction(:create)}
-      it { expect(subject).to sanction(:new)}
-      it { expect(subject).to sanction(:index)}
-      it { expect(subject).to sanction(:search)}
-      it { expect(subject).to sanction(:show)}
-      it { expect(subject).to sanction(:edit)}
-      it { expect(subject).to sanction(:update)}
-      it { expect(subject).not_to sanction(:destroy)}
+      it { expect(subject).to sanction(:create) }
+      it { expect(subject).to sanction(:new) }
+      it { expect(subject).to sanction(:index) }
+      it { expect(subject).to sanction(:search) }
+      it { expect(subject).to sanction(:show) }
+      it { expect(subject).to sanction(:edit) }
+      it { expect(subject).to sanction(:update) }
+      it { expect(subject).not_to sanction(:destroy) }
     end
 
     context "user is a developer and a site_admin" do
       let(:attrs) {{affiliations: ["developer"]}}
       let(:permissions) { Permission.new(actor_id: user.id, actor_type: 'User', ability: :site_admin) }
-      it { expect(subject).to sanction(:create)}
-      it { expect(subject).to sanction(:new)}
-      it { expect(subject).to sanction(:index)}
-      it { expect(subject).to sanction(:search)}
-      it { expect(subject).to sanction(:show)}
-      it { expect(subject).to sanction(:edit)}
-      it { expect(subject).to sanction(:update)}
-      it { expect(subject).not_to sanction(:destroy)}
+      it { expect(subject).to sanction(:create) }
+      it { expect(subject).to sanction(:new) }
+      it { expect(subject).to sanction(:index) }
+      it { expect(subject).to sanction(:search) }
+      it { expect(subject).to sanction(:show) }
+      it { expect(subject).to sanction(:edit) }
+      it { expect(subject).to sanction(:update) }
+      it { expect(subject).not_to sanction(:destroy) }
     end
   end
 

@@ -1,5 +1,4 @@
 class PermissionsPolicy < ApplicationPolicy
-  private
   #############################################
   ######### PAGE EDITION PERMISSIONS ##########
   #############################################
@@ -56,6 +55,15 @@ class PermissionsPolicy < ApplicationPolicy
   def site_page_editor_for?(site)
     site_page_publisher_for?(site) ||
     site.has_permission_to?(:page_edition_editor, user)
+  end
+
+  #############################################
+  ########## FEATURES PERMISSIONS #############
+  #############################################
+  # Generic if a user has this role at all
+  def feature_admin?
+    user.admin? ||
+    user.has_role?(:feature_admin)
   end
 
   #############################################

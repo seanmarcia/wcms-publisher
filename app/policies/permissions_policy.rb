@@ -1,13 +1,11 @@
 class PermissionsPolicy < ApplicationPolicy
-  private
   #############################################
   ######### PAGE EDITION PERMISSIONS ##########
   #############################################
   # Generic if a user has this role at all
   def page_admin?
     user.admin? ||
-    user.developer? ||
-    user.has_role?(:page_admin)
+    user.has_role?(:page_edition_admin)
   end
 
   # States that the user is able to edit at least one page, either through role,
@@ -35,28 +33,37 @@ class PermissionsPolicy < ApplicationPolicy
     end
   end
 
-  # States that the user is a page_publisher for at least one site
+  # States that the user is a page_edition_publisher for at least one site
   def site_page_publisher?
     page_admin? ||
-    Site.with_permission_to(:page_publisher, user).present?
+    Site.with_permission_to(:page_edition_publisher, user).present?
   end
 
-  # States that the user is a page_editor or page_publisher for at least one site
+  # States that the user is a page_editor or page_edition_publisher for at least one site
   def site_page_editor?
     site_page_publisher? ||
-    Site.with_permission_to(:page_editor, user).present?
+    Site.with_permission_to(:page_edition_editor, user).present?
   end
 
-  # States that the user is a page_publisher for this particular site
+  # States that the user is a page_edition_publisher for this particular site
   def site_page_publisher_for?(site)
     page_admin? ||
-    site.has_permission_to?(:page_publisher, user)
+    site.has_permission_to?(:page_edition_publisher, user)
   end
 
-  # States that the user is a page_editor or page_publisher for this particular site
+  # States that the user is a page_editor or page_edition_publisher for this particular site
   def site_page_editor_for?(site)
     site_page_publisher_for?(site) ||
-    site.has_permission_to?(:page_editor, user)
+    site.has_permission_to?(:page_edition_editor, user)
+  end
+
+  #############################################
+  ########## FEATURES PERMISSIONS #############
+  #############################################
+  # Generic if a user has this role at all
+  def feature_admin?
+    user.admin? ||
+    user.has_role?(:feature_admin)
   end
 
   #############################################

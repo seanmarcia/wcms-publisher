@@ -8,7 +8,7 @@ class ActorPolicy < ApplicationPolicy
   end
 
   def create?
-    user.admin? || user.developer?
+    user.admin?
   end
   alias :destroy? :create?
 end

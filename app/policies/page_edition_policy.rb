@@ -26,7 +26,7 @@ class PageEditionPolicy < PermissionsPolicy
     end
 
     def permitted_site_ids
-      Site.with_any_permission_to([:page_editor, :page_publisher], user).pluck(:id)
+      Site.with_any_permission_to([:page_edition_editor, :page_edition_publisher], user).pluck(:id)
     end
   end
 

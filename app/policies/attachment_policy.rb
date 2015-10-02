@@ -6,7 +6,7 @@ class AttachmentPolicy < ApplicationPolicy
   end
 
   def index?
-    user.admin? || user.developer?
+    user.admin?
   end
   alias :create? :index?
   alias :destroy? :index?

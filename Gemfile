@@ -35,6 +35,10 @@ group :development do
   gem 'better_errors'
 end
 
+group :development, :staging, :test do
+  gem 'faker'
+end
+
 group :development, :test do
   # # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   # gem 'byebug'
@@ -55,4 +59,8 @@ end
 
 group :production do
   gem 'sentry-raven'
+end
+
+group :test do
+  gem 'capybara'
 end

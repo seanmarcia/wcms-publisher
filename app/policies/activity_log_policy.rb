@@ -1,14 +1,14 @@
 class ActivityLogPolicy < ApplicationPolicy
   class Scope < Struct.new(:user, :scope)
     def resolve
-      if user.admin? || user.developer?
+      if user.admin?
         scope.all
       end
     end
   end
 
   def create?
-    user.admin? || user.developer?
+    user.admin?
   end
 
   alias :new? :create?
@@ -18,5 +18,5 @@ class ActivityLogPolicy < ApplicationPolicy
   def permitted_attributes
     [:reviewer_ids, :action_performed, :message, :snapshot, :child]
   end
-  
+
 end

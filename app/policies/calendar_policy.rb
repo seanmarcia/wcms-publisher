@@ -6,12 +6,12 @@ class CalendarPolicy < ApplicationPolicy
   end
 
   def index?
-    user.admin? || user.developer?
+    user.admin?
   end
   alias :show? :index?
 
   def create?
-    user.admin? || user.developer?
+    user.admin?
   end
   alias :new? :create?
   alias :update? :create?
@@ -20,7 +20,7 @@ class CalendarPolicy < ApplicationPolicy
 
   def permitted_attributes
     attrs = [:title, :start_date, :end_date, tags: []]
-    attrs = attrs | SEO_FIELDS if user.admin? || user.developer? # Inherited from ApplicationPolicy
+    attrs = attrs | SEO_FIELDS if user.admin? # Inherited from ApplicationPolicy
     attrs
   end
 
@@ -30,7 +30,7 @@ class CalendarPolicy < ApplicationPolicy
     when nil, :form
       true
     when :activity_logs, :permissions, :calendar_sections, :seo
-      user.admin? || user.developer?
+      user.admin?
     else
       false
     end

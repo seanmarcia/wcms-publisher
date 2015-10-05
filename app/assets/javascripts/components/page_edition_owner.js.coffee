@@ -10,4 +10,3 @@ $(document).ready ->
   # This should get fired once a source has been manually selected
   $("#source_type").change ->
     update_selectables(this.value)
-

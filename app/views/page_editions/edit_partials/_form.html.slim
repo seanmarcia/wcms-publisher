@@ -101,7 +101,7 @@
       = f.collection_select :site_id, Site.where(has_page_editions: true), :id, :url, {}, class: 'form-control site_multiselect'
 
     .row
-      .col-sm-6
+      .col-sm-6#site_category hidden=true
         .form-group
           = f.label :site_categories
           br

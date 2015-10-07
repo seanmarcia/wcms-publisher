@@ -129,7 +129,7 @@ describe PermissionsPolicy do
     it { expect( subject.site_admin_for?( site ) ).to be_falsey }
   end
 
-  context 'site has user as a page_edition_publisher' do
+  context 'site has user as a site admin' do
     let(:site_permissions) { [Permission.new(actor_id: user.id, actor_type: 'User', ability: :site_admin)] }
     it { expect( subject.page_admin? ).to be_falsey }
     it { expect( subject.page_editor? ).to be_falsey }

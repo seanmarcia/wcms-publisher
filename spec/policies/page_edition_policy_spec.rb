@@ -157,6 +157,13 @@ describe PageEditionPolicy do
     end
   end
 
+  describe "can_redirect?" do
+    context "user is a developer" do
+      let(:affiliations) {["developer"]}
+      it { expect(subject.can_redirect?).to be_truthy }
+    end
+  end
+
   describe "can_manage?" do
     context "user is a developer" do
       let(:affiliations) {["developer"]}
@@ -180,6 +187,67 @@ describe PageEditionPolicy do
       it { expect(subject.can_manage?(:attachments)).to be_truthy }
       it { expect(subject.can_manage?(:audience_collections)).to be_truthy }
       it { expect(subject.can_manage?(:seo)).to be_truthy }
+    end
+
+    context "user has edit permissions on a page edition" do
+      let(:page_permissions) { [Permission.new(actor_id: user.id, actor_type: 'User', ability: :edit)] }
+      it { expect(subject.can_manage?(nil)).to be_truthy }
+      it { expect(subject.can_manage?(:form)).to be_truthy }
+      it { expect(subject.can_manage?(:activity_logs)).to be_falsey }
+      it { expect(subject.can_manage?(:permissions)).to be_falsey }
+      it { expect(subject.can_manage?(:presentation_data)).to be_truthy }
+      it { expect(subject.can_manage?(:attachments)).to be_truthy }
+      it { expect(subject.can_manage?(:audience_collections)).to be_truthy }
+      it { expect(subject.can_manage?(:seo)).to be_falsey }
+    end
+
+    context "user is a page edition admin" do
+      let(:entitlements) { ["urn:biola:apps:wcms:page_edition_admin"] }
+      it { expect(subject.can_manage?(nil)).to be_truthy }
+      it { expect(subject.can_manage?(:form)).to be_truthy }
+      it { expect(subject.can_manage?(:activity_logs)).to be_truthy }
+      it { expect(subject.can_manage?(:permissions)).to be_truthy }
+      it { expect(subject.can_manage?(:presentation_data)).to be_truthy }
+      it { expect(subject.can_manage?(:attachments)).to be_truthy }
+      it { expect(subject.can_manage?(:audience_collections)).to be_truthy }
+      it { expect(subject.can_manage?(:seo)).to be_truthy }
+    end
+
+    context "site has user as a page edition editor" do
+      let(:site_permissions) { [Permission.new(actor_id: user.id, actor_type: 'User', ability: :page_edition_editor)] }
+      it { expect(subject.can_manage?(nil)).to be_truthy }
+      it { expect(subject.can_manage?(:form)).to be_truthy }
+      it { expect(subject.can_manage?(:activity_logs)).to be_falsey }
+      it { expect(subject.can_manage?(:permissions)).to be_falsey }
+      it { expect(subject.can_manage?(:presentation_data)).to be_truthy }
+      it { expect(subject.can_manage?(:attachments)).to be_truthy }
+      it { expect(subject.can_manage?(:audience_collections)).to be_truthy }
+      it { expect(subject.can_manage?(:seo)).to be_falsey }
+    end
+
+    context "site has user as a page edition publisher" do
+      let(:site_permissions) { [Permission.new(actor_id: user.id, actor_type: 'User', ability: :page_edition_publisher)] }
+      it { expect(subject.can_manage?(nil)).to be_truthy }
+      it { expect(subject.can_manage?(:form)).to be_truthy }
+      it { expect(subject.can_manage?(:activity_logs)).to be_falsey }
+      it { expect(subject.can_manage?(:permissions)).to be_falsey }
+      it { expect(subject.can_manage?(:presentation_data)).to be_truthy }
+      it { expect(subject.can_manage?(:attachments)).to be_truthy }
+      it { expect(subject.can_manage?(:audience_collections)).to be_truthy }
+      it { expect(subject.can_manage?(:seo)).to be_falsey }
+    end
+
+    # TODO: should site admin have more permissions over page editions?
+    context 'site has user as a site admin' do
+      let(:site_permissions) { [Permission.new(actor_id: user.id, actor_type: 'User', ability: :site_admin)] }
+      it { expect(subject.can_manage?(nil)).to be_truthy }
+      it { expect(subject.can_manage?(:form)).to be_truthy }
+      it { expect(subject.can_manage?(:activity_logs)).to be_falsey }
+      it { expect(subject.can_manage?(:permissions)).to be_falsey }
+      it { expect(subject.can_manage?(:presentation_data)).to be_falsey }
+      it { expect(subject.can_manage?(:attachments)).to be_falsey }
+      it { expect(subject.can_manage?(:audience_collections)).to be_falsey }
+      it { expect(subject.can_manage?(:seo)).to be_falsey }
     end
 
     context "user is any other affiliation" do

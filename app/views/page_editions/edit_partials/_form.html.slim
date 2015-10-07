@@ -157,7 +157,15 @@
         form: f,
         attribute: :keywords_string
 
-
+    .form-group
+      = f.label :generic_objects, "Related Media"
+      = wcms_component "forms/multiselect",
+        form: f,
+        attribute: :generic_object_ids,
+        collection: GenericObject.asc(:title),
+        value_method: :id,
+        text_method: :title,
+        multiple: true
 
   .form-section
     br
@@ -173,7 +181,7 @@
         formatting: ['p', 'blockquote', 'h1', 'h2', 'h3', 'h4', 'h5'],
         allow_divs: true
 
-  - if policy(@page_edition).can_change?(:redirect)
+  - if policy(@page_edition).can_redirect?
     .form-section
       br
       h3 Redirect

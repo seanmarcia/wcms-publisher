@@ -49,9 +49,13 @@ class PageEditionPolicy < PermissionsPolicy
     user.admin? || (page_editor? && record.draft?)
   end
 
+  def can_redirect?
+    page_admin?
+  end
+
   def permitted_attributes
     attrs = [ :title, :slug, :site_id, :parent_page_id, :body, :page_template,
-      site_category_ids: [], attachment_ids: [], department_ids: [],
+      site_category_ids: [], generic_object_ids: [], attachment_ids: [], department_ids: [],
       audience_collection: [ affiliations: [], schools: [], student_levels: [], class_standings: [],
       majors: [], housing_statuses: [], employee_types: [], departments: [] ]
     ]
@@ -69,7 +73,9 @@ class PageEditionPolicy < PermissionsPolicy
     case attribute.try(:to_sym)
     when nil, :form
       true
-    when :activity_logs, :permissions, :presentation_data, :attachments, :audience_collections, :seo
+    when :presentation_data, :attachments, :audience_collections
+      page_editor?
+    when :activity_logs, :permissions, :seo
       page_admin?
     else
       false

@@ -2,7 +2,7 @@ class PageEditionsController < ApplicationController
   include ActivityLoggable
   include SetSiteCategories
 
-  before_filter :set_page_edition, only: [:show, :edit, :update, :destroy]
+  before_filter :set_page_edition, only: [:show, :edit, :update, :destroy, :create_tag]
   before_filter :new_page_edition_from_params, only: [:new, :create]
   before_filter :set_categories_for_page_edition
   before_filter :set_source, only: [:create, :update]
@@ -86,6 +86,21 @@ class PageEditionsController < ApplicationController
       flash[:error] = "Something went wrong. Please try again."
     end
     redirect_to page_editions_path
+  end
+
+  def create_tag
+    if @page_edition.slug.blank?
+      flash[:error] = 'You need to set a slug before creating a tag.'
+    elsif tag = Tag.create_from_object(@page_edition, class_slug: 'page_edition')
+      if @page_edition.update_attribute(:my_object_tag, tag.tag)
+        flash[:info] = 'Tag Created.'
+      else
+        flash[:error] = 'Tag was created but it could not be added to this object.'
+      end
+    else
+      flash[:error] = 'There was a problem creating the tag. Make sure one does not already exist with this slug.'
+    end
+    redirect_to edit_page_edition_path(@page_edition, page: 'relationships')
   end
 
   private

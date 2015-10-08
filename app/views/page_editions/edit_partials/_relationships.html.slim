@@ -1,24 +1,24 @@
-= form_for @page_edition, html: {class: 'academic-program-form'} do |f|
-  .panel.panel-default
-    .panel-heading
-      strong Object Identifier
-    .panel-body
-      - if @page_edition.my_object_tag
-        = @page_edition.my_object_tag
-      - else
-        p> No identifier exists for this object.
-        - if policy(@page_edition).create_tag?
-          = link_to 'Create one now', [:create_tag, @page_edition], method: :post
+.panel.panel-default
+  .panel-heading
+    strong Object Identifier
+  .panel-body
+    - if @page_edition.my_object_tag
+      = @page_edition.my_object_tag
+    - else
+      p> No identifier exists for this object.
+      - if policy(@page_edition).create_tag?
+        = link_to 'Create one now', [:create_tag, @page_edition], method: :post
 
-  / As of yet we have no use for this
-  / .panel.panel-default
-  /   .panel-heading
-  /     strong Related Object Tags
-  /   .panel-body
-  /     .form-group
-  /       = wcms_component "forms/related_object_tags", form: f
+  / / As yet we have no use for this
+  / = form_for @page_edition, html: {class: 'page-edition-form'} do |f|
+  /   .panel.panel-default
+  /     .panel-heading
+  /       strong Related Object Tags
+  /     .panel-body
+  /       .form-group
+  /         = wcms_component "forms/related_object_tags", form: f
 
-  / .form-footer
-  /   .pull-right
-  /     = f.submit 'Save', class: 'btn btn-biola'
-  /   .clearfix
+  /   .form-footer
+  /     .pull-right
+  /       = f.submit 'Save', class: 'btn btn-biola'
+  /     .clearfix

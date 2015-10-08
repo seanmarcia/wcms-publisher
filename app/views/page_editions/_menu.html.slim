@@ -4,6 +4,7 @@
       = @page_edition.title
     = menu_block(class: 'list-group-item') do |menu|
       = menu.add_item('Overview', default: true) { edit_page_edition_path(@page_edition, page: 'form') }
+      = menu.add_item('Relationships') { edit_page_edition_path(@page_edition, page: 'relationships') } if policy(@page_edition).can_manage?(:relationships)
       = menu.add_item('Audience') { edit_page_edition_path(@page_edition, page: 'audience_collections')} if policy(@page_edition).can_manage?(:audience_collections) && @page_edition.site.has_audience_collections
       = menu.add_item('Attachments') { edit_page_edition_path(@page_edition, page: 'attachments')} if policy(@page_edition).can_manage?(:attachments)
       = menu.add_item('Presentation Data') { edit_page_edition_path(@page_edition, page: 'presentation_data') }

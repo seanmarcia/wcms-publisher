@@ -157,16 +157,6 @@
         form: f,
         attribute: :keywords_string
 
-    .form-group
-      = f.label :generic_objects, "Related Media"
-      = wcms_component "forms/multiselect",
-        form: f,
-        attribute: :generic_object_ids,
-        collection: GenericObject.asc(:title),
-        value_method: :id,
-        text_method: lambda {|f| "[#{f.type}] #{f.title}"},
-        multiple: true
-
   .form-section
     br
     h3 Page Content

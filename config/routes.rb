@@ -12,6 +12,7 @@ Wcms::Application.routes.draw do
     resources :attachments
     resources :actors, only: [:create, :destroy]
     resources :activity_logs, except: [:index, :show, :destroy]
+    post :create_tag, on: :member
   end
   resources :service_links do
     resources :activity_logs, except: [:index, :show, :destroy]

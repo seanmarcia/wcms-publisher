@@ -57,7 +57,7 @@ GEM
       font-awesome-rails (~> 4.2)
       sass-rails (>= 4.0)
       slim (>= 2.0)
-    biola_wcms_components (0.17.0)
+    biola_wcms_components (0.18.0)
       ace-rails-ap (~> 3.0)
       buweb_content_models (>= 0.82)
       chronic_ping (~> 0.4)
@@ -334,7 +334,7 @@ DEPENDENCIES
   binding_of_caller
   biola_deploy
   biola_frontend_toolkit (~> 0.4.4)
-  biola_wcms_components (~> 0.17.0)
+  biola_wcms_components (~> 0.18.0)
   blazing
   bootstrap-sass (~> 3.3.3)
   buweb_content_models (~> 1.3.0)

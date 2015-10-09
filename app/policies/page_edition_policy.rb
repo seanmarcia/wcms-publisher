@@ -34,6 +34,7 @@ class PageEditionPolicy < PermissionsPolicy
     page_editor?
   end
   alias :show? :index?
+  alias :view_topics? :index?
 
   def create?
     site_page_editor?

@@ -149,7 +149,8 @@
       = f.label :topics
       = wcms_component "forms/tag_input",
         form: f,
-        attribute: :topics_string
+        attribute: :topics_string,
+        typeahead: {url: view_topics_page_editions_path(format: :json), key: :topic}
 
     .form-group
       = f.label :keywords

@@ -23,6 +23,9 @@
                     .dropdown-toggle id="dropdownMenu-#{attachment.id}" data-toggle="dropdown"
                       = link_to fa_icon('cog')
                     ul.dropdown-menu role="menu" aria-labelledby="dropdownMenu-#{attachment.id}"
+                      li
+                        a href="#" data-target="#update_#{attachment.id}" data-toggle="modal"
+                          | Update Attachment
                       li = link_to 'Remove Attachment', [@page_edition, attachment], method: :delete, data: { confirm: "Are you sure that you want to remove #{attachment}?" }
                 td = attachment.to_s
                 td.ignore-width
@@ -30,6 +33,23 @@
                     = link_to attachment.attachment_url.truncate(80), attachment.attachment_url, title: attachment.attachment_url
                   - else
                     = link_to attachment.attachment.file.filename.truncate(80), attachment.attachment_url, title: attachment.attachment.file.filename
+              div.modal.fade aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="update_#{attachment.id}"
+                = form_for [@page_edition, attachment] do |f|
+                  .modal-dialog
+                    .modal-content
+                      .modal-header
+                        button.close data-dismiss="modal" type="button"
+                          span aria-hidden="true"  &times;
+                          span.sr-only Close
+                        h4#myModalLabel.modal-title Update Attachment
+                      .modal-body
+                        - if policy(@page_edition).update?
+                          .form-group
+                            = f.label :name
+                            = f.text_field :name, value: attachment.name, class: "form-control"
+                      .modal-footer
+                        button.btn.btn-default data-dismiss="modal" type="button"  Close
+                        = f.submit 'Save', class: "btn btn-biola"
     hr
     = form_for [@page_edition, @page_edition.attachments.new], html: {multipart: true} do |f|
       .text-right

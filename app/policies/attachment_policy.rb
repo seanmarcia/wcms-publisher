@@ -9,6 +9,8 @@ class AttachmentPolicy < ApplicationPolicy
     user.admin?
   end
   alias :create? :index?
+  alias :edit? :index?
+  alias :update? :index?
   alias :destroy? :index?
 
   def permitted_attributes

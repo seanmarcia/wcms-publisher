@@ -4,7 +4,7 @@ class AttachmentsController < ApplicationController
   before_filter :pundit_authorize
   before_filter :set_parent
   before_filter :new_attachment_from_params, only: [:new, :create]
-  before_filter :set_attachment, only: :destroy
+  before_filter :set_attachment, only: [:destroy, :edit, :update]
 
   def create
     # Bypassing strong parameters because metadata can be anything
@@ -30,6 +30,19 @@ class AttachmentsController < ApplicationController
       if (attachable = set_attachable_type(params[:attachable_type]))
         @attachment = attachable.find(params[:attachable_id]).attachments.new
       end
+    end
+  end
+
+  def edit
+  end
+
+  def update
+    if @attachment.update_attributes(attachment_params)
+      log_activity(@attachment.previous_changes, parent: @page_edition)
+      flash[:info] = "Attachment was updated."
+      redirect_to :back
+    else
+      render :edit
     end
   end
 

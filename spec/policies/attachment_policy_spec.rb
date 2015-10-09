@@ -3,14 +3,7 @@ describe AttachmentPolicy do
   subject { described_class } # describe class uses the parent describe class: AttachmentPolicy
   let(:user) { build :user, attrs }
 
-  permissions :update?, :edit? do
-    context "user with any affiliations" do
-      let(:attrs) {{affiliations: ["student", "admin", "developer", "faculty", "staff", "alumni"]}}
-      it { expect(subject).not_to permit(user) }
-    end
-  end
-
-  permissions :index?, :create?, :new?, :destroy? do
+  permissions :index?, :create?, :new?, :destroy?, :update?, :edit? do
     context "user is a developer" do
       let(:attrs) {{affiliations: ["developer"]}}
       it { expect(subject).to permit(user) }

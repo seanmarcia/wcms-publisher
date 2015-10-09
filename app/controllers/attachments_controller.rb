@@ -39,7 +39,7 @@ class AttachmentsController < ApplicationController
   def update
     if @attachment.update_attributes(attachment_params)
       log_activity(@attachment.previous_changes, parent: @page_edition)
-      flash[:info] = "Attachment was created."
+      flash[:info] = "Attachment was updated."
       redirect_to :back
     else
       render :edit

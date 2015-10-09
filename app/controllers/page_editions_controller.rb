@@ -103,6 +103,15 @@ class PageEditionsController < ApplicationController
     redirect_to edit_page_edition_path(@page_edition, page: 'relationships')
   end
 
+  def view_topics
+    topics = PageEdition.distinct(:topics)
+    if params[:q].present?
+      q = Regexp.new(params[:q].to_s, Regexp::IGNORECASE)
+      topics = topics.select{|g| g[q]} || []
+    end
+    render json: topics.map{|ct| [topic: ct]}.flatten
+  end
+
   private
 
   def set_source

@@ -20,6 +20,7 @@ describe PageEditionPolicy do
       it { expect(subject).not_to sanction(:show)}
       it { expect(subject).not_to sanction(:edit)}
       it { expect(subject).not_to sanction(:update)}
+      it { expect(subject).not_to sanction(:view_topics)}
       it { expect(subject).not_to sanction(:destroy)}
     end
 
@@ -31,6 +32,7 @@ describe PageEditionPolicy do
       it { expect(subject).to sanction(:show)}
       it { expect(subject).to sanction(:edit)}
       it { expect(subject).to sanction(:update)}
+      it { expect(subject).to sanction(:view_topics)}
       it { expect(subject).to sanction(:destroy)}
     end
 
@@ -42,6 +44,7 @@ describe PageEditionPolicy do
       it { expect(subject).to sanction(:show)}
       it { expect(subject).to sanction(:edit)}
       it { expect(subject).to sanction(:update)}
+      it { expect(subject).to sanction(:view_topics)}
       it { expect(subject).to sanction(:destroy)}
     end
 
@@ -53,6 +56,7 @@ describe PageEditionPolicy do
       it { expect(subject).to sanction(:show)}
       it { expect(subject).to sanction(:edit)}
       it { expect(subject).to sanction(:update)}
+      it { expect(subject).to sanction(:view_topics)}
       context "page edition is a draft" do
         let(:page_state) { "draft" }
         it { expect(subject).to sanction(:destroy)}
@@ -75,6 +79,7 @@ describe PageEditionPolicy do
       it { expect(subject).to sanction(:show)}
       it { expect(subject).to sanction(:edit)}
       it { expect(subject).to sanction(:update)}
+      it { expect(subject).to sanction(:view_topics)}
       context "page edition is a draft" do
         let(:page_state) { "draft" }
         it { expect(subject).to sanction(:destroy)}
@@ -97,6 +102,7 @@ describe PageEditionPolicy do
       it { expect(subject).to sanction(:show)}
       it { expect(subject).to sanction(:edit)}
       it { expect(subject).to sanction(:update)}
+      it { expect(subject).to sanction(:view_topics)}
       context "page edition is a draft" do
         let(:page_state) { "draft" }
         it { expect(subject).to sanction(:destroy)}
@@ -120,6 +126,7 @@ describe PageEditionPolicy do
       it { expect(subject).to sanction(:show)}
       it { expect(subject).to sanction(:edit)}
       it { expect(subject).to sanction(:update)}
+      it { expect(subject).to sanction(:view_topics)}
       context "page edition is a draft" do
         let(:page_state) { "draft" }
         it { expect(subject).to sanction(:destroy)}
@@ -142,6 +149,7 @@ describe PageEditionPolicy do
       it { expect(subject).to sanction(:show)}
       it { expect(subject).to sanction(:edit)}
       it { expect(subject).to sanction(:update)}
+      it { expect(subject).to sanction(:view_topics)}
       context "page edition is a draft" do
         let(:page_state) { "draft" }
         it { expect(subject).to sanction(:destroy)}

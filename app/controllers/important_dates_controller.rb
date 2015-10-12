@@ -24,7 +24,7 @@ class ImportantDatesController < ApplicationController
       @important_dates = @important_dates.by_last_change(params[:last_change]) if params[:last_change]
     end
 
-    @important_dates = @important_dates.asc(:title).page(params[:page]).per(25)
+    @important_dates = @important_dates.desc(:start_date).page(params[:page]).per(25)
   end
 
   def show

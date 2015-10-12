@@ -30,7 +30,7 @@ class MenusController < ApplicationController
 
   def create
     if @menu.save && @menu.update_attributes(page_edition_ids: menu_params[:page_edition_ids])
-      log_activity(@menu.previous_changes, parent: @menu)
+      log_activity({"created"=>[nil, @menu.attributes.delete_if{|k, v| v.blank?}]}, parent: @menu)
 
       flash[:notice] = "'#{@menu.title}' created."
       redirect_to edit_menu_path(@menu, page: params[:page])

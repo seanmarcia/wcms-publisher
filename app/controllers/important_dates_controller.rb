@@ -19,6 +19,7 @@ class ImportantDatesController < ApplicationController
       @important_dates = @important_dates.by_calendar(params[:calendar]) if params[:calendar]
       @important_dates = @important_dates.by_category(params[:category]) if params[:category]
       @important_dates = @important_dates.by_audience(params[:audience]) if params[:audience]
+      @important_dates = @important_dates.future_dates if params[:future]
       @important_dates = @important_dates.is_a_deadline if params[:deadline]
       @important_dates = @important_dates.by_last_change(params[:last_change]) if params[:last_change]
     end

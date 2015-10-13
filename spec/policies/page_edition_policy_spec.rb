@@ -48,29 +48,6 @@ describe PageEditionPolicy do
       it { expect(subject).to sanction(:destroy)}
     end
 
-    context "user is a page edition admin" do
-      let(:entitlements) { ["urn:biola:apps:wcms:page_edition_admin"] }
-      it { expect(subject).to sanction(:create)}
-      it { expect(subject).to sanction(:new)}
-      it { expect(subject).to sanction(:index)}
-      it { expect(subject).to sanction(:show)}
-      it { expect(subject).to sanction(:edit)}
-      it { expect(subject).to sanction(:update)}
-      it { expect(subject).to sanction(:view_topics)}
-      context "page edition is a draft" do
-        let(:page_state) { "draft" }
-        it { expect(subject).to sanction(:destroy)}
-      end
-      context "page edition is published" do
-        let(:page_state) { "published" }
-        it { expect(subject).not_to sanction(:destroy)}
-      end
-      context "page edition is archived" do
-        let(:page_state) { "archived" }
-        it { expect(subject).not_to sanction(:destroy)}
-      end
-    end
-
     context "user is a page editor" do
       let(:page_permissions) { [Permission.new(actor_id: user.id, actor_type: 'User', ability: :edit)] }
       it { expect(subject).not_to sanction(:create)}
@@ -207,18 +184,6 @@ describe PageEditionPolicy do
       it { expect(subject.can_manage?(:attachments)).to be_truthy }
       it { expect(subject.can_manage?(:audience_collections)).to be_truthy }
       it { expect(subject.can_manage?(:seo)).to be_falsey }
-    end
-
-    context "user is a page edition admin" do
-      let(:entitlements) { ["urn:biola:apps:wcms:page_edition_admin"] }
-      it { expect(subject.can_manage?(nil)).to be_truthy }
-      it { expect(subject.can_manage?(:form)).to be_truthy }
-      it { expect(subject.can_manage?(:activity_logs)).to be_truthy }
-      it { expect(subject.can_manage?(:permissions)).to be_truthy }
-      it { expect(subject.can_manage?(:presentation_data)).to be_truthy }
-      it { expect(subject.can_manage?(:attachments)).to be_truthy }
-      it { expect(subject.can_manage?(:audience_collections)).to be_truthy }
-      it { expect(subject.can_manage?(:seo)).to be_truthy }
     end
 
     context "site has user as a page edition editor" do

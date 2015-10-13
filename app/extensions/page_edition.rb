@@ -9,7 +9,8 @@ PageEdition.class_eval do
     begin
       if query.present?
         q = Regexp.new(query.to_s, Regexp::IGNORECASE)
-        any_of({title: q}, {slug: q})
+        # Wrap in an and to avoid colliding with other "or" statements.
+        where("$and" => [{"$or" => [{title: q}, {slug: q}]}])
       end
     rescue RegexpError
       PageEdition.none

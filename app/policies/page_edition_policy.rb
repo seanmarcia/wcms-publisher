@@ -10,18 +10,20 @@ class PageEditionPolicy < PermissionsPolicy
       if page_admin?
         scope.all
       else
-        scope.where({
-          "$or" => [
-            # Either user has permission to a page through sites
-            { "site_id" => { "$in"=> Array(permitted_site_ids) } },
-            # Or through the page itself
-            {
-              "permissions.actor_type"=>"User",
-              "permissions.actor_id"=>user.id.to_s,
-              "permissions.ability"=>:edit
-            }
-          ]
-        })
+        scope.where("$and" => [
+          {
+            "$or" => [
+              # Either user has permission to a page through sites
+              { "site_id" => { "$in"=> Array(permitted_site_ids) } },
+              # Or through the page itself
+              {
+                "permissions.actor_type"=>"User",
+                "permissions.actor_id"=>user.id.to_s,
+                "permissions.ability"=>:edit
+              }
+            ]
+          }
+        ])
       end
     end
 

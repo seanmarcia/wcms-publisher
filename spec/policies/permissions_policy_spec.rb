@@ -84,21 +84,6 @@ describe PermissionsPolicy do
     it { expect( subject.site_admin_for?( site ) ).to be_falsey }
   end
 
-  context 'user has role as a page_edition_admin' do
-    let(:entitlements) { ["urn:biola:apps:wcms:page_edition_admin"] }
-    it { expect( subject.page_admin? ).to be_truthy }
-    it { expect( subject.page_editor? ).to be_truthy }
-    it { expect( subject.page_editor_for?( page_edition ) ).to be_truthy }
-    it { expect( subject.page_publisher_for?( page_edition ) ).to be_truthy }
-    it { expect( subject.site_page_publisher? ).to be_truthy }
-    it { expect( subject.site_page_editor? ).to be_truthy }
-    it { expect( subject.site_page_publisher_for?( site ) ).to be_truthy }
-    it { expect( subject.site_page_editor_for?( site ) ).to be_truthy }
-    it { expect( subject.feature_admin? ).to be_falsey }
-    it { expect( subject.site_admin? ).to be_falsey }
-    it { expect( subject.site_admin_for?( site ) ).to be_falsey }
-  end
-
   context 'site has user as a page_edition_publisher' do
     let(:site_permissions) { [Permission.new(actor_id: user.id, actor_type: 'User', ability: :page_edition_publisher)] }
     it { expect( subject.page_admin? ).to be_falsey }

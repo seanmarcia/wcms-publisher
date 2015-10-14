@@ -1,4 +1,4 @@
-class AttachmentPolicy < ApplicationPolicy
+class AttachmentPolicy < PermissionsPolicy
   class Scope < Struct.new(:user, :scope)
     def resolve
       scope.all
@@ -6,7 +6,7 @@ class AttachmentPolicy < ApplicationPolicy
   end
 
   def index?
-    user.admin?
+    user.admin? || page_editor?
   end
   alias :create? :index?
   alias :edit? :index?

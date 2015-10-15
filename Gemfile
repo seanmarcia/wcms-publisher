@@ -23,6 +23,7 @@ gem 'logging', '~> 1.8'  # until blazing is fixed or removed. Version 2.0 confli
 gem 'mongoid', '~> 4.0.1'
 gem 'newrelic_rpm'
 gem 'pinglish'
+gem 'puma'
 gem 'pundit'
 gem 'rack-cas', '>= 0.9.2'
 gem 'rails_config'

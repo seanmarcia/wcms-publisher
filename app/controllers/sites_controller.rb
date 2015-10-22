@@ -1,5 +1,4 @@
 class SitesController < ApplicationController
-  include ActivityLoggable
 
   before_filter :set_site, only: [:show, :edit, :update]
   before_filter :new_site_from_params, only: [:new, :create]
@@ -42,8 +41,7 @@ class SitesController < ApplicationController
   end
 
   def create
-    if @site.save
-      log_activity(@site.previous_changes, parent: @site)
+    if @site.user_save(current_user, {})
       flash[:info] = "#{@site} was created."
       redirect_to edit_site_path @site
     else
@@ -56,7 +54,6 @@ class SitesController < ApplicationController
 
   def update
     if @site.update_attributes(site_params)
-      log_activity(@site.previous_changes, parent: @site)
       flash[:info] = "#{@site} changes were saved."
       redirect_to edit_site_path(@site, page: params[:page])
     else

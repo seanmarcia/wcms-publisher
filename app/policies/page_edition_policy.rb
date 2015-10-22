@@ -80,9 +80,9 @@ class PageEditionPolicy < PermissionsPolicy
     case attribute.try(:to_sym)
     when nil, :form
       true
-    when :presentation_data, :attachments, :audience_collections, :relationships
+    when :logs, :presentation_data, :attachments, :audience_collections, :relationships
       page_editor?
-    when :activity_logs, :permissions, :seo
+    when :permissions, :seo
       page_admin?
     else
       false

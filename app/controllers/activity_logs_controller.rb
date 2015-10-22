@@ -16,7 +16,7 @@ class ActivityLogsController < ApplicationController
     else
       flash[:error] = 'Something went wrong. Please try again.'
     end
-    redirect_to parent_edit_path(@parent, page: 'activity_logs')
+    redirect_to parent_edit_path(@parent, page: 'logs')
   end
 
   def edit
@@ -28,7 +28,7 @@ class ActivityLogsController < ApplicationController
     else
       flash[:error] = "Something went wrong. Please try again."
     end
-    redirect_to parent_edit_path(@parent, page: 'activity_logs')
+    redirect_to parent_edit_path(@parent, page: 'logs')
   end
 
   private

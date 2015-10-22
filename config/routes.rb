@@ -4,7 +4,20 @@ Wcms::Application.routes.draw do
     resources :activity_logs, except: [:index, :show, :destroy]
   end
 
-  resources :calendars, :campus_locations, :important_dates do
+  resources :important_dates do
+    # we may want to find a way to move this into the
+    resources :change, only: :show do
+      get :undo, on: :member
+    end
+    resources :activity_logs, except: [:index, :show, :destroy]
+  end
+
+  resources :change, only: :show do
+    get :undo, on: :member
+    get :undo_destroy, on: :member
+  end
+
+  resources :calendars, :campus_locations do
     resources :activity_logs, except: [:index, :show, :destroy]
   end
 
@@ -14,6 +27,9 @@ Wcms::Application.routes.draw do
     resources :activity_logs, except: [:index, :show, :destroy]
     post :create_tag, on: :member
     get :view_topics, on: :collection
+    resources :change, only: :show do
+      get :undo, on: :member
+    end
   end
   resources :service_links do
     resources :activity_logs, except: [:index, :show, :destroy]

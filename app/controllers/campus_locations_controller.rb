@@ -1,6 +1,7 @@
 class CampusLocationsController < ApplicationController
-  include ActivityLoggable
-  
+
+
+
   before_filter :set_campus_location, only: [:show, :edit, :update]
   before_filter :new_campus_location_from_params, only: [:new, :create]
   before_filter :pundit_authorize
@@ -19,8 +20,7 @@ class CampusLocationsController < ApplicationController
   end
 
   def create
-    if @campus_location.save
-      log_activity(@campus_location.previous_changes, parent: @campus_location)
+    if @campus_location.user_save(current_user)
       flash[:notice] = "'#{@campus_location.title}' created."
       redirect_to [:edit, @campus_location]
     else
@@ -32,8 +32,7 @@ class CampusLocationsController < ApplicationController
   end
 
   def update
-    if @campus_location.update_attributes(campus_location_params)
-      log_activity(@campus_location.previous_changes, parent: @campus_location)
+    if @campus_location.user_update(current_user, campus_location_params)
       flash[:notice] = "'#{@campus_location.title}' updated."
       redirect_to [:edit, @campus_location]
     else

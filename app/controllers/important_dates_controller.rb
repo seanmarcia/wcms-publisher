@@ -1,7 +1,6 @@
 class ImportantDatesController < ApplicationController
-  include ActivityLoggable
 
-  before_filter :set_important_date, only: [:show, :edit, :update]
+  before_filter :set_important_date, only: [:show, :edit, :update, :destroy]
   before_filter :new_important_date_from_params, only: [:new, :create]
   before_filter :pundit_authorize
   before_filter :new_audience_collection, only: [:edit, :update, :new, :create]
@@ -35,8 +34,7 @@ class ImportantDatesController < ApplicationController
   end
 
   def create
-    if @important_date.save
-      log_activity(@important_date.previous_changes, parent: @important_date)
+    if @important_date.user_save(current_user, {})
       flash[:notice] = "'#{@important_date.title}' created."
       redirect_to [:edit, @important_date]
     else
@@ -48,13 +46,22 @@ class ImportantDatesController < ApplicationController
   end
 
   def update
-    if @important_date.update_attributes(important_date_params)
-      log_activity(@important_date.previous_changes, parent: @important_date, child: @important_date.audience_collection.previous_changes)
+    if @important_date.user_update(current_user, important_date_params)
+
       flash[:notice] = "'#{@important_date.title}' updated."
       redirect_to edit_important_date_path @important_date, page: params[:page]
     else
       render :edit
     end
+  end
+
+  def destroy
+    if @important_date.user_destroy(current_user)
+      flash[:info] = "Important Date has been successfully removed. <a href=/change/#{@important_date.history_tracks.last.id}/undo_destroy>Undo</a>"
+    else
+      flash[:error] = "Something went wrong. Please try again."
+    end
+    redirect_to important_dates_path
   end
 
   private

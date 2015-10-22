@@ -1,5 +1,4 @@
 class ServiceLinksController < ApplicationController
-  include ActivityLoggable
 
   before_filter :set_service_link, only: [:show, :edit, :update]
   before_filter :new_service_link_from_params, only: [:new, :create]
@@ -29,7 +28,6 @@ class ServiceLinksController < ApplicationController
   def create
     @service_link = ServiceLink.new(service_link_params)
     if @service_link.save
-      log_activity(@service_link.previous_changes, parent: @service_link)
       flash[:notice] = "'#{@service_link.title}' created."
       redirect_to [:edit, @service_link]
     else
@@ -44,7 +42,6 @@ class ServiceLinksController < ApplicationController
   def update
     @service_link = ServiceLink.find(params[:id])
     if @service_link.update_attributes(service_link_params)
-      log_activity(@service_link.previous_changes, parent: @service_link, child: @service_link.audience_collection.previous_changes)
       flash[:notice] = "'#{@service_link.title}' updated."
       redirect_to edit_service_link_path @service_link, page: params[:page]
     else

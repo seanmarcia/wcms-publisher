@@ -28,9 +28,9 @@ class ImportantDatePolicy < ApplicationPolicy
   ##### Special non-action permissions
   def can_manage?(attribute)
     case attribute.try(:to_sym)
-    when nil, :form
+    when nil, :form, :logs
       true
-    when :activity_logs, :permissions
+    when :permissions
       user.admin? || user.developer?
     else
       false

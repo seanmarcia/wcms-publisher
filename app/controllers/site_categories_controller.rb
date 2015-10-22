@@ -1,5 +1,4 @@
 class SiteCategoriesController < ApplicationController
-  include ActivityLoggable
 
   layout false
   before_filter :set_site
@@ -9,7 +8,6 @@ class SiteCategoriesController < ApplicationController
 
   def create
     if @site.site_categories.new(site_category_params).save
-      log_activity({"added"=>[nil, @site.site_categories.last.title]}, parent: @site, child: 'site_category', activity: 'create')
       flash[:info] = "Category has been successfully saved."
     else
       flash[:error] = "Something went wrong. Please try again."
@@ -19,7 +17,6 @@ class SiteCategoriesController < ApplicationController
 
   def update
     if @site_category.update_attributes(site_category_params)
-      log_activity(@site_category.previous_changes, parent: @site, child: 'site_category', activity: 'update')
       flash[:info] = "Category has been successfully updated."
     else
       flash[:error] = "Something went wrong. Please try again."
@@ -30,7 +27,6 @@ class SiteCategoriesController < ApplicationController
   def destroy
     cached_category_type = category_type # you have to cache it before @site_category gets deleted.
     if @site_category.delete
-      log_activity(@site_category.previous_changes, parent: @site, child: 'site_category', activity: 'destroy')
       flash[:info] = "Category has been successfully removed."
     else
       flash[:error] = "Something went wrong. Please try again."

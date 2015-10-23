@@ -34,7 +34,7 @@ class ImportantDatesController < ApplicationController
   end
 
   def create
-    if @important_date.user_save(current_user, {})
+    if @important_date.save_as_user(current_user)
       flash[:notice] = "'#{@important_date.title}' created."
       redirect_to [:edit, @important_date]
     else
@@ -46,7 +46,7 @@ class ImportantDatesController < ApplicationController
   end
 
   def update
-    if @important_date.user_update(current_user, important_date_params)
+    if @important_date.update_as_user(current_user, important_date_params)
 
       flash[:notice] = "'#{@important_date.title}' updated."
       redirect_to edit_important_date_path @important_date, page: params[:page]
@@ -56,7 +56,7 @@ class ImportantDatesController < ApplicationController
   end
 
   def destroy
-    if @important_date.user_destroy(current_user)
+    if @important_date.destroy_as_user(current_user)
       flash[:info] = "Important Date has been successfully removed. <a href=/change/#{@important_date.history_tracks.last.id}/undo_destroy>Undo</a>"
     else
       flash[:error] = "Something went wrong. Please try again."

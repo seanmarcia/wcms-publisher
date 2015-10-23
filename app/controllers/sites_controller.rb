@@ -41,7 +41,7 @@ class SitesController < ApplicationController
   end
 
   def create
-    if @site.user_save(current_user, {})
+    if @site.save_as_user(current_user)
       flash[:info] = "#{@site} was created."
       redirect_to edit_site_path @site
     else

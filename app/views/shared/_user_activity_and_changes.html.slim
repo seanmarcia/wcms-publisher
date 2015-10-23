@@ -20,7 +20,7 @@
           - logs(obj).each do |change|
             - if change.class == Change
               tr
-                td = link_to fa_icon('undo'), [:undo, obj, change], data: { confirm: "Are you sure that you want to undo this change?" }
+                td = link_to fa_icon('undo'), [:undo, change], data: { confirm: "Are you sure that you want to undo this change?" }
 
                 td = change.action.try(:humanize)
                 td = change.modifier.try(:to_s)

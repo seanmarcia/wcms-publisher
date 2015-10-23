@@ -1,7 +1,5 @@
 class CalendarsController < ApplicationController
 
-
-
   before_filter :set_calendar, only: [:show, :edit, :update]
   before_filter :new_calendar_from_params, only: [:new, :create]
   before_filter :pundit_authorize
@@ -27,7 +25,7 @@ class CalendarsController < ApplicationController
   end
 
   def create
-    if @calendar.user_save(current_user, {})
+    if @calendar.save_as_user(current_user)
       flash[:notice] = "'#{@calendar.title}' created."
       redirect_to [:edit, @calendar]
     else
@@ -55,7 +53,7 @@ class CalendarsController < ApplicationController
       if v[:_destroy] == "1"
         section.destroy
       else
-        section.user_update(current_user, v.permit(*policy(section).permitted_attributes))
+        section.update_as_user(current_user, v.permit(*policy(section).permitted_attributes))
       end
     end
 
@@ -63,7 +61,7 @@ class CalendarsController < ApplicationController
   end
 
   def normal_update
-    if @calendar.user_update(current_user, calendar_params)
+    if @calendar.update_as_user(current_user, calendar_params)
       flash[:notice] = "'#{@calendar.title}' updated."
       redirect_to edit_calendar_path(@calendar, page: params[:page])
     else

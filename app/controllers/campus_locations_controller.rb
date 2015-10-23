@@ -20,7 +20,7 @@ class CampusLocationsController < ApplicationController
   end
 
   def create
-    if @campus_location.user_save(current_user)
+    if @campus_location.save_as_user(current_user)
       flash[:notice] = "'#{@campus_location.title}' created."
       redirect_to [:edit, @campus_location]
     else
@@ -32,7 +32,7 @@ class CampusLocationsController < ApplicationController
   end
 
   def update
-    if @campus_location.user_update(current_user, campus_location_params)
+    if @campus_location.update_as_user(current_user, campus_location_params)
       flash[:notice] = "'#{@campus_location.title}' updated."
       redirect_to [:edit, @campus_location]
     else

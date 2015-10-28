@@ -9,8 +9,8 @@
       - if policy(@menu).can_manage?(params[:page])
         .edit-partials
         - case params[:page]
-        - when 'activity_logs'
-          = render 'shared/activity_logs', obj: @menu
+        - when 'logs'
+          = render 'shared/logs', obj: @menu
         - else
           = render form_page_path
       - else

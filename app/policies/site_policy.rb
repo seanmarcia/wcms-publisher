@@ -43,9 +43,9 @@ class SitePolicy < PermissionsPolicy
 
   def can_manage?(attribute)
     case attribute.try(:to_sym)
-    when nil, :form
+    when nil, :form, :logs
       true
-    when :activity_logs, :permissions
+    when :permissions
       site_admin_for?(record)
     when :page_edition_categories
       site_admin_for?(record) && record.has_page_editions

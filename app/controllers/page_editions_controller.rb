@@ -78,7 +78,7 @@ class PageEditionsController < ApplicationController
     if @page_edition.destroy_as_user(current_user)
       child_pages.each{|child| child.update_as_user(current_user, {parent_page_id: nil})} if child_pages.present?
 
-      flash[:info] = "Page has been successfully removed. <a href=/change/#{@page_edition.history_tracks.last.id}/undo_destroy>Undo</a>"
+      flash[:info] = "Page has been successfully removed. <a href=/wcms_components/change/#{@page_edition.history_tracks.last.id}/undo_destroy>Undo</a>"
     else
       flash[:error] = "Something went wrong. Please try again."
     end

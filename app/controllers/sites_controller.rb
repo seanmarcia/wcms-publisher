@@ -61,7 +61,6 @@ class SitesController < ApplicationController
     end
   end
 
-
   private
 
   def new_site_from_params

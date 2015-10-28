@@ -1,7 +1,5 @@
 class FeatureLocationsController < ApplicationController
 
-
-
   before_filter :set_feature_location, only: [:update, :destroy]
   before_filter :new_feature_location_from_params, only: :create
   before_filter :pundit_authorize

@@ -27,9 +27,9 @@ class CalendarPolicy < ApplicationPolicy
   ##### Special non-action permissions
   def can_manage?(attribute)
     case attribute.try(:to_sym)
-    when nil, :form
+    when nil, :form, :logs
       true
-    when :activity_logs, :permissions, :calendar_sections, :seo
+    when :permissions, :calendar_sections, :seo
       user.admin?
     else
       false

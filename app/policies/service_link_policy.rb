@@ -38,10 +38,8 @@ class ServiceLinkPolicy < PermissionsPolicy
   ##### Special non-action permissions
   def can_manage?(attribute)
     case attribute.try(:to_sym)
-    when nil, :form
+    when nil, :form, :logs
       true
-    when :activity_logs
-      user.admin?
     else
       false
     end

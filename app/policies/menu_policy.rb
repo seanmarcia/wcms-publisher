@@ -26,9 +26,9 @@ class MenuPolicy < ApplicationPolicy
   ##### Special non-action permissions
   def can_manage?(attribute)
     case attribute.try(:to_sym)
-    when nil, :form
+    when nil, :form, :logs
       true
-    when :activity_logs, :menu_links, :permissions
+    when :menu_links, :permissions
       user.admin? || user.developer?
     else
       false

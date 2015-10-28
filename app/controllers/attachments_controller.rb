@@ -1,7 +1,5 @@
 class AttachmentsController < ApplicationController
 
-
-
   before_filter :pundit_authorize
   before_filter :set_parent
   before_filter :new_attachment_from_params, only: [:new, :create]

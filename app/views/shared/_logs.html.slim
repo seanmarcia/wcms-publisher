@@ -3,6 +3,7 @@
 - unless obj.nil?
   = render 'shared/user_activity_and_changes', obj: obj
 
+  / / for the time being user action logging is disabled until we figure out how it should be implemented.
   / - if ActivityLogPolicy.new(current_user, obj).create?
   /   hr
   /   button.btn.btn-default.pull-right data-toggle="modal" data-target="#activity-logs-modal" + new action

@@ -4,4 +4,4 @@
       = @service_link.title
     = menu_block(class: 'list-group-item') do |menu|
       = menu.add_item('Overview', default: true) { edit_service_link_path(@service_link, page: 'form') }
-      = menu.add_item('History') { edit_service_link_path(@service_link, page: 'activity_logs') } if policy(@service_link).can_manage?(:activity_logs)
+      = menu.add_item('History') { edit_service_link_path(@service_link, page: 'logs') } if policy(@service_link).can_manage?(:logs)

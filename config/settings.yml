@@ -58,3 +58,29 @@ universe:
     academic_publisher: "https://wcms.examplations.com/academics"
     profile_publisher: "https://wcms.examplations.com/profiles"
     news_publisher: "https://wcms.examplations.com/news"
+
+# for mongoid history -- assigns additional logs to be shown
+trackable_relations:
+  academic_programs:
+    - attachments
+    - concentrations
+    - degree_requirements
+  catalogs:
+    - attachments
+    - degree_requirements
+  concentrations:
+    - degree_requirements
+  degree_requirements:
+    - attachments
+  groups:
+    - attachments
+  outcome_editions:
+    - attachments
+  page_editions:
+    - attachments
+  people:
+    - bio_editions
+    - custom_profiles
+    - profile_photos
+  sites:
+    - site_categories

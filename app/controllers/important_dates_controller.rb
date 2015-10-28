@@ -5,7 +5,6 @@ class ImportantDatesController < ApplicationController
   before_filter :pundit_authorize
   before_filter :new_audience_collection, only: [:edit, :update, :new, :create]
 
-
   def index
     @important_dates = policy_scope(ImportantDate)
 
@@ -57,7 +56,7 @@ class ImportantDatesController < ApplicationController
 
   def destroy
     if @important_date.destroy_as_user(current_user)
-      flash[:info] = "Important Date has been successfully removed. <a href=/change/#{@important_date.history_tracks.last.id}/undo_destroy>Undo</a>"
+      flash[:info] = "Important Date has been successfully removed. <a href=/wcms_components/change/#{@important_date.history_tracks.last.id}/undo_destroy>Undo</a>"
     else
       flash[:error] = "Something went wrong. Please try again."
     end

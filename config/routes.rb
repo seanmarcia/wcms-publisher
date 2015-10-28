@@ -1,14 +1,6 @@
 Wcms::Application.routes.draw do
 
-  resources :menus do
-    # resources :activity_logs, except: [:index, :show, :destroy]
-  end
-
-  resources :important_dates do
-    # resources :activity_logs, except: [:index, :show, :destroy]
-  end
-
-  resources :calendars, :campus_locations do
+  resources :calendars, :campus_locations, :important_dates, :menus, :service_links do
     # resources :activity_logs, except: [:index, :show, :destroy]
   end
 
@@ -18,10 +10,6 @@ Wcms::Application.routes.draw do
     # resources :activity_logs, except: [:index, :show, :destroy]
     post :create_tag, on: :member
     get :view_topics, on: :collection
-  end
-
-  resources :service_links do
-    # resources :activity_logs, except: [:index, :show, :destroy]
   end
 
   resources :sites do

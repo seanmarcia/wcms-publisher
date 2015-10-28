@@ -9,4 +9,4 @@
       = menu.add_item('Event Categories') { edit_site_path(@site, page: 'event_categories') } if policy(@site).can_manage?(:event_categories)
       = menu.add_item('Page Edition Categories') { edit_site_path(@site, page: 'page_edition_categories') } if policy(@site).can_manage?(:page_edition_categories)
       = menu.add_item('Feature Locations') { edit_site_path(@site, page: 'feature_locations') } if policy(@site).can_manage?(:feature_locations)
-      = menu.add_item('History') { edit_site_path(@site, page: 'activity_logs') } if policy(@site).can_manage?(:activity_logs)
+      = menu.add_item('History') { edit_site_path(@site, page: 'logs') } if policy(@site).can_manage?(:logs)

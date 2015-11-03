@@ -12,7 +12,9 @@
 //
 //= require biola-frontend-toolkit
 //= require biola-wcms-components
+//= require react
+//= require react_ujs
 //= require_tree ./polyfills
-//= require_tree ./components
+//= require_tree ./classes
+//= require ./components
 //= require_tree ./resources
-//= require_tree .

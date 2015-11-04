@@ -2,8 +2,6 @@ PageNavigator.Breadcrumbs = React.createClass({
   propTypes: {
     pages: React.PropTypes.object,
     selectedPage: React.PropTypes.object,
-    onClickBreadcrumb: React.PropTypes.func,
-    onClickHome: React.PropTypes.func
   },
   breadcrumbs: function() {
     var crumbs = [];
@@ -16,16 +14,16 @@ PageNavigator.Breadcrumbs = React.createClass({
     }
 
     return crumbs.reverse().map(function(page) {
-      return <PageNavigator.Breadcrumb key={page.id} page={page} onClickBreadcrumb={this.props.onClickBreadcrumb} />
-    }.bind(this));
+      return <PageNavigator.Breadcrumb key={page.id} id={page.id} title={page.attributes.title} />
+    });
   },
   render: function() {
+    // The empty string id attribute is intentional for the Home breadcrumb
     return (
       <ol className="breadcrumb">
-        <li onClick={this.props.onClickHome}>Home</li>
+        <PageNavigator.Breadcrumb id="" title="Home" />
         {this.breadcrumbs()}
       </ol>
     );
-    return <li onClick={this.handleClick}>{this.props.page.attributes.title}</li>
   }
 })

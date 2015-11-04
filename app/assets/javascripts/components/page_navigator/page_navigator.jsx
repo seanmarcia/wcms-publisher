@@ -12,7 +12,11 @@ var PageNavigator = React.createClass({
     };
   },
   componentDidMount: function() {
-    this.reloadPath();
+    // Initialize all data on first load. This loads in chuncks with most relevant first.
+    PageEdition.initialize(this.parentPageId(), function() {
+      this.setState({ selectedPage: PageEdition.data[this.parentPageId()] })
+    }.bind(this));
+
     window.onpopstate = function (event) { this.reloadPath(); }.bind(this);
 
     // Bind keyboard shortcuts
@@ -23,34 +27,14 @@ var PageNavigator = React.createClass({
     $(document.body).off('keydown.pageNavigatorShortcuts', this.handleKeyDown);
   },
   reloadPath: function () {
-    // Get page id from the url Hash. This way page history works.
-    parent_page_id = document.location.hash.substring(1);
+    // Set state as if a page has been selected.
+    this.setState({ selectedPage: PageEdition.data[this.parentPageId()] })
+    this.closeSearch();
+  },
+  parentPageId: function () {
+    // Get page id from the url Hash.
     // Make sure any falsy value including "" returns null
-    if (!parent_page_id) {
-      parent_page_id = null;
-      this.setState({ selectedPage: null });
-    }
-
-    this.loadPage(parent_page_id);
-    this.loadPages(parent_page_id);
-  },
-  loadPage: function (id) {
-    if (id) {
-      PageEdition.loadPage(id, function(data) {
-        this.setState({
-          pages: data,
-          selectedPage: (data[id] || null)
-        });
-      }.bind(this))
-    }
-  },
-  loadPages: function (parent_page_id) {
-    PageEdition.loadChildPages(parent_page_id, function(data) {
-      this.setState({
-        pages: data,
-        selectedPage: (data[parent_page_id] || null)
-      });
-    }.bind(this))
+    return document.location.hash.substring(1) || null
   },
   handleKeyDown: function(event) {
     // console.log("Key Pressed: " + event.keyCode);
@@ -67,11 +51,6 @@ var PageNavigator = React.createClass({
     }
   },
   openSearch: function() {
-    // Load all results for the search
-    PageEdition.loadAll(function(data) {
-      this.setState({pages: data});
-    }.bind(this));
-
     if (!this.state.searchView) {
       this.setState({searchView: true, searchText: ''});
     }
@@ -82,57 +61,29 @@ var PageNavigator = React.createClass({
       searchText: ''
     })
   },
-  onSelectPage: function(page) {
-    this.loadPages(page ? page.id : null);
-
-    this.setState({
-      selectedPage: page,
-      searchView: false,
-      searchText: ''
-    });
-    this.pushPageState(page);
-  },
-  onClickBreadcrumb: function(page) {
-    this.setState({selectedPage: page});
-    this.pushPageState(page);
-  },
-  onClickHome: function() {
-    history.pushState({}, "Page Editions", "#");
-    this.reloadPath();
-  },
-  pushPageState: function (page) {
-    history.pushState({}, page.attributes.title, "#"+page.id);
-    this.reloadPath();
-  },
   onSearchChange: function(searchText) {
-    this.setState({
-      searchText: searchText
-    });
+    this.setState({ searchText: searchText });
   },
-  render: function() {
+
+
+  render: function () {
     return (
       <div>
         {function(){
           if (this.state.searchView) {
-            return <PageNavigator.Search
-              searchText={this.state.searchText}
-              onSearchChange={this.onSearchChange} />
+            return <PageNavigator.Search searchText={this.state.searchText} onSearchChange={this.onSearchChange} />
           } else {
-            return <div>
-              <PageNavigator.Breadcrumbs
-                pages={this.state.pages}
-                selectedPage={this.state.selectedPage}
-                onClickBreadcrumb={this.onClickBreadcrumb}
-                onClickHome={this.onClickHome} />
-              <PageNavigator.ItemPreview
-                page={this.state.selectedPage} />
-            </div>
+            return (
+              <div>
+                <PageNavigator.Breadcrumbs pages={this.state.pages} selectedPage={this.state.selectedPage} />
+                <PageNavigator.ItemPreview page={this.state.selectedPage} />
+              </div>
+            )
           }
         }.bind(this)()}
         <PageNavigator.Items
           pages={this.state.pages}
           selectedPage={this.state.selectedPage}
-          onSelectPage={this.onSelectPage}
           searchText={this.state.searchText}/>
       </div>
     )

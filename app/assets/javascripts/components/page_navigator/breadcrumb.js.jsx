@@ -1,12 +1,17 @@
 PageNavigator.Breadcrumb = React.createClass({
   propTypes: {
-    page: React.PropTypes.object,
-    onClickBreadcrumb: React.PropTypes.func
+    id: React.PropTypes.string,
+    title: React.PropTypes.string
   },
-  handleClick: function() {
-    this.props.onClickBreadcrumb(this.props.page);
+  isActive: function () {
+    // Force null id to be empty string since that is what the hash substring will be.
+    return document.location.hash.substring(1) == (this.props.id || "")
   },
-  render: function() {
-    return <li onClick={this.handleClick}>{this.props.page.attributes.title}</li>
+  render: function () {
+    if (this.isActive()) {
+      return <li className="active">{this.props.title}</li>
+    } else {
+      return <li><a href={"#"+this.props.id}>{this.props.title}</a></li>
+    }
   }
 })

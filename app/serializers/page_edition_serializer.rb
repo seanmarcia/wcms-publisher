@@ -8,9 +8,6 @@ class PageEditionSerializer < BaseSerializer
   attribute :status do
     object.aasm_state
   end
-  attribute :has_children do
-    object.child_page_ids.length > 0
-  end
   attribute :preview_url do
     object.url
   end

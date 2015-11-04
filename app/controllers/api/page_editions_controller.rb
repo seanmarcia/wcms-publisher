@@ -16,6 +16,7 @@ class API::PageEditionsController < API::ApplicationController
 
   def filter_index
     @page_editions = policy_scope(PageEdition).where(site_id: params[:site_id])
+    @page_editions = @page_editions.where(id: params[:id]) if params[:id]
     unless (params[:all])
       @page_editions = @page_editions.where(parent_page_id: params[:parent_page_id].presence)
     end

@@ -3,7 +3,6 @@ PageNavigator.Items = React.createClass({
     selectedPage: React.PropTypes.object,
     pages: React.PropTypes.object,
     searchText: React.PropTypes.string,
-    onSelectPage: React.PropTypes.func
   },
   render: function() {
     var visiblePages = [];
@@ -42,7 +41,7 @@ PageNavigator.Items = React.createClass({
 
     visiblePages.forEach(function(page) {
       rows.push(
-        <PageNavigator.Item key={page.id} page={page} onSelectPage={_this.props.onSelectPage} />
+        <PageNavigator.Item key={page.id} page={page} />
       );
     });
 

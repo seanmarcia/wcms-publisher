@@ -14,6 +14,7 @@
 //= require biola-wcms-components
 //= require react
 //= require react_ujs
+//= require moment
 //= require_tree ./polyfills
 //= require_tree ./classes
 //= require ./components

@@ -1,9 +1,10 @@
-scss:
-  #PageNavigator {
-    .breadcrumb li { cursor: pointer; }
-    .pagePreview .btn.pull-right { margin-left: 5px; }
-    .label + .label { margin-left: 5px; }
-  }
+css:
+  #PageNavigator .pagePreview .btn.pull-right {margin-left:5px}
+  #PageNavigator .label+.label{margin-left:5px}
+  #PageNavigator .sortSelect{cursor:pointer}
+  #PageNavigator .last-updated{min-width:85px}
+  .sortSelect.asc:after { content: "▼"; padding-left: 5px; }
+  .sortSelect.desc:after { content: "▲"; padding-left: 5px; }
 
 .container.page
   - if params[:sid]

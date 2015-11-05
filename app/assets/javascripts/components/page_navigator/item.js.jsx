@@ -11,6 +11,7 @@ PageNavigator.Item = React.createClass({
           <PageNavigator.StatusLabel status={this.props.page.attributes.status} />
           <PageNavigator.RedirectLabel url={this.props.page.attributes.redirect_url} />
         </td>
+        <td className="last-updated">{moment(this.props.page.attributes.updated_at).fromNow(true)}</td>
       </tr>
     );
   }

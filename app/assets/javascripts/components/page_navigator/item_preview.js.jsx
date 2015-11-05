@@ -5,7 +5,7 @@ PageNavigator.ItemPreview = React.createClass({
   render: function() {
     if (this.props.page) {
       return (
-        <div className="pagePreview">
+        <div className="pagePreview well">
           <p>
             <a className="btn btn-primary pull-right" href={this.props.page.links.self}>Edit Page</a>
             <a className="btn btn-default pull-right" href={this.props.page.attributes.preview_url}>Preview Page</a>

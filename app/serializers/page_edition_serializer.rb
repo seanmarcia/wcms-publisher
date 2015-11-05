@@ -14,4 +14,5 @@ class PageEditionSerializer < BaseSerializer
   attribute :redirect_url do
     object.redirect.try(:destination)
   end
+  attribute :updated_at
 end

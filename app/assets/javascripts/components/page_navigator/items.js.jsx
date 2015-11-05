@@ -30,10 +30,14 @@ PageNavigator.Items = React.createClass({
     }
     return "sortSelect" + sortString;
   },
+  selectedId: function () {
+    return this.props.selectedPage ? this.props.selectedPage.id : null;
+  },
+  newPageLink: function () {
+    return "/page_editions/new?site_id=" + PageEdition.siteId + "&parent_page_id=" + (this.selectedId() || "")
+  },
   render: function() {
-    var selectedId = this.props.selectedPage ? this.props.selectedPage.id : null;
-
-    var visiblePages = PageEdition.search(this.props.searchy.params, selectedId);
+    var visiblePages = PageEdition.search(this.props.searchy.params, this.selectedId());
 
     // sort pages
     var sortAscending = this.state.sortAsc;
@@ -52,6 +56,7 @@ PageNavigator.Items = React.createClass({
         <PageNavigator.Item key={page.id} page={page} />
       );
     });
+    rows.push(<tr key="newpage"><td colSpan="4"><a href={this.newPageLink()}>Create New page</a></td></tr>);
 
     if (rows.length > 0) {
       return <table className="table table-striped">

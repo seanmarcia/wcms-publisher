@@ -17,7 +17,7 @@ PageNavigator.Search = React.createClass({
         ref="searchField"
         value={this.props.searchy.params.text}
         onChange={this.handleSearchChange}
-        placeholder="Search all pages"/>
+        placeholder="Search pages"/>
     );
   }
 });

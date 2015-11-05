@@ -1,5 +1,5 @@
 var PageEdition = {
-  siteId: window.params.site_id,
+  siteId: window.params.sid,
   data: {},
   links: {
     show: function (params) { return "/api/page_editions/" + params.id },
@@ -21,5 +21,35 @@ var PageEdition = {
     Ajax.getAll(this.links.index({parent_page_id: id}), this, callback);
     // Load al the pages
     Ajax.getAll(this.links.index({all: true}), this, callback);
+  },
+
+  pagesWhere: function (conditionFunc) {
+    var results = [];
+    for (id in this.data) {
+      // Pass page into condition function. The condition function should return either
+      // true or false whether you want the page to be included
+      if (conditionFunc(this.data[id])) { results.push(this.data[id]); }
+    }
+    return results;
+  },
+  childPages: function (parentId) {
+    return this.pagesWhere(function(page) {
+      return page.attributes.parent_page_id == parentId;
+    });
+  },
+  search: function (searchParams) {
+    var searchExp = null;
+    if (searchParams.text) {
+      searchExp = new RegExp(searchParams.text.replace(" ", ".*"), 'i');
+    }
+
+    return this.pagesWhere(function(page) {
+      return (
+        // Compare page status if status is selected
+        (!searchParams.status || searchParams.status == page.attributes.status) &&
+        (!searchParams.redirect || page.attributes.redirect_url) &&
+        (!searchParams.text || (page.attributes.slug.match(searchExp) || page.attributes.title.match(searchExp)))
+      );
+    });
   }
 }

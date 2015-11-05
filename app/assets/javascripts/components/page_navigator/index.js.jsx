@@ -1,5 +1,6 @@
 //= require ./page_navigator
 //= require ./search
+//= require ./filters
 //= require ./items
 //= require ./item
 //= require ./item_preview

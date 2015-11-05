@@ -1,22 +1,11 @@
 scss:
   td { cursor: pointer; }
   .breadcrumb li { cursor: pointer; }
-  input.search-field, input.search-field:focus {
-    border: 0;
-    outline: none;
-    padding: 5px;
-    font-size: 100%;
-    box-shadow: none;
-    min-height: 0;
-    vertical-align: top;
-    -webkit-appearance: none;
-    width: 100%;
-  }
   .pagePreview .btn.pull-right { margin-left: 5px; }
 
 
 .container.page
-  - if params[:site_id]
+  - if params[:sid]
     #PageNavigator
 
   - else
@@ -24,5 +13,5 @@ scss:
     table.table.table-striped
       - policy_scope(Site).asc(:title).each do |site|
         tr
-          td = link_to site, params.merge({site_id: site.id.to_s})
+          td = link_to site, params.merge({sid: site.id.to_s})
           td = site.url

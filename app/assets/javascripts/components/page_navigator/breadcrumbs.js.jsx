@@ -1,6 +1,5 @@
 PageNavigator.Breadcrumbs = React.createClass({
   propTypes: {
-    pages: React.PropTypes.object,
     selectedPage: React.PropTypes.object,
   },
   breadcrumbs: function() {
@@ -10,7 +9,7 @@ PageNavigator.Breadcrumbs = React.createClass({
     // Build breadcrumbs
     while (page) {
       crumbs.push(page);
-      page = this.props.pages[page.attributes.parent_page_id];
+      page = PageEdition.data[page.attributes.parent_page_id];
     }
 
     return crumbs.reverse().map(function(page) {

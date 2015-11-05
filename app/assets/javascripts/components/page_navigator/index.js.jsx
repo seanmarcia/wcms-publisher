@@ -6,7 +6,7 @@
 //= require ./item_preview
 //= require ./breadcrumbs
 //= require ./breadcrumb
-//= require ./status_label
+//= require ./labels
 
 $(document).ready(function() {
   var PageNavigatorContainer = document.getElementById('PageNavigator')

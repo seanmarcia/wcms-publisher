@@ -37,7 +37,7 @@ var PageEdition = {
       return page.attributes.parent_page_id == parentId;
     });
   },
-  search: function (searchParams) {
+  search: function (searchParams, selectedId) {
     var searchExp = null;
     if (searchParams.text) {
       searchExp = new RegExp(searchParams.text.replace(" ", ".*"), 'i');
@@ -45,7 +45,10 @@ var PageEdition = {
 
     return this.pagesWhere(function(page) {
       return (
-        // Compare page status if status is selected
+        // If searchParams.all is not true, filter to only child pages of the selectedId
+        (!!searchParams.all || page.attributes.parent_page_id == selectedId) &&
+
+        // Compare filters
         (!searchParams.status || searchParams.status == page.attributes.status) &&
         (!searchParams.redirect || page.attributes.redirect_url) &&
         (!searchParams.text || (page.attributes.slug.match(searchExp) || page.attributes.title.match(searchExp)))

@@ -11,23 +11,22 @@ var PageNavigator = React.createClass({
   },
   componentDidMount: function() {
     // Initialize all data on first load. This loads in chuncks with most relevant first.
-    PageEdition.initialize(this.parentPageId(), function() {
-      this.setState({ selectedPage: PageEdition.data[this.parentPageId()] })
+    PageEdition.initialize(this.selectedPageId(), function() {
+      this.setState({ selectedPage: PageEdition.data[this.selectedPageId()] })
     }.bind(this));
 
     window.onpopstate = function (event) { this.reloadPath(); }.bind(this);
   },
   reloadPath: function () {
     // Set state as if a page has been selected.
-    this.setState({ selectedPage: PageEdition.data[this.parentPageId()] })
+    this.setState({ selectedPage: PageEdition.data[this.selectedPageId()] })
     this.clearSearch();
   },
-  parentPageId: function () {
+  selectedPageId: function () {
     // Get page id from the url Hash.
     // Make sure any falsy value including "" returns null
     return document.location.hash.substring(1) || null
   },
-  // Package search stuff together so I don't have to pass them down the tree seperately
 
   updateSearch: function(key, value) {
     var newParams = this.state.searchParams;
@@ -45,25 +44,19 @@ var PageNavigator = React.createClass({
       searchParams: {}
     })
   },
+  // Package search stuff together so I don't have to pass them down the tree seperately
   searchy: function() {
     return {
-      active: this.isSearching,
       params: this.state.searchParams,
       update: this.updateSearch,
       clear: this.clearSearch,
     }
   },
-  isSearching: function () {
-    // return this.state.searchParams != {};
-    var params = this.state.searchParams;
-    return (
-      !!params.status ||
-      !!params.redirect ||
-      !!params.text
-    );
+  showAllPages: function () {
+    return !!this.state.searchParams.all;
   },
   navigation: function () {
-    if (!this.isSearching()) {
+    if (!this.showAllPages()) {
       return (
         <div>
           <PageNavigator.Breadcrumbs selectedPage={this.state.selectedPage} />

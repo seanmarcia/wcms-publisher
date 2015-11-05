@@ -4,14 +4,9 @@ PageNavigator.Items = React.createClass({
     searchy: React.PropTypes.object,
   },
   render: function() {
-    var visiblePages = [];
     var selectedId = this.props.selectedPage ? this.props.selectedPage.id : null;
 
-    if (this.props.searchy.active()) {
-      visiblePages = PageEdition.search(this.props.searchy.params);
-    } else {
-      visiblePages = PageEdition.childPages(selectedId);
-    }
+    var visiblePages = PageEdition.search(this.props.searchy.params, selectedId);
 
     // sort pages
     visiblePages.sort(function(a,b) {

@@ -1,8 +1,9 @@
 scss:
-  td { cursor: pointer; }
-  .breadcrumb li { cursor: pointer; }
-  .pagePreview .btn.pull-right { margin-left: 5px; }
-
+  #PageNavigator {
+    .breadcrumb li { cursor: pointer; }
+    .pagePreview .btn.pull-right { margin-left: 5px; }
+    .label + .label { margin-left: 5px; }
+  }
 
 .container.page
   - if params[:sid]

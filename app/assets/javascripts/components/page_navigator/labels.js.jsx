@@ -21,3 +21,17 @@ PageNavigator.StatusLabel = React.createClass({
     return <span className={label.className}>{label.title}</span>
   }
 })
+
+
+PageNavigator.RedirectLabel = React.createClass({
+  propTypes: {
+    url: React.PropTypes.string
+  },
+  render: function () {
+    if (this.props.url) {
+      return <span className="label label-danger" title={this.props.url}>Redirected</span>
+    } else {
+      return null;
+    }
+  }
+})

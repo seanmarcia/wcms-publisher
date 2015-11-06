@@ -9,11 +9,12 @@
           = f.label :title
           = f.text_field :title, class: 'form-control'
         .form-group.col-xs-12
-          = f.label :url
-          = f.text_field :url, class: 'form-control'
+          = f.label :path
+          = f.text_field :path, class: 'form-control'
         .form-group.col-xs-12
           = f.label :slug
           = f.text_field :slug, class: 'form-control'
+          p.help-block Slugs should be unique to the path. They are used for referencing multiple feature locations on the same page.
         .form-group.col-md-6
           =' f.label :preferred_image_width
           = f.text_field :preferred_image_width, class: 'form-control'
@@ -31,7 +32,7 @@
         thead
           tr
             th Title
-            th Url
+            th Path
             th Slug
             th Preferred Dimensions
             th
@@ -39,7 +40,7 @@
         - @site.feature_locations.each do |fl|
             tr
               td = fl.title
-              td = link_to fl.url
+              td = link_to fl.path
               td = fl.slug
               td = "#{fl.preferred_image_width}x#{fl.preferred_image_height}" unless fl.preferred_image_width.blank?
               td

@@ -21,6 +21,7 @@
         .form-group.col-md-6
           = f.label :preferred_image_height
           = f.text_field :preferred_image_height, class: 'form-control'
+      .row.form-section
         .col-md-12
           .pull-right.form-inline
             .form-group.pull-right
@@ -40,7 +41,7 @@
         - @site.feature_locations.each do |fl|
             tr
               td = fl.title
-              td = link_to fl.path
+              td = fl.path
               td = fl.slug
               td = "#{fl.preferred_image_width}x#{fl.preferred_image_height}" unless fl.preferred_image_width.blank?
               td
@@ -62,9 +63,9 @@
                             .form-group.col-md-12
                               = f.label :title
                               = f.text_field :title, class: 'form-control'
-                            .form-group.col-md-12
-                              = f.label :url
-                              = f.text_field :url, class: 'form-control'
+                            .form-group.col-xs-12
+                              = f.label :path
+                              = f.text_field :path, class: 'form-control'
                             .form-group.col-xs-12
                               = f.label :slug
                               = f.text_field :slug, class: 'form-control'

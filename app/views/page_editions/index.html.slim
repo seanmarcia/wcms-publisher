@@ -8,7 +8,7 @@ css:
 
 .container.page
   - if params[:sid]
-    #PageNavigator
+    #PageNavigator data-site-title=@site.title
 
   - else
     h3 Select Site

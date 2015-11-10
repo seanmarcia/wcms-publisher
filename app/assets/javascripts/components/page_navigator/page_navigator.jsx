@@ -1,6 +1,6 @@
 var PageNavigator = React.createClass({
   propTypes: {
-    url: React.PropTypes.string
+    siteTitle: React.PropTypes.string
   },
   // This sets the default state for the page navigator
   getInitialState: function () {
@@ -59,7 +59,7 @@ var PageNavigator = React.createClass({
     if (!this.showAllPages()) {
       return (
         <div>
-          <PageNavigator.Breadcrumbs selectedPage={this.state.selectedPage} />
+          <PageNavigator.Breadcrumbs selectedPage={this.state.selectedPage} siteTitle={this.props.siteTitle} />
           <PageNavigator.ItemPreview page={this.state.selectedPage} />
         </div>
       )

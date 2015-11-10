@@ -9,11 +9,11 @@
 //= require ./labels
 
 $(document).ready(function() {
-  var PageNavigatorContainer = document.getElementById('PageNavigator')
+  var PageNavigatorContainer = document.getElementById('PageNavigator');
 
   if (PageNavigatorContainer) {
     ReactDOM.render(
-      <PageNavigator url="/api/page_editions/compact_index.json" />,
+      <PageNavigator siteTitle={PageNavigatorContainer.dataset.siteTitle} />,
       PageNavigatorContainer
     );
   }

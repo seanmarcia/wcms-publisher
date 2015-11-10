@@ -1,6 +1,7 @@
 PageNavigator.Breadcrumbs = React.createClass({
   propTypes: {
     selectedPage: React.PropTypes.object,
+    siteTitle: React.PropTypes.string
   },
   breadcrumbs: function() {
     var crumbs = [];
@@ -20,7 +21,7 @@ PageNavigator.Breadcrumbs = React.createClass({
     // The empty string id attribute is intentional for the Home breadcrumb
     return (
       <ol className="breadcrumb">
-        <PageNavigator.Breadcrumb id="" title="Home" />
+        <PageNavigator.Breadcrumb id="" title={this.props.siteTitle || 'Home'} />
         {this.breadcrumbs()}
       </ol>
     );

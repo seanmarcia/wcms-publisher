@@ -57,6 +57,7 @@ var PageNavigator = React.createClass({
   },
   toggleTreeView: function (e) {
     this.updateSearch('all', !this.state.searchParams.all);
+    e.target.blur(); // for some reason the link is staying focused after clicking
     e.preventDefault();
   },
   navigation: function () {
@@ -71,7 +72,7 @@ var PageNavigator = React.createClass({
     } else {
       return (
         <div>
-          <p>You are <strong>viewing all pages</strong>. <a onClick={this.toggleTreeView} href="#">Switch to tree view</a></p>
+          <p>You are <strong>viewing all pages</strong>. <a onClick={this.toggleTreeView} href="#">Switch back to tree view</a></p>
           <hr/>
         </div>
       )

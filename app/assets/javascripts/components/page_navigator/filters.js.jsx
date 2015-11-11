@@ -29,7 +29,6 @@ PageNavigator.Filters = React.createClass({
   render: function() {
     return (
       <ul className="nav nav-list well">
-        <PageNavigator.Filter searchy={this.props.searchy} title="All Pages" for="all" val="true" />
         <li className="nav-header">Status</li>
         <PageNavigator.Filter searchy={this.props.searchy} title="Draft" for="status" val="draft" />
         <PageNavigator.Filter searchy={this.props.searchy} title="Up for Review" for="status" val="request_review" />

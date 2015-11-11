@@ -31,7 +31,7 @@ var PageNavigator = React.createClass({
   updateSearch: function(key, value) {
     var newParams = this.state.searchParams;
 
-    if (value == null)
+    if (value == null || value == false)
       delete newParams[key]
     else
       newParams[key] = value
@@ -55,12 +55,24 @@ var PageNavigator = React.createClass({
   showAllPages: function () {
     return !!this.state.searchParams.all;
   },
+  toggleTreeView: function (e) {
+    this.updateSearch('all', !this.state.searchParams.all);
+    e.preventDefault();
+  },
   navigation: function () {
     if (!this.showAllPages()) {
       return (
         <div>
+          <p>You are in <strong>tree view</strong>. <a onClick={this.toggleTreeView} href="#">Search all pages</a></p>
           <PageNavigator.Breadcrumbs selectedPage={this.state.selectedPage} siteTitle={this.props.siteTitle} />
           <PageNavigator.ItemPreview page={this.state.selectedPage} />
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          <p>You are <strong>viewing all pages</strong>. <a onClick={this.toggleTreeView} href="#">Switch to tree view</a></p>
+          <hr/>
         </div>
       )
     }

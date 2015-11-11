@@ -36,6 +36,13 @@ PageNavigator.Items = React.createClass({
   newPageLink: function () {
     return "/page_editions/new?site_id=" + PageEdition.siteId + "&parent_page_id=" + (this.selectedId() || "")
   },
+  noResultsText: function () {
+    if (this.props.searchy.params.all) {
+      return "No pages match your search."
+    } else {
+      return "No child pages. Search all pages for more results."
+    }
+  },
   render: function() {
     var visiblePages = PageEdition.search(this.props.searchy.params, this.selectedId());
 
@@ -74,8 +81,8 @@ PageNavigator.Items = React.createClass({
         {newPageButton}
       </div>
     } else {
-      return <div><hr/>
-        <p>No child pages</p>
+      return <div>
+        <p>{this.noResultsText()}</p>
         <p>{newPageButton}</p>
       </div>
     }

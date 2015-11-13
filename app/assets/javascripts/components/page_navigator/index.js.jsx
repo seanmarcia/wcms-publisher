@@ -7,6 +7,7 @@
 //= require ./breadcrumbs
 //= require ./breadcrumb
 //= require ./labels
+//= require ./quick_edit
 
 $(document).ready(function() {
   var PageNavigatorContainer = document.getElementById('PageNavigator');

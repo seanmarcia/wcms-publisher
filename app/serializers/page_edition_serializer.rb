@@ -15,4 +15,10 @@ class PageEditionSerializer < BaseSerializer
     object.redirect.try(:destination)
   end
   attribute :updated_at
+
+  # TODO: Only render these on show, is this possible?
+  attribute :presentation_data
+  attribute :schema do
+    object.presentation_data_json_schema
+  end
 end

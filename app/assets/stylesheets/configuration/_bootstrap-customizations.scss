@@ -41,3 +41,8 @@ form {
 }
 
 .checkbox-inline { margin: 0; margin-right: 25px; }
+
+.buttons-spaced {
+  .btn { margin-left: 5px; }
+  .btn:first-child { margin-left: 5px; }
+}

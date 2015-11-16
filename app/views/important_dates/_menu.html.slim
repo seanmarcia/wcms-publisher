@@ -4,8 +4,7 @@
       = @important_date.title
     = menu_block(class: 'list-group-item') do |menu|
       = menu.add_item('Overview', default: true) { edit_important_date_path(@important_date, page: 'form') }
-      = menu.add_item('History') { edit_important_date_path(@important_date, page: 'logs') } if policy(@important_date).can_manage?(:logs)
-
+      = menu.add_item('History') { object_index_wcms_components_changes_path(klass: @important_date.class, id: @important_date.id) } if policy(@important_date).can_manage?(:logs)
 
   .list-group
     - if policy(@important_date).destroy?

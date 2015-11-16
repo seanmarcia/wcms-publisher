@@ -4,5 +4,4 @@
       = @campus_location.title
     = menu_block(class: 'list-group-item') do |menu|
       = menu.add_item('Overview', default: true) { edit_campus_location_path(@campus_location, page: 'form') }
-      = menu.add_item('History') { edit_campus_location_path(@campus_location, page: 'logs') } if policy(@campus_location).can_manage?(:logs)
-
+      = menu.add_item('History') { object_index_wcms_components_changes_path(klass: @campus_location.class, id: @campus_location.id) } if policy(@campus_location).can_manage?(:logs)

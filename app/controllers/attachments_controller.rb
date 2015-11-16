@@ -10,7 +10,7 @@ class AttachmentsController < ApplicationController
     @parent_class = set_attachable_type(@attachment.attachable_type)
     if @parent_class
       @attachment.metadata = params[:attachment][:metadata]
-      if @attachment.save_as_user(current_user)
+      if @attachment.save
         flash[:info] = "Attachment was created."
         redirect_to :back
       else
@@ -34,7 +34,7 @@ class AttachmentsController < ApplicationController
   end
 
   def update
-    if @attachment.update_as_user(current_user, attachment_params)
+    if @attachment.update_attributes(attachment_params)
       flash[:info] = "Attachment was updated."
       redirect_to :back
     else
@@ -43,7 +43,7 @@ class AttachmentsController < ApplicationController
   end
 
   def destroy
-    @attachment.destroy_as_user(current_user)
+    @attachment.destroy
 
     redirect_to :back
   end

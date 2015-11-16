@@ -22,7 +22,7 @@ class ActorsController < ApplicationController
     # @parent refers to the person we are adding the actor to
     elsif @parent.has_permission_to?(ability, actor)
       flash[:info] = "#{actor.name} already has the \"#{ability.to_s.titleize}\" role."
-    elsif @parent.authorize!(actor, ability) # TODO: find out if this needs to be added to user_actions
+    elsif @parent.authorize!(actor, ability)
       flash[:info] = "#{actor.name}'s permissions have been successfully saved."
     else
       flash[:error] = "Something went wrong. Please try again."
@@ -33,8 +33,8 @@ class ActorsController < ApplicationController
   def destroy
     actor = User.find(params[:id])
     actor_roles = @parent.permissions.by_actor(actor).map{|perm| perm.ability}.to_sentence.humanize
-    if @parent.unauthorize_all! actor
-      flash[:info] = "#{actor.name}'s permissions have been successfully removed."
+    if @parent.unauthorize_all!(actor)
+      flash[:info] = "#{actor.name}'s permissions have been successfully removed. <a href=/wcms_components/changes/#{@parent.history_tracks.last.id}/undo_destroy>Undo</a>"
     else
       flash[:error] = "Something went wrong. Please try again."
     end

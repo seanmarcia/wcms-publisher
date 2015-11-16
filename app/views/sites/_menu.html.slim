@@ -9,4 +9,4 @@
       = menu.add_item('Event Categories') { edit_site_path(@site, page: 'event_categories') } if policy(@site).can_manage?(:event_categories)
       = menu.add_item('Page Edition Categories') { edit_site_path(@site, page: 'page_edition_categories') } if policy(@site).can_manage?(:page_edition_categories)
       = menu.add_item('Feature Locations') { edit_site_path(@site, page: 'feature_locations') } if policy(@site).can_manage?(:feature_locations)
-      = menu.add_item('History') { edit_site_path(@site, page: 'logs') } if policy(@site).can_manage?(:logs)
+      = menu.add_item('History') { object_index_wcms_components_changes_path(klass: @site.class, id: @site.id) } if policy(@site).can_manage?(:logs)

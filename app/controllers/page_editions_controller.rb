@@ -1,5 +1,6 @@
 class PageEditionsController < ApplicationController
   include SetSiteCategories
+  include SetModifier
 
   before_filter :set_page_edition, only: [:show, :edit, :update, :destroy, :create_tag]
   before_filter :new_page_edition_from_params, only: [:new, :create]
@@ -46,7 +47,7 @@ class PageEditionsController < ApplicationController
   def create
     if @error
       flash[:notice] = @error
-    elsif @page_edition.save_as_user(current_user)
+    elsif @page_edition.save
       update_state
       flash[:notice] = "'#{@page_edition.title}' created."
       redirect_to [:edit, @page_edition]
@@ -63,7 +64,7 @@ class PageEditionsController < ApplicationController
     if @error
       flash[:warning] = @error
       render :edit
-    elsif @page_edition.update_as_user(current_user, page_edition_params)
+    elsif @page_edition.update_attributes(page_edition_params)
       update_state
       flash[:notice] = "'#{@page_edition.title}' updated."
       redirect_to edit_page_edition_path @page_edition, page: params[:page], choose_template: params[:choose_template]
@@ -75,10 +76,9 @@ class PageEditionsController < ApplicationController
   def destroy
     child_pages = @page_edition.child_pages
 
-    if @page_edition.destroy_as_user(current_user)
-      child_pages.each{|child| child.update_as_user(current_user, {parent_page_id: nil})} if child_pages.present?
-
-      flash[:info] = "Page has been successfully removed. <a href=/wcms_components/change/#{@page_edition.history_tracks.last.id}/undo_destroy>Undo</a>"
+    if @page_edition.destroy
+      child_pages.each{|child| child.update_attributes({parent_page_id: nil})} if child_pages.present?
+      flash[:info] = "Page has been successfully removed. <a href=/wcms_components/changes/#{@page_edition.history_tracks.last.id}/undo_destroy>Undo</a>"
     else
       flash[:error] = "Something went wrong. Please try again."
     end
@@ -89,7 +89,7 @@ class PageEditionsController < ApplicationController
     if @page_edition.slug.blank?
       flash[:error] = 'You need to set a slug before creating a tag.'
     elsif tag = Tag.create_from_object(@page_edition, current_user: current_user, class_slug: 'page_edition')
-      if @page_edition.update_as_user(current_user, {my_object_tag: tag.tag})
+      if @page_edition.update_attributes({my_object_tag: tag.tag})
         flash[:info] = 'Tag Created.'
       else
         flash[:error] = 'Tag was created but it could not be added to this object.'

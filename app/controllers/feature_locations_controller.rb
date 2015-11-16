@@ -5,7 +5,7 @@ class FeatureLocationsController < ApplicationController
   before_filter :pundit_authorize
 
   def create
-    if @feature_location.save_as_user(current_user)
+    if @feature_location.save
       flash[:info] = "#{@feature_location} was created."
     else
       # This is to show the validation errors for a feature location
@@ -17,7 +17,7 @@ class FeatureLocationsController < ApplicationController
   end
 
   def update
-    if @feature_location.update_as_user(current_user, feature_location_params)
+    if @feature_location.update_attributes(feature_location_params)
       flash[:info] = "#{@feature_location} changes were saved."
     else
       # This is to show the validation errors for a feature location
@@ -29,7 +29,7 @@ class FeatureLocationsController < ApplicationController
   end
 
   def destroy
-    if @feature_location.destroy_as_user(current_user)
+    if @feature_location.destroy
       flash[:info] = "Feature Location has been successfully removed."
     else
       flash[:error] = "Something went wrong. Please try again."

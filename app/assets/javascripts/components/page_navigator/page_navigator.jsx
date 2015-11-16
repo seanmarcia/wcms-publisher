@@ -37,7 +37,6 @@ var PageNavigator = React.createClass({
       newParams[key] = value
 
     this.setState({ searchParams: newParams });
-    console.log(newParams);
   },
   clearSearch: function() {
     this.setState({

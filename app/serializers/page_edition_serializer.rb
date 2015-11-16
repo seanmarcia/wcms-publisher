@@ -1,7 +1,6 @@
 class PageEditionSerializer < BaseSerializer
   attribute :title
   attribute :slug
-  attribute :body
   attribute :parent_page_id do
     object.parent_page_id.try(:to_s)
   end

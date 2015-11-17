@@ -17,10 +17,12 @@ var PageEdition = {
     if (id) {
       Ajax.getAll(this.links.index({id: id}), this, callback);
     };
+    // Load some of the child pages for that item
+    Ajax.getAll(this.links.index({parent_page_id: id, limit: 30}), this, callback);
     // Load all the child pages for that item
-    Ajax.getAll(this.links.index({parent_page_id: id}), this, callback);
-    // Load al the pages
-    Ajax.getAll(this.links.index({all: true}), this, callback);
+    Ajax.getAll(this.links.index({parent_page_id: id, offset: 30}), this, callback);
+    // Load all the pages
+    Ajax.getAll(this.links.index({all: true}), this, function() { callback(true) });
   },
 
   pagesWhere: function (conditionFunc) {

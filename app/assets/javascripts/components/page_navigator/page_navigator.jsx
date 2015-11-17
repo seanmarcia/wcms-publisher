@@ -11,8 +11,11 @@ var PageNavigator = React.createClass({
   },
   componentDidMount: function() {
     // Initialize all data on first load. This loads in chuncks with most relevant first.
-    PageEdition.initialize(this.selectedPageId(), function() {
-      this.setState({ selectedPage: PageEdition.data[this.selectedPageId()] })
+    PageEdition.initialize(this.selectedPageId(), function(loadCompleted) {
+      this.setState({
+        selectedPage: PageEdition.data[this.selectedPageId()],
+        loadCompleted: !!loadCompleted
+      })
     }.bind(this));
 
     window.onpopstate = function (event) { this.reloadPath(); }.bind(this);
@@ -89,7 +92,8 @@ var PageNavigator = React.createClass({
           {this.navigation()}
           <PageNavigator.Items
             selectedPage={this.state.selectedPage}
-            searchy={this.searchy()} />
+            searchy={this.searchy()}
+            loadCompleted={this.state.loadCompleted} />
         </div>
       </div>
     )

@@ -15,11 +15,11 @@ class API::PageEditionsController < API::ApplicationController
   private
 
   def filter_index
-    @page_editions = policy_scope(PageEdition).where(site_id: params[:site_id])
+    @page_editions = policy_scope(PageEdition).where(site_id: params[:site_id]).asc(:slug)
     @page_editions = @page_editions.where(id: params[:id]) if params[:id]
-    unless (params[:all])
-      @page_editions = @page_editions.where(parent_page_id: params[:parent_page_id].presence)
-    end
+    @page_editions = @page_editions.limit(params[:limit]) if params[:limit]
+    @page_editions = @page_editions.skip(params[:offset]) if params[:offset]
+    @page_editions = @page_editions.where(parent_page_id: params[:parent_page_id].presence) unless params[:all]
   end
 
   def set_page_edition

@@ -11,6 +11,9 @@ var PageEdition = {
       return '?' + $.param(params || {});
     }
   },
+  count: function () {
+    return Object.keys(this.data).length;
+  },
 
   initialize: function (id, callback) {
     // Load just the item

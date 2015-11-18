@@ -1,6 +1,6 @@
 PageNavigator.Item = React.createClass({
   propTypes: {
-    pages: React.PropTypes.array
+    page: React.PropTypes.object.isRequired
   },
   render: function() {
     return (

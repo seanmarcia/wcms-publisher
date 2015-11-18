@@ -1,6 +1,10 @@
 Wcms::Application.routes.draw do
 
-  resources :calendars, :campus_locations, :important_dates, :menus, :service_links do
+  namespace :api, defaults: {format: :json} do
+    resources :page_editions
+  end
+
+  resources :menus, :calendars, :campus_locations, :important_dates do
     # resources :activity_logs, except: [:index, :show, :destroy]
   end
 

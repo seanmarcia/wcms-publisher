@@ -52,7 +52,7 @@ publishers:
     url: http://wcms.dev/menus
   - name: Outcome Pages
     url: http://academic-publisher.dev/outcome_editions
-  - name: Page Editions
+  - name: Pages
     url: http://wcms.dev/page_editions
   - name: People
     url: http://profile-publisher.dev/people

@@ -11,30 +11,7 @@ class SitesController < ApplicationController
   end
 
   def show
-    @page_editions = [
-      {
-        title: @site.title,
-        id: nil,
-        root: true,
-        url: edit_site_url(@site),
-        preview_url: @site.url,
-        has_children: true
-      }
-    ] +
-    policy_scope(@site.page_editions).asc(:title).map do |page|
-      {
-        type: 'page_edition',
-        id: page.id.to_s,
-        title: page.title,
-        url: page_edition_url(page),
-        preview_url: page.url,
-        slug: page.slug,
-        parent_id: (page.parent_page_id).try(:to_s),
-        status: page.aasm_state,
-        has_children: page.child_page_ids.length > 0
-      }
-    end
-    # render json: @page_editions
+    redirect_to [:edit, @site]
   end
 
   def new

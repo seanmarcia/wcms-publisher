@@ -10,24 +10,7 @@ class PageEditionsController < ApplicationController
   before_filter :new_audience_collection, only: [:edit, :update, :new, :create]
 
   def index
-    @page_editions = policy_scope(PageEdition)
-
-    unless @page_editions.none?
-      # Filter Values
-      @available_sites = Site.in(id: @page_editions.distinct(:site_id)).asc(:title)
-      @available_page_templates = @page_editions.distinct(:page_template).sort_by{|a| a.downcase }
-      @redirected_pages = @page_editions.redirected
-
-      # Filter Results
-      @page_editions = @page_editions.custom_search(params[:q]) if params[:q]
-      @page_editions = @page_editions.redirected if params[:redirected]
-      @page_editions = @page_editions.by_status(params[:status]) if params[:status]
-      @page_editions = @page_editions.by_site(params[:site]) if params[:site]
-      @page_editions = @page_editions.by_last_change(params[:last_change]) if params[:last_change]
-      @page_editions = @page_editions.by_page_template(params[:page_template]) if params[:page_template]
-    end
-
-    @page_editions = @page_editions.asc(:slug).page(params[:page]).per(25)
+    @site = policy_scope(Site).find(params[:sid]) if params[:sid]
   end
 
   def show

@@ -12,4 +12,4 @@
           td
           td = link_to site.title, [:edit, site]
           td = link_to site.url, site.url
-          td = link_to 'Pages', site
+          td = link_to 'Pages', page_editions_url(sid: site.id)

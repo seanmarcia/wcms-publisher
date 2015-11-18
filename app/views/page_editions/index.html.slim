@@ -1,39 +1,11 @@
 .container.page
-  .page-header
-    .pull-right
-      = form_tag page_editions_path, method: :get do
-        = text_field_tag 'q', params[:q], class: 'form-control', placeholder: 'Search', tabindex: '1'
-    .pull-right.pad-right
-      - if policy(PageEdition).create?
-        = link_to 'New Page', new_page_edition_path, class: 'btn btn-default'
-    ul.nav.nav-pills.pull-left
-      = nav_pill_header 'Options'
-      - if @available_sites.present?
-        = nav_pill_dropdown 'Site', :site do
-          - @available_sites.each do |site|
-            = nav_list_link site, :site, site.id
-      - if @available_page_templates.present?
-        = nav_pill_dropdown 'Page Template', :page_template do
-          - @available_page_templates.each do |pt|
-            = nav_list_link pt, :page_template, pt
-      = nav_pill_dropdown 'Status', :status do
-        = nav_list_link 'Draft', :status, 'draft'
-        = nav_list_link 'Up for Review', :status, 'request_review'
-        = nav_list_link 'Published', :status, 'published'
-        = nav_list_link 'Archived', :status, 'archived'
-      = nav_pill_dropdown 'Last Changed', :last_change do
-        = nav_list_link 'Today', :last_change, Date.today
-        = nav_list_link 'Yesterday', :last_change, 1.day.ago.to_date
-        = nav_list_link "Last #{1.week.ago.strftime('%A')}", :last_change, 1.week.ago.to_date
-        = nav_list_link 1.month.ago.strftime('%B %e'), :last_change, 1.month.ago.to_date
-      - if @redirected_pages.present?
-        = nav_pill_link 'Redirected Pages', :redirected
-    .clearfix
+  - if params[:sid]
+    #PageNavigator data-site-title=@site.title
 
-  - if @page_editions.empty?
-    .alert.alert-warning
-      = fa_icon 'warning', text: "No pages were found"
   - else
-    = render 'page_editions'
-
-  .text-center = paginate @page_editions
+    h3 Select Site
+    table.table.table-striped
+      - policy_scope(Site).asc(:title).each do |site|
+        tr
+          td = link_to site, params.merge({sid: site.id.to_s})
+          td = site.url

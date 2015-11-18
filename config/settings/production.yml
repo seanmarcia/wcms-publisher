@@ -45,7 +45,7 @@ publishers:
     url: https://wcms.biola.edu/menus
   - name: Outcome Pages
     url: https://wcms.biola.edu/academics/outcome_editions
-  - name: Page Editions
+  - name: Pages
     url: https://wcms.biola.edu/page_editions
   - name: People
     url: https://wcms.biola.edu/profiles/people

@@ -2,6 +2,7 @@ PageNavigator.Items = React.createClass({
   propTypes: {
     selectedPage: React.PropTypes.object,
     searchy: React.PropTypes.object,
+    loadCompleted: React.PropTypes.bool
   },
   getInitialState: function () {
     return {
@@ -37,10 +38,14 @@ PageNavigator.Items = React.createClass({
     return "/page_editions/new?site_id=" + PageEdition.siteId + "&parent_page_id=" + (this.selectedId() || "")
   },
   noResultsText: function () {
-    if (this.props.searchy.params.all) {
-      return "No pages match your search."
+    if (this.props.loadCompleted) {
+      if (this.props.searchy.params.all) {
+        return "No pages match your search."
+      } else {
+        return "No child pages. Search all pages for more results."
+      }
     } else {
-      return "No child pages. Search all pages for more results."
+      return "Loading pages..."
     }
   },
   render: function() {
@@ -74,6 +79,7 @@ PageNavigator.Items = React.createClass({
               <th><span className={this.headerClass('title')} onClick={this.updateSort} data-sort="title">Title</span></th>
               <th><span className={this.headerClass('status')} onClick={this.updateSort} data-sort="status">Status</span></th>
               <th><span className={this.headerClass('updated_at')} onClick={this.updateSort} data-sort="updated_at">Updated</span></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>{rows}</tbody>

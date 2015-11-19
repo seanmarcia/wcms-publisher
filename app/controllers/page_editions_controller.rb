@@ -10,12 +10,31 @@ class PageEditionsController < ApplicationController
   before_filter :new_audience_collection, only: [:edit, :update, :new, :create]
 
   def index
-    @site = policy_scope(Site).find(params[:sid]) if params[:sid]
+    respond_to do |format|
+      format.html do
+        # @page_editions will get loaded in via ajax
+        @site = policy_scope(Site).find(params[:sid]) if params[:sid]
+      end
+      format.json do
+        @page_editions = policy_scope(PageEdition).where(site_id: params[:site_id]).asc(:slug)
+        @page_editions = @page_editions.where(id: params[:id]) if params[:id]
+        @page_editions = @page_editions.limit(params[:limit]) if params[:limit]
+        @page_editions = @page_editions.skip(params[:offset]) if params[:offset]
+        @page_editions = @page_editions.where(parent_page_id: params[:parent_page_id].presence) unless params[:all]
+        # index.json.jbuilder
+      end
+    end
   end
 
   def show
-    @page_edition = PageEdition.find(params[:id])
-    redirect_to [:edit, @page_edition]
+    respond_to do |format|
+      format.html do
+        redirect_to [:edit, @page_edition]
+      end
+      format.json do
+        # show.json.jbuilder
+      end
+    end
   end
 
   def new

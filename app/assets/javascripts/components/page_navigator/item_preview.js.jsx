@@ -12,8 +12,8 @@ PageNavigator.ItemPreview = React.createClass({
       return (
         <div className="pagePreview well">
           <p>
-            <a className="btn btn-primary pull-right" href={this.props.page.links.self}>Edit Page</a>
-            <a className="btn btn-default pull-right" href={this.props.page.attributes.preview_url}>Preview Page</a>
+            <a className="btn btn-default pull-right" href={this.props.page.attributes.preview_url} target="_blank">Preview Page</a>
+            <a className="btn btn-primary pull-right" href={this.props.page.links.self} target="_blank">Edit Page</a>
             <button className="btn btn-default pull-right" onClick={this.openQuickEdit}>Quick Edit</button>
             <strong>/{this.props.page.attributes.slug}</strong><br/>
             <PageNavigator.StatusLabel status={this.props.page.attributes.status} />

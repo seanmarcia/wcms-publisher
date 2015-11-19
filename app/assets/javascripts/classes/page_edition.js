@@ -2,8 +2,8 @@ var PageEdition = {
   siteId: window.params.sid,
   data: {},
   links: {
-    show: function (params) { return "/api/page_editions/" + params.id },
-    index: function (params) { return "/api/page_editions" + PageEdition.links.params(params); },
+    show: function (params) { return "/page_editions/" + params.id },
+    index: function (params) { return "/page_editions" + PageEdition.links.params(params); },
     params: function (params) {
       // Should always scope by the site id
       params.site_id = PageEdition.siteId;
@@ -11,16 +11,21 @@ var PageEdition = {
       return '?' + $.param(params || {});
     }
   },
+  count: function () {
+    return Object.keys(this.data).length;
+  },
 
   initialize: function (id, callback) {
     // Load just the item
     if (id) {
       Ajax.getAll(this.links.index({id: id}), this, callback);
     };
+    // Load some of the child pages for that item
+    Ajax.getAll(this.links.index({parent_page_id: id, limit: 30}), this, callback);
     // Load all the child pages for that item
-    Ajax.getAll(this.links.index({parent_page_id: id}), this, callback);
-    // Load al the pages
-    Ajax.getAll(this.links.index({all: true}), this, callback);
+    Ajax.getAll(this.links.index({parent_page_id: id, offset: 30}), this, callback);
+    // Load all the pages
+    Ajax.getAll(this.links.index({all: true}), this, function() { callback(true) });
   },
 
   pagesWhere: function (conditionFunc) {

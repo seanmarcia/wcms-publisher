@@ -13,7 +13,7 @@ $(document).ready ->
       when "archived" then ["warning", "Archived"]
       when "request_review" then ["info", "Up for Review"]
       else ["default", "Draft"]
-    if node.type == "page_edition"
+    if node.type == "PageEdition"
       new Handlebars.SafeString("<span class='label label-#{status[0]}'>#{status[1]}</span>")
 
   Handlebars.registerHelper 'linkto', (title, url) ->

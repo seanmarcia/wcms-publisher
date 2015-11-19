@@ -6,13 +6,18 @@ var PageNavigator = React.createClass({
   getInitialState: function () {
     return {
       selectedPage: null,
+      pageCount: 0,
       searchParams: {}
     };
   },
   componentDidMount: function() {
     // Initialize all data on first load. This loads in chuncks with most relevant first.
-    PageEdition.initialize(this.selectedPageId(), function() {
-      this.setState({ selectedPage: PageEdition.data[this.selectedPageId()] })
+    PageEdition.initialize(this.selectedPageId(), function(loadCompleted) {
+      this.setState({
+        selectedPage: PageEdition.data[this.selectedPageId()],
+        pageCount: PageEdition.count(),
+        loadCompleted: !!loadCompleted
+      })
     }.bind(this));
 
     window.onpopstate = function (event) { this.reloadPath(); }.bind(this);
@@ -37,7 +42,6 @@ var PageNavigator = React.createClass({
       newParams[key] = value
 
     this.setState({ searchParams: newParams });
-    console.log(newParams);
   },
   clearSearch: function() {
     this.setState({
@@ -62,9 +66,13 @@ var PageNavigator = React.createClass({
   },
   navigation: function () {
     if (!this.showAllPages()) {
+      var pageTypeNotice = "Only showing child pages.";
+      if (!this.state.selectedPage) {
+        pageTypeNotice = "Only showing root level pages."
+      }
       return (
         <div>
-          <p>You are in <strong>tree view</strong>. <a onClick={this.toggleTreeView} href="#">Search all pages</a></p>
+          <p>{pageTypeNotice} <a onClick={this.toggleTreeView} href="#">Search all {this.state.pageCount} pages</a></p>
           <PageNavigator.Breadcrumbs selectedPage={this.state.selectedPage} siteTitle={this.props.siteTitle} />
           <PageNavigator.ItemPreview page={this.state.selectedPage} />
         </div>
@@ -72,7 +80,7 @@ var PageNavigator = React.createClass({
     } else {
       return (
         <div>
-          <p>You are <strong>viewing all pages</strong>. <a onClick={this.toggleTreeView} href="#">Switch back to tree view</a></p>
+          <p>You are <strong>viewing all {this.state.pageCount} pages</strong>. <a onClick={this.toggleTreeView} href="#">Switch back to tree view</a></p>
           <hr/>
         </div>
       )
@@ -90,7 +98,8 @@ var PageNavigator = React.createClass({
           {this.navigation()}
           <PageNavigator.Items
             selectedPage={this.state.selectedPage}
-            searchy={this.searchy()} />
+            searchy={this.searchy()}
+            loadCompleted={this.state.loadCompleted} />
         </div>
       </div>
     )

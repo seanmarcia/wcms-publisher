@@ -1,9 +1,5 @@
 Wcms::Application.routes.draw do
 
-  namespace :api, defaults: {format: :json} do
-    resources :page_editions
-  end
-
   resources :menus do
     resources :activity_logs, except: [:index, :show, :destroy]
   end

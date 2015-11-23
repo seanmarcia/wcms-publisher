@@ -13,7 +13,7 @@ json.attributes do
   if all_data
     json.body page.body
     json.presentation_data page.presentation_data
-    json.presentation_data_json_schema page.presentation_data_json_schema
+    json.schema page.presentation_data_json_schema
   end
 end
 json.links do

@@ -19,7 +19,7 @@ class MediumPolicy < ApplicationPolicy
   alias :destroy? :create?
 
   def permitted_attributes
-    attrs = [:title, :metadata, :thumbnail, :video_placeholder_image, :related_object_tags_string,
+    attrs = [:title, :subtitle, :metadata, :thumbnail, :video_placeholder_image, :related_object_tags_string,
              :remove_thumbnail, :remove_video_placeholder_image]
 
     attrs += [media_resources: []]

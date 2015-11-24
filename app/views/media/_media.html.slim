@@ -1,0 +1,9 @@
+.table-responsive
+  table.table.table-striped
+    thead
+      tr
+        th Title
+    tbody
+      - @media.each do |medium|
+        tr
+          td = link_to medium.title, medium

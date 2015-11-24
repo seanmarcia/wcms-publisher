@@ -40,6 +40,8 @@ publishers:
     url: https://wcms.staging.biola.edu/profiles/groups
   - name: Important Dates
     url: https://wcms.staging.biola.edu/important_dates
+  - name: Media
+    url: https://wcms.staging.biola.edu/media
   - name: Menus
     url: https://wcms.staging.biola.edu/menus
   - name: Outcome Pages

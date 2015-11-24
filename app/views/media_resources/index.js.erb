@@ -1,0 +1,9 @@
+// Update the list of resources
+$('#media_resources').html(
+  "<%= escape_javascript(render('media_resources/media_resources', media_resources: @medium.media_resources)) %>"
+);
+
+// Clear the form input
+if ($('#media_resources td.danger').length == 0) {
+  $('#media_resource_url').val('');
+}

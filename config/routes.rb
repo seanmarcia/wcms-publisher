@@ -25,5 +25,9 @@ Wcms::Application.routes.draw do
     resources :actors
   end
 
+  resources :media do
+    resources :media_resources, only: [:create, :destroy]
+  end
+
   root 'publishers#index'
 end

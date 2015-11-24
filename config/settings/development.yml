@@ -48,6 +48,8 @@ publishers:
     url: http://profile-publisher.dev/groups
   - name: Important Dates
     url: http://wcms.dev/important_dates
+  - name: Media
+    url: http://wcms.dev/media
   - name: Menus
     url: http://wcms.dev/menus
   - name: Outcome Pages

@@ -1,0 +1,73 @@
+css:
+  .image-uploader .preview { padding-right: 10px; display: table-cell; vertical-align: top; }
+  .image-uploader .fields { display: table-cell; vertical-align: top; }
+
+.panel.panel-default
+  .panel-heading
+    strong Details
+  .panel-body
+
+    = form_for @medium do |f|
+      .form-section
+        .form-group
+          = f.label :title
+          = f.text_field :title, class: 'form-control'
+
+        .form-group
+          = f.label :subtitle
+          = f.text_field :subtitle, class: 'form-control'
+
+        .form-group
+          = f.label 'Related Object Tags'
+          = wcms_component "forms/related_object_tags", form: f
+
+        .form-group
+          = f.label :thumbnail
+          .image-uploader
+            - if @medium.thumbnail?
+              .preview = image_tag(@medium.thumbnail.thumb.url, style: "width: 100px;")
+            .fields
+              = f.file_field :thumbnail
+              - if @medium.thumbnail?
+                br
+                label
+                  = f.check_box :remove_thumbnail
+                  = " Remove"
+
+        .form-group
+          = f.label :video_placeholder_image
+          .image-uploader
+            - if @medium.video_placeholder_image?
+              .preview = image_tag(@medium.video_placeholder_image.thumb.url, style: "width: 100px;")
+            .fields
+              = f.file_field :video_placeholder_image
+              - if @medium.video_placeholder_image?
+                br
+                label
+                  = f.check_box :remove_video_placeholder_image
+                  = " Remove"
+
+
+      hr
+      .form-footer
+        .pull-right
+          = f.submit "Save", class: "btn btn-biola"
+          = link_to "Cancel", media_path, class: "btn btn-link"
+        .clearfix
+
+
+- if @medium.persisted?
+  .panel.panel-default
+    .panel-heading
+      strong Resources
+    .panel-body
+      #media_resources
+        = render 'media_resources/media_resources', media_resources: @medium.media_resources
+      = form_for [ @medium, @medium.media_resources.new ], remote: true do |f|
+        .form-section
+          .form-inline
+            .form-group> style='width: 70%;'
+              = f.collection_select :type, MediaResource::AVAILABLE_TYPES, :to_s, :to_s, {prompt: false}, class: 'form-control', style: 'width: 25%;'
+              '
+              = f.text_field :url, class: 'form-control', placeholder: 'URL', style: 'width: 70%;'
+            .form-group = submit_tag '+ add resource', class: 'btn btn-default'

@@ -1,0 +1,14 @@
+/ this partial gets loaded in by unobtrusive javascript when you create or delete a resource
+table.table
+  tr
+    th Type
+    th URL
+    th
+  - media_resources.each do |resource|
+    tr
+      - if resource.persisted?
+        td = resource.type
+        td = link_to resource.url, resource.url, target: '_blank'
+        td = link_to "Remove", [@medium, resource], confirm: 'Are you sure?', method: :delete, remote: true
+      - else
+        td.danger colspan='3' = resource.errors.full_messages.to_sentence

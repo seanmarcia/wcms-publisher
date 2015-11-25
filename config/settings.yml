@@ -8,6 +8,7 @@ secret_token:
 
 urn_namespaces:
 - "urn:biola:apps:wcms:"
+- "urn:biola:apps:wcms-publisher:"
 - "urn:biola:apps:all:"
 
 cas:

@@ -6,13 +6,9 @@ class MediumPolicy < ApplicationPolicy
   end
 
   def index?
-    user.admin?
+    media_editor?
   end
-  alias :show? :index?
-
-  def create?
-    user.admin?
-  end
+  alias :create? :index?
   alias :new? :create?
   alias :update? :create?
   alias :edit? :create?

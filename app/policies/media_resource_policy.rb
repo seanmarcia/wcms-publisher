@@ -5,9 +5,10 @@ class MediaResourcePolicy < ApplicationPolicy
     end
   end
 
-  def create?
-    user.admin?
+  def index?
+    media_editor?
   end
+  alias :create? :index?
   alias :new? :create?
   alias :update? :create?
   alias :edit? :create?

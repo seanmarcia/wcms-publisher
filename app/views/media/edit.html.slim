@@ -7,7 +7,7 @@
             = @medium.title
           = menu_block(class: 'list-group-item') do |menu|
             = menu.add_item('Overview', default: true) { edit_menu_path(@medium, page: 'form') }
-            = menu.add_item('History') { edit_menu_path(@medium, page: 'activity_logs') } if policy(@medium).can_manage?(:activity_logs)
+            = menu.add_item('History') { edit_menu_path(@medium, page: 'activity_logs') } if policy(@medium).can_manage?(:logs)
 
 
     .col-sm-9

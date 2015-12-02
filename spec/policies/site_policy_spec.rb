@@ -85,7 +85,7 @@ describe SitePolicy do
       let(:attrs) {{affiliations: ["developer"]}}
       it { expect(subject.can_manage?(nil)).to be_truthy }
       it { expect(subject.can_manage?(:form)).to be_truthy }
-      it { expect(subject.can_manage?(:activity_logs)).to be_truthy }
+      it { expect(subject.can_manage?(:logs)).to be_truthy }
       it { expect(subject.can_manage?(:permissions)).to be_truthy }
       it { expect(subject.can_manage?(:page_edition_categories)).to be_truthy }
       it { expect(subject.can_manage?(:event_categories)).to be_truthy }
@@ -97,7 +97,7 @@ describe SitePolicy do
       let(:attrs) {{affiliations: ["admin"]}}
       it { expect(subject.can_manage?(nil)).to be_truthy }
       it { expect(subject.can_manage?(:form)).to be_truthy }
-      it { expect(subject.can_manage?(:activity_logs)).to be_truthy }
+      it { expect(subject.can_manage?(:logs)).to be_truthy }
       it { expect(subject.can_manage?(:permissions)).to be_truthy }
       it { expect(subject.can_manage?(:page_edition_categories)).to be_truthy }
       it { expect(subject.can_manage?(:event_categories)).to be_truthy }
@@ -110,7 +110,7 @@ describe SitePolicy do
       let(:permissions) { Permission.new(actor_id: user.id, actor_type: 'User', ability: :site_admin) }
       it { expect(subject.can_manage?(nil)).to be_truthy }
       it { expect(subject.can_manage?(:form)).to be_truthy }
-      it { expect(subject.can_manage?(:activity_logs)).to be_truthy }
+      it { expect(subject.can_manage?(:logs)).to be_truthy }
       it { expect(subject.can_manage?(:permissions)).to be_truthy }
       it { expect(subject.can_manage?(:page_edition_categories)).to be_truthy }
       it { expect(subject.can_manage?(:event_categories)).to be_truthy }
@@ -122,7 +122,7 @@ describe SitePolicy do
       let(:permissions) { nil }
       it { expect(subject.can_manage?(nil)).to be_truthy }
       it { expect(subject.can_manage?(:form)).to be_truthy }
-      it { expect(subject.can_manage?(:activity_logs)).to be_falsey }
+      it { expect(subject.can_manage?(:logs)).to be_truthy }
       it { expect(subject.can_manage?(:permissions)).to be_falsey }
       it { expect(subject.can_manage?(:page_edition_categories)).to be_falsey }
       it { expect(subject.can_manage?(:event_categories)).to be_falsey }

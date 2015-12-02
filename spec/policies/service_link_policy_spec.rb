@@ -34,21 +34,21 @@ describe ServiceLinkPolicy do
       let(:attrs) {{affiliations: ["developer"]}}
       it { expect(subject.can_manage?(nil)).to be_truthy }
       it { expect(subject.can_manage?(:form)).to be_truthy }
-      it { expect(subject.can_manage?(:activity_logs)).to be_truthy }
+      it { expect(subject.can_manage?(:logs)).to be_truthy }
     end
 
     context "user is an admin" do
       let(:attrs) {{affiliations: ["admin"]}}
       it { expect(subject.can_manage?(nil)).to be_truthy }
       it { expect(subject.can_manage?(:form)).to be_truthy }
-      it { expect(subject.can_manage?(:activity_logs)).to be_truthy }
+      it { expect(subject.can_manage?(:logs)).to be_truthy }
     end
 
     context "user is any other affiliation" do
       let(:attrs) {{affiliations: ["student", "faculty", "staff", "alumni"]}}
       it { expect(subject.can_manage?(nil)).to be_truthy }
       it { expect(subject.can_manage?(:form)).to be_truthy }
-      it { expect(subject.can_manage?(:activity_logs)).to be_falsey }
+      it { expect(subject.can_manage?(:logs)).to be_truthy }
     end
   end
 end

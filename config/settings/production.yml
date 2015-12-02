@@ -41,6 +41,8 @@ publishers:
     url: https://wcms.biola.edu/profiles/groups
   - name: Important Dates
     url: https://wcms.biola.edu/important_dates
+  - name: Media
+    url: https://wcms.biola.edu/media
   - name: Menus
     url: https://wcms.biola.edu/menus
   - name: Outcome Pages

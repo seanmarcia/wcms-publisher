@@ -2,8 +2,8 @@ var PageEdition = {
   siteId: window.params.sid,
   data: {},
   links: {
-    show: function (params) { return "/api/page_editions/" + params.id },
-    index: function (params) { return "/api/page_editions" + PageEdition.links.params(params); },
+    show: function (params) { return "/page_editions/" + params.id },
+    index: function (params) { return "/page_editions" + PageEdition.links.params(params); },
     params: function (params) {
       // Should always scope by the site id
       params.site_id = PageEdition.siteId;

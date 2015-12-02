@@ -64,9 +64,7 @@ class PageEditionPolicy < PermissionsPolicy
   def permitted_attributes
     attrs = super || []
     attrs += [ :title, :slug, :site_id, :parent_page_id, :body, :page_template, :modifier_id,
-      site_category_ids: [], attachment_ids: [], department_ids: [],
-      audience_collection: [ affiliations: [], schools: [], student_levels: [], class_standings: [],
-      majors: [], housing_statuses: [], employee_types: [], departments: []]
+      site_category_ids: [], attachment_ids: [], department_ids: []
     ]
     attrs += [ :topics_string, :keywords_string ]
     attrs += [ :presentation_data_json, :presentation_data_template_id ]

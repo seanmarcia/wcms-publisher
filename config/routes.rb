@@ -4,20 +4,18 @@ Wcms::Application.routes.draw do
     resources :page_editions
   end
 
-  resources :menus, :calendars, :campus_locations, :important_dates do
-    # resources :activity_logs, except: [:index, :show, :destroy]
+  resources :menus, :calendars, :campus_locations, :important_dates, :service_links do
   end
 
   resources :page_editions do
+    resources :audience_collections, only: [:update]
     resources :attachments
     resources :actors, only: [:create, :destroy]
-    # resources :activity_logs, except: [:index, :show, :destroy]
     post :create_tag, on: :member
     get :view_topics, on: :collection
   end
 
   resources :sites do
-    # resources :activity_logs, except: [:index, :show, :destroy]
     resources :site_categories, only: [:create, :update, :destroy]
     resources :feature_locations, only: [:create, :update, :destroy]
     resources :actors

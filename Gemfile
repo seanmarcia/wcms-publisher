@@ -11,12 +11,11 @@ gem 'jquery-rails', '~> 4.0.4'
 gem 'sass-rails', '>= 5.0.1'
 gem 'uglifier', '>= 1.3.0'
 
-
 gem 'biola_deploy'
 gem 'biola_frontend_toolkit', '~> 0.4.4'
 gem 'biola_wcms_components', '~> 0.18.1'
 gem 'blazing'
-gem 'buweb_content_models', '~> 1.7.1'
+gem 'buweb_content_models', '~> 1.8.0'
 gem 'jbuilder', '~> 2.0'
 gem 'jsonapi-serializers'
 # gem 'jsonapi-resources' Look at this instead once we need an API with write access.
@@ -33,7 +32,6 @@ gem 'react-rails', '~> 1.4.0'
 gem 'slim', '>= 2.1'
 gem 'therubyracer', platforms: :ruby
 gem 'turnout'
-
 
 group :development do
   gem 'better_errors'

@@ -1,4 +1,6 @@
 class MediaResourcesController < ApplicationController
+  include SetModifier
+
   before_action :set_medium, :pundit_authorize
 
   def create

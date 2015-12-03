@@ -1,5 +1,5 @@
 class FeatureLocationsController < ApplicationController
-  include ActivityLoggable
+  include SetModifier
 
   before_filter :set_feature_location, only: [:update, :destroy]
   before_filter :new_feature_location_from_params, only: :create
@@ -7,7 +7,6 @@ class FeatureLocationsController < ApplicationController
 
   def create
     if @feature_location.save
-      log_activity(@feature_location.previous_changes, parent: @feature_location)
       flash[:info] = "#{@feature_location} was created."
     else
       # This is to show the validation errors for a feature location
@@ -20,7 +19,6 @@ class FeatureLocationsController < ApplicationController
 
   def update
     if @feature_location.update_attributes(feature_location_params)
-      log_activity(@feature_location.previous_changes, parent: @feature_location)
       flash[:info] = "#{@feature_location} changes were saved."
     else
       # This is to show the validation errors for a feature location
@@ -33,7 +31,6 @@ class FeatureLocationsController < ApplicationController
 
   def destroy
     if @feature_location.destroy
-      log_activity(@feature_location.previous_changes, parent: @feature_location.site, child: 'feature_location', activity: 'destroy')
       flash[:info] = "Feature Location has been successfully removed."
     else
       flash[:error] = "Something went wrong. Please try again."

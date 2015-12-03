@@ -4,4 +4,6 @@
       = @service_link.title
     = menu_block(class: 'list-group-item') do |menu|
       = menu.add_item('Overview', default: true) { edit_service_link_path(@service_link, page: 'form') }
-      = menu.add_item('History') { edit_service_link_path(@service_link, page: 'activity_logs') } if policy(@service_link).can_manage?(:activity_logs)
+      = menu.add_item('Audience') { edit_service_link_path(@service_link, page: 'audience_collections')} if policy(@service_link).can_manage?(:audience_collections) 
+      
+      = menu.add_item('History') { object_index_wcms_components_changes_path(klass: @service_link.class, id: @service_link.id) } if policy(@service_link).can_manage?(:logs)

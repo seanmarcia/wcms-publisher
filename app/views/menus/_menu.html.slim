@@ -5,4 +5,4 @@
     = menu_block(class: 'list-group-item') do |menu|
       = menu.add_item('Overview', default: true) { edit_menu_path(@menu, page: 'form') }
       = menu.add_item('Links') { edit_menu_path(@menu, page: 'menu_links') }
-      = menu.add_item('History') { edit_menu_path(@menu, page: 'activity_logs') } if policy(@menu).can_manage?(:activity_logs)
+      = menu.add_item('History') { object_index_wcms_components_changes_path(klass: @menu.class, id: @menu.id) } if policy(@menu).can_manage?(:logs)

@@ -15,7 +15,7 @@ class MediaResourcePolicy < ApplicationPolicy
   alias :destroy? :create?
 
   def permitted_attributes
-    attrs = [:type, :url]
+    attrs = [:modifier_id, :type, :url]
     attrs
   end
 
@@ -24,7 +24,7 @@ class MediaResourcePolicy < ApplicationPolicy
     case attribute.try(:to_sym)
     when nil, :form
       true
-    when :activity_logs, :permissions
+    when :logs, :permissions
       user.admin? || user.developer?
     else
       false

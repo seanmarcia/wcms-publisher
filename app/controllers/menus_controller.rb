@@ -1,5 +1,5 @@
 class MenusController < ApplicationController
-  include ActivityLoggable
+  include SetModifier
 
   before_filter :set_menu, only: [:show, :edit, :update]
   before_filter :new_menu_from_params, only: [:new, :create]
@@ -30,8 +30,6 @@ class MenusController < ApplicationController
 
   def create
     if @menu.save && @menu.update_attributes(page_edition_ids: menu_params[:page_edition_ids])
-      log_activity({"created"=>[nil, @menu.attributes.delete_if{|k, v| v.blank?}]}, parent: @menu)
-
       flash[:notice] = "'#{@menu.title}' created."
       redirect_to edit_menu_path(@menu, page: params[:page])
     else
@@ -44,8 +42,6 @@ class MenusController < ApplicationController
 
   def update
     if @menu.update_attributes(menu_params)
-      log_activity(@menu.previous_changes, parent: @menu)
-
       flash[:notice] = "'#{@menu.title}' updated."
       redirect_to edit_menu_path(@menu, page: params[:page])
     else

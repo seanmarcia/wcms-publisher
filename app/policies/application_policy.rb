@@ -70,4 +70,3 @@ class ApplicationPolicy
     !can_change?(parameter)
   end
 end
-

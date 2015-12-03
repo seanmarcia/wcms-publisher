@@ -1,3 +1,7 @@
+/ Used for providing a link to the history partial. Should also be added to the set_modifier concern.
+- content_for :site_nav_right do
+  = link_to 'History', wcms_components_changes_path(klass: '<% class_name %>'), class: "top-nav-link"
+  
 .container.page
   .page-header
     .pull-right

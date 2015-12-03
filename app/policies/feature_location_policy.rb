@@ -29,6 +29,6 @@ class FeatureLocationPolicy < PermissionsPolicy
   alias :update? :create?
 
   def permitted_attributes
-    [:title, :site_id, :url, :path, :slug, :preferred_image_height, :preferred_image_width]
+    [:modifier_id, :title, :site_id, :url, :path, :slug, :preferred_image_height, :preferred_image_width]
   end
 end

@@ -1,5 +1,5 @@
 class MediaController < ApplicationController
-  include ActivityLoggable
+  include SetModifier
 
   before_filter :set_medium, only: [:show, :edit, :update]
   before_filter :new_medium_from_params, only: [:new, :create]
@@ -24,7 +24,6 @@ class MediaController < ApplicationController
 
   def create
     if @medium.save
-      log_activity(@medium.previous_changes, parent: @medium)
       flash[:notice] = "'#{@medium.title}' created."
       redirect_to [:edit, @medium]
     else
@@ -37,7 +36,6 @@ class MediaController < ApplicationController
 
   def update
     if @medium.update_attributes(medium_params)
-      log_activity(@medium.previous_changes, parent: @medium)
       flash[:notice] = "'#{@medium.title}' updated."
       redirect_to edit_medium_path(@medium, page: params[:page])
     else

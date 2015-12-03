@@ -39,15 +39,15 @@ class SitePolicy < PermissionsPolicy
   end
 
   def permitted_attributes
-    [:title, :url, :preferred_image_height, :preferred_image_width, :user_ids, :has_events, :has_articles,
+    [:modifier_id, :title, :url, :preferred_image_height, :preferred_image_width, :user_ids, :has_events, :has_articles,
       :has_features, :has_audience_collections, :has_page_editions, article_author_roles: [], event_author_roles: []]
   end
 
   def can_manage?(attribute)
     case attribute.try(:to_sym)
-    when nil, :form
+    when nil, :form, :logs
       true
-    when :activity_logs, :permissions
+    when :permissions
       site_admin_for?(record)
     when :page_edition_categories
       site_admin_for?(record) && record.has_page_editions

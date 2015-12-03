@@ -10,7 +10,7 @@
       = menu.add_item('Presentation Data') { edit_page_edition_path(@page_edition, page: 'presentation_data') }
       = menu.add_item('Permissions') {  edit_page_edition_path(@page_edition, page: 'permissions') } if policy(@page_edition).can_manage?(:permissions)
       = menu.add_item('SEO') { edit_page_edition_path(@page_edition, page: 'seo') } if policy(@page_edition).can_manage?(:seo)
-      = menu.add_item('History') { edit_page_edition_path(@page_edition, page: 'activity_logs') } if policy(@page_edition).can_manage?(:activity_logs)
+      = menu.add_item('History') { object_index_wcms_components_changes_path(klass: @page_edition.class, id: @page_edition.id) } if policy(@page_edition).can_manage?(:logs)
 
   .list-group
     .list-group-item.top-item
@@ -39,4 +39,3 @@
   .list-group
     - if policy(@page_edition).destroy?
       .list-group-item.list-group-item-danger = link_to fa_icon('trash', text: "Delete this page"), [@page_edition], method: :delete, data: { confirm: "Are you sure that you want to delete #{@page_edition}? Children: #{@page_edition.child_pages.map(&:slug).join(', ') }" }
-

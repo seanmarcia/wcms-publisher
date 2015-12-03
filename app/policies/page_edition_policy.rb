@@ -68,7 +68,7 @@ class PageEditionPolicy < PermissionsPolicy
       majors: [], housing_statuses: [], employee_types: [], departments: [] ]
     ]
     attrs += [ :topics_string, :keywords_string ]
-    attrs += [ :presentation_data_json, :presentation_data_template_id ]
+    attrs += [ :presentation_data_json, :presentation_data_template_id, :keep_in_sync, :presentation_data_json_schema ]
     attrs += [ redirect: [ :destination, :type, :query_string_handling ] ] if user.admin?
     attrs += [ :publish_at, :archive_at, :featured ] if page_publisher_for?(record)
     attrs = attrs | SEO_FIELDS if user.admin? # Inherited from ApplicationPolicy

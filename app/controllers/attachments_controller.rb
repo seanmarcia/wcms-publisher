@@ -1,4 +1,5 @@
 class AttachmentsController < ApplicationController
+  include SetModifier
 
   before_filter :pundit_authorize
   before_filter :set_parent

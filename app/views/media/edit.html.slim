@@ -1,23 +1,15 @@
 .container.page
   .row
     .col-sm-3
-      .side-menu
-        .list-group
-          .list-group-item.top-item
-            = @medium.title
-          = menu_block(class: 'list-group-item') do |menu|
-            = menu.add_item('Overview', default: true) { edit_menu_path(@medium, page: 'form') }
-            = menu.add_item('History') { edit_menu_path(@medium, page: 'activity_logs') } if policy(@medium).can_manage?(:logs)
-
+      = render 'menu'
 
     .col-sm-9
-
       / validate that current user can manage the page
       - if policy(@medium).can_manage?(params[:page])
         .edit-partials
         - case params[:page]
-        - when 'activity_logs'
-          = render 'shared/activity_logs', obj: @medium
+        - when 'logs'
+          = render 'shared/logs', obj: @medium
         - else
           = render form_page_path
       - else

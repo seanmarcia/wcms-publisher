@@ -1,5 +1,13 @@
 Wcms::Application.routes.draw do
-  resources :menus, :calendars, :campus_locations, :important_dates, :service_links
+  resources :menus, :calendars, :campus_locations
+
+  resources :service_links do
+    resources :audience_collections, only: [:update]
+  end
+
+  resources :important_dates do
+    resources :audience_collections, only: [:update]
+  end
 
   resources :page_editions do
     resources :audience_collections, only: [:update]

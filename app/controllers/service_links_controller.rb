@@ -1,4 +1,5 @@
 class ServiceLinksController < ApplicationController
+  include SetModifier
 
   before_filter :set_service_link, only: [:show, :edit, :update]
   before_filter :new_service_link_from_params, only: [:new, :create]

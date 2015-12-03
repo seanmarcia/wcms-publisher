@@ -22,6 +22,8 @@ class ApplicationController < WcmsApplicationController
       Menu.find(params[:menu_id])
     elsif params[:site_id].present?
       Site.find(params[:site_id])
+    elsif params[:service_link_id].present?
+      ServiceLink.find(params[:service_link_id])
     else
       nil
     end

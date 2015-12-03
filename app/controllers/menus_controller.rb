@@ -1,4 +1,5 @@
 class MenusController < ApplicationController
+  include SetModifier
 
   before_filter :set_menu, only: [:show, :edit, :update]
   before_filter :new_menu_from_params, only: [:new, :create]

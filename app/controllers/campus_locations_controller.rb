@@ -1,4 +1,5 @@
 class CampusLocationsController < ApplicationController
+  include SetModifier
 
   before_filter :set_campus_location, only: [:show, :edit, :update]
   before_filter :new_campus_location_from_params, only: [:new, :create]

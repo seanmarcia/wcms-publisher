@@ -1,4 +1,5 @@
 class ImportantDatesController < ApplicationController
+  include SetModifier
 
   before_filter :set_important_date, only: [:show, :edit, :update, :destroy]
   before_filter :new_important_date_from_params, only: [:new, :create]

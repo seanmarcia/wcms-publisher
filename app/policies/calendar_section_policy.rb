@@ -19,6 +19,6 @@ class CalendarSectionPolicy < ApplicationPolicy
   alias :destroy? :create?
 
   def permitted_attributes
-    [:title, :start_date, :end_date]
+    [:modifier_id, :title, :start_date, :end_date]
   end
 end

@@ -19,7 +19,7 @@ class CalendarPolicy < ApplicationPolicy
   alias :destroy? :create?
 
   def permitted_attributes
-    attrs = [:title, :start_date, :end_date, tags: []]
+    attrs = [:modifier_id, :title, :start_date, :end_date, tags: []]
     attrs = attrs | SEO_FIELDS if user.admin? # Inherited from ApplicationPolicy
     attrs
   end

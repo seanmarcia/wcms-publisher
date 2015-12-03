@@ -14,6 +14,6 @@ class AttachmentPolicy < PermissionsPolicy
   alias :destroy? :index?
 
   def permitted_attributes
-    [:attachment, :attachment_cache, :name, :attachable_type, :remote_attachment_url, :attachable_id, :metadata]
+    [:attachment, :attachment_cache, :name, :attachable_type, :remote_attachment_url, :attachable_id, :modifier_id, :metadata]
   end
 end

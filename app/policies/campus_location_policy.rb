@@ -19,7 +19,7 @@ class CampusLocationPolicy < ApplicationPolicy
   alias :destroy? :create?
 
   def permitted_attributes
-    attrs = [:name, :external_id, :description, :latitude, :longitude]
+    attrs = [:modifier_id, :name, :external_id, :description, :latitude, :longitude]
     attrs
   end
 

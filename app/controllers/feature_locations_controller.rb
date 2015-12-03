@@ -1,4 +1,5 @@
 class FeatureLocationsController < ApplicationController
+  include SetModifier
 
   before_filter :set_feature_location, only: [:update, :destroy]
   before_filter :new_feature_location_from_params, only: :create

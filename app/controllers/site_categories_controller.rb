@@ -1,4 +1,5 @@
 class SiteCategoriesController < ApplicationController
+  include SetModifier
 
   layout false
   before_filter :set_site

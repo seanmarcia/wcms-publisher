@@ -1,4 +1,5 @@
 class SitesController < ApplicationController
+  include SetModifier
 
   before_filter :set_site, only: [:show, :edit, :update]
   before_filter :new_site_from_params, only: [:new, :create]

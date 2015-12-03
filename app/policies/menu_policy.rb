@@ -19,7 +19,7 @@ class MenuPolicy < ApplicationPolicy
   alias :destroy? :create?
 
   def permitted_attributes
-    attrs = [:title, :url, :slug, :site_id, :menu_links_json, page_edition_ids: []]
+    attrs = [:modifier_id, :title, :url, :slug, :site_id, :menu_links_json, page_edition_ids: []]
     attrs
   end
 

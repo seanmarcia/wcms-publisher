@@ -1,4 +1,5 @@
 class ActorsController < ApplicationController
+  include SetModifier
 
   before_filter :pundit_authorize
 

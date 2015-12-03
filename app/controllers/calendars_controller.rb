@@ -1,4 +1,5 @@
 class CalendarsController < ApplicationController
+  include SetModifier
 
   before_filter :set_calendar, only: [:show, :edit, :update]
   before_filter :new_calendar_from_params, only: [:new, :create]

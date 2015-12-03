@@ -16,7 +16,7 @@ class MediumPolicy < ApplicationPolicy
 
   def permitted_attributes
     attrs = [:title, :subtitle, :metadata, :thumbnail, :video_placeholder_image, :related_object_tags_string,
-             :remove_thumbnail, :remove_video_placeholder_image]
+             :modifier_id, :remove_thumbnail, :remove_video_placeholder_image]
 
     attrs += [media_resources: []]
     attrs
@@ -27,7 +27,7 @@ class MediumPolicy < ApplicationPolicy
     case attribute.try(:to_sym)
     when nil, :form
       true
-    when :activity_logs, :permissions
+    when :logs, :permissions
       user.admin? || user.developer?
     else
       false

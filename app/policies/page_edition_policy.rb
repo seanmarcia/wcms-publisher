@@ -45,7 +45,7 @@ class PageEditionPolicy < PermissionsPolicy
   alias :new? :create?
 
   def edit?
-    page_editor_for?(record) || page_author_for?(record)
+    page_editor_for?(record)
   end
   alias :update? :edit?
 

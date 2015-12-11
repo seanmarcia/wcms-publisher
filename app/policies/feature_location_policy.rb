@@ -10,7 +10,7 @@ class FeatureLocationPolicy < PermissionsPolicy
       if feature_admin?
         # Include every site that has features enabled.
         scope.in(site_id: Site.with_features_enabled.pluck(:id))
-      elsif feature_author?
+      elsif feature_author? # TODO: This needs to be added to the permissions policy at the moment it isnt being hit at all.
         scope.in(site_id: Site.with_any_permission_to([:feature_publisher, :feature_editor, :feature_author], user).with_features_enabled.pluck(:id) )
       else
         scope.none

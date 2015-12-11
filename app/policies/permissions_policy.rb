@@ -9,6 +9,11 @@ class PermissionsPolicy < ApplicationPolicy
 
   # States that the user is able to edit at least one page, either through role,
   # though site permissions, or through page permissions
+  def page_author_for?(page)
+    page_editor? ||
+    (page && page.has_permission_to?(:page_edition_author, user))
+  end
+
   def page_editor?
     site_page_editor? ||
     PageEdition.with_permission_to(:edit, user).present?
@@ -17,7 +22,8 @@ class PermissionsPolicy < ApplicationPolicy
   # States that the user is able to edit this particular page
   def page_editor_for?(page)
     site_page_editor_for?(page.try(:site)) ||
-    (page && page.has_permission_to?(:edit, user))
+    (page && page.has_permission_to?(:edit, user)) ||
+    page_author_for?(page)
   end
 
   # Only a page publisher if you have permissions to a page through site or role
@@ -64,6 +70,12 @@ class PermissionsPolicy < ApplicationPolicy
     user.admin? ||
     user.has_role?(:feature_admin)
   end
+
+  # def feature_author?
+  #   # TODO: Make sure that this is doing what it is supposed to.
+  #   feature_editor? ||
+  #   Site.with_permission_to(:feature_author, user).present?
+  # end
 
   #############################################
   ############# SITES PERMISSIONS #############

@@ -4,7 +4,6 @@ class ActorsController < ApplicationController
   before_filter :pundit_authorize
 
   def create
-    binding.pry
     # First find the actor's person record from the given person id
     person_record_for_actor = Person.find(params[:_person_id])
 

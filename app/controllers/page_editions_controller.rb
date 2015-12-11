@@ -117,7 +117,7 @@ class PageEditionsController < ApplicationController
   # On create if an author doesnt already have permissions to edit create a permission
   #  allowing them to edit this page.
   def set_author
-    if policy(@page_edition).page_editor?
+    unless policy(@page_edition).page_editor?
       author = Permission.new(
                       actor_id: current_user.id,
                       actor_type: 'User',

@@ -7,13 +7,14 @@ class PermissionsPolicy < ApplicationPolicy
     user.admin?
   end
 
-  # States that the user is able to edit at least one page, either through role,
-  # though site permissions, or through page permissions
+  # Is a page editor or is the page creator
   def page_author_for?(page)
     page_editor? ||
     (page && page.has_permission_to?(:page_edition_author, user))
   end
 
+  # States that the user is able to edit at least one page, either through role,
+  # though site permissions, or through page permissions
   def page_editor?
     site_page_editor? ||
     PageEdition.with_permission_to(:edit, user).present?
@@ -67,15 +68,13 @@ class PermissionsPolicy < ApplicationPolicy
   #############################################
   # Generic if a user has this role at all
   def feature_admin?
-    user.admin? ||
-    user.has_role?(:feature_admin)
+    user.admin?
+    # In access feature admin belongs to news_publisher. So until we either merge
+    #  all of the permissions and make them global or mirror them in wcms_publisher
+    #  this will be commented out. This includes feature_author (which should be
+    #  renamed to feature_editor...)
+    # || user.has_role?(:feature_admin)
   end
-
-  # def feature_author?
-  #   # TODO: Make sure that this is doing what it is supposed to.
-  #   feature_editor? ||
-  #   Site.with_permission_to(:feature_author, user).present?
-  # end
 
   #############################################
   ############# SITES PERMISSIONS #############

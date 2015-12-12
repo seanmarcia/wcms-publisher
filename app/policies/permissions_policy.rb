@@ -17,8 +17,7 @@ class PermissionsPolicy < ApplicationPolicy
   # States that the user is able to edit this particular page
   def page_editor_for?(page)
     site_page_editor_for?(page.try(:site)) ||
-    (page && page.has_permission_to?(:edit, user)) ||
-    page_author_for?(page)
+    (page && page.has_permission_to?(:edit, user))
   end
 
   # Only a page publisher if you have permissions to a page through site or role

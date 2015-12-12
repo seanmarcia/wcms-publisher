@@ -7,12 +7,6 @@ class PermissionsPolicy < ApplicationPolicy
     user.admin?
   end
 
-  # Is a page editor or is the page creator
-  def page_author_for?(page)
-    page_editor? ||
-    (page && page.has_permission_to?(:page_edition_author, user))
-  end
-
   # States that the user is able to edit at least one page, either through role,
   # though site permissions, or through page permissions
   def page_editor?
@@ -49,6 +43,12 @@ class PermissionsPolicy < ApplicationPolicy
   def site_page_editor?
     site_page_publisher? ||
     Site.with_permission_to(:page_edition_editor, user).present?
+  end
+
+  # States that the user is a page_author or page_edition_editor for at least one site
+  def site_page_author?
+    site_page_editor? ||
+    Site.with_permission_to(:page_edition_author, user).present?
   end
 
   # States that the user is a page_edition_publisher for this particular site

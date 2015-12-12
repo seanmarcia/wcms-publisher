@@ -121,7 +121,7 @@ class PageEditionsController < ApplicationController
       author = Permission.new(
                       actor_id: current_user.id,
                       actor_type: 'User',
-                      ability: :page_edition_author,
+                      ability: :edit,
                       modifier_id: current_user.id
                     )
       # Pushing the author onto the permissions array in case set author is

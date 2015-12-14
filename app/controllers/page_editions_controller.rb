@@ -50,6 +50,7 @@ class PageEditionsController < ApplicationController
     if @error
       flash[:notice] = @error
     elsif @page_edition.save
+      set_author
       update_state
       flash[:notice] = "'#{@page_edition.title}' created."
       redirect_to [:edit, @page_edition]
@@ -112,6 +113,23 @@ class PageEditionsController < ApplicationController
   end
 
   private
+
+  # On create if an author doesnt already have permissions to edit create a permission
+  #  allowing them to edit this page.
+  def set_author
+    unless policy(@page_edition).page_editor?
+      author = Permission.new(
+                      actor_id: current_user.id,
+                      actor_type: 'User',
+                      ability: :edit,
+                      modifier_id: current_user.id
+                    )
+      # Pushing the author onto the permissions array in case set author is
+      #  ever called after create and permissions already exist.
+      @page_edition.permissions << author
+      @page_edition.save
+    end
+  end
 
   def set_source
     if params[:source_change].present?

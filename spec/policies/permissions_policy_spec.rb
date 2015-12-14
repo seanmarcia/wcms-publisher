@@ -20,7 +20,7 @@ describe PermissionsPolicy do
     it { expect( subject.site_page_editor? ).to be_truthy }
     it { expect( subject.site_page_publisher_for?( site ) ).to be_truthy }
     it { expect( subject.site_page_editor_for?( site ) ).to be_truthy }
-    it { expect( subject.feature_admin? ).to be_truthy }
+    # it { expect( subject.feature_admin? ).to be_truthy }
     it { expect( subject.site_admin? ).to be_truthy }
     it { expect( subject.site_admin_for?( site ) ).to be_truthy }
   end
@@ -35,7 +35,7 @@ describe PermissionsPolicy do
     it { expect( subject.site_page_editor? ).to be_truthy }
     it { expect( subject.site_page_publisher_for?( site ) ).to be_truthy }
     it { expect( subject.site_page_editor_for?( site ) ).to be_truthy }
-    it { expect( subject.feature_admin? ).to be_truthy }
+    # it { expect( subject.feature_admin? ).to be_truthy }
     it { expect( subject.site_admin? ).to be_truthy }
     it { expect( subject.site_admin_for?( site ) ).to be_truthy }
   end
@@ -49,7 +49,7 @@ describe PermissionsPolicy do
     it { expect( subject.site_page_editor? ).to be_falsey }
     it { expect( subject.site_page_publisher_for?( site ) ).to be_falsey }
     it { expect( subject.site_page_editor_for?( site ) ).to be_falsey }
-    it { expect( subject.feature_admin? ).to be_falsey }
+    # it { expect( subject.feature_admin? ).to be_falsey }
     it { expect( subject.site_admin? ).to be_falsey }
     it { expect( subject.site_admin_for?( site ) ).to be_falsey }
   end
@@ -64,7 +64,7 @@ describe PermissionsPolicy do
     it { expect( subject.site_page_editor? ).to be_falsey }
     it { expect( subject.site_page_publisher_for?( site ) ).to be_falsey }
     it { expect( subject.site_page_editor_for?( site ) ).to be_falsey }
-    it { expect( subject.feature_admin? ).to be_falsey }
+    # it { expect( subject.feature_admin? ).to be_falsey }
     it { expect( subject.site_admin? ).to be_falsey }
     it { expect( subject.site_admin_for?( site ) ).to be_falsey }
   end
@@ -79,7 +79,7 @@ describe PermissionsPolicy do
     it { expect( subject.site_page_editor? ).to be_truthy }
     it { expect( subject.site_page_publisher_for?( site ) ).to be_falsey }
     it { expect( subject.site_page_editor_for?( site ) ).to be_truthy }
-    it { expect( subject.feature_admin? ).to be_falsey }
+    # it { expect( subject.feature_admin? ).to be_falsey }
     it { expect( subject.site_admin? ).to be_falsey }
     it { expect( subject.site_admin_for?( site ) ).to be_falsey }
   end
@@ -94,25 +94,25 @@ describe PermissionsPolicy do
     it { expect( subject.site_page_editor? ).to be_truthy }
     it { expect( subject.site_page_publisher_for?( site ) ).to be_truthy }
     it { expect( subject.site_page_editor_for?( site ) ).to be_truthy }
-    it { expect( subject.feature_admin? ).to be_falsey }
+    # it { expect( subject.feature_admin? ).to be_falsey }
     it { expect( subject.site_admin? ).to be_falsey }
     it { expect( subject.site_admin_for?( site ) ).to be_falsey }
   end
 
-  context 'user has role as a feature_admin' do
-    let(:entitlements) { ["urn:biola:apps:wcms:feature_admin"] }
-    it { expect( subject.page_admin? ).to be_falsey }
-    it { expect( subject.page_editor? ).to be_falsey }
-    it { expect( subject.page_editor_for?( page_edition ) ).to be_falsey }
-    it { expect( subject.page_publisher_for?( page_edition ) ).to be_falsey }
-    it { expect( subject.site_page_publisher? ).to be_falsey }
-    it { expect( subject.site_page_editor? ).to be_falsey }
-    it { expect( subject.site_page_publisher_for?( site ) ).to be_falsey }
-    it { expect( subject.site_page_editor_for?( site ) ).to be_falsey }
-    it { expect( subject.feature_admin? ).to be_truthy }
-    it { expect( subject.site_admin? ).to be_falsey }
-    it { expect( subject.site_admin_for?( site ) ).to be_falsey }
-  end
+  # context 'user has role as a feature_admin' do
+  #   let(:entitlements) { ["urn:biola:apps:wcms:feature_admin"] }
+  #   it { expect( subject.page_admin? ).to be_falsey }
+  #   it { expect( subject.page_editor? ).to be_falsey }
+  #   it { expect( subject.page_editor_for?( page_edition ) ).to be_falsey }
+  #   it { expect( subject.page_publisher_for?( page_edition ) ).to be_falsey }
+  #   it { expect( subject.site_page_publisher? ).to be_falsey }
+  #   it { expect( subject.site_page_editor? ).to be_falsey }
+  #   it { expect( subject.site_page_publisher_for?( site ) ).to be_falsey }
+  #   it { expect( subject.site_page_editor_for?( site ) ).to be_falsey }
+  #   it { expect( subject.feature_admin? ).to be_truthy }
+  #   it { expect( subject.site_admin? ).to be_falsey }
+  #   it { expect( subject.site_admin_for?( site ) ).to be_falsey }
+  # end
 
   context 'site has user as a site admin' do
     let(:site_permissions) { [Permission.new(actor_id: user.id, actor_type: 'User', ability: :site_admin)] }
@@ -124,7 +124,7 @@ describe PermissionsPolicy do
     it { expect( subject.site_page_editor? ).to be_falsey }
     it { expect( subject.site_page_publisher_for?( site ) ).to be_falsey }
     it { expect( subject.site_page_editor_for?( site ) ).to be_falsey }
-    it { expect( subject.feature_admin? ).to be_falsey }
+    # it { expect( subject.feature_admin? ).to be_falsey }
     it { expect( subject.site_admin? ).to be_truthy }
     it { expect( subject.site_admin_for?( site ) ).to be_truthy }
   end

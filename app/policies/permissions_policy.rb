@@ -44,6 +44,12 @@ class PermissionsPolicy < ApplicationPolicy
     Site.with_permission_to(:page_edition_editor, user).present?
   end
 
+  # States that the user is a page_author or page_edition_editor for at least one site
+  def site_page_author?
+    site_page_editor? ||
+    Site.with_permission_to(:page_edition_author, user).present?
+  end
+
   # States that the user is a page_edition_publisher for this particular site
   def site_page_publisher_for?(site)
     page_admin? ||
@@ -61,8 +67,12 @@ class PermissionsPolicy < ApplicationPolicy
   #############################################
   # Generic if a user has this role at all
   def feature_admin?
-    user.admin? ||
-    user.has_role?(:feature_admin)
+    user.admin?
+    # In access feature admin belongs to news_publisher. So until we either merge
+    #  all of the permissions and make them global or mirror them in wcms_publisher
+    #  this will be commented out. This includes feature_author (which should be
+    #  renamed to feature_editor...)
+    # || user.has_role?(:feature_admin)
   end
 
   #############################################

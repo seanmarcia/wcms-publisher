@@ -40,7 +40,7 @@ class PageEditionPolicy < PermissionsPolicy
   alias :view_topics? :index?
 
   def create?
-    site_page_editor?
+    site_page_author?
   end
   alias :new? :create?
 

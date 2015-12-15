@@ -1,0 +1,27 @@
+.panel.panel-default
+  .panel-heading
+    strong Design
+  .panel-body
+    = form_for @page_edition do |f|
+      = hidden_field_tag :page, params[:page]
+
+      .row.form-section
+        .col-xs-12
+          .form-group
+            = f.label :design_css, 'CSS'
+            = wcms_component 'forms/css_editor',
+              form: f,
+              attribute: :design_css,
+              value: @page_edition.design_css
+          .form-group
+            = f.label :design_js, 'JS'
+            = wcms_component 'forms/javascript_editor',
+              form: f,
+              attribute: :design_js,
+              value: @page_edition.design_js
+
+      .form-footer
+        .pull-right
+          = f.submit 'Save', class: 'btn btn-biola'
+          = link_to 'Cancel', page_editions_path, class: 'btn btn-link'
+        .clearfix

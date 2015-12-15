@@ -8,6 +8,7 @@
       = menu.add_item('Audience') { edit_page_edition_path(@page_edition, page: 'audience_collections')} if policy(@page_edition).can_manage?(:audience_collections) && @page_edition.site.has_audience_collections
       = menu.add_item('Attachments') { edit_page_edition_path(@page_edition, page: 'attachments')} if policy(@page_edition).can_manage?(:attachments)
       = menu.add_item('Presentation Data') { edit_page_edition_path(@page_edition, page: 'presentation_data') }
+      = menu.add_item('Design') { edit_page_edition_path(@page_edition, page: 'design') } if policy(@page_edition).can_manage?(:design)
       = menu.add_item('Permissions') {  edit_page_edition_path(@page_edition, page: 'permissions') } if policy(@page_edition).can_manage?(:permissions)
       = menu.add_item('SEO') { edit_page_edition_path(@page_edition, page: 'seo') } if policy(@page_edition).can_manage?(:seo)
       = menu.add_item('History') { object_index_wcms_components_changes_path(klass: @page_edition.class, id: @page_edition.id) } if policy(@page_edition).can_manage?(:logs)

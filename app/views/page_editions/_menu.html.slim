@@ -29,6 +29,7 @@
 
     - elsif @page_edition.published?
       .list-group-item.list-group-item-success = fa_icon 'check', text: "#{@page_edition.title} is published"
+      .list-group-item = link_to 'View on Site', @page_edition.url, target: "_blank"
 
     - else
       .list-group-item.list-group-item-warning = fa_icon 'archive', text: "#{@page_edition.title} is archived"

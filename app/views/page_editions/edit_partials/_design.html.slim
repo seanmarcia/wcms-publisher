@@ -8,6 +8,12 @@
       .row.form-section
         .col-xs-12
           .form-group
+            div#note
+              br
+              strong> NOTE:
+              | When referencing classes or ID's please make sure to use something very unique and be very explicit in what you are referencing.
+
+          .form-group
             = f.label :design_css, 'CSS'
             = wcms_component 'forms/css_editor',
               form: f,

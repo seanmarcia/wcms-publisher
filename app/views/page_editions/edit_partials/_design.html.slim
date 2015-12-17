@@ -13,12 +13,16 @@
               form: f,
               attribute: :design_css,
               value: @page_edition.design_css
-          .form-group
-            = f.label :design_js, 'JS'
-            = wcms_component 'forms/javascript_editor',
-              form: f,
-              attribute: :design_js,
-              value: @page_edition.design_js
+
+          / Providing the ability to edit js on the fly creates a serious security 
+          /  risk. Before adding this we should be sure that only the right people
+          /  have access to it.
+          / .form-group
+          /   = f.label :design_js, 'Javascript'
+          /   = wcms_component 'forms/javascript_editor',
+          /     form: f,
+          /     attribute: :design_js,
+          /     value: @page_edition.design_js
 
       .form-footer
         .pull-right

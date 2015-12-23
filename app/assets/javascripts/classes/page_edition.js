@@ -1,5 +1,5 @@
 var PageEdition = {
-  siteId: window.params.sid,
+  siteId: null,
   data: {},
   links: {
     show: function (params) { return "/page_editions/" + params.id },
@@ -15,9 +15,14 @@ var PageEdition = {
     return Object.keys(this.data).length;
   },
 
-  initialize: function (id, callback) {
+  initialize: function (siteId, selectedPage, callback) {
+    var id = null;
+    this.siteId = siteId;
+    this.data = {};
+
     // Load just the item
-    if (id) {
+    if (selectedPage) {
+      id = selectedPage.id;
       Ajax.getAll(this.links.index({id: id}), this, callback);
     };
     // Load some of the child pages for that item

@@ -1,13 +1,15 @@
 - content_for :site_nav_right do
   = link_to 'History', wcms_components_changes_path(klass: 'PageEdition'), class: "top-nav-link"
 .container.page
-  - if params[:sid]
-    #PageNavigator data-site-title=@site.title
+  = react_component('PageNavigator', {sites: @sites})
 
-  - else
-    h3 Select Site
-    table.table.table-striped
-      - policy_scope(Site).asc(:title).each do |site|
-        tr
-          td = link_to site, params.merge({sid: site.id.to_s})
-          td = site.url
+  / #PageNavigator data-sites=@site.title
+  / - if params[:sid]
+
+  / - else
+  /   h3 Select Site
+  /   table.table.table-striped
+  /     - policy_scope(Site).asc(:title).each do |site|
+  /       tr
+  /         td = link_to site, params.merge({sid: site.id.to_s})
+  /         td = site.url

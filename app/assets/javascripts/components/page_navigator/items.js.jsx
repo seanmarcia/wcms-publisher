@@ -1,8 +1,9 @@
 PageNavigator.Items = React.createClass({
   propTypes: {
     selectedPage: React.PropTypes.object,
-    searchy: React.PropTypes.object,
-    loadCompleted: React.PropTypes.bool
+    searchParams: React.PropTypes.object,
+    loadCompleted: React.PropTypes.bool,
+    onPageSelect: React.PropTypes.func
   },
   getInitialState: function () {
     return {
@@ -34,12 +35,9 @@ PageNavigator.Items = React.createClass({
   selectedId: function () {
     return this.props.selectedPage ? this.props.selectedPage.id : null;
   },
-  newPageLink: function () {
-    return "/page_editions/new?site_id=" + PageEdition.siteId + "&parent_page_id=" + (this.selectedId() || "")
-  },
   noResultsText: function () {
     if (this.props.loadCompleted) {
-      if (this.props.searchy.params.all) {
+      if (this.props.searchParams.all) {
         return "No pages match your search."
       } else {
         return "No child pages. Search all pages for more results."
@@ -48,29 +46,23 @@ PageNavigator.Items = React.createClass({
       return "Loading pages..."
     }
   },
-  render: function() {
-    var visiblePages = PageEdition.search(this.props.searchy.params, this.selectedId());
-
+  visiblePages: function () {
     // sort pages
     var sortAscending = this.state.sortAsc;
     var sortBy = this.state.sortBy;
-    visiblePages.sort(function(a,b) {
+
+    return PageEdition.search(this.props.searchParams, this.selectedId()).sort(function(a,b) {
       if (sortAscending) {
         return a.attributes[sortBy].localeCompare(b.attributes[sortBy]);
       } else {
         return b.attributes[sortBy].localeCompare(a.attributes[sortBy]);
       }
     });
+  },
+  render: function() {
+    var pages = this.visiblePages();
 
-    var rows = [];
-    visiblePages.forEach(function(page) {
-      rows.push(
-        <PageNavigator.Item key={page.id} page={page} />
-      );
-    });
-    var newPageButton = <a className="btn btn-default" href={this.newPageLink()}>New page</a>
-
-    if (rows.length > 0) {
+    if (pages.length > 0) {
       return <div>
         <table className="table table-striped">
           <thead>
@@ -82,14 +74,16 @@ PageNavigator.Items = React.createClass({
               <th></th>
             </tr>
           </thead>
-          <tbody>{rows}</tbody>
+          <tbody>
+            {pages.map(function(page) {
+              return <PageNavigator.Item key={page.id} page={page} onPageSelect={this.props.onPageSelect} />
+            }.bind(this))}
+          </tbody>
         </table>
-        {newPageButton}
       </div>
     } else {
       return <div>
         <p>{this.noResultsText()}</p>
-        <p>{newPageButton}</p>
       </div>
     }
   }

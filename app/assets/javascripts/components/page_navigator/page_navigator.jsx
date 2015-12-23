@@ -1,31 +1,52 @@
 var PageNavigator = React.createClass({
   propTypes: {
-    siteTitle: React.PropTypes.string
+    sites: React.PropTypes.array
   },
   // This sets the default state for the page navigator
   getInitialState: function () {
-    return {
+    defaults = {
       selectedPage: null,
+      selectedSite: this.props.sites[0].id,
       pageCount: 0,
-      searchParams: {}
+      searchParams: {
+        all: true
+      }
     };
+
+    store = sessionStorage.getItem('PageNavigator.savedState');
+    if (store)
+      return $.extend(defaults, JSON.parse(store));
+    else
+      return defaults;
   },
-  componentDidMount: function() {
+  saveState: function () {
+    sessionStorage.setItem('PageNavigator.savedState', JSON.stringify({
+      selectedPage: this.state.selectedPage,
+      selectedSite: this.state.selectedSite,
+      searchParams: this.state.searchParams
+    }));
+  },
+  loadPages: function () {
     // Initialize all data on first load. This loads in chuncks with most relevant first.
-    PageEdition.initialize(this.selectedPageId(), function(loadCompleted) {
+    PageEdition.initialize(this.state.selectedSite, this.state.selectedPage, function(loadCompleted) {
       this.setState({
-        selectedPage: PageEdition.data[this.selectedPageId()],
         pageCount: PageEdition.count(),
         loadCompleted: !!loadCompleted
       })
     }.bind(this));
-
-    window.onpopstate = function (event) { this.reloadPath(); }.bind(this);
   },
-  reloadPath: function () {
+  componentDidMount: function() {
+    this.loadPages();
+    window.onpopstate = function (event) { this.onPageSelect(); }.bind(this);
+  },
+  onPageSelect: function (page) {
     // Set state as if a page has been selected.
-    this.setState({ selectedPage: PageEdition.data[this.selectedPageId()] })
-    this.clearSearch();
+    this.setState({
+      selectedPage: page,
+      searchParams: {
+        all: false
+      }
+    }, this.saveState);
   },
   selectedPageId: function () {
     // Get page id from the url Hash.
@@ -41,65 +62,50 @@ var PageNavigator = React.createClass({
     else
       newParams[key] = value
 
-    this.setState({ searchParams: newParams });
+    this.setState({ searchParams: newParams }, this.saveState);
   },
-  clearSearch: function() {
+  updateSite: function () {
     this.setState({
-      searchParams: {}
-    })
+      selectedSite: this.refs.siteSelect.value
+    }, function () {
+      // Callback to run after state changes
+      this.loadPages();
+      this.saveState();
+    }.bind(this));
   },
-  // Package search stuff together so I don't have to pass them down the tree seperately
-  searchy: function() {
-    return {
-      params: this.state.searchParams,
-      update: this.updateSearch,
-      clear: this.clearSearch,
-    }
-  },
-  showAllPages: function () {
-    return !!this.state.searchParams.all;
-  },
-  toggleTreeView: function (e) {
-    this.updateSearch('all', !this.state.searchParams.all);
-    e.target.blur(); // for some reason the link is staying focused after clicking
-    e.preventDefault();
-  },
-  navigation: function () {
-    if (!this.showAllPages()) {
-      var pageTypeNotice = "Only showing child pages.";
-      if (!this.state.selectedPage) {
-        pageTypeNotice = "Only showing root level pages."
-      }
-      return (
-        <div>
-          <p>{pageTypeNotice} <a onClick={this.toggleTreeView} href="#">Search all {this.state.pageCount} pages</a></p>
-          <PageNavigator.Breadcrumbs selectedPage={this.state.selectedPage} siteTitle={this.props.siteTitle} />
-          <PageNavigator.ItemPreview page={this.state.selectedPage} />
-        </div>
-      )
-    } else {
-      return (
-        <div>
-          <p>You are <strong>viewing all {this.state.pageCount} pages</strong>. <a onClick={this.toggleTreeView} href="#">Switch back to tree view</a></p>
-          <hr/>
-        </div>
-      )
-    }
+  handleSearchChange: function () {
+    this.updateSearch('text', this.refs.searchField.value);
   },
   render: function () {
     return (
-      <div className="row">
+      <div id="PageNavigator" className="row">
         <div className="col-md-3">
-          <PageNavigator.Search searchy={this.searchy()} />
+          <select className="form-control" ref="siteSelect" value={this.state.selectedSite} onChange={this.updateSite}>
+            {this.props.sites.map(function(site) {
+              return <option key={site.id} value={site.id}>{site.title}</option>
+            })}
+          </select>
           <br/>
-          <PageNavigator.Filters searchy={this.searchy()} />
+          <input type="search" ref="searchField" placeholder="Search pages" className="form-control search-field"
+            value={this.state.searchParams.text}
+            onChange={this.handleSearchChange} />
+          <br/>
+          <PageNavigator.Filters
+            searchParams={this.state.searchParams}
+            updateSearch={this.updateSearch} />
         </div>
         <div className="col-md-9">
-          {this.navigation()}
+          <PageNavigator.Navigation
+            selectedPage={this.state.selectedPage}
+            searchParams={this.state.searchParams}
+            onPageSelect={this.onPageSelect}
+            updateSearch={this.updateSearch}
+            pageCount={this.state.pageCount} />
           <PageNavigator.Items
             selectedPage={this.state.selectedPage}
-            searchy={this.searchy()}
-            loadCompleted={this.state.loadCompleted} />
+            searchParams={this.state.searchParams}
+            loadCompleted={this.state.loadCompleted}
+            onPageSelect={this.onPageSelect} />
         </div>
       </div>
     )

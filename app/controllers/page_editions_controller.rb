@@ -13,7 +13,7 @@ class PageEditionsController < ApplicationController
     respond_to do |format|
       format.html do
         # @page_editions will get loaded in via ajax
-        @site = policy_scope(Site).find(params[:sid]) if params[:sid]
+        @sites = policy_scope(Site).asc(:title).map {|site| {id: site.id.to_s, title: site.title, url: site.url}}
       end
       format.json do
         @page_editions = policy_scope(PageEdition).where(site_id: params[:site_id]).asc(:slug)
@@ -42,7 +42,12 @@ class PageEditionsController < ApplicationController
     @page_edition.site_id = params[:site_id]
     @page_edition.parent_page_id = params[:parent_page_id]
     if @page_edition.parent_page
-      @page_edition.slug ||= @page_edition.parent_page.slug + '/'
+      @page_edition.site_id = @page_edition.parent_page.site_id # ensure site id matches parent
+      @page_edition.slug = @page_edition.parent_page.slug + '/'
+      @page_edition.source = @page_edition.parent_page.source
+      @page_edition.departments = @page_edition.parent_page.departments
+      @page_edition.topics = @page_edition.parent_page.topics
+      @page_edition.keywords = @page_edition.parent_page.keywords
     end
   end
 

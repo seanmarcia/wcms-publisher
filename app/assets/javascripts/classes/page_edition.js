@@ -1,5 +1,5 @@
 var PageEdition = {
-  siteId: window.params.sid,
+  siteId: null,
   data: {},
   links: {
     show: function (params) { return "/page_editions/" + params.id },
@@ -15,15 +15,22 @@ var PageEdition = {
     return Object.keys(this.data).length;
   },
 
-  initialize: function (id, callback) {
+  initialize: function (selectedSite, selectedPage, callback) {
+    var id = null;
+    if (selectedSite) {
+      this.siteId = selectedSite.id;
+    }
+    this.data = {};
+
     // Load just the item
-    if (id) {
-      Ajax.getAll(this.links.index({id: id}), this, callback);
-    };
+    // if (selectedPage) {
+    //   id = selectedPage.id;
+    //   Ajax.getAll(this.links.index({id: id}), this, callback);
+    // };
     // Load some of the child pages for that item
-    Ajax.getAll(this.links.index({parent_page_id: id, limit: 30}), this, callback);
+    // Ajax.getAll(this.links.index({parent_page_id: id, limit: 30}), this, callback);
     // Load all the child pages for that item
-    Ajax.getAll(this.links.index({parent_page_id: id, offset: 30}), this, callback);
+    // Ajax.getAll(this.links.index({parent_page_id: id, offset: 30}), this, callback);
     // Load all the pages
     Ajax.getAll(this.links.index({all: true}), this, function() { callback(true) });
   },

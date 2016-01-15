@@ -8,7 +8,8 @@ PageNavigator.Items = React.createClass({
   getInitialState: function () {
     return {
       sortBy: 'slug',
-      sortAsc: true
+      sortAsc: true,
+      truncateSearch: true
     };
   },
   updateSort: function (event) {
@@ -35,6 +36,11 @@ PageNavigator.Items = React.createClass({
   selectedId: function () {
     return this.props.selectedPage ? this.props.selectedPage.id : null;
   },
+  showHiddenPages: function (e) {
+    this.setState({truncateSearch: false});
+    e.preventDefault();
+    return false;
+  },
   noResultsText: function () {
     if (this.props.loadCompleted) {
       if (this.props.searchParams.all) {
@@ -46,7 +52,7 @@ PageNavigator.Items = React.createClass({
       return "Loading pages..."
     }
   },
-  visiblePages: function () {
+  searchResults: function () {
     // sort pages
     var sortAscending = this.state.sortAsc;
     var sortBy = this.state.sortBy;
@@ -60,9 +66,19 @@ PageNavigator.Items = React.createClass({
     });
   },
   render: function() {
-    var pages = this.visiblePages();
+    var searchResults = this.searchResults();
+    var pagesHiddenCount = 0;
+    var visiblePageMax = 50;
+    var visiblePages;
 
-    if (pages.length > 0) {
+    if (this.state.truncateSearch && searchResults.length > visiblePageMax) {
+      pagesHiddenCount = searchResults.length - visiblePageMax;
+      visiblePages = searchResults.slice(0,visiblePageMax);
+    } else {
+      visiblePages = searchResults;
+    }
+
+    if (visiblePages.length > 0) {
       return <div>
         <table className="table table-striped">
           <thead>
@@ -78,16 +94,24 @@ PageNavigator.Items = React.createClass({
             </tr>
           </thead>
           <tbody>
-            {pages.map(function(page) {
+            {visiblePages.map(function(page) {
               return <PageNavigator.Item key={page.id} page={page} onPageSelect={this.props.onPageSelect} />
             }.bind(this))}
           </tbody>
         </table>
+        {this.renderHiddenPagesLink(pagesHiddenCount)}
       </div>
     } else {
       return <div>
         <p>{this.noResultsText()}</p>
       </div>
+    }
+  },
+  renderHiddenPagesLink: function (count) {
+    if (count > 0) {
+      return <p style={{textAlign: 'center'}}>
+        <a href="#" onClick={this.showHiddenPages}>Show {count} more pages.</a>
+      </p>
     }
   }
 });

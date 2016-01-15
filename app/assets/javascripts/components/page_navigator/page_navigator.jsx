@@ -39,7 +39,6 @@ var PageNavigator = React.createClass({
   },
   componentDidMount: function() {
     this.loadPages();
-    window.onpopstate = function (event) { this.onPageSelect(); }.bind(this);
   },
   onPageSelect: function (page) {
     // Set state as if a page has been selected.
@@ -155,10 +154,8 @@ var PageNavigator = React.createClass({
           <div>
             <PageNavigator.Navigation
               selectedPage={this.state.selectedPage}
-              searchParams={this.state.searchParams}
               onPageSelect={this.onPageSelect}
-              updateSearch={this.updateSearch}
-              pageCount={this.state.pageCount} />
+              searchParams={this.state.searchParams} />
             <PageNavigator.Items
               selectedPage={this.state.selectedPage}
               searchParams={this.state.searchParams}

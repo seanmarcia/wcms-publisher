@@ -46,7 +46,6 @@ class PageEditionsController < ApplicationController
       @page_edition.slug = @page_edition.parent_page.slug + '/'
       @page_edition.source = @page_edition.parent_page.source
       @page_edition.departments = @page_edition.parent_page.departments
-      @page_edition.page_template = @page_edition.parent_page.page_template
       @page_edition.topics = @page_edition.parent_page.topics
       @page_edition.keywords = @page_edition.parent_page.keywords
     end

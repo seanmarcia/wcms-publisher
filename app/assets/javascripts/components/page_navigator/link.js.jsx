@@ -1,4 +1,4 @@
-PageNavigator.ListItemLink = React.createClass({
+PageNavigator.Link = React.createClass({
   propTypes: {
     title: React.PropTypes.string,
     link: React.PropTypes.string,
@@ -13,8 +13,6 @@ PageNavigator.ListItemLink = React.createClass({
     }
   },
   render: function () {
-    return <li>
-      <a href={this.props.link || "#"} onClick={this.handleClick}>{this.props.title}</a>
-    </li>
+    return <a href={this.props.link || "#"} onClick={this.handleClick}>{this.props.title}</a>
   }
 })

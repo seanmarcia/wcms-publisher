@@ -6,8 +6,9 @@ var PageNavigator = React.createClass({
   getInitialState: function () {
     defaults = {
       selectedPage: null,
-      selectedSite: this.props.sites[0],
+      selectedSite: null,
       pageCount: 0,
+      loadCompleted: false,
       searchParams: {
         all: true
       }
@@ -28,6 +29,7 @@ var PageNavigator = React.createClass({
   },
   loadPages: function () {
     // Initialize all data on first load. This loads in chuncks with most relevant first.
+    this.setState({loadCompleted: false})
     PageEdition.initialize(this.state.selectedSite, this.state.selectedPage, function(loadCompleted) {
       this.setState({
         pageCount: PageEdition.count(),
@@ -89,64 +91,82 @@ var PageNavigator = React.createClass({
     return "/page_editions/new?site_id=" + PageEdition.siteId + "&parent_page_id=" + (selectedId || "")
   },
   render: function () {
-    return (
-      <div id="PageNavigator">
+    if (!this.state.selectedSite) {
+      return (
         <div>
-          <div className="dropdown">
-            <h3 className="site-select" data-toggle="dropdown">
-              {this.state.selectedSite.title} <i className="fa fa-caret-down"></i>
-            </h3>
-            <ul className="dropdown-menu">
+          <h3>Select Site</h3>
+          <table className="table table-striped">
+            <tbody>
               {this.props.sites.map(function(site) {
-                return <PageNavigator.ListItemLink
-                  key={site.id}
-                  title={site.title}
-                  handleClick={this.updateSite}
-                  clickValue={site} />
+                return <tr key={site.id}>
+                  <td>
+                    <PageNavigator.Link title={site.title} handleClick={this.updateSite} clickValue={site} />
+                  </td>
+                  <td>{site.url}</td>
+                </tr>
               }.bind(this))}
-            </ul>
-          </div>
+            </tbody>
+          </table>
         </div>
-        <hr/>
-        <div className="row">
-          <div className="col-sm-6 bottom-margin">
-            <PageNavigator.TreeToggle
-              searchParams={this.state.searchParams}
-              updateSearch={this.updateSearch} />
-          </div>
-          <div className="col-sm-6 bottom-margin">
-            <a className="btn btn-default pull-right" href={this.newPageLink()}>New page</a>
-            <div className="input-group input-group-search">
-              <input type="search" ref="searchField" placeholder="Search pages" className="form-control search-field"
-                value={this.state.searchParams.text}
-                onChange={this.handleSearchChange} />
-              <span className="input-group-btn dropdown">
-                <button className="btn btn-default" type="button" data-toggle="dropdown">
-                  <i className="fa fa-filter"></i>
-                </button>
-                <div className="dropdown-menu pull-right">
-                  <PageNavigator.Filters
-                    searchParams={this.state.searchParams}
-                    updateSearch={this.updateSearch} />
-                </div>
-              </span>
+      )
+    } else {
+      return (
+        <div id="PageNavigator">
+          <div>
+            <div className="dropdown">
+              <h3 className="site-select" data-toggle="dropdown">
+                {this.state.selectedSite.title} <i className="fa fa-caret-down"></i>
+              </h3>
+              <ul className="dropdown-menu">
+                {this.props.sites.map(function(site) {
+                  return <li key={site.id}>
+                    <PageNavigator.Link title={site.title} handleClick={this.updateSite} clickValue={site} />
+                  </li>
+                }.bind(this))}
+              </ul>
             </div>
           </div>
+          <hr/>
+          <div className="row">
+            <div className="col-sm-6 bottom-margin">
+              <PageNavigator.TreeToggle
+                searchParams={this.state.searchParams}
+                updateSearch={this.updateSearch} />
+            </div>
+            <div className="col-sm-6 bottom-margin">
+              <a className="btn btn-default pull-right" href={this.newPageLink()}>New page</a>
+              <div className="input-group input-group-search">
+                <input type="search" ref="searchField" placeholder="Search pages" className="form-control search-field"
+                  value={this.state.searchParams.text}
+                  onChange={this.handleSearchChange} />
+                <span className="input-group-btn dropdown">
+                  <button className="btn btn-default" type="button" data-toggle="dropdown">
+                    <i className="fa fa-filter"></i>
+                  </button>
+                  <div className="dropdown-menu pull-right">
+                    <PageNavigator.Filters
+                      searchParams={this.state.searchParams}
+                      updateSearch={this.updateSearch} />
+                  </div>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <PageNavigator.Navigation
+              selectedPage={this.state.selectedPage}
+              searchParams={this.state.searchParams}
+              onPageSelect={this.onPageSelect}
+              updateSearch={this.updateSearch}
+              pageCount={this.state.pageCount} />
+            <PageNavigator.Items
+              selectedPage={this.state.selectedPage}
+              searchParams={this.state.searchParams}
+              loadCompleted={this.state.loadCompleted}
+              onPageSelect={this.onPageSelect} />
+          </div>
         </div>
-        <div>
-          <PageNavigator.Navigation
-            selectedPage={this.state.selectedPage}
-            searchParams={this.state.searchParams}
-            onPageSelect={this.onPageSelect}
-            updateSearch={this.updateSearch}
-            pageCount={this.state.pageCount} />
-          <PageNavigator.Items
-            selectedPage={this.state.selectedPage}
-            searchParams={this.state.searchParams}
-            loadCompleted={this.state.loadCompleted}
-            onPageSelect={this.onPageSelect} />
-        </div>
-      </div>
-    )
+      )
+    }
   }
 });

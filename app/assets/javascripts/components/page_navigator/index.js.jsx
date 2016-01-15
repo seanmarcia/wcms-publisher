@@ -6,4 +6,4 @@
 //= require ./breadcrumbs
 //= require ./labels
 //= require ./tree_toggle
-//= require ./list_item_link
+//= require ./link

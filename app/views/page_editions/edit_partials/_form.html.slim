@@ -43,12 +43,13 @@
 
       .col-md-6.source_select#concentration hidden=true
         .form-group
+          / TODO: We should probably load these in asynchronously in the future.
           = label_tag 'Concentrations'
           = wcms_component "forms/multiselect",
             attribute: :concentration,
             collection: Concentration.asc(:title),
             value_method: :id,
-            text_method: :to_s,
+            text_method: (lambda{|c| "#{c.title} - #{c.academic_program.title}"}),
             multiple: false,
             prompt: "Select one",
             selected: @page_edition.source_id

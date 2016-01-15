@@ -36,7 +36,7 @@ PageNavigator.Filters = React.createClass({
   },
   render: function() {
     return (
-      <ul className="nav nav-list well">
+      <ul className="nav nav-list">
         <li className="nav-header">Status</li>
         <PageNavigator.Filter search={this.search()} title="Draft" for="status" val="draft" />
         <PageNavigator.Filter search={this.search()} title="Up for Review" for="status" val="request_review" />

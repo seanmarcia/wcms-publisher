@@ -12,8 +12,11 @@ PageNavigator.Item = React.createClass({
 
     return (
       <tr>
-        <td><a href={page.links.self}>/{page.attributes.slug}</a></td>
-        <td>{page.attributes.title}</td>
+        <td>
+          <strong><a href={page.links.self}>{page.attributes.title}</a></strong>
+          <br/>
+          <span className="text-muted">/{page.attributes.slug}</span>
+        </td>
         <td>
           <PageNavigator.StatusLabel status={page.attributes.status} />
           <PageNavigator.RedirectLabel url={page.attributes.redirect_url} />

@@ -67,8 +67,11 @@ PageNavigator.Items = React.createClass({
         <table className="table table-striped">
           <thead>
             <tr>
-              <th><span className={this.headerClass('slug')} onClick={this.updateSort} data-sort="slug">Slug</span></th>
-              <th><span className={this.headerClass('title')} onClick={this.updateSort} data-sort="title">Title</span></th>
+              <th>
+                <span className={this.headerClass('title')} onClick={this.updateSort} data-sort="title">Title</span>
+                <span style={{padding: "0 15px"}}>|</span>
+                <span className={this.headerClass('slug')} onClick={this.updateSort} data-sort="slug">Slug</span>
+              </th>
               <th><span className={this.headerClass('status')} onClick={this.updateSort} data-sort="status">Status</span></th>
               <th><span className={this.headerClass('updated_at')} onClick={this.updateSort} data-sort="updated_at">Updated</span></th>
               <th></th>

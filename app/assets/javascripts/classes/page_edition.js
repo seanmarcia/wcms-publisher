@@ -15,9 +15,11 @@ var PageEdition = {
     return Object.keys(this.data).length;
   },
 
-  initialize: function (siteId, selectedPage, callback) {
+  initialize: function (selectedSite, selectedPage, callback) {
     var id = null;
-    this.siteId = siteId;
+    if (selectedSite) {
+      this.siteId = selectedSite.id;
+    }
     this.data = {};
 
     // Load just the item

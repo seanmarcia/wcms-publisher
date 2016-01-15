@@ -6,7 +6,7 @@ var PageNavigator = React.createClass({
   getInitialState: function () {
     defaults = {
       selectedPage: null,
-      selectedSite: this.props.sites[0].id,
+      selectedSite: this.props.sites[0],
       pageCount: 0,
       searchParams: {
         all: true
@@ -64,37 +64,76 @@ var PageNavigator = React.createClass({
 
     this.setState({ searchParams: newParams }, this.saveState);
   },
-  updateSite: function () {
+  updateSite: function (newSite) {
     this.setState({
-      selectedSite: this.refs.siteSelect.value
+      selectedSite: newSite
     }, function () {
       // Callback to run after state changes
       this.loadPages();
       this.saveState();
     }.bind(this));
   },
+  siteTitle: function (siteId) {
+    var site = this.props.sites.find(function(site) {
+      return site.id === siteId;
+    });
+    if (site) {
+      return site.title;
+    }
+  },
   handleSearchChange: function () {
     this.updateSearch('text', this.refs.searchField.value);
   },
+  newPageLink: function () {
+    var selectedId = this.state.selectedPage ? this.state.selectedPage.id : null;
+    return "/page_editions/new?site_id=" + PageEdition.siteId + "&parent_page_id=" + (selectedId || "")
+  },
   render: function () {
     return (
-      <div id="PageNavigator" className="row">
-        <div className="col-md-3">
-          <select className="form-control" ref="siteSelect" value={this.state.selectedSite} onChange={this.updateSite}>
-            {this.props.sites.map(function(site) {
-              return <option key={site.id} value={site.id}>{site.title}</option>
-            })}
-          </select>
-          <br/>
-          <input type="search" ref="searchField" placeholder="Search pages" className="form-control search-field"
-            value={this.state.searchParams.text}
-            onChange={this.handleSearchChange} />
-          <br/>
-          <PageNavigator.Filters
-            searchParams={this.state.searchParams}
-            updateSearch={this.updateSearch} />
+      <div id="PageNavigator">
+        <div>
+          <div className="dropdown">
+            <h3 className="site-select" data-toggle="dropdown">
+              {this.state.selectedSite.title} <i className="fa fa-caret-down"></i>
+            </h3>
+            <ul className="dropdown-menu">
+              {this.props.sites.map(function(site) {
+                return <PageNavigator.ListItemLink
+                  key={site.id}
+                  title={site.title}
+                  handleClick={this.updateSite}
+                  clickValue={site} />
+              }.bind(this))}
+            </ul>
+          </div>
         </div>
-        <div className="col-md-9">
+        <hr/>
+        <div className="row">
+          <div className="col-sm-6 bottom-margin">
+            <PageNavigator.TreeToggle
+              searchParams={this.state.searchParams}
+              updateSearch={this.updateSearch} />
+          </div>
+          <div className="col-sm-6 bottom-margin">
+            <a className="btn btn-default pull-right" href={this.newPageLink()}>New page</a>
+            <div className="input-group input-group-search">
+              <input type="search" ref="searchField" placeholder="Search pages" className="form-control search-field"
+                value={this.state.searchParams.text}
+                onChange={this.handleSearchChange} />
+              <span className="input-group-btn dropdown">
+                <button className="btn btn-default" type="button" data-toggle="dropdown">
+                  <i className="fa fa-filter"></i>
+                </button>
+                <div className="dropdown-menu pull-right">
+                  <PageNavigator.Filters
+                    searchParams={this.state.searchParams}
+                    updateSearch={this.updateSearch} />
+                </div>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div>
           <PageNavigator.Navigation
             selectedPage={this.state.selectedPage}
             searchParams={this.state.searchParams}

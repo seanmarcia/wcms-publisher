@@ -10,8 +10,10 @@ class SitePolicy < PermissionsPolicy
       if user.admin?
         scope.all
       else
-        # Return all sites that the user has access to edit pages for
+        # Return all sites that the user has access to edit
         site_ids = PageEditionPolicy::Scope.new(user, PageEdition).resolve.distinct(:site_id)
+        # or where a user can author pages for
+        site_ids = site_ids + Site.with_permission_to(:page_edition_author, user).pluck(:id)
         scope.where(:id.in => site_ids)
       end
     end

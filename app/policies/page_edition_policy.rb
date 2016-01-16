@@ -33,7 +33,7 @@ class PageEditionPolicy < PermissionsPolicy
   end
 
   def index?
-    page_editor?
+    page_editor? || site_page_author?
   end
   alias :show? :index?
   alias :compact_index? :index?

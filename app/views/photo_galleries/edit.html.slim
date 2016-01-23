@@ -1,0 +1,16 @@
+.container.page
+  .row
+    .col-sm-3
+      = render 'menu'
+
+    .col-sm-9
+      / validate that current user can manage the page
+      - if policy(@photo_gallery).can_manage?(params[:page])
+        .edit-partials
+        - case params[:page]
+        - when 'logs'
+          = render 'shared/logs', obj: @photo_gallery
+        - else
+          = render form_page_path
+      - else
+        .alert.alert-danger You do not have permission to manage this view. #{link_to('Back to overview', edit_photo_gallery_path(@photo_gallery))}

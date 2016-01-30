@@ -1,4 +1,6 @@
 class PhotoGalleriesController < ApplicationController
+  include SetModifier
+
   before_filter :set_photo_gallery, only: [:show, :edit, :update, :destroy]
   before_filter :new_photo_gallery_from_params, only: [:new, :create]
   before_filter :pundit_authorize

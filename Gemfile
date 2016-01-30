@@ -15,7 +15,7 @@ gem 'biola_deploy'
 gem 'biola_frontend_toolkit', '~> 0.4.4'
 gem 'biola_wcms_components', '~> 0.20.0'
 gem 'blazing'
-gem 'buweb_content_models', path: '../buweb-content-models'
+gem 'buweb_content_models', '~> 1.14'
 gem 'jbuilder', '~> 2.3', '>= 2.3.2'
 gem 'kaminari-bootstrap'
 gem 'logging', '~> 1.8'  # until blazing is fixed or removed. Version 2.0 conflicts with blazing.

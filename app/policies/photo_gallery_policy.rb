@@ -28,6 +28,8 @@ class PhotoGalleryPolicy < ApplicationPolicy
     case attribute.try(:to_sym)
     when nil, :form, :gallery, :logs
       true
+    when :related
+      user.admin?
     else
       false
     end

@@ -58,6 +58,8 @@ publishers:
     url: http://wcms.dev/page_editions
   - name: People
     url: http://profile-publisher.dev/people
+  - name: Photo Galleries
+    url: https://wcms.dev/photo_galleries
   - name: Publications
     url: http://news-publisher.dev/publications
   - name: Publication Categories

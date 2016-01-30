@@ -50,6 +50,8 @@ publishers:
     url: https://wcms.staging.biola.edu/page_editions
   - name: People
     url: https://wcms.staging.biola.edu/profiles/people
+  - name: Photo Galleries
+    url: https://wcms.staging.biola.edu/photo_galleries
   - name: Publications
     url: https://wcms.staging.biola.edu/news/publications
   - name: Publication Categories

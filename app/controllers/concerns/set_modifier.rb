@@ -11,7 +11,7 @@ module SetModifier
 
   def assign_modifier
     # This will need to be updated with each new class addition
-    [:actor, :attachment, :audience_collection, :calendar, :campus_location, :feature_location, :important_date, :medium, :menu, :page_edition, :publisher, :service_link, :site_category, :site].each do |name|
+    [:actor, :attachment, :audience_collection, :calendar, :campus_location, :feature_location, :important_date, :medium, :menu, :page_edition, :publisher, :service_link, :site_category, :site, :photo_gallery].each do |name|
       if params[name].present?
         params[name][:modifier_id] = current_user.id.to_s
       end

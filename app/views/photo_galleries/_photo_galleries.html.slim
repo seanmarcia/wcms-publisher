@@ -1,0 +1,9 @@
+.table-responsive
+  table.table.table-striped
+    thead
+      tr
+        th Title
+    tbody
+      - @photo_galleries.each do |photo_gallery|
+        tr
+          td = link_to photo_gallery.title, photo_gallery

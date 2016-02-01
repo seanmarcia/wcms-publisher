@@ -51,6 +51,8 @@ publishers:
     url: https://wcms.biola.edu/page_editions
   - name: People
     url: https://wcms.biola.edu/profiles/people
+  - name: Photo Galleries
+    url: https://wcms.biola.edu/photo_galleries
   - name: Publications
     url: https://wcms.biola.edu/news/publications
   - name: Publication Categories

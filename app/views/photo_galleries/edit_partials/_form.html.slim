@@ -1,0 +1,21 @@
+.panel.panel-default
+  .panel-heading
+    strong Overview
+  .panel-body
+    = form_for @photo_gallery do |f|
+      .form-section
+        .form-group
+          = f.label :title
+          = f.text_field :title, class: 'form-control', autocomplete: :off
+
+        .form-group
+          = f.label :slug
+          = f.text_field :slug, class: 'form-control', placeholder: 'example-slug', autocomplete: :off
+
+      hr
+      .form-footer
+        .pull-right
+          = f.submit "Save", class: "btn btn-biola"
+          = link_to "Cancel", photo_galleries_path, class: "btn btn-link"
+        .clearfix
+

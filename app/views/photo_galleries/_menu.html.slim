@@ -1,0 +1,9 @@
+.side-menu
+  .list-group
+    .list-group-item.top-item
+      = @photo_gallery.title
+    = menu_block(class: 'list-group-item') do |menu|
+      = menu.add_item('Overview', default: true) { edit_photo_gallery_path(@photo_gallery, page: 'form') }
+      = menu.add_item('Gallery') { edit_photo_gallery_path(@photo_gallery, page: 'gallery') }
+      = menu.add_item('Related') { edit_photo_gallery_path(@photo_gallery, page: 'related') }
+      = menu.add_item('History') { object_index_wcms_components_changes_path(klass: @photo_gallery.class, id: @photo_gallery.id) } if policy(@photo_gallery).can_manage?(:logs)

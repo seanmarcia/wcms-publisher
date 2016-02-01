@@ -27,5 +27,13 @@ Wcms::Application.routes.draw do
     resources :media_resources, only: [:create, :destroy]
   end
 
+  resources :photo_galleries do
+    resources :gallery_photos do
+      put :sort, on: :collection
+    end
+  end
+
+  resources :relationships, only: [:create, :destroy]
+
   root 'publishers#index'
 end

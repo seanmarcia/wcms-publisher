@@ -22,7 +22,7 @@ publishers:
   - name: Courses
     url: https://wcms.biola.edu/academics/courses
   - name: Data Templates
-    url: https://wcms.biola.edu/academics/presentation_data_templates
+    url: https://wcms.biola.edu/presentation_data_templates
   - name: Departments
     url: https://wcms.biola.edu/profiles/offices-services
   - name: Events

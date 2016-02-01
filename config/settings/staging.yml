@@ -21,7 +21,7 @@ publishers:
   - name: Courses
     url: https://wcms.staging.biola.edu/academics/courses
   - name: Data Templates
-    url: https://wcms.staging.biola.edu/academics/presentation_data_templates
+    url: https://wcms.staging.biola.edu/presentation_data_templates
   - name: Departments
     url: https://wcms.staging.biola.edu/profiles/offices-services
   - name: Events

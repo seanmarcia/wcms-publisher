@@ -29,7 +29,7 @@ publishers:
   - name: Courses
     url: http://academic-publisher.dev/courses
   - name: Data Templates
-    url: http://academic-publisher.dev/presentation_data_templates
+    url: http://wcms.dev/presentation_data_templates
   - name: Departments
     url: http://profile-publisher.dev/offices-services
   - name: Events

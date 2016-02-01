@@ -1,0 +1,11 @@
+.table-responsive
+  table.table.table-striped
+    thead
+      tr
+        th Template Name
+        th Target Class
+    tbody
+      - @presentation_data_templates.each do |object_type|
+        tr
+          td = link_to object_type.title, object_type
+          td = object_type.target_class

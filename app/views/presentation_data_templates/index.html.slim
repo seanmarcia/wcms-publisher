@@ -1,0 +1,16 @@
+- content_for :site_nav_right do
+  = link_to 'History', wcms_components_changes_path(klass: 'PresentationDataTemplate'), class: "top-nav-link"
+
+.container.page
+  .white-shadowed-panel
+    .page-header
+      .pull-right = link_to 'New Template', new_presentation_data_template_path, class: 'btn btn-default'
+      .clearfix
+
+    - if @presentation_data_templates.empty?
+      .alert.alert-warning
+        = fa_icon 'warning', text: "None were found"
+    - else
+      = render 'presentation_data_templates'
+
+      .text-center = paginate @presentation_data_templates

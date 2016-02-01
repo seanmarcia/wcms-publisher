@@ -1,0 +1,24 @@
+= form_for @presentation_data_template do |f|
+  - if @presentation_data_template.new_record?
+    h2 New Presentation Data Template
+
+  .form-section
+    .form-group
+      = f.label :title
+      = f.text_field :title, class: 'form-control'
+
+    .form-group
+      = f.label :target_class
+      = f.text_field :target_class, class: 'form-control'
+
+    .form-group
+      = f.label :json_schema
+      = wcms_component("forms/json_editor", {form: f,
+        attribute: :json_schema,
+        })
+
+  .form-footer
+    .pull-right
+      = f.submit 'Save', class: 'btn btn-biola'
+      = link_to "Cancel", presentation_data_templates_path, class: 'btn btn-link'
+    .clearfix

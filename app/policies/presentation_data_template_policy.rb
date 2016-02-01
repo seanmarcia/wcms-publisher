@@ -34,7 +34,7 @@ class PresentationDataTemplatePolicy < ApplicationPolicy
     case attribute.try(:to_sym)
     when nil
       true
-    when :activity_logs
+    when :logs
       user.try(:admin?)
     else
       false

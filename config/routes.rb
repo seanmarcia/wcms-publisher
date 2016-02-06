@@ -5,6 +5,11 @@ Wcms::Application.routes.draw do
     resources :audience_collections, only: [:update]
   end
 
+  resources :users, only: [:index] do
+    get :impersonate, on: :member
+    get :stop_impersonating, on: :collection
+  end
+
   resources :important_dates do
     resources :audience_collections, only: [:update]
   end

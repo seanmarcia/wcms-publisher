@@ -21,15 +21,15 @@ publishers:
   - name: Attachments
     url: http://academic-publisher.dev/attachments
   - name: Calendars
-    url: http://wcms.dev/calendars
+    url: /calendars
   - name: Campus Location
-    url: http://wcms.dev/campus_locations
+    url: /campus_locations
   - name: Catalogs
     url: http://academic-publisher.dev/catalogs
   - name: Courses
     url: http://academic-publisher.dev/courses
   - name: Data Templates
-    url: http://wcms.dev/presentation_data_templates
+    url: /presentation_data_templates
   - name: Departments
     url: http://profile-publisher.dev/offices-services
   - name: Events
@@ -45,15 +45,15 @@ publishers:
   - name: Groups
     url: http://profile-publisher.dev/groups
   - name: Important Dates
-    url: http://wcms.dev/important_dates
+    url: /important_dates
   - name: Media
-    url: http://wcms.dev/media
+    url: /media
   - name: Menus
-    url: http://wcms.dev/menus
+    url: /menus
   - name: Outcome Pages
     url: http://academic-publisher.dev/outcome_editions
   - name: Pages
-    url: http://wcms.dev/page_editions
+    url: /page_editions
   - name: People
     url: http://profile-publisher.dev/people
   - name: Photo Galleries
@@ -65,10 +65,10 @@ publishers:
   - name: Schools
     url: http://academic-publisher.dev/schools
   - name: Service Links
-    url: http://wcms.dev/service_links
+    url: /service_links
   - name: Sites
-    url: http://wcms.dev/sites
+    url: /sites
   - name: University Learning Outcomes
     url: http://academic-publisher.dev/university_learning_outcomes
   - name: Users
-    url: http://news-publisher.dev/users
+    url: /users

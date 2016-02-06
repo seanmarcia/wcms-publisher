@@ -42,8 +42,6 @@ publishers:
     url: http://news-publisher.dev/features
   - name: Forms
     url: http://forms.biola.edu/admin
-  - name: Generic Objects
-    url: http://academic-publisher.dev/generic_objects
   - name: Groups
     url: http://profile-publisher.dev/groups
   - name: Important Dates

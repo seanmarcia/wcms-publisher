@@ -34,8 +34,6 @@ publishers:
     url: https://wcms.staging.biola.edu/news/features
   - name: Forms
     url: https://forms.biola.edu/admin
-  - name: Generic Objects
-    url: https://wcms.staging.biola.edu/academics/generic_objects
   - name: Groups
     url: https://wcms.staging.biola.edu/profiles/groups
   - name: Important Dates

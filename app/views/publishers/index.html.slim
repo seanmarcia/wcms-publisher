@@ -3,6 +3,7 @@ br
   .list-group
     - last_letter = nil
     - @publishers.each do |publisher|
-      - if last_letter != (current_letter = publisher.name.first.upcase)
-        .group-divider = (last_letter = current_letter)
-      = link_to publisher.name, publisher.url, class: 'list-group-item'
+      - if publisher.class_name.nil? || policy(publisher.class_name.constantize).index?
+        - if last_letter != (current_letter = publisher_first_letter(publisher))
+          .group-divider = (last_letter = current_letter)
+        = publisher_link publisher

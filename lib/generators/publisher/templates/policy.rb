@@ -34,7 +34,7 @@ class <%= class_name %>Policy < ApplicationPolicy
     case attribute.try(:to_sym)
     when nil, :form
       true
-    when :activity_logs, :permissions
+    when :logs, :permissions
       user.admin? || user.developer?
     else
       false

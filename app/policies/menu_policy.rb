@@ -19,16 +19,16 @@ class MenuPolicy < ApplicationPolicy
   alias :destroy? :create?
 
   def permitted_attributes
-    attrs = [:title, :url, :slug, :site_id, :menu_links_json, page_edition_ids: []]
+    attrs = [:modifier_id, :title, :url, :slug, :site_id, :menu_links_json, page_edition_ids: []]
     attrs
   end
 
   ##### Special non-action permissions
   def can_manage?(attribute)
     case attribute.try(:to_sym)
-    when nil, :form
+    when nil, :form, :logs
       true
-    when :activity_logs, :menu_links, :permissions
+    when :menu_links, :permissions
       user.admin? || user.developer?
     else
       false

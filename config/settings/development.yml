@@ -12,61 +12,53 @@ elasticsearch:
 
 # Keep this list in alphabetical order
 publishers:
-  - name: Academic Programs
+  - title: Academic Programs
     url: http://academic-publisher.dev/academic_programs
-  - name: Academic Subjects
+  - title: Academic Subjects
     url: http://academic-publisher.dev/academic_subjects
-  - name: Articles
+  - title: Articles
     url: http://news-publisher.dev/articles
-  - name: Attachments
+  - title: Attachments
     url: http://academic-publisher.dev/attachments
-  - name: Calendars
-    url: http://wcms.dev/calendars
-  - name: Campus Location
-    url: http://wcms.dev/campus_locations
-  - name: Catalogs
+  - class_name: Calendar
+  - class_name: CampusLocation
+  - title: Catalogs
     url: http://academic-publisher.dev/catalogs
-  - name: Courses
+  - title: Courses
     url: http://academic-publisher.dev/courses
-  - name: Data Templates
-    url: http://academic-publisher.dev/presentation_data_templates
-  - name: Departments
+  - class_name: PresentationDataTemplate
+  - title: Departments
     url: http://profile-publisher.dev/offices-services
-  - name: Events
+  - title: Events
     url: http://news-publisher.dev/events
-  - name: External Articles
+  - title: External Articles
     url: http://news-publisher.dev/external_articles
-  - name: External Blogs
+  - title: External Blogs
     url: http://news-publisher.dev/external_blogs
-  - name: Features
+  - title: Features
     url: http://news-publisher.dev/features
-  - name: Forms
+  - title: Forms
     url: http://forms.biola.edu/admin
-  - name: Generic Objects
-    url: http://academic-publisher.dev/generic_objects
-  - name: Groups
+  - title: Groups
     url: http://profile-publisher.dev/groups
-  - name: Important Dates
-    url: http://wcms.dev/important_dates
-  - name: Menus
-    url: http://wcms.dev/menus
-  - name: Outcome Pages
+  - class_name: ImportantDate
+  - class_name: Medium
+  - class_name: Menu
+  - title: Outcome Pages
     url: http://academic-publisher.dev/outcome_editions
-  - name: Pages
-    url: http://wcms.dev/page_editions
-  - name: People
+  - class_name: PageEdition
+    title: Pages
+  - title: People
     url: http://profile-publisher.dev/people
-  - name: Publications
+  - class_name: PhotoGallery
+  - title: Publications
     url: http://news-publisher.dev/publications
-  - name: Publication Categories
+  - title: Publication Categories
     url: http://news-publisher.dev/publication_categories
-  - name: Schools
+  - title: Schools
     url: http://academic-publisher.dev/schools
-  - name: Service Links
-    url: http://wcms.dev/service_links
-  - name: Sites
-    url: http://wcms.dev/sites
-  - name: University Learning Outcomes
+  - class_name: ServiceLink
+  - class_name: Site
+  - title: University Learning Outcomes
     url: http://academic-publisher.dev/university_learning_outcomes
-  - name: Users
-    url: http://news-publisher.dev/users
+  - class_name: User

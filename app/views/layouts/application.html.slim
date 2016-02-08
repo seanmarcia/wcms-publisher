@@ -1,12 +1,18 @@
 doctype html
 html lang="en-us"
   head
-    / handles default html head tags and csrf_meta_tags
-    = render 'frontend_toolkit/head', title: page_title
+    meta charset="utf-8"
+    meta http-equiv="X-UA-Compatible" content="IE=edge"
+    link rel="icon" type="image/png" href="https://media1.biola.edu/biola/img/biola-icon.png"
+
+    title = yield_or :title, page_title
+    = csrf_meta_tags
+    = render 'frontend_toolkit/google_analytics'
+
     = stylesheet_link_tag "application", media: "all"
     = javascript_include_tag "application"
 
-  body class="#{controller_name} #{action_name}"
+  body
 
     / account_list must be before biola_header otherwise the list won't be defined in time.
     = render 'layouts/account_list'
@@ -16,14 +22,18 @@ html lang="en-us"
       = wcms_component('navigation/site_nav', { menu: [ \
         {body: 'Calendars', url: :calendars_path},
         {body: 'Campus Locations', url: :campus_locations_path},
+        {body: 'Data Templates', url: :presentation_data_templates_path},
         {body: 'Important Dates', url: :important_dates_path},
+        {body: 'Media', url: :media_path},
         {body: 'Menus', url: :menus_path},
         {body: 'Pages', url: :page_editions_path},
+        {body: 'Photo Galleries', url: :photo_galleries_path},
         {body: 'Service Links', url: :service_links_path},
         {body: 'Sites', url: :sites_path},
       ], site_name: 'WCMS'})
 
       = wcms_component('alerts/message_list')
+      = wcms_component('alerts/impersonation')
 
       = yield
 

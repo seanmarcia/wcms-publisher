@@ -9,8 +9,8 @@
       - if policy(@calendar).can_manage?(params[:page])
         .edit-partials
           - case params[:page]
-          - when 'activity_logs'
-            = render 'shared/activity_logs', obj: @calendar
+          - when 'logs'
+            = render 'shared/logs', obj: @calendar
           - else
             = render form_page_path
       - else

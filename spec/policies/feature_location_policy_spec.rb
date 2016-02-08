@@ -37,15 +37,16 @@ describe FeatureLocationPolicy do
       it { expect(subject).to sanction(:destroy) }
     end
 
-    context "user is a page edition admin" do
-      let(:entitlements) { ["urn:biola:apps:wcms:feature_admin"] }
-      it { expect(subject).to sanction(:create)}
-      it { expect(subject).to sanction(:new)}
-      it { expect(subject).to sanction(:index)}
-      it { expect(subject).to sanction(:show)}
-      it { expect(subject).to sanction(:edit)}
-      it { expect(subject).to sanction(:update)}
-      it { expect(subject).to sanction(:destroy)}
-    end
+    # Commented out until such a time that we create feature_admin for wcms-publisher
+    # context "user is a feature admin" do
+    #   let(:entitlements) { ["urn:biola:apps:wcms:feature_admin"] }
+    #   it { expect(subject).to sanction(:create)}
+    #   it { expect(subject).to sanction(:new)}
+    #   it { expect(subject).to sanction(:index)}
+    #   it { expect(subject).to sanction(:show)}
+    #   it { expect(subject).to sanction(:edit)}
+    #   it { expect(subject).to sanction(:update)}
+    #   it { expect(subject).to sanction(:destroy)}
+    # end
   end
 end

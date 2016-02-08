@@ -4,5 +4,9 @@
       = @important_date.title
     = menu_block(class: 'list-group-item') do |menu|
       = menu.add_item('Overview', default: true) { edit_important_date_path(@important_date, page: 'form') }
-      = menu.add_item('History') { edit_important_date_path(@important_date, page: 'activity_logs') } if policy(@important_date).can_manage?(:activity_logs)
+      = menu.add_item('Audience') { edit_important_date_path(@important_date, page: 'audience_collections')} if policy(@important_date).can_manage?(:audience_collections) 
+      = menu.add_item('History') { object_index_wcms_components_changes_path(klass: @important_date.class, id: @important_date.id) } if policy(@important_date).can_manage?(:logs)
 
+  .list-group
+    - if policy(@important_date).destroy?
+      .list-group-item.list-group-item-danger = link_to fa_icon('trash', text: "Delete this date"), [@important_date], method: :delete, data: { confirm: "Are you sure that you want to delete #{@important_date}?" }

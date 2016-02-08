@@ -6,5 +6,4 @@
       = menu.add_item('Overview', default: true) { edit_calendar_path(@calendar, page: 'form') }
       = menu.add_item('Sections') { edit_calendar_path(@calendar, page: 'calendar_sections') }
       = menu.add_item('SEO') { edit_calendar_path(@calendar, page: 'seo') } if policy(@calendar).can_manage?(:seo)
-      = menu.add_item('History') { edit_calendar_path(@calendar, page: 'activity_logs') } if policy(@calendar).can_manage?(:activity_logs)
-
+      = menu.add_item('History') { object_index_wcms_components_changes_path(klass: @calendar.class, id: @calendar.id) } if policy(@calendar).can_manage?(:logs)

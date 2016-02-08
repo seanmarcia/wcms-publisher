@@ -9,8 +9,8 @@
       - if policy(@service_link).can_manage?(params[:page])
         .edit-partials
           - case params[:page]
-          - when 'activity_logs'
-            = render 'shared/activity_logs', obj: @service_link
+          - when 'logs'
+            = render 'shared/logs', obj: @service_link
           - else
             = render form_page_path
       - else

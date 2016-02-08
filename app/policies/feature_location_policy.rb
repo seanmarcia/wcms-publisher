@@ -10,8 +10,8 @@ class FeatureLocationPolicy < PermissionsPolicy
       if feature_admin?
         # Include every site that has features enabled.
         scope.in(site_id: Site.with_features_enabled.pluck(:id))
-      elsif feature_author?
-        scope.in(site_id: Site.with_any_permission_to([:feature_publisher, :feature_editor, :feature_author], user).with_features_enabled.pluck(:id) )
+      # elsif feature_author? # look at the comment in permissions_policy
+      #   scope.in(site_id: Site.with_any_permission_to([:feature_publisher, :feature_editor, :feature_author], user).with_features_enabled.pluck(:id) )
       else
         scope.none
       end
@@ -29,6 +29,6 @@ class FeatureLocationPolicy < PermissionsPolicy
   alias :update? :create?
 
   def permitted_attributes
-    [:title, :site_id, :url, :path, :slug, :preferred_image_height, :preferred_image_width]
+    [:modifier_id, :title, :site_id, :url, :path, :slug, :preferred_image_height, :preferred_image_width]
   end
 end

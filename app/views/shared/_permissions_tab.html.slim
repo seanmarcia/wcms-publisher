@@ -5,7 +5,10 @@
     strong Permissions
   .panel-body
     - if obj.actors.empty?
-      .alert.alert-info No users have permission to edit this #{obj.class.to_s.downcase}.
+      - if obj.class == PageEdition 
+        .alert.alert-info No users have permission to edit this Page.
+      - else
+        .alert.alert-info No users have permission to edit this #{obj.class.to_s.titleize}.
     - else
       table.table
         tr

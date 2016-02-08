@@ -1,5 +1,5 @@
 class AttachmentsController < ApplicationController
-  include ActivityLoggable
+  include SetModifier
 
   before_filter :pundit_authorize
   before_filter :set_parent
@@ -12,7 +12,6 @@ class AttachmentsController < ApplicationController
     if @parent_class
       @attachment.metadata = params[:attachment][:metadata]
       if @attachment.save
-        log_activity(@attachment.previous_changes, parent: @parent_class.find(@attachment.attachable_id))
         flash[:info] = "Attachment was created."
         redirect_to :back
       else
@@ -26,7 +25,6 @@ class AttachmentsController < ApplicationController
 
   def new
     if params[:attachable_type] && params[:attachable_id]
-      log_activity(@attachment.previous_changes, parent: @attachment)
       if (attachable = set_attachable_type(params[:attachable_type]))
         @attachment = attachable.find(params[:attachable_id]).attachments.new
       end
@@ -38,7 +36,6 @@ class AttachmentsController < ApplicationController
 
   def update
     if @attachment.update_attributes(attachment_params)
-      log_activity(@attachment.previous_changes, parent: @page_edition)
       flash[:info] = "Attachment was updated."
       redirect_to :back
     else

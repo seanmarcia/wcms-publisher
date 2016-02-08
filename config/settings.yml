@@ -8,6 +8,7 @@ secret_token:
 
 urn_namespaces:
 - "urn:biola:apps:wcms:"
+- "urn:biola:apps:wcms-publisher:"
 - "urn:biola:apps:all:"
 
 cas:
@@ -58,3 +59,15 @@ universe:
     academic_publisher: "https://wcms.examplations.com/academics"
     profile_publisher: "https://wcms.examplations.com/profiles"
     news_publisher: "https://wcms.examplations.com/news"
+
+# for mongoid history -- assigns additional child object logs to be shown
+trackable_relations:
+  PageEdition:
+    # non-embeds
+    - attachments
+    # embeds
+    - redirect
+    - audience_collection
+    - permissions
+  Site:
+    - site_categories

@@ -19,18 +19,16 @@ class ImportantDatePolicy < ApplicationPolicy
   alias :destroy? :create?
 
   def permitted_attributes
-    attrs = [:title, :url, :start_date, :end_date, :deadline, {categories: []}, {audiences: []}, {calendar_ids: []}]
-    attrs += [ audience_collection: [ affiliations: [], schools: [], student_levels: [], class_standings: [],
-      majors: [], housing_statuses: [], employee_types: [], departments: [] ] ]
+    attrs = [:modifier_id, :title, :url, :start_date, :end_date, :deadline, {categories: []}, {audiences: []}, {calendar_ids: []}]
     attrs
   end
 
   ##### Special non-action permissions
   def can_manage?(attribute)
     case attribute.try(:to_sym)
-    when nil, :form
+    when nil, :form, :logs, :audience_collections
       true
-    when :activity_logs, :permissions
+    when :permissions
       user.admin? || user.developer?
     else
       false

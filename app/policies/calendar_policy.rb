@@ -19,7 +19,7 @@ class CalendarPolicy < ApplicationPolicy
   alias :destroy? :create?
 
   def permitted_attributes
-    attrs = [:title, :start_date, :end_date, tags: []]
+    attrs = [:modifier_id, :title, :start_date, :end_date, tags: []]
     attrs = attrs | SEO_FIELDS if user.admin? # Inherited from ApplicationPolicy
     attrs
   end
@@ -27,9 +27,9 @@ class CalendarPolicy < ApplicationPolicy
   ##### Special non-action permissions
   def can_manage?(attribute)
     case attribute.try(:to_sym)
-    when nil, :form
+    when nil, :form, :logs
       true
-    when :activity_logs, :permissions, :calendar_sections, :seo
+    when :permissions, :calendar_sections, :seo
       user.admin?
     else
       false

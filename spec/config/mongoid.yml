@@ -1,6 +1,10 @@
 test:
-  sessions:
+  clients:
     default:
-      database: wcms_publisher_test
+      database: web_content_db_test
       hosts:
         - localhost:27017
+      options:
+        read:
+          mode: :primary
+        max_pool_size: 1

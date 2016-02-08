@@ -1,11 +1,10 @@
 class ImportantDatesController < ApplicationController
-  include ActivityLoggable
+  include SetModifier
 
-  before_filter :set_important_date, only: [:show, :edit, :update]
+  before_filter :set_important_date, only: [:show, :edit, :update, :destroy]
   before_filter :new_important_date_from_params, only: [:new, :create]
   before_filter :pundit_authorize
   before_filter :new_audience_collection, only: [:edit, :update, :new, :create]
-
 
   def index
     @important_dates = policy_scope(ImportantDate)
@@ -36,7 +35,6 @@ class ImportantDatesController < ApplicationController
 
   def create
     if @important_date.save
-      log_activity(@important_date.previous_changes, parent: @important_date)
       flash[:notice] = "'#{@important_date.title}' created."
       redirect_to [:edit, @important_date]
     else
@@ -49,12 +47,21 @@ class ImportantDatesController < ApplicationController
 
   def update
     if @important_date.update_attributes(important_date_params)
-      log_activity(@important_date.previous_changes, parent: @important_date, child: @important_date.audience_collection.previous_changes)
+
       flash[:notice] = "'#{@important_date.title}' updated."
       redirect_to edit_important_date_path @important_date, page: params[:page]
     else
       render :edit
     end
+  end
+
+  def destroy
+    if @important_date.destroy
+      flash[:info] = "Important Date has been successfully removed. <a href=/wcms_components/changes/#{@important_date.history_tracks.last.id}/undo_destroy>Undo</a>"
+    else
+      flash[:error] = "Something went wrong. Please try again."
+    end
+    redirect_to important_dates_path
   end
 
   private

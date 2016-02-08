@@ -1,0 +1,7 @@
+.side-menu
+  .list-group
+    .list-group-item.top-item
+      = @medium.title
+    = menu_block(class: 'list-group-item') do |menu|
+      = menu.add_item('Overview', default: true) { edit_menu_path(@medium, page: 'form') }
+      = menu.add_item('History') { object_index_wcms_components_changes_path(klass: @medium.class, id: @medium.id) } if policy(@medium).can_manage?(:logs)

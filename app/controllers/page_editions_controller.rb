@@ -1,6 +1,6 @@
 class PageEditionsController < ApplicationController
-  include ActivityLoggable
   include SetSiteCategories
+  include SetModifier
 
   before_filter :set_page_edition, only: [:show, :edit, :update, :destroy, :create_tag]
   before_filter :new_page_edition_from_params, only: [:new, :create]
@@ -13,7 +13,7 @@ class PageEditionsController < ApplicationController
     respond_to do |format|
       format.html do
         # @page_editions will get loaded in via ajax
-        @site = policy_scope(Site).find(params[:sid]) if params[:sid]
+        @sites = policy_scope(Site).asc(:title).map {|site| {id: site.id.to_s, title: site.title, url: site.url}}
       end
       format.json do
         @page_editions = policy_scope(PageEdition).where(site_id: params[:site_id]).asc(:slug)
@@ -42,7 +42,12 @@ class PageEditionsController < ApplicationController
     @page_edition.site_id = params[:site_id]
     @page_edition.parent_page_id = params[:parent_page_id]
     if @page_edition.parent_page
-      @page_edition.slug ||= @page_edition.parent_page.slug + '/'
+      @page_edition.site_id = @page_edition.parent_page.site_id # ensure site id matches parent
+      @page_edition.slug = @page_edition.parent_page.slug + '/'
+      @page_edition.source = @page_edition.parent_page.source
+      @page_edition.departments = @page_edition.parent_page.departments
+      @page_edition.topics = @page_edition.parent_page.topics
+      @page_edition.keywords = @page_edition.parent_page.keywords
     end
   end
 
@@ -50,7 +55,7 @@ class PageEditionsController < ApplicationController
     if @error
       flash[:notice] = @error
     elsif @page_edition.save
-      log_activity(@page_edition.previous_changes, parent: @page_edition)
+      set_author
       update_state
       flash[:notice] = "'#{@page_edition.title}' created."
       redirect_to [:edit, @page_edition]
@@ -68,7 +73,6 @@ class PageEditionsController < ApplicationController
       flash[:warning] = @error
       render :edit
     elsif @page_edition.update_attributes(page_edition_params)
-      log_activity(@page_edition.previous_changes, parent: @page_edition, child: @page_edition.audience_collection.previous_changes)
       update_state
       flash[:notice] = "'#{@page_edition.title}' updated."
       redirect_to edit_page_edition_path @page_edition, page: params[:page], choose_template: params[:choose_template]
@@ -81,9 +85,8 @@ class PageEditionsController < ApplicationController
     child_pages = @page_edition.child_pages
 
     if @page_edition.destroy
-      child_pages.each{|child| child.update_attributes(parent_page_id: nil)} if child_pages.present?
-
-      flash[:info] = "Page has been successfully removed."
+      child_pages.each{|child| child.update_attributes({parent_page_id: nil})} if child_pages.present?
+      flash[:info] = "Page has been successfully removed. <a href=/wcms_components/changes/#{@page_edition.history_tracks.last.id}/undo_destroy>Undo</a>"
     else
       flash[:error] = "Something went wrong. Please try again."
     end
@@ -93,8 +96,8 @@ class PageEditionsController < ApplicationController
   def create_tag
     if @page_edition.slug.blank?
       flash[:error] = 'You need to set a slug before creating a tag.'
-    elsif tag = Tag.create_from_object(@page_edition, class_slug: 'page_edition')
-      if @page_edition.update_attribute(:my_object_tag, tag.tag)
+    elsif tag = Tag.create_from_object(@page_edition, current_user: current_user, class_slug: 'page_edition')
+      if @page_edition.update_attributes({my_object_tag: tag.tag})
         flash[:info] = 'Tag Created.'
       else
         flash[:error] = 'Tag was created but it could not be added to this object.'
@@ -115,6 +118,23 @@ class PageEditionsController < ApplicationController
   end
 
   private
+
+  # On create if an author doesnt already have permissions to edit create a permission
+  #  allowing them to edit this page.
+  def set_author
+    unless policy(@page_edition).edit?
+      author = Permission.new(
+                      actor_id: current_user.id,
+                      actor_type: 'User',
+                      ability: :edit,
+                      modifier_id: current_user.id
+                    )
+      # Pushing the author onto the permissions array in case set author is
+      #  ever called after create and permissions already exist.
+      @page_edition.permissions << author
+      @page_edition.save
+    end
+  end
 
   def set_source
     if params[:source_change].present?
@@ -170,12 +190,13 @@ class PageEditionsController < ApplicationController
   end
 
   def update_state
+    # Normally this would need to set user for the logging but seeing as it is called imediatly
+    #  after a save it will create another history_track using the last known modifier.
+    #  If this method is ever called outside of one of the crud actions it will need to set the user.
     if params[:published].present? && !@page_edition.published?
       @page_edition.publish!
-      log_activity(@page_edition.previous_changes, parent: @page_edition)
     elsif params[:archived].present? && !@page_edition.archived?
       @page_edition.archive!
-      log_activity(@page_edition.previous_changes, parent: @page_edition)
     end
   end
 

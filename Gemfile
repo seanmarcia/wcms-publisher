@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.1'
+gem 'rails', '4.2.5.1'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -11,34 +11,31 @@ gem 'jquery-rails', '~> 4.0.4'
 gem 'sass-rails', '>= 5.0.1'
 gem 'uglifier', '>= 1.3.0'
 
-
-gem 'biola_deploy'
+gem 'biola_deploy', '~> 0.7'
 gem 'biola_frontend_toolkit', '~> 0.4.4'
-gem 'biola_wcms_components', '~> 0.18.1'
-gem 'blazing'
-gem 'buweb_content_models', '~> 1.7.1'
+gem 'biola_wcms_components', '~> 0.22.0'
+gem 'blazing', '~> 0.5.0'
+gem 'buweb_content_models', '~> 1.15'
 gem 'jbuilder', '~> 2.3', '>= 2.3.2'
-gem 'kaminari-bootstrap'
-gem 'logging', '~> 1.8'  # until blazing is fixed or removed. Version 2.0 conflicts with blazing.
-gem 'mongoid', '~> 4.0.1'
-gem 'newrelic_rpm'
-gem 'pinglish'
-gem 'puma'
-gem 'pundit'
-gem 'rack-cas', '>= 0.9.2'
-gem 'rails_config'
+gem 'kaminari-bootstrap', '~> 3.0', '>= 3.0.1'
+gem 'mongoid', '~> 5.1'
+gem 'newrelic_rpm', '~> 3.14'
+gem 'pinglish', '~> 0.2'
+gem 'puma', '~> 2.16'
+gem 'pundit', '~> 1.1'
+gem 'rack-cas', '>= 0.12.0'
+gem 'rails_config', '~> 0.4.2'
 gem 'react-rails', '~> 1.4.0'
 gem 'slim', '>= 2.1'
 gem 'therubyracer', platforms: :ruby
-gem 'turnout'
-
+gem 'turnout', '~> 2.2', '>= 2.2.1'
 
 group :development do
-  gem 'better_errors'
+  gem 'better_errors', '~> 2.1', '>= 2.1.1'
 end
 
 group :development, :staging, :test do
-  gem 'faker'
+  gem 'faker', '~> 1.6', '>= 1.6.1'
 end
 
 group :development, :test do
@@ -48,21 +45,21 @@ group :development, :test do
   # gem 'web-console', '~> 2.0'
 
   # Needed for better_errors to work properly
-  gem 'binding_of_caller'
+  gem 'binding_of_caller', '>= 0.7.2'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
+  gem 'spring', '>= 1.6.2'
 
-  gem 'factory_girl_rails'
-  gem 'mongoid-rspec'
-  gem 'rspec-rails'
-  gem 'pry'
+  gem 'factory_girl_rails', '~> 4.5'
+  gem 'mongoid-rspec', '~> 3.0'
+  gem 'rspec-rails', '~> 3.4', '>= 3.4.1'
+  gem 'pry', '>= 0.10.3'
 end
 
 group :production do
-  gem 'sentry-raven'
+  gem 'sentry-raven', '~> 0.15'
 end
 
 group :test do
-  gem 'capybara'
+  gem 'capybara', '~> 2.6', '>= 2.6.2'
 end

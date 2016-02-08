@@ -1,0 +1,25 @@
+.panel.panel-default.gallery_photos.sortable
+  .panel-heading
+    strong Gallery
+  .panel-body
+    = form_for form_object, url: url_for([form_object, :gallery_photos]), html: {multipart: true, method: :post} do |f|
+      = hidden_field_tag :page, 'gallery'
+      .row.form-section
+        .form-group.col-md-12
+          = label_tag :gallery_photos
+          br
+          - Array(f.object.gallery_photos).sort_by{|gp| gp.order}.each do |gallery_photo|
+            span.extra_photo_layout.gallery_photo id="gallery_photos_#{gallery_photo.id}"
+              = image_tag gallery_photo.photo_url(:thumb), class: 'img-thumbnail extra_gallery_photo', title: gallery_photo.caption
+              br
+              - if gallery_photo.persisted? && policy(gallery_photo).destroy?
+                = link_to fa_icon('trash-o'), [form_object, gallery_photo], confirm: 'Are you sure?', method: :delete, class: 'btn btn-danger gallery_photo_delete_button'
+          .form-inline.input_gallery_photo_fields_wrap
+          br
+          button.btn.btn-success.add_gallery_photo_button type="button" = fa_icon('plus', text: "Add a new gallery photo")
+
+      hr
+      .form-footer
+        .pull-right.form-inline
+          .form-group.pull-right.pad-right
+            = f.submit 'Save', class: 'btn btn-biola'

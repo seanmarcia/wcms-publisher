@@ -1,13 +1,15 @@
 PageNavigator.Items = React.createClass({
   propTypes: {
     selectedPage: React.PropTypes.object,
-    searchy: React.PropTypes.object,
-    loadCompleted: React.PropTypes.bool
+    searchParams: React.PropTypes.object,
+    loadCompleted: React.PropTypes.bool,
+    onPageSelect: React.PropTypes.func
   },
   getInitialState: function () {
     return {
       sortBy: 'slug',
-      sortAsc: true
+      sortAsc: true,
+      truncateSearch: true
     };
   },
   updateSort: function (event) {
@@ -34,12 +36,14 @@ PageNavigator.Items = React.createClass({
   selectedId: function () {
     return this.props.selectedPage ? this.props.selectedPage.id : null;
   },
-  newPageLink: function () {
-    return "/page_editions/new?site_id=" + PageEdition.siteId + "&parent_page_id=" + (this.selectedId() || "")
+  showHiddenPages: function (e) {
+    this.setState({truncateSearch: false});
+    e.preventDefault();
+    return false;
   },
   noResultsText: function () {
     if (this.props.loadCompleted) {
-      if (this.props.searchy.params.all) {
+      if (this.props.searchParams.all) {
         return "No pages match your search."
       } else {
         return "No child pages. Search all pages for more results."
@@ -48,49 +52,66 @@ PageNavigator.Items = React.createClass({
       return "Loading pages..."
     }
   },
-  render: function() {
-    var visiblePages = PageEdition.search(this.props.searchy.params, this.selectedId());
-
+  searchResults: function () {
     // sort pages
     var sortAscending = this.state.sortAsc;
     var sortBy = this.state.sortBy;
-    visiblePages.sort(function(a,b) {
+
+    return PageEdition.search(this.props.searchParams, this.selectedId()).sort(function(a,b) {
       if (sortAscending) {
         return a.attributes[sortBy].localeCompare(b.attributes[sortBy]);
       } else {
         return b.attributes[sortBy].localeCompare(a.attributes[sortBy]);
       }
     });
+  },
+  render: function() {
+    var searchResults = this.searchResults();
+    var pagesHiddenCount = 0;
+    var visiblePageMax = 50;
+    var visiblePages;
 
-    var rows = [];
-    visiblePages.forEach(function(page) {
-      rows.push(
-        <PageNavigator.Item key={page.id} page={page} />
-      );
-    });
-    var newPageButton = <a className="btn btn-default" href={this.newPageLink()}>New page</a>
+    if (this.state.truncateSearch && searchResults.length > visiblePageMax) {
+      pagesHiddenCount = searchResults.length - visiblePageMax;
+      visiblePages = searchResults.slice(0,visiblePageMax);
+    } else {
+      visiblePages = searchResults;
+    }
 
-    if (rows.length > 0) {
+    if (visiblePages.length > 0) {
       return <div>
         <table className="table table-striped">
           <thead>
             <tr>
-              <th><span className={this.headerClass('slug')} onClick={this.updateSort} data-sort="slug">Slug</span></th>
-              <th><span className={this.headerClass('title')} onClick={this.updateSort} data-sort="title">Title</span></th>
+              <th>
+                <span className={this.headerClass('title')} onClick={this.updateSort} data-sort="title">Title</span>
+                <span style={{padding: "0 15px"}}>|</span>
+                <span className={this.headerClass('slug')} onClick={this.updateSort} data-sort="slug">Slug</span>
+              </th>
               <th><span className={this.headerClass('status')} onClick={this.updateSort} data-sort="status">Status</span></th>
               <th><span className={this.headerClass('updated_at')} onClick={this.updateSort} data-sort="updated_at">Updated</span></th>
               <th></th>
             </tr>
           </thead>
-          <tbody>{rows}</tbody>
+          <tbody>
+            {visiblePages.map(function(page) {
+              return <PageNavigator.Item key={page.id} page={page} onPageSelect={this.props.onPageSelect} />
+            }.bind(this))}
+          </tbody>
         </table>
-        {newPageButton}
+        {this.renderHiddenPagesLink(pagesHiddenCount)}
       </div>
     } else {
       return <div>
         <p>{this.noResultsText()}</p>
-        <p>{newPageButton}</p>
       </div>
+    }
+  },
+  renderHiddenPagesLink: function (count) {
+    if (count > 0) {
+      return <p style={{textAlign: 'center'}}>
+        <a href="#" onClick={this.showHiddenPages}>Show {count} more pages.</a>
+      </p>
     }
   }
 });

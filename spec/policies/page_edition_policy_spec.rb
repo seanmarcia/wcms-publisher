@@ -154,7 +154,7 @@ describe PageEditionPolicy do
       let(:affiliations) {["developer"]}
       it { expect(subject.can_manage?(nil)).to be_truthy }
       it { expect(subject.can_manage?(:form)).to be_truthy }
-      it { expect(subject.can_manage?(:activity_logs)).to be_truthy }
+      it { expect(subject.can_manage?(:logs)).to be_truthy }
       it { expect(subject.can_manage?(:permissions)).to be_truthy }
       it { expect(subject.can_manage?(:presentation_data)).to be_truthy }
       it { expect(subject.can_manage?(:attachments)).to be_truthy }
@@ -166,7 +166,7 @@ describe PageEditionPolicy do
       let(:affiliations) {["admin"]}
       it { expect(subject.can_manage?(nil)).to be_truthy }
       it { expect(subject.can_manage?(:form)).to be_truthy }
-      it { expect(subject.can_manage?(:activity_logs)).to be_truthy }
+      it { expect(subject.can_manage?(:logs)).to be_truthy }
       it { expect(subject.can_manage?(:permissions)).to be_truthy }
       it { expect(subject.can_manage?(:presentation_data)).to be_truthy }
       it { expect(subject.can_manage?(:attachments)).to be_truthy }
@@ -178,7 +178,7 @@ describe PageEditionPolicy do
       let(:page_permissions) { [Permission.new(actor_id: user.id, actor_type: 'User', ability: :edit)] }
       it { expect(subject.can_manage?(nil)).to be_truthy }
       it { expect(subject.can_manage?(:form)).to be_truthy }
-      it { expect(subject.can_manage?(:activity_logs)).to be_falsey }
+      it { expect(subject.can_manage?(:logs)).to be_truthy }
       it { expect(subject.can_manage?(:permissions)).to be_falsey }
       it { expect(subject.can_manage?(:presentation_data)).to be_truthy }
       it { expect(subject.can_manage?(:attachments)).to be_truthy }
@@ -190,7 +190,7 @@ describe PageEditionPolicy do
       let(:site_permissions) { [Permission.new(actor_id: user.id, actor_type: 'User', ability: :page_edition_editor)] }
       it { expect(subject.can_manage?(nil)).to be_truthy }
       it { expect(subject.can_manage?(:form)).to be_truthy }
-      it { expect(subject.can_manage?(:activity_logs)).to be_falsey }
+      it { expect(subject.can_manage?(:logs)).to be_truthy }
       it { expect(subject.can_manage?(:permissions)).to be_falsey }
       it { expect(subject.can_manage?(:presentation_data)).to be_truthy }
       it { expect(subject.can_manage?(:attachments)).to be_truthy }
@@ -202,7 +202,7 @@ describe PageEditionPolicy do
       let(:site_permissions) { [Permission.new(actor_id: user.id, actor_type: 'User', ability: :page_edition_publisher)] }
       it { expect(subject.can_manage?(nil)).to be_truthy }
       it { expect(subject.can_manage?(:form)).to be_truthy }
-      it { expect(subject.can_manage?(:activity_logs)).to be_falsey }
+      it { expect(subject.can_manage?(:logs)).to be_truthy }
       it { expect(subject.can_manage?(:permissions)).to be_falsey }
       it { expect(subject.can_manage?(:presentation_data)).to be_truthy }
       it { expect(subject.can_manage?(:attachments)).to be_truthy }
@@ -215,7 +215,7 @@ describe PageEditionPolicy do
       let(:site_permissions) { [Permission.new(actor_id: user.id, actor_type: 'User', ability: :site_admin)] }
       it { expect(subject.can_manage?(nil)).to be_truthy }
       it { expect(subject.can_manage?(:form)).to be_truthy }
-      it { expect(subject.can_manage?(:activity_logs)).to be_falsey }
+      it { expect(subject.can_manage?(:logs)).to be_falsey }
       it { expect(subject.can_manage?(:permissions)).to be_falsey }
       it { expect(subject.can_manage?(:presentation_data)).to be_falsey }
       it { expect(subject.can_manage?(:attachments)).to be_falsey }
@@ -227,7 +227,7 @@ describe PageEditionPolicy do
       let(:affiliations) {["student", "faculty", "staff", "alumni"]}
       it { expect(subject.can_manage?(nil)).to be_truthy }
       it { expect(subject.can_manage?(:form)).to be_truthy }
-      it { expect(subject.can_manage?(:activity_logs)).to be_falsey }
+      it { expect(subject.can_manage?(:logs)).to be_falsey }
       it { expect(subject.can_manage?(:permissions)).to be_falsey }
       it { expect(subject.can_manage?(:presentation_data)).to be_falsey }
       it { expect(subject.can_manage?(:attachments)).to be_falsey }

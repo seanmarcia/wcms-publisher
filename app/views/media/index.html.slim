@@ -1,0 +1,19 @@
+- content_for :site_nav_right do
+  = link_to 'History', wcms_components_changes_path(klass: 'Medium'), class: "top-nav-link"
+.container.page
+  .page-header
+    .pull-right
+      = form_tag media_path, method: :get do
+        = text_field_tag 'q', params[:q], class: 'form-control', placeholder: 'Search', tabindex: '1'
+    .pull-right.pad-right
+      - if policy(Medium).create?
+        = link_to 'New Media', new_medium_path, class: 'btn btn-default'
+    .clearfix
+
+  - if @media.empty?
+    .alert.alert-warning
+      = fa_icon 'warning', text: "No media were found"
+  - else
+    = render 'media'
+
+  .text-center = paginate @media

@@ -1,0 +1,14 @@
+.container.page
+  .page-header
+    .pull-right
+      = form_tag users_path, method: :get do
+        = text_field_tag 'q', params[:q], class: 'form-control', placeholder: 'Search', tabindex: '1'
+    .clearfix
+
+  - if @users.empty?
+    .alert.alert-warning
+      = fa_icon 'warning', text: "No users were found"
+  - else
+    = render 'users'
+
+    .text-center = paginate @users

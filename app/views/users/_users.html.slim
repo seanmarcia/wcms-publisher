@@ -1,0 +1,17 @@
+.table-responsive
+  table.table.table-striped
+    thead
+      tr
+        th
+        th Name
+        th Email
+        th Affiliations
+        th
+    tbody
+      - @users.each do |user|
+        tr
+          td
+          td = user.name
+          td = user.email
+          td = Array(user.affiliations).join(", ")
+          td = link_to 'Impersonate', impersonate_user_path(user)

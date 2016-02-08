@@ -13,7 +13,7 @@ gem 'uglifier', '>= 1.3.0'
 
 gem 'biola_deploy', '~> 0.7'
 gem 'biola_frontend_toolkit', '~> 0.4.4'
-gem 'biola_wcms_components', '~> 0.21.0'
+gem 'biola_wcms_components', '~> 0.22.0'
 gem 'blazing', '~> 0.5.0'
 gem 'buweb_content_models', '~> 1.15'
 gem 'jbuilder', '~> 2.3', '>= 2.3.2'

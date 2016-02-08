@@ -4,63 +4,53 @@ elasticsearch:
   index_name: directory
 
 publishers:
-  - name: Academic Programs
+  - title: Academic Programs
     url: https://wcms.staging.biola.edu/academics/academic_programs
-  - name: Academic Subjects
+  - title: Academic Subjects
     url: https://wcms.staging.biola.edu/academics/academic_subjects
-  - name: Articles
+  - title: Articles
     url: https://wcms.staging.biola.edu/news/articles
-  - name: Attachments
+  - title: Attachments
     url: https://wcms.staging.biola.edu/academics/attachments
-  - name: Calendars
-    url: https://wcms.staging.biola.edu/calendars
-  - name: Campus Location
-    url: https://wcms.staging.biola.edu/campus_locations
-  - name: Catalogs
+  - class_name: Calendar
+  - class_name: CampusLocation
+  - title: Catalogs
     url: https://wcms.staging.biola.edu/academics/catalogs
-  - name: Courses
+  - title: Courses
     url: https://wcms.staging.biola.edu/academics/courses
-  - name: Data Templates
-    url: https://wcms.staging.biola.edu/presentation_data_templates
-  - name: Departments
+  - class_name: PresentationDataTemplate
+  - title: Departments
     url: https://wcms.staging.biola.edu/profiles/offices-services
-  - name: Events
+  - title: Events
     url: https://wcms.staging.biola.edu/news/events
-  - name: External Articles
+  - title: External Articles
     url: https://wcms.staging.biola.edu/news/external_articles
-  - name: External Blogs
+  - title: External Blogs
     url: https://wcms.staging.biola.edu/news/external_blogs
-  - name: Features
+  - title: Features
     url: https://wcms.staging.biola.edu/news/features
-  - name: Forms
+  - title: Forms
     url: https://forms.biola.edu/admin
-  - name: Groups
+  - title: Groups
     url: https://wcms.staging.biola.edu/profiles/groups
-  - name: Important Dates
-    url: https://wcms.staging.biola.edu/important_dates
-  - name: Media
-    url: https://wcms.staging.biola.edu/media
-  - name: Menus
-    url: https://wcms.staging.biola.edu/menus
-  - name: Outcome Pages
+  - class_name: ImportantDate
+  - class_name: Medium
+  - class_name: Menu
+  - title: Outcome Pages
     url: https://wcms.staging.biola.edu/academics/outcome_editions
-  - name: Pages
-    url: https://wcms.staging.biola.edu/page_editions
-  - name: People
+  - class_name: PageEdition
+    title: Pages
+  - title: People
     url: https://wcms.staging.biola.edu/profiles/people
-  - name: Photo Galleries
-    url: https://wcms.staging.biola.edu/photo_galleries
-  - name: Publications
+  - class_name: PhotoGallery
+  - title: Publications
     url: https://wcms.staging.biola.edu/news/publications
-  - name: Publication Categories
+  - title: Publication Categories
     url: https://wcms.staging.biola.edu/news/publication_categories
-  - name: Schools
+  - title: Schools
     url: https://wcms.staging.biola.edu/academics/schools
-  - name: Service Links
-    url: https://wcms.staging.biola.edu/service_links
-  - name: Sites
-    url: https://wcms.staging.biola.edu/sites
-  - name: University Learning Outcomes
+  - class_name: ServiceLink
+  - class_name: Site
+  - title: University Learning Outcomes
     url: https://wcms.staging.biola.edu/academics/university_learning_outcomes
-  - name: Users
-    url: https://wcms.staging.biola.edu/news/users
+  - class_name: User

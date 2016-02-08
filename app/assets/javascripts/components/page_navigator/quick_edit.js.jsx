@@ -143,6 +143,7 @@
             startval={page.attributes.presentation_data}
             schema={page.attributes.schema}
             onChange={this.updateAttribute('presentation_data')} />
+          <p><a href={page.links.self}>Advanced Editor</a></p>
         </div>
       )
     }

@@ -7,10 +7,11 @@ PageNavigator.Item = React.createClass({
     this.props.onPageSelect(this.props.page)
     e.preventDefault();
   },
-  openQuickEdit: function () {
+  openQuickEdit: function (e) {
     var node = document.createElement("div");
     document.body.appendChild(node);
     ReactDOM.render(<PageNavigator.QuickEdit page={this.props.page} />, node);
+    e.preventDefault();
   },
   render: function() {
     var page = this.props.page;
@@ -18,10 +19,9 @@ PageNavigator.Item = React.createClass({
     return (
       <tr>
         <td>
-          <strong><a href={page.links.self}>{page.attributes.title}</a></strong>
+          <strong><a href="#" onClick={this.openQuickEdit}>{page.attributes.title}</a></strong>
           <br/>
           <span className="text-muted">/{page.attributes.slug}</span>
-          <button className="btn btn-default pull-right" onClick={this.openQuickEdit}>Quick Edit</button>
         </td>
         <td>
           <PageNavigator.StatusLabel status={page.attributes.status} />

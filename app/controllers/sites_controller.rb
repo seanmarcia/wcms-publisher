@@ -8,6 +8,7 @@ class SitesController < ApplicationController
   def index
     @sites = policy_scope(Site)
     @sites = @sites.custom_search(params[:q]) if params[:q]
+    @sites = @sites.asc(:title)
     @sites = @sites.page(params[:page]).per(25)
   end
 

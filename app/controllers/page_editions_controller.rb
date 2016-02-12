@@ -13,7 +13,7 @@ class PageEditionsController < ApplicationController
     respond_to do |format|
       format.html do
         # @page_editions will get loaded in via ajax
-        @sites = policy_scope(Site).asc(:title).map {|site| {id: site.id.to_s, title: site.title, url: site.url}}
+        @sites = policy_scope(Site).with_page_editions_enabled.asc(:title).map {|site| {id: site.id.to_s, title: site.title, url: site.url}}
       end
       format.json do
         @page_editions = policy_scope(PageEdition).where(site_id: params[:site_id]).asc(:slug)

@@ -5,11 +5,9 @@
         th
         th Title
         th Url
-        th Pages
     tbody
       - @sites.each do |site|
         tr
           td
           td = link_to site.title, [:edit, site]
           td = link_to site.url, site.url
-          td = link_to 'Pages', page_editions_url(sid: site.id)

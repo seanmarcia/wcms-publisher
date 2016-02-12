@@ -64,13 +64,15 @@ class PageEditionPolicy < PermissionsPolicy
   def permitted_attributes
     attrs = super || []
     attrs += [ :title, :slug, :site_id, :parent_page_id, :body, :page_template, :modifier_id,
-      site_category_ids: [], attachment_ids: [], department_ids: []
+      {site_category_ids: []}, {attachment_ids: []}, {department_ids: []}
     ]
     attrs += [ :topics_string, :keywords_string ]
     attrs += [ :presentation_data_json, :presentation_data_template_id, :keep_in_sync, :presentation_data_json_schema ]
-    attrs += [ :design_css, :design_js, redirect: [ :destination, :type, :query_string_handling ] ] if user.admin?
+    attrs += [ {redirect: [ :destination, :type, :query_string_handling ]} ] if user.admin?
     attrs += [ :publish_at, :archive_at, :featured ] if page_publisher_for?(record)
     attrs = attrs | SEO_FIELDS if user.admin? # Inherited from ApplicationPolicy
+
+    attrs += [:design_css, :design_js, :page_layout] if can_manage?(:design)
 
     attrs
   end
@@ -85,7 +87,7 @@ class PageEditionPolicy < PermissionsPolicy
     when :permissions, :seo
       page_admin?
     when :design
-      user.admin?
+      user.admin? || user.has_role?(:designer)
     else
       false
     end

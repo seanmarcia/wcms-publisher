@@ -8,8 +8,14 @@
       .row.form-section
         .col-xs-12
           .form-group
+            = f.label :page_layout
+            = f.text_field :page_layout, class: "form-control"
+            p.help-block If set, this will override the default application layout
+
+          hr
+
+          .form-group
             div#note
-              br
               strong> NOTE:
               | When referencing classes or ID's please make sure to use something very unique and be very explicit in what you are referencing.
 
@@ -26,6 +32,7 @@
               form: f,
               attribute: :design_js,
               value: @page_edition.design_js
+
 
       .form-footer
         .pull-right

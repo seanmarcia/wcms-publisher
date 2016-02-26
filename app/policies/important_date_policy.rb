@@ -6,12 +6,12 @@ class ImportantDatePolicy < ApplicationPolicy
   end
 
   def index?
-    user.admin?
+    user.admin? || user.has_role?(:important_date_admin)
   end
   alias :show? :index?
 
   def create?
-    user.admin?
+    user.admin? || user.has_role?(:important_date_admin)
   end
   alias :new? :create?
   alias :update? :create?
@@ -29,7 +29,7 @@ class ImportantDatePolicy < ApplicationPolicy
     when nil, :form, :logs, :audience_collections
       true
     when :permissions
-      user.admin? || user.developer?
+      user.admin? || user.developer? || user.has_role?(:important_date_admin)
     else
       false
     end

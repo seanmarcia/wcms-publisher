@@ -19,6 +19,16 @@ describe ImportantDatePolicy do
       it { expect(subject).to permit(user) }
     end
 
+    context "user is an important date admin" do
+      let(:attrs) {{affiliations: ["important_date_admin"]}}
+      it {expect(subject).to permit(user)}
+    end
+
+    context "user is an important date admin" do
+      let(:attrs) {{entitlements: ["#{Settings.urn_namespaces.first}important_date_admin"]}}
+      it {expect(subject).to permit(user)}
+    end
+
     context "user is any other affiliation" do
       let(:attrs) {{affiliations: ["student", "faculty", "staff", "alumni"]}}
       it {expect(subject).not_to permit(user)}

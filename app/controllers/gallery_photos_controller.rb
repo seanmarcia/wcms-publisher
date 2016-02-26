@@ -3,7 +3,7 @@ class GalleryPhotosController < ApplicationController
   before_filter :set_gallery_photo, only: [:destroy]
 
   def create
-    authorize @parent.gallery_photos
+    authorize GalleryPhoto # Not sure how to authorize this array when it hasn't been built so just authorizing that the user can create gallery photo objects in general
 
     if params[:gallery_photos].present?
       @upload_response = []

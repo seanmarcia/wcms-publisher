@@ -88,4 +88,13 @@ class PermissionsPolicy < ApplicationPolicy
     user.admin? ||
     (site && site.has_permission_to?(:site_admin, user))
   end
+
+
+  #############################################
+  ############# ACTOR PERMISSIONS #############
+  #############################################
+  def create_actor?
+    user.admin?
+  end
+  alias :destroy_actor? :create_actor?
 end

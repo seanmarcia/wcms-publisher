@@ -1,11 +1,9 @@
-- policy = ActorPolicy.new(current_user, obj)
-
 .panel.panel-default
   .panel-heading
     strong Permissions
   .panel-body
     - if obj.actors.empty?
-      - if obj.class == PageEdition 
+      - if obj.class == PageEdition
         .alert.alert-info No users have permission to edit this Page.
       - else
         .alert.alert-info No users have permission to edit this #{obj.class.to_s.titleize}.
@@ -19,7 +17,7 @@
         - obj.actors.uniq.sort_by{|a| a.first_name }.each do |actor|
           tr
             td
-              - if policy.destroy?
+              - if policy(obj).destroy_actor?
                 .dropdown.pull-left
                   .dropdown-toggle id="dropdownMenu1" data-toggle="dropdown"
                     = link_to fa_icon('cog')
@@ -35,7 +33,7 @@
             td = actor.email
             td = obj.permissions.by_actor(actor).map{|perm| perm.ability.to_s.titleize}.join(', ')
 
-    - if policy.create?
+    - if policy(obj).create_actor?
       br
       = form_tag [ obj, :actors ]
         #new_permission_form

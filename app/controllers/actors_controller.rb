@@ -1,14 +1,14 @@
 class ActorsController < ApplicationController
   include SetModifier
 
-  before_filter :pundit_authorize
-
   def create
-    # First find the actor's person record from the given person id
-    person_record_for_actor = Person.find(params[:_person_id])
+    authorize @parent, :create_actor?
 
-    # Find the user record for that person, since it is the user we need to authenticate
-    actor = User.where(person_id: person_record_for_actor.id).first
+    # First find the actor's person record from the given person id
+    if person_record_for_actor = Person.where(id: params[:_person_id]).first
+      # Find the user record for that person, since it is the user we need to authenticate
+      actor = User.where(person_id: person_record_for_actor.id).first
+    end
 
     # Site permissions should let you set the role, page edition permissions is just edit
     ability = params[:role] || :edit
@@ -32,6 +32,8 @@ class ActorsController < ApplicationController
   end
 
   def destroy
+    authorize @parent, :destroy_actor?
+
     actor = User.find(params[:id])
     actor_roles = @parent.permissions.by_actor(actor).map{|perm| perm.ability}.to_sentence.humanize
     if @parent.unauthorize_all!(actor)
@@ -42,10 +44,4 @@ class ActorsController < ApplicationController
     redirect_to parent_edit_path(@parent, page: 'permissions')
   end
 
-  protected
-
-  def pundit_authorize
-    self.policy = ActorPolicy.new(current_user, @parent)
-    authorize @parent
-  end
 end

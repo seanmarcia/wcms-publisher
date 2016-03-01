@@ -8,6 +8,10 @@ require 'pundit/rspec'
 
 Mongoid.load!('spec/config/mongoid.yml', :test)
 
+# Load factories from buweb
+BuwebContentModels.load_factories
+FactoryGirl.reload
+
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/*.rb")].each { |f| require f }
@@ -41,7 +45,7 @@ RSpec.configure do |config|
 
   config.before(:each) do
     Mongoid.purge!
-    FactoryGirl.lint
+    # FactoryGirl.lint
 
     response = OpenStruct.new(code: 200)
     CarrierwaveRoz::Client.any_instance.stub(upload: response, delete: response)

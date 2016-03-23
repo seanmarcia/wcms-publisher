@@ -59,7 +59,7 @@ namespace :degree_requirements do
           }).first_or_initialize
 
 
-          title = [academic_program.discipline, concentration.try(:title), row['category'].presence, year].compact.join(": ")
+          title = [academic_program.discipline, concentration.try(:title), row['category'].presence.try(:titleize), year].compact.join(": ")
 
           if !degree_requirement.persisted?
             # only update new degree requirements

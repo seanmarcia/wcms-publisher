@@ -29,8 +29,7 @@ publishers:
   - class_name: PresentationDataTemplate
   - title: Departments
     url: http://profile-publisher.dev/offices-services
-  - title: Events
-    url: http://news-publisher.dev/events
+  - class_name: Event
   - title: External Articles
     url: http://news-publisher.dev/external_articles
   - title: External Blogs

@@ -22,8 +22,7 @@ publishers:
   - class_name: PresentationDataTemplate
   - title: Departments
     url: https://wcms.biola.edu/profiles/offices-services
-  - title: Events
-    url: https://wcms.biola.edu/news/events
+  - class_name: Event
   - title: External Articles
     url: https://wcms.biola.edu/news/external_articles
   - title: External Blogs

@@ -25,7 +25,7 @@ gem 'puma', '~> 2.16'
 gem 'pundit', '~> 1.1'
 gem 'rack-cas', '>= 0.12.0'
 gem 'rails_config', '~> 0.4.2'
-gem 'react-rails', '~> 1.4.0'
+gem 'react-rails', '~> 1.6.2'
 gem 'slim', '>= 2.1'
 gem 'therubyracer', platforms: :ruby
 gem 'turnout', '~> 2.2', '>= 2.2.1'

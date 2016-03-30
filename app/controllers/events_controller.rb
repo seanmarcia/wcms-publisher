@@ -9,7 +9,7 @@ class EventsController < ApplicationController
       end
       format.json do
         @events = policy_scope(Event).scoped
-        @events = @events.future unless params[:all]
+        @events = @events.future_events unless params[:all]
         @events = @events.limit(params[:limit]) if params[:limit]
         @events = @events.where(id: params[:id]) if params[:id]
         # index.json.jbuilder

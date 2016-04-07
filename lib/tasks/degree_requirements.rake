@@ -20,14 +20,21 @@ namespace :degree_requirements do
 
   desc 'import degree requirements'
   task import: [:environment] do
-    path = "./tmp/undergrad.csv"
+    path = "./tmp/degree_requirements.csv"
     CSV.foreach(path, {headers: :first_row}) do |row|
       import_row(row)
     end
   end
 
   def import_row(row)
-    if academic_program = AcademicProgram.where(id: row['AcademicProgramID']).first
+    begin
+      academic_program = AcademicProgram.find(row['AcademicProgramID'])
+    rescue
+      puts "Could not find Academic Program matching '#{row['AcademicProgramID']}'"
+    end
+
+
+    if academic_program
       concentration = nil
 
       if row['Concentration'] == "TRUE"

@@ -14,6 +14,9 @@
 //= require biola-wcms-components
 //= require react
 //= require react_ujs
+//= require bootstrap-multiselect
+//= require bootstrap-upload
+//= require jquery.Jcrop
 //= require moment
 //= require_tree ./polyfills
 //= require_tree ./plugins

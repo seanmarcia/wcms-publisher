@@ -1,0 +1,22 @@
+.table-responsive
+  table.table.table-striped
+    thead
+      tr
+        th Title
+        th Location
+        th Date
+        th Published On
+        th
+        th Status
+    tbody
+      - @events.each do |event|
+        tr
+          td = link_to event.title, event
+          td = event.location.to_s
+          td
+            =' event.start_date ? "#{event.start_date.to_formatted_s(:long_ordinal)}" : ""
+            = event.end_date ? "to #{event.end_date.try(:to_formatted_s, :long_ordinal)}" : ""
+          td = event.publish_at.try(:to_formatted_s, :long_ordinal)
+          td = content_tag :span, "Imported", class: "label label-default", title: event.ws_source if event.imported
+          td = status_for event
+

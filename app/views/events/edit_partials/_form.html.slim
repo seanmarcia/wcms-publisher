@@ -1,0 +1,233 @@
+= render 'shared/javascript_multiselect_include', obj: @event, site_categories: @site_categories, site_titles: @site_titles
+= permitted_form_for @event, html: {multipart: true} do |f|
+  .panel.panel-default
+    .panel-heading
+      strong Basic Info
+    .panel-body
+      .row.form-section
+        .col-md-6
+          .form-group
+            = f.label :title
+            = f.text_field :title, class: 'form-control', title: @event.title
+
+          .form-group
+            = f.label :subtitle
+            = f.text_field :subtitle, class: 'form-control'
+
+          .form-group
+            = f.label :slug
+            .pull-right.text-muted = '(Auto Generated if Blank)'
+            = f.text_field :slug, class: 'form-control'
+
+          .form-group
+            = label_tag 'event[department_ids]', 'Departments'
+            br
+            - if permission_to_edit?(@event, :department_ids)
+              = wcms_component "forms/multiselect",
+                form: f,
+                attribute: :department_ids,
+                collection: Department.published.asc(:title),
+                value_method: :id,
+                text_method: :title,
+                multiple: true
+            - else
+              .well.well-faux-input
+                = @event.departments.try(:join, ', ')
+
+          .form-group
+            = label_tag 'event[group_ids]', 'Groups'
+            br
+            - if permission_to_edit?(@event, :group_ids)
+              = wcms_component "forms/multiselect",
+                form: f,
+                attribute: :group_ids,
+                collection: Group.published.asc(:title),
+                value_method: :id,
+                text_method: :title,
+                multiple: true
+            - else
+              .well.well-faux-input
+                = @event.groups.try(:join, ', ')
+
+          .form-group
+            = f.label :description
+            - if permission_to_edit?(@event, :description)
+              = wcms_component 'forms/redactor_editor', form: f, attribute: :description, buttons: ['formatting', 'bold', 'italic', 'underline', 'deleted', 'unorderedlist', 'orderedlist', 'outdent', 'indent', 'image', 'video', 'table', 'link', 'alignment', 'horizontalrule'], formatting: ['p', 'blockquote', 'h1', 'h2', 'h3', 'h4', 'h5']
+            - else
+              .well.well-faux-input
+                = @event.description.html_safe
+        .col-md-6
+          .form-group
+            = f.label :ws_source, 'Source'
+            = f.text_field :ws_source, class: 'form-control', disabled: true
+
+          .form-group
+            = f.label :start_date
+            = f.text_field :start_date, value: @event.start_date.try(:to_formatted_s, :long_ordinal), class: 'form-control chronic_ping'
+          .form-group
+            = f.label :end_date
+            = f.text_field :end_date, value: @event.end_date.try(:to_formatted_s, :long_ordinal), class: 'form-control chronic_ping'
+
+          .form-group
+            = label_tag 'event[external_sponsor_ids]', 'External Sponsor'
+            br
+            - if permission_to_edit?(@event, :external_sponsor_ids)
+              = wcms_component "forms/multiselect",
+                form: f,
+                attribute: :external_sponsor_ids,
+                collection: Organization.asc(:title),
+                value_method: :id,
+                text_method: :title,
+                multiple: true
+
+            - else
+              .well.well-faux-input
+                = @event.external_sponsors.try(:join, ', ')
+
+          .row
+            .form-group.col-sm-6.col-xs-12.form-site
+              = label_tag 'event[site_id]', 'Site'
+              br
+              - if permission_to_edit?(@event, :site_id)
+                = select_tag 'event[site_id]', options_for_select(@sites.with_events_enabled.map{|site| [site.title, site.id] }, @event.site_id), include_blank: true, class: "form-control site_multiselect"
+              - else
+                .well.well-faux-input
+                  = @event.site
+                = hidden_field_tag :disabled_site_id, @event.site_id.to_s
+
+            .form-group.col-sm-6.col-xs-12.form-categories
+              = f.label :categories
+              br
+              - if permission_to_edit?(@event, :site_category_ids)
+                .multi_category_select
+                  = select_tag 'event[site_category_ids]', options_for_select([], @event.site_category_ids), multiple: true, class: "multiselect"
+              - else
+                .well.well-faux-input
+                  = @event.site_categories.join(', ')
+
+          .row
+            .form-group.col-sm-6.col-xs-12
+              = label_tag 'event[audience]', 'Audience'
+              br
+              - if permission_to_edit?(@event, :audience)
+                = wcms_component "forms/multiselect",
+                  form: f,
+                  attribute: :audience,
+                  collection: Settings.audience,
+                  value_method: :to_s,
+                  text_method: :to_s,
+                  multiple: true
+              - else
+                .well.well-faux-input
+                  = @event.audience.try(:join, ', ')
+
+            .form-group.col-sm-6.col-xs-12
+              label Event type
+              .checkbox
+                label
+                  =' f.check_box :paid
+                  | Paid
+
+      hr
+
+      h3 Contact Information
+      .row.form-section
+        .col-md-4
+          .form-group
+            = f.label :contact_name
+            = f.text_field :contact_name, class: 'form-control'
+        .col-md-4
+          .form-group
+            = f.label :contact_email
+            = f.text_field :contact_email, class: 'form-control'
+        .col-md-4
+          .form-group
+            = f.label :contact_phone
+            = f.text_field :contact_phone, class: 'form-control'
+
+      hr
+
+      h3 Location
+      .row.form-section
+        .col-md-4
+          .form-group
+            =' label_tag 'event[location_type]', 'Type'
+            - if permission_to_edit?(@event, :location_type)
+              = select_tag 'event[location_type]', options_for_select(Event::LOCATION_TYPES.map{|lt| [lt.titleize, lt]}, @event.location_type.parameterize), class: 'form-control', id: 'event_location_type'
+            - else
+              .well.well-faux-input
+                = @event.location_type
+        #on_campus
+          .col-md-12
+            .col-md-6
+              .form-group
+                = label_tag 'event[campus_location_id]', 'Venue'
+                br
+                = wcms_component "forms/multiselect",
+                  form: f,
+                  attribute: :campus_location_id,
+                  collection: CampusLocation.asc(:name),
+                  value_method: :id,
+                  text_method: :name,
+                  prompt: '- Unknown -'
+
+            .col-md-12
+              = f.label :custom_campus_location
+              = f.text_field :custom_campus_location, class: 'form-control', placeholder: 'e.g. Library Upper Level Balcony'
+        #off_campus
+          .col-md-12
+            = f.fields_for :address, @event.address do |address|
+              .col-md-8
+                .form-group
+                  = address.label :line1, 'Venue Name'
+                  = address.text_field :line1, class: 'form-control', placeholder: 'Biola University'
+              .col-md-4
+                .form-group
+                  = address.label :street
+                  = address.text_field :street, class: 'form-control', placeholder: '13800 Biola Ave.'
+              .col-md-4
+                .form-group
+                  = address.label :city
+                  = address.text_field :city, class: 'form-control', placeholder: 'La Mirada'
+              .col-md-4
+                .form-group
+                  = address.label :state
+                  = address.text_field :state, class: 'form-control', placeholder: 'California'
+              .col-md-4
+                .form-group
+                  = address.label :zip
+                  = address.text_field :zip, class: 'form-control', placeholder: '90639'
+
+      .row.form-section
+        = render 'shared/image_crop', f: f, object: @event
+      hr
+
+      - if policy(@event).publish?
+        h3 Status
+        .row.form-section
+          .form-group.col-md-12
+            .pull-left.pad-right.lead Publish from
+            .pull-left.pad-right = f.text_field :publish_at, value: @event.publish_at.try(:to_formatted_s, :long_ordinal), class: 'form-control chronic_ping', placeholder: 'publish date'
+            .pull-left.pad-right.lead to
+            .pull-left.pad-right= f.text_field :archive_at, value: @event.archive_at.try(:to_formatted_s, :long_ordinal), class: 'form-control chronic_ping', placeholder: 'archive date'
+
+      hr
+      .form-footer
+        .pull-right.form-inline
+          .form-group.pull-right.pad-right
+            = f.submit "Save #{'Draft' if @event.draft?}", class: 'btn btn-default'
+          - if @event.draft?
+            .form-group.pull-right.pad-right
+              - if policy(@event).publish?
+                = f.submit 'Publish', class: 'btn btn-biola'
+              - else
+                = f.submit 'Submit for Review', class: 'btn btn-biola'
+          - if @event.request_review? && policy(@event).publish?
+            .form-group.pull-right.pad-right
+              = f.submit 'Return to Draft', class: 'btn btn-biola'
+          .form-group.pull-right.pad-right
+            .checkbox style="margin-top: 7px;"
+              label
+                =' f.check_box :featured
+                | Featured
+

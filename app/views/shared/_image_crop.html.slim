@@ -1,0 +1,41 @@
+.col-md-12
+  hr
+  h3 Image
+
+.col-md-12
+  .form-group
+    .upload_button_holder
+      .fileinput.fileinput-new.input-group data-provides="fileinput"
+        .form-control data-trigger="fileinput"
+          i.glyphicon.glyphicon-file.fileinput-exists
+          span.fileinput-filename
+        span.input-group-addon.btn.btn-default.btn-file
+          span.fileinput-new Select file
+          span.fileinput-exists.btn-file-change Change
+          = f.file_field :image, class: 'file'
+        a.input-group-addon.btn.btn-default.fileinput-exists.btn-file-dismiss data-dismiss="fileinput" href="#"  Remove
+
+    span.status
+  = f.hidden_field :crop_x, id: "crop_x"
+  = f.hidden_field :crop_y, id: "crop_y"
+  = f.hidden_field :crop_w, id: "crop_w"
+  = f.hidden_field :crop_h, id: "crop_h"
+.current_photo style="display: #{'none' unless object.image_url};"
+  h3 Current Photo
+  .col-md-12
+    .lead Thumbnail
+    = image_tag object.image.url(:thumb), class: 'img-thumbnail'
+  .col-md-12
+    .lead Full Photo
+    = image_tag object.image.url, class: 'img-thumbnail', style: 'max-height: 300px;'
+
+.thumbnail-modal
+  .modal.fade.thumb-picker data-backdrop="static" data-keyboard="false"
+    .image_holder
+      .thumb
+        img id="preview"
+      .preview
+        img
+      .image_buttons.pull-right
+        button.btn.btn-primary.btn-modal-accept data-dismiss="modal"  Accept
+        button.btn.btn-danger.btn-modal-dismiss data-dismiss="modal"  Cancel

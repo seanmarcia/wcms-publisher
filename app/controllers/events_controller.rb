@@ -1,14 +1,28 @@
 class EventsController < ApplicationController
+  include SetSiteCategories
+  include SetModifier
+
   skip_after_action :verify_policy_scoped
+  before_filter :set_categories_for_event, except: [:index, :show]
 
   def index
     authorize Event
+    @events = policy_scope(Event).scoped
 
     respond_to do |format|
       format.html do
+        @available_sites = Site.where(has_events: true).asc(:title)
+        @available_departments = Department.in(id: @events.distinct(:department_ids)).asc(:name)
+        @request_review_count = @events.request_review.count
+
+        @events = @events.custom_search(params[:q]) if params[:q]
+        @events = @events.by_status(params[:status]) if params[:status]
+        @events = @events.by_site(params[:site]) if params[:site]
+        @events = @events.by_department(params[:department]) if params[:department]
+        @events = @events.request_review if params[:request_review]
+        @events = @events.desc(:publish_at).page(params[:page]).per(25)
       end
       format.json do
-        @events = policy_scope(Event).scoped
         @events = @events.future_events unless params[:all]
         @events = @events.limit(params[:limit]) if params[:limit]
         @events = @events.where(id: params[:id]) if params[:id]
@@ -67,6 +81,9 @@ class EventsController < ApplicationController
   def update
     @event = Event.find(params[:id])
     authorize @event
+    set_status
+    add_links
+    # @event.site_categories = []
 
     respond_to do |format|
       format.html do
@@ -87,10 +104,32 @@ class EventsController < ApplicationController
     end
   end
 
+  def duplicate
+    duplicated_event = @event.clone
+    if duplicated_event
+      log_activity(duplicated_event.previous_changes, parent: duplicated_event)
+
+      flash[:info] = "#{@event} duplicated."
+      @event = duplicated_event
+      render :new
+    else
+      flash[:error] = "Something went wrong, please try again."
+      redirect_to event_path
+    end
+  end
+
   private
 
   def event_params
-    params.require(:event).permit(*policy(@event || Event).permitted_attributes)
+    if params[:event]
+      params[:event][:meta_keywords] = params[:event][:meta_keywords].split(',') unless params[:event][:meta_keywords].nil?
+      params.require(:event).permit(*policy(@event || Event).permitted_attributes).tap do |whitelisted|
+        # You have to whitelist the hash this way, see https://github.com/rails/rails/issues/9454
+        whitelisted[:presentation_data] = params[:pdata] if params[:pdata].present?
+      end
+    else
+      {}
+    end
   end
 
   def new_event_from_params
@@ -99,6 +138,36 @@ class EventsController < ApplicationController
     else
       Event.new
     end
+  end
+
+  def add_links
+    if params[:links]
+      upload_response = []
+      Array(params[:links]).each do |link|
+        upload_response << @event.links.new(title: link.last[:title], url: link.last[:url]).save
+      end
+      if upload_response == false
+        flash[:warning] = 'One or more of the links failed to add. Please try again.'
+      end
+    end
+  end
+
+  def set_status
+    if @event.valid?
+      if params[:commit] == "Submit for Review"
+        @event.submit_for_review
+      elsif params[:commit] == "Return to Draft" && policy(@event).publish?
+        @event.return_to_draft
+      end
+    end
+  end
+
+  def new_address
+    @event.address = Address.new if @event.address.nil?
+  end
+
+  def set_categories_for_event
+    set_categories('Event')
   end
 
 end

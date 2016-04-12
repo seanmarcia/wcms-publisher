@@ -1,0 +1,22 @@
+///////////
+// Modal Image CSS
+///////////
+.thumbnail-modal {
+  .modal {
+    .thumb { width:100px; height:100px; overflow:hidden; }
+    .preview { margin-top: 20px; background-color: rgba(0,0,0, 0.4); padding: 10px; }
+    .image_buttons { padding: 0px 10px 10px 10px; background-color: rgba(0,0,0, 0.4); }
+    .btn-modal-dismiss { margin-left: 5px; }
+    .thumb-picker {
+      display: inline-block;
+      .preview {
+        display: inline-block;
+        border: 5px solid white;
+      }
+      .thumb {
+        margin: 5%;
+        float: right;
+      }
+    }
+  }
+}

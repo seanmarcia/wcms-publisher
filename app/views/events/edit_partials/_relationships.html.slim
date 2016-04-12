@@ -1,0 +1,57 @@
+h2 Related To
+
+- @event.related_to.each do |type, relationships|
+  .panel.panel-default
+    .panel-heading
+      strong = type.titleize.pluralize
+    .panel-body
+      ul
+        - relationships.each do |relationship|
+          li
+            = relationship.related_object.to_s
+            = " (#{remove_relationship_link(relationship)})".html_safe
+
+.panel.panel-default
+  .panel-heading
+    strong New Relationship
+  .panel-body
+    = form_for Relationship.new do |f|
+      = f.hidden_field :source_type, value: @event.class.to_s
+      = f.hidden_field :source_id, value: @event.id.to_s
+
+      .form-inline
+        .form-group>
+          = f.text_field :related_type, class: 'form-control', placeholder: 'Type'
+        .form-group>
+          = f.text_field :related_id, class: 'form-control', placeholder: 'ID'
+        = f.submit class: 'btn btn-default'
+
+
+hr
+h2 Related From
+
+- @event.related_from.each do |type, relationships|
+  .panel.panel-default
+    .panel-heading
+      strong = type.titleize.pluralize
+    .panel-body
+      ul
+        - relationships.each do |relationship|
+          li
+            = relationship.base_object.to_s
+            = " (#{remove_relationship_link(relationship)})".html_safe
+
+.panel.panel-default
+  .panel-heading
+    strong New Relationship
+  .panel-body
+    = form_for Relationship.new do |f|
+      = f.hidden_field :related_type, value: @event.class.to_s
+      = f.hidden_field :related_id, value: @event.id.to_s
+
+      .form-inline
+        .form-group>
+          = f.text_field :base_type, class: 'form-control', placeholder: 'Type'
+        .form-group>
+          = f.text_field :base_id, class: 'form-control', placeholder: 'ID'
+        = f.submit class: 'btn btn-default'

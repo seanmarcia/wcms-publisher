@@ -58,7 +58,7 @@ class EventPolicy < PermissionsPolicy
       :contact_email, :contact_phone, :paid, :description, :publish_sidekiq_id, :archive_sidekiq_id,
       :crop_x, :crop_y, :crop_w, :crop_h, :imported, :ws_source, :ws_id, :user_id, audience: [], department_ids: [],
       group_ids: [], external_sponsor_ids: [], address: [:line1, :street, :city, :state, :zip, :use_associated_title],
-      site_category_ids: [], link_ids: []]
+      site_category_ids: [], link_ids: [], event_occurrences_attributes: [:id, :start_time, :end_time, :_destroy]]
 
       pa += [:presentation_data_json, :presentation_data_template_id]
       pa += [:publish_at, :archive_at, :featured] if event_publisher?
@@ -70,7 +70,7 @@ class EventPolicy < PermissionsPolicy
 
   def can_manage?(attribute)
     case attribute.try(:to_sym)
-    when nil, :event, :relationships, :presentation_data, :links, :tickets
+    when nil, :form, :relationships, :presentation_data, :links, :tickets, :occurrences
       event_author?
     when :logs, :seo
       user.admin?

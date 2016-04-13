@@ -18,6 +18,7 @@
 //= require bootstrap-upload
 //= require jquery.Jcrop
 //= require moment
+//= require bootstrap-datetimepicker
 //= require_tree ./polyfills
 //= require_tree ./plugins
 //= require_tree ./classes

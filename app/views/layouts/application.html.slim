@@ -12,7 +12,7 @@ html lang="en-us"
     = stylesheet_link_tag "application", media: "all"
     = javascript_include_tag "application"
 
-  body
+  body class="#{controller_name} #{action_name}"
 
     / account_list must be before biola_header otherwise the list won't be defined in time.
     = render 'layouts/account_list'

@@ -32,31 +32,9 @@
       hr
 
       h3 Times
-      .row.form-section
-        .col-md-12
-          .form-group
-            = f.label :start_date
-            = f.text_field :start_date, value: @event.start_date.try(:to_formatted_s, :long_ordinal), class: 'form-control chronic_ping'
-          .form-group
-            = f.label :end_date
-            = f.text_field :end_date, value: @event.end_date.try(:to_formatted_s, :long_ordinal), class: 'form-control chronic_ping'
-
-      hr
-
-      h3 Contact Information
-      .row.form-section
-        .col-md-4
-          .form-group
-            = f.label :contact_name
-            = f.text_field :contact_name, class: 'form-control'
-        .col-md-4
-          .form-group
-            = f.label :contact_email
-            = f.text_field :contact_email, class: 'form-control'
-        .col-md-4
-          .form-group
-            = f.label :contact_phone
-            = f.text_field :contact_phone, class: 'form-control'
+      = f.fields_for :event_occurrences, f.object.event_occurrences.asc(:start_time) do |builder|
+        = render "event_occurrence_fields", f: builder
+      = link_to_add_fields "Add Time", f, :event_occurrences
 
       hr
 
@@ -110,6 +88,24 @@
                 .form-group
                   = address.label :zip
                   = address.text_field :zip, class: 'form-control', placeholder: '90639'
+
+      hr
+
+      h3 Contact Information
+      .row.form-section
+        .col-md-4
+          .form-group
+            = f.label :contact_name
+            = f.text_field :contact_name, class: 'form-control'
+        .col-md-4
+          .form-group
+            = f.label :contact_email
+            = f.text_field :contact_email, class: 'form-control'
+        .col-md-4
+          .form-group
+            = f.label :contact_phone
+            = f.text_field :contact_phone, class: 'form-control'
+
 
       .row.form-section
         = render 'shared/image_crop', f: f, object: @event
@@ -213,13 +209,6 @@
                   =' f.check_box :featured
                   | Featured
 
-          .form-group.pull-right.pad-right
-            .checkbox style="margin-top: 7px;"
-              label
-                =' f.check_box :featured
-                | Yes Featured
-
-
 
       hr
 
@@ -246,4 +235,3 @@
           - if @event.request_review? && policy(@event).publish?
             .form-group.pull-right.pad-right
               = f.submit 'Return to Draft', class: 'btn btn-biola'
-

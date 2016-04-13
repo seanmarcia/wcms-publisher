@@ -1,0 +1,15 @@
+- if f.object && f.object.persisted?
+  = f.hidden_field(:id, value: f.object.id)
+fieldset
+  .row
+    .col-md-5.form-group
+      = f.label :start_time
+      = f.datetime_select :start_time
+
+    .col-md-5.form-group
+      = f.label :end_time
+      = f.datetime_select :end_time
+
+    .col-md-2.form-group
+      = f.label :_destroy, "Remove"
+      = f.check_box :_destroy, class: 'remove_fields'

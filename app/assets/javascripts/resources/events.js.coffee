@@ -11,20 +11,41 @@ determineLocationType = (location_type) ->
 
 
 $(document).ready ->
-  if location_type = $('#event_location_type').val()
-    determineLocationType(location_type)
+  if $('body.events').length > 0
+    if location_type = $('#event_location_type').val()
+      determineLocationType(location_type)
 
-  $('#event_location_type').change ->
-    determineLocationType(this.value)
+    $('#event_location_type').change ->
+      determineLocationType(this.value)
 
 
-  # Event Links
-  $(".add_link_button").click (e) -> #on add input button click
-    e.preventDefault()
-    $(".input_link_fields_wrap").append "<div class=\"input_link_fields\"><input class=\"form-control link_url\" placeholder=\"Title\" name=\"links[#{Date.now()}][title]\" type=\"text\" value=\"\" style=\"display: inline;\"/>
-    <input class=\"form-control link_url\" placeholder=\"Url\" name=\"links[#{Date.now()}][url]\" type=\"text\" value=\"\"/>
-    <a href=\"#\" class=\"remove_field\">Remove</a></div>" #add input box
+    # Event Links
+    $(".add_link_button").click (e) -> #on add input button click
+      e.preventDefault()
+      $(".input_link_fields_wrap").append "<div class=\"input_link_fields\"><input class=\"form-control link_url\" placeholder=\"Title\" name=\"links[#{Date.now()}][title]\" type=\"text\" value=\"\" style=\"display: inline;\"/>
+      <input class=\"form-control link_url\" placeholder=\"Url\" name=\"links[#{Date.now()}][url]\" type=\"text\" value=\"\"/>
+      <a href=\"#\" class=\"remove_field\">Remove</a></div>" #add input box
 
-  $(".input_link_fields_wrap").on "click", ".remove_field", (e) -> #user click on remove text
-    e.preventDefault()
-    $(this).parent("div").remove()
+    $(".input_link_fields_wrap").on "click", ".remove_field", (e) -> #user click on remove text
+      e.preventDefault()
+      $(this).parent("div").remove()
+
+
+    $('form').on 'click', '.add_fields', (event) ->
+      time = new Date().getTime()
+      regexp = new RegExp($(this).data('id'), 'g')
+      $(this).before($(this).data('fields').replace(regexp, time))
+      initializeDatetimePicker($('.datetimepicker'))
+      event.preventDefault()
+
+    initializeDatetimePicker = (object) ->
+      object.datetimepicker({
+        icons: {
+          time: "fa fa-clock-o",
+          date: "fa fa-calendar",
+          up: "fa fa-arrow-up",
+          down: "fa fa-arrow-down"
+        }
+      })
+
+    initializeDatetimePicker($('.datetimepicker'))

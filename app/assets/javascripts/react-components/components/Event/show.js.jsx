@@ -1,32 +1,37 @@
 (function () {
   EventStore = App.stores.EventStore;
+  NotificationStore = App.stores.NotificationStore;
   Input = App.components.Bootstrap.Input;
   Checkbox = App.components.Bootstrap.Checkbox;
+  Notifications = App.components.Bootstrap.Notifications;
 
 
   function getStateFromStores(id) {
     return {
       event: EventStore.get(id),
+      notifications: NotificationStore.getAll(),
     }
   }
 
   App.components.Event.show = React.createClass({
     getInitialState: function () {
-      state = getStateFromStores(this.props.params.id);
+      var _state = getStateFromStores(this.props.params.id);
 
       // userChanges will keep track of fields the user has changed.
-      state.userChanges = {};
-      return state;
+      _state.userChanges = {};
+      return _state;
     },
 
     componentDidMount: function () {
-      EventStore.addChangeListener(this._onChange);
+      EventStore.on('change', this._onChange);
+      NotificationStore.on('change', this._onChange);
 
       EventStore.loadFromAPI({id: this.props.params.id, limit: 1, show_details: true});
     },
 
     componentWillUnmount: function () {
-      EventStore.removeChangeListener(this._onChange);
+      EventStore.removeListener('change', this._onChange);
+      NotificationStore.removeListener('change', this._onChange);
     },
 
     _onChange: function () {
@@ -53,6 +58,7 @@
       if (event) {
 
         return <div>
+          <Notifications notifications={this.state.notifications}/>
           <Input name="title" onChange={this.userEdit} value={this.fieldValue('title')} />
           <Input name="slug" onChange={this.userEdit} value={this.fieldValue('slug')} />
           <Input name="subtitle" onChange={this.userEdit} value={this.fieldValue('subtitle')} />

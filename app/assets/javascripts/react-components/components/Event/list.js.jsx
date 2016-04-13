@@ -1,6 +1,7 @@
 (function () {
   // Imports
   EventStore = App.stores.EventStore;
+  NotificationStore = App.stores.NotificationStore;
   Link = ReactRouter.Link;
 
 
@@ -16,13 +17,13 @@
     },
 
     componentDidMount: function () {
-      EventStore.addChangeListener(this._onChange);
+      EventStore.on('change', this._onChange);
 
       EventStore.loadFromAPI({future: true});
     },
 
     componentWillUnmount: function () {
-      EventStore.removeChangeListener(this._onChange);
+      EventStore.removeListener('change', this._onChange);
     },
 
     _onChange: function () {

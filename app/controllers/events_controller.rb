@@ -9,7 +9,7 @@ class EventsController < ApplicationController
       end
       format.json do
         @events = policy_scope(Event).scoped
-        @events = @events.future_events unless params[:all]
+        @events = @events.future_events unless params[:all] || params[:id]
         @events = @events.limit(params[:limit]) if params[:limit]
         @events = @events.where(id: params[:id]) if params[:id]
         # index.json.jbuilder
@@ -90,7 +90,7 @@ class EventsController < ApplicationController
   private
 
   def event_params
-    params.require(:event).permit(*policy(@event || Event).permitted_attributes)
+    params.fetch(:event, {}).permit(*policy(@event || Event).permitted_attributes)
   end
 
   def new_event_from_params

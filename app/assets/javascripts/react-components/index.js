@@ -18,6 +18,7 @@ App = {
   stores: {
     // These are loaded from ./stores
     EventStore: {},
+    NotificationStore: {},
   },
   components: {
     // These are loaded from ./components

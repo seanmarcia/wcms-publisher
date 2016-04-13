@@ -20,14 +20,14 @@
   = f.hidden_field :crop_y, id: "crop_y"
   = f.hidden_field :crop_w, id: "crop_w"
   = f.hidden_field :crop_h, id: "crop_h"
-.current_photo style="display: #{'none' unless object.image_url};"
-  h3 Current Photo
-  .col-md-12
-    .lead Thumbnail
-    = image_tag object.image.url(:thumb), class: 'img-thumbnail'
-  .col-md-12
-    .lead Full Photo
-    = image_tag object.image.url, class: 'img-thumbnail', style: 'max-height: 300px;'
+
+  .row.current_photo style="display: #{'none' unless object.image_url};"
+    .col-md-6
+      p: strong Full Photo
+      = image_tag object.image.url, class: 'img-thumbnail', style: 'max-height: 300px;'
+    .col-md-6
+      p: strong Thumbnail
+      = image_tag object.image.url(:thumb), class: 'img-thumbnail'
 
 .thumbnail-modal
   .modal.fade.thumb-picker data-backdrop="static" data-keyboard="false"

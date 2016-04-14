@@ -213,13 +213,17 @@
       hr
 
       - if policy(@event).publish?
+
+
         h3 Status
         .row.form-section
-          .form-group.col-md-12
-            .pull-left.pad-right.lead Publish from
-            .pull-left.pad-right = f.datetime_select :publish_at, {}, placeholder: 'publish date'
-            .pull-left.pad-right.lead to
-            .pull-left.pad-right = f.datetime_select :archive_at, {}, placeholder: 'archive date'
+          .col-md-6.form-group
+            = f.label :publish_at, "Publish date"
+            = f.datetime_select :publish_at
+
+          .col-md-6.form-group
+            = f.label :archive_at, "Unpublish date"
+            = f.datetime_select :archive_at
 
       hr
       .form-footer

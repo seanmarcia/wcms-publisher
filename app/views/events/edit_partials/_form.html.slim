@@ -217,9 +217,9 @@
         .row.form-section
           .form-group.col-md-12
             .pull-left.pad-right.lead Publish from
-            .pull-left.pad-right = f.text_field :publish_at, value: @event.publish_at.try(:to_formatted_s, :long_ordinal), class: 'form-control chronic_ping', placeholder: 'publish date'
+            .pull-left.pad-right = f.datetime_select :publish_at, {}, placeholder: 'publish date'
             .pull-left.pad-right.lead to
-            .pull-left.pad-right= f.text_field :archive_at, value: @event.archive_at.try(:to_formatted_s, :long_ordinal), class: 'form-control chronic_ping', placeholder: 'archive date'
+            .pull-left.pad-right = f.datetime_select :archive_at, {}, placeholder: 'archive date'
 
       hr
       .form-footer

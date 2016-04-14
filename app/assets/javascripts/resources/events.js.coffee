@@ -35,17 +35,5 @@ $(document).ready ->
       time = new Date().getTime()
       regexp = new RegExp($(this).data('id'), 'g')
       $(this).before($(this).data('fields').replace(regexp, time))
-      initializeDatetimePicker($('.datetimepicker'))
+      resetDatetimePicker($('.datetimepicker'))
       event.preventDefault()
-
-    initializeDatetimePicker = (object) ->
-      object.datetimepicker({
-        icons: {
-          time: "fa fa-clock-o",
-          date: "fa fa-calendar",
-          up: "fa fa-arrow-up",
-          down: "fa fa-arrow-down"
-        }
-      })
-
-    initializeDatetimePicker($('.datetimepicker'))

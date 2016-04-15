@@ -42,7 +42,7 @@
       .row.form-section
         .col-md-4
           .form-group
-            =' label_tag 'event[location_type]', 'Type'
+            => label_tag 'event[location_type]', 'Type'
             - if permission_to_edit?(@event, :location_type)
               = select_tag 'event[location_type]', options_for_select(Event::LOCATION_TYPES.map{|lt| [lt.titleize, lt]}, @event.location_type.parameterize), class: 'form-control', id: 'event_location_type'
             - else
@@ -206,7 +206,7 @@
               label Featured
               .checkbox
                 label
-                  =' f.check_box :featured
+                  => f.check_box :featured
                   | Featured
 
 

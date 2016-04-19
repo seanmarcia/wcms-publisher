@@ -19,7 +19,7 @@
 
       .col-md-6.source_select#academic_subject hidden=true
         .form-group
-          = label_tag 'Academic subjects'
+          = label_tag 'Academic subject'
           = wcms_component "forms/multiselect",
             attribute: :academic_subject,
             collection: AcademicSubject.asc(:title),
@@ -31,7 +31,7 @@
 
       .col-md-6.source_select#academic_program hidden=true
         .form-group
-          = label_tag 'Academic programs'
+          = label_tag 'Academic program'
           = wcms_component "forms/multiselect",
             attribute: :academic_program,
             collection: AcademicProgram.asc(:full_name),
@@ -44,7 +44,7 @@
       .col-md-6.source_select#concentration hidden=true
         .form-group
           / TODO: We should probably load these in asynchronously in the future.
-          = label_tag 'Concentrations'
+          = label_tag 'Concentration'
           = wcms_component "forms/multiselect",
             attribute: :concentration,
             collection: Concentration.asc(:title),
@@ -56,7 +56,7 @@
 
       .col-md-6.source_select#department hidden=true
         .form-group
-          = label_tag 'Departments'
+          = label_tag 'Department'
           = wcms_component "forms/multiselect",
             attribute: :department,
             collection: Department.asc(:title),
@@ -68,7 +68,7 @@
 
       .col-md-6.source_select#event hidden=true
         .form-group
-          = label_tag 'Events'
+          = label_tag 'Event'
           = wcms_component "forms/multiselect",
             attribute: :event,
             collection: Event.asc(:title),
@@ -78,9 +78,21 @@
             prompt: "Select one",
             selected: @page_edition.source_id
 
+      .col-md-6.source_select#event_collection hidden=true
+        .form-group
+          = label_tag 'Event Collection'
+          = wcms_component "forms/multiselect",
+            attribute: :event_collection,
+            collection: EventCollection.asc(:title),
+            value_method: :id,
+            text_method: :to_s,
+            multiple: false,
+            prompt: "Select one",
+            selected: @page_edition.source_id
+
       .col-md-6.source_select#group hidden=true
         .form-group
-          = label_tag 'Groups'
+          = label_tag 'Group'
           = wcms_component "forms/multiselect",
             attribute: :group,
             collection: Group.asc(:title),

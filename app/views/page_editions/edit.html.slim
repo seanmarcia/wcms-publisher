@@ -4,14 +4,8 @@
       = render 'menu'
 
     .col-sm-9
-
       / validate that current user can manage the page
       - if policy(@page_edition).can_manage?(params[:page])
-        .edit-partials
-          - case params[:page]
-          - when 'logs'
-            = render 'shared/logs', obj: @page_edition
-          - else
-            = render form_page_path
+        .edit-partials = render form_page_path
       - else
         .alert.alert-danger You do not have permission to manage this view. #{link_to('Back to overview', edit_page_edition_path(@page_edition))}

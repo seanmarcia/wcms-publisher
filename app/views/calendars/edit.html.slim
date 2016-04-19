@@ -4,14 +4,8 @@
       = render 'menu'
 
     .col-sm-9
-
       / validate that current user can manage the page
       - if policy(@calendar).can_manage?(params[:page])
-        .edit-partials
-          - case params[:page]
-          - when 'logs'
-            = render 'shared/logs', obj: @calendar
-          - else
-            = render form_page_path
+        .edit-partials = render form_page_path
       - else
         .alert.alert-danger You do not have permission to manage this view. #{link_to('Back to overview', edit_calendar_path(@calendar))}

@@ -28,7 +28,7 @@ class EventCollectionPolicy < PermissionsPolicy
 
   def can_manage?(attribute)
     case attribute.try(:to_sym)
-    when nil, :form
+    when nil, :form, :relationships
       user.admin? || user.has_role?(:designer)
     when :logs
       user.admin?

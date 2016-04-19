@@ -1,0 +1,9 @@
+.panel.panel-default
+  .panel-heading
+    strong Events
+  .panel-body
+    table.table
+      - @event_collection.events.each do |event|
+        tr
+          td = link_to event, event
+          td = event.event_occurrences.pluck(:start_time).sort.map{|t| t.to_date.to_formatted_s(:long) }.join("<br/>").html_safe

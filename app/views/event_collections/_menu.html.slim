@@ -4,4 +4,5 @@
       = @event_collection
     = menu_block(class: 'list-group-item') do |menu|
       = menu.add_item('Overview', default: true) { edit_event_collection_path(@event_collection, page: 'form') }
+      = menu.add_item('Relationships') { edit_event_collection_path(@event_collection, page: 'relationships') }
       = menu.add_item('History') { object_index_wcms_components_changes_path(klass: EventCollection, id: @event_collection.id) } if policy(@event_collection).can_manage?(:logs)

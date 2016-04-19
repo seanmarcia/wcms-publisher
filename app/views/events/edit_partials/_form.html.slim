@@ -160,6 +160,22 @@
               .well.well-faux-input
                 = @event.external_sponsors.try(:join, ', ')
 
+          .form-group
+            = label_tag 'event[event_collection_ids]', 'Event Collections'
+            br
+            - if permission_to_edit?(@event, :event_collection_ids)
+              = wcms_component "forms/multiselect",
+                form: f,
+                attribute: :event_collection_ids,
+                collection: EventCollection.asc(:title),
+                value_method: :id,
+                text_method: :title,
+                multiple: true
+            - else
+              .well.well-faux-input
+                = @event.event_collections.try(:join, ', ')
+
+
         .col-md-6
           .form-group
             = f.label :ws_source, 'Source'

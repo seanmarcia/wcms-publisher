@@ -1,0 +1,16 @@
+= permitted_form_for @event_collection, html: {multipart: true} do |f|
+  .panel.panel-default
+    .panel-heading
+      strong Basic Info
+    .panel-body
+      .row.form-section
+        .col-md-12
+          .form-group
+            = f.label :title
+            = f.text_field :title, class: 'form-control', title: @event_collection.title
+
+      hr
+      .form-footer
+        .pull-right.form-inline
+          .form-group.pull-right.pad-right
+            = f.submit "Save", class: 'btn btn-default'

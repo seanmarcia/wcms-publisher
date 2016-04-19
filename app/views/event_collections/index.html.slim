@@ -1,0 +1,20 @@
+- content_for :site_nav_right do
+  = link_to 'History', wcms_components_changes_path(klass: 'EventCollection'), class: "top-nav-link"
+
+.container.page
+  .page-header
+    .pull-right
+      = form_tag event_collections_path, method: :get do
+        = text_field_tag 'q', params[:q], class: 'form-control', placeholder: 'Search', tabindex: '1'
+    .pull-right.pad-right
+      - if policy(EventCollection).create?
+        = link_to 'New Event Collection', new_event_collection_path, class: 'btn btn-default'
+    .clearfix
+
+  - if @event_collections.empty?
+    .alert.alert-warning
+      = fa_icon 'warning', text: "No event collections were found"
+  - else
+    = render 'event_collections'
+
+    .text-center = paginate @event_collections

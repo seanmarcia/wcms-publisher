@@ -22,6 +22,7 @@ publishers:
   - title: Departments
     url: https://wcms.staging.biola.edu/profiles/offices-services
   - class_name: Event
+  - class_name: EventCollection
   - title: External Articles
     url: https://wcms.staging.biola.edu/news/external_articles
   - title: External Blogs

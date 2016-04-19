@@ -1,0 +1,16 @@
+.container.page
+  .row
+    .col-sm-3
+      = render 'menu'
+
+    .col-sm-9
+      / validate that current user can manage the page
+      - if policy(@event_collection).can_manage?(params[:page])
+        .edit-partials
+        - case params[:page]
+        - when 'logs'
+          = render 'shared/logs', obj: @event_collection
+        - else
+          = render form_page_path
+      - else
+        .alert.alert-danger You do not have permission to manage this view. #{link_to('Back to overview', edit_event_collection_path(@event_collection))}

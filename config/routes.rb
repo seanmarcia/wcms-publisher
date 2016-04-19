@@ -30,6 +30,7 @@ Wcms::Application.routes.draw do
     get :duplicate, on: :member
     post :update_from_ws, on: :collection
   end
+  resources :event_collections
 
   resources :sites do
     resources :site_categories, only: [:create, :update, :destroy]

@@ -23,6 +23,7 @@ publishers:
   - title: Departments
     url: https://wcms.biola.edu/profiles/offices-services
   - class_name: Event
+  - class_name: EventCollection
   - title: External Articles
     url: https://wcms.biola.edu/news/external_articles
   - title: External Blogs

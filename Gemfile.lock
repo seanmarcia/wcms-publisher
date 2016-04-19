@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/biola/buweb-content-models.git
-  revision: 67c42bcc1c884e1406817c3052467d0d8465d263
+  revision: 290582e2f67d1a5591539dd5c8295888bc07fc1f
   branch: events
   specs:
     buweb_content_models (1.20.1)

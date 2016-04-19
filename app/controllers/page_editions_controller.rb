@@ -41,6 +41,8 @@ class PageEditionsController < ApplicationController
     @page_edition = PageEdition.new
     @page_edition.site_id = params[:site_id]
     @page_edition.parent_page_id = params[:parent_page_id]
+    @page_edition.source_type = params[:source_type]
+    @page_edition.source_id = params[:source_id]
     if @page_edition.parent_page
       @page_edition.site_id = @page_edition.parent_page.site_id # ensure site id matches parent
       @page_edition.slug = @page_edition.parent_page.slug + '/'
@@ -54,6 +56,7 @@ class PageEditionsController < ApplicationController
   def create
     if @error
       flash[:notice] = @error
+      render :new
     elsif @page_edition.save
       set_author
       update_state
@@ -149,6 +152,8 @@ class PageEditionsController < ApplicationController
         source = Department.where(id: params[:department]).first
       when 'event'
         source = Event.where(id: params[:event]).first
+      when 'event_collection'
+        source = EventCollection.where(id: params[:event_collection]).first
       when 'group'
         source = Group.where(id: params[:group]).first
       else

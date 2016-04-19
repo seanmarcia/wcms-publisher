@@ -1,5 +1,4 @@
 class EventCollectionsController < ApplicationController
-  include SetModifier
 
   def index
     authorize EventCollection
@@ -40,7 +39,7 @@ class EventCollectionsController < ApplicationController
     authorize(@event_collection)
     if @event_collection.update_attributes(event_collection_params)
       flash[:notice] = "'#{@event_collection.title}' updated."
-      redirect_to edit_event_collection_path @event_collection
+      redirect_to edit_event_collection_path @event_collection, page: params[:page]
     else
       render :edit
     end
@@ -50,7 +49,9 @@ class EventCollectionsController < ApplicationController
 
   def event_collection_params
     if params[:event_collection]
-      params.require(:event_collection).permit(*policy(@event_collection || EventCollection).permitted_attributes)
+      params.require(:event_collection).permit(*policy(@event_collection || EventCollection).permitted_attributes).tap do |whitelisted|
+        whitelisted[:modifier_id] = current_user.id.to_s
+      end
     else
       {}
     end

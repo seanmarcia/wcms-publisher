@@ -1,6 +1,5 @@
 class EventsController < ApplicationController
   include SetSiteCategories
-  include SetModifier
 
   skip_after_action :verify_policy_scoped
   before_filter :set_categories_for_event, except: [:index, :show]
@@ -126,6 +125,7 @@ class EventsController < ApplicationController
       params.require(:event).permit(*policy(@event || Event).permitted_attributes).tap do |whitelisted|
         # You have to whitelist the hash this way, see https://github.com/rails/rails/issues/9454
         whitelisted[:presentation_data] = params[:pdata] if params[:pdata].present?
+        whitelisted[:modifier_id] = current_user.id.to_s
       end
     else
       {}

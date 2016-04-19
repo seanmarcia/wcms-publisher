@@ -71,7 +71,7 @@ class EventPolicy < PermissionsPolicy
 
   def can_manage?(attribute)
     case attribute.try(:to_sym)
-    when nil, :form, :relationships, :presentation_data, :links, :tickets, :occurrences
+    when nil, :form, :relationships, :presentation_data, :links, :tickets, :occurrences, :pages
       event_author?
     when :logs, :seo
       user.admin?

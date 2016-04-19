@@ -23,12 +23,12 @@ class EventCollectionPolicy < PermissionsPolicy
   alias :destroy? :index?
 
   def permitted_attributes
-    [:title]
+    [:title, :primary_page_id]
   end
 
   def can_manage?(attribute)
     case attribute.try(:to_sym)
-    when nil, :form, :relationships
+    when nil, :form, :relationships, :pages
       user.admin? || user.has_role?(:designer)
     when :logs
       user.admin?

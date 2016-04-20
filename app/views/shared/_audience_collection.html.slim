@@ -1,4 +1,7 @@
-/ = form_for [:update_audiences, parent, parent.audience_collection], method: :post do |f|
+ruby:
+  # Initialize first audience collection if one doesn't already exist
+  parent.audience_collection = AudienceCollection.new if parent.audience_collection.nil?
+
 = form_for [parent, parent.audience_collection] do |f|
   .panel.panel-default
     .panel-heading
@@ -30,7 +33,7 @@
                 value_method: :id,
                 text_method: :title,
                 multiple: true
-        
+
         - if AudienceCollection.available_student_levels.compact.present?
           .col-xs-6
             .form-group
@@ -42,7 +45,7 @@
                 value_method: :to_s,
                 text_method: :to_s,
                 multiple: true
-        
+
         - if AudienceCollection.available_class_standings.compact.present?
           .col-xs-6
             .form-group
@@ -54,7 +57,7 @@
                 value_method: :to_s,
                 text_method: :to_s,
                 multiple: true
-        
+
         - if AudienceCollection.available_majors.compact.present?
           .col-xs-6
             .form-group
@@ -66,7 +69,7 @@
                 value_method: :id,
                 text_method: :full_name,
                 multiple: true
-        
+
         - if AudienceCollection.available_housing_statuses.compact.present?
           .col-xs-6
             .form-group
@@ -78,7 +81,7 @@
                 value_method: :to_s,
                 text_method: :to_s,
                 multiple: true
-        
+
         - if AudienceCollection.available_employee_types.compact.present?
           .col-xs-6
             .form-group
@@ -90,7 +93,7 @@
                 value_method: :to_s,
                 text_method: :to_s,
                 multiple: true
-        
+
         - if AudienceCollection.available_departments.compact.present?
           .col-xs-6
             .form-group

@@ -66,6 +66,7 @@ class PageEditionPolicy < PermissionsPolicy
     attrs += [ :title, :slug, :site_id, :parent_page_id, :body, :page_template, :modifier_id,
       {site_category_ids: []}, {attachment_ids: []}, {department_ids: []}
     ]
+    attrs += [ :source_type, :source_id ]
     attrs += [ :topics_string, :keywords_string ]
     attrs += [ :presentation_data_json, :presentation_data_template_id, :keep_in_sync, :presentation_data_json_schema ]
     attrs += [ {redirect: [ :destination, :type, :query_string_handling ]} ] if user.admin?
@@ -86,7 +87,7 @@ class PageEditionPolicy < PermissionsPolicy
       page_editor?
     when :permissions, :seo
       page_admin?
-    when :design
+    when :design, :page_source
       user.admin? || user.has_role?(:designer)
     else
       false

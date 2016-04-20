@@ -1,109 +1,12 @@
 = render 'shared/javascript_multiselect_include', obj: @page_edition, site_categories: @site_categories, site_titles: @site_titles
+
 = form_for @page_edition do |f|
+  - if !@page_edition.persisted? && @page_edition.source
+    = f.hidden_field :source_type
+    = f.hidden_field :source_id
+    .alert.alert-info Linked #{@page_edition.source_type}: #{@page_edition.source.to_s}
+
   .form-section
-    .row
-      .col-md-6
-        / lets the controller know when to redo the source
-        = hidden_field_tag :source_change, 'source_change'
-        .form-group
-          = label_tag 'Page Type'
-          input name="page_edition[source_type][]" type="hidden" value=""
-          = wcms_component "forms/multiselect",
-            attribute: :source_type,
-            collection: PageEdition::AVAILABLE_SOURCE_TYPES,
-            value_method: :to_s,
-            text_method: :titleize,
-            multiple: false,
-            prompt: "None",
-            selected: @page_edition.source_type.try(:underscore)
-
-      .col-md-6.source_select#academic_subject hidden=true
-        .form-group
-          = label_tag 'Academic subject'
-          = wcms_component "forms/multiselect",
-            attribute: :academic_subject,
-            collection: AcademicSubject.asc(:title),
-            value_method: :id,
-            text_method: :to_s,
-            multiple: false,
-            prompt: "Select one",
-            selected: @page_edition.source_id
-
-      .col-md-6.source_select#academic_program hidden=true
-        .form-group
-          = label_tag 'Academic program'
-          = wcms_component "forms/multiselect",
-            attribute: :academic_program,
-            collection: AcademicProgram.asc(:full_name),
-            value_method: :id,
-            text_method: :to_s,
-            multiple: false,
-            prompt: "Select one",
-            selected: @page_edition.source_id
-
-      .col-md-6.source_select#concentration hidden=true
-        .form-group
-          / TODO: We should probably load these in asynchronously in the future.
-          = label_tag 'Concentration'
-          = wcms_component "forms/multiselect",
-            attribute: :concentration,
-            collection: Concentration.asc(:title),
-            value_method: :id,
-            text_method: (lambda{|c| "#{c.title} - #{c.academic_program.title}"}),
-            multiple: false,
-            prompt: "Select one",
-            selected: @page_edition.source_id
-
-      .col-md-6.source_select#department hidden=true
-        .form-group
-          = label_tag 'Department'
-          = wcms_component "forms/multiselect",
-            attribute: :department,
-            collection: Department.asc(:title),
-            value_method: :id,
-            text_method: :to_s,
-            multiple: false,
-            prompt: "Select one",
-            selected: @page_edition.source_id
-
-      .col-md-6.source_select#event hidden=true
-        .form-group
-          = label_tag 'Event'
-          = wcms_component "forms/multiselect",
-            attribute: :event,
-            collection: Event.asc(:title),
-            value_method: :id,
-            text_method: :to_s,
-            multiple: false,
-            prompt: "Select one",
-            selected: @page_edition.source_id
-
-      .col-md-6.source_select#event_collection hidden=true
-        .form-group
-          = label_tag 'Event Collection'
-          = wcms_component "forms/multiselect",
-            attribute: :event_collection,
-            collection: EventCollection.asc(:title),
-            value_method: :id,
-            text_method: :to_s,
-            multiple: false,
-            prompt: "Select one",
-            selected: @page_edition.source_id
-
-      .col-md-6.source_select#group hidden=true
-        .form-group
-          = label_tag 'Group'
-          = wcms_component "forms/multiselect",
-            attribute: :group,
-            collection: Group.asc(:title),
-            value_method: :id,
-            text_method: :to_s,
-            multiple: false,
-            prompt: "Select one",
-            selected: @page_edition.source_id
-
-    hr
-
     .form-group
       = f.label :title
       = f.text_field :title, class: 'form-control'
@@ -172,10 +75,6 @@
         attribute: :keywords_string
 
   .form-section
-    br
-    h3 Page Content
-    hr
-
     .form-group
       = f.label :body
       = wcms_component "forms/redactor_editor",

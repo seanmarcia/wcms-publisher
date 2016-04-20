@@ -1,6 +1,4 @@
 class CalendarsController < ApplicationController
-  include SetModifier
-
   before_filter :set_calendar, only: [:show, :edit, :update]
   before_filter :new_calendar_from_params, only: [:new, :create]
   before_filter :pundit_authorize
@@ -79,9 +77,10 @@ class CalendarsController < ApplicationController
   end
 
   def calendar_params
-    params[:calendar][:tags] = params[:calendar][:tags].split(',') if params[:calendar][:tags]
-    params[:calendar][:meta_keywords] = params[:calendar][:meta_keywords].split(',') unless params[:calendar][:meta_keywords].nil?
-    params.require(:calendar).permit(*policy(@calendar || Calendar).permitted_attributes)
+    permitted_params(:calendar) do |p|
+      p[:tags] = p[:tags].split(',').map(&:strip) if p[:tags]
+      p[:meta_keywords] = p[:meta_keywords].split(',').map(&:strip) if p[:meta_keywords]
+    end
   end
 
   def set_calendar

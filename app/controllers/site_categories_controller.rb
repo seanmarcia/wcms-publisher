@@ -1,6 +1,4 @@
 class SiteCategoriesController < ApplicationController
-  include SetModifier
-
   layout false
   before_filter :set_site
   before_filter :set_site_category, on: [:edit, :update]
@@ -59,7 +57,7 @@ class SiteCategoriesController < ApplicationController
   end
 
   def site_category_params
-    params.require(:site_category).permit(*policy(@site_category || SiteCategory).permitted_attributes)
+    permitted_params(:site_category)
   end
 
   def pundit_authorize

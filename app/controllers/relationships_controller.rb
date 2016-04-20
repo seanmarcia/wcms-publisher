@@ -1,12 +1,10 @@
 class RelationshipsController < ApplicationController
-  include SetModifier
-
   before_action :set_flash
-  before_action :set_relationship, only: [:destroy]
 
   def create
     if @relationship = Relationship.new_from_objects(base_object, related_object)
       authorize @relationship
+      @relationship.modifier_id = current_user.id.to_s
 
       begin
         if @relationship.save
@@ -26,8 +24,9 @@ class RelationshipsController < ApplicationController
   end
 
   def destroy
-    if @relationship
+    if @relationship = Relationship.find(params[:id])
       authorize @relationship
+      @relationship.modifier_id = current_user.id.to_s
 
       if @relationship.destroy
         @flash[:notice] = "Relationship was removed."
@@ -45,10 +44,6 @@ class RelationshipsController < ApplicationController
 
   def set_flash
     @flash = {} # since we are redirecting, we need to do flash messages a different way
-  end
-
-  def set_relationship
-    @relationship = Relationship.find(params[:id]) if params[:id]
   end
 
   def base_object

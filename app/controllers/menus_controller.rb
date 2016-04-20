@@ -1,6 +1,4 @@
 class MenusController < ApplicationController
-  include SetModifier
-
   before_filter :set_menu, only: [:show, :edit, :update]
   before_filter :new_menu_from_params, only: [:new, :create]
   before_filter :set_page_editions
@@ -60,7 +58,7 @@ class MenusController < ApplicationController
   end
 
   def menu_params
-    params.require(:menu).permit(*policy(@menu || Menu).permitted_attributes)
+    permitted_params(:menu)
   end
 
   def set_menu

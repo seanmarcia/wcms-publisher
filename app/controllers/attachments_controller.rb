@@ -1,6 +1,4 @@
 class AttachmentsController < ApplicationController
-  include SetModifier
-
   before_filter :pundit_authorize
   before_filter :set_parent
   before_filter :new_attachment_from_params, only: [:new, :create]
@@ -71,7 +69,7 @@ class AttachmentsController < ApplicationController
   end
 
   def attachment_params
-    params.require(:attachment).permit(*policy(@attachment || Attachment).permitted_attributes)
+    permitted_params(:attachment)
   end
 
   def set_attachable_type(type)

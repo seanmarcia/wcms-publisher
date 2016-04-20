@@ -120,16 +120,7 @@ class EventsController < ApplicationController
   private
 
   def event_params
-    if params[:event]
-      params[:event][:meta_keywords] = params[:event][:meta_keywords].split(',') unless params[:event][:meta_keywords].nil?
-      params.require(:event).permit(*policy(@event || Event).permitted_attributes).tap do |whitelisted|
-        # You have to whitelist the hash this way, see https://github.com/rails/rails/issues/9454
-        whitelisted[:presentation_data] = params[:pdata] if params[:pdata].present?
-        whitelisted[:modifier_id] = current_user.id.to_s
-      end
-    else
-      {}
-    end
+    permitted_params(:event)
   end
 
   def new_event_from_params

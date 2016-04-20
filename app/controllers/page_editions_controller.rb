@@ -1,6 +1,5 @@
 class PageEditionsController < ApplicationController
   include SetSiteCategories
-  include SetModifier
 
   before_filter :set_page_edition, only: [:show, :edit, :update, :destroy, :create_tag]
   before_filter :set_categories_for_page_edition
@@ -144,10 +143,9 @@ class PageEditionsController < ApplicationController
   end
 
   def page_edition_params
-    if params[:page_edition] && params[:page_edition][:meta_keywords]
-      params[:page_edition][:meta_keywords] = params[:page_edition][:meta_keywords].split(',')
+    permitted_params(:page_edition) do |p|
+      p[:meta_keywords] = p[:meta_keywords].split(',').map(&:strip) if p[:meta_keywords]
     end
-    params.require(:page_edition).permit(*policy(@page_edition || PageEdition).permitted_attributes)
   end
 
   def set_page_edition

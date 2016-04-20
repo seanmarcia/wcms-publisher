@@ -1,6 +1,4 @@
 class PhotoGalleriesController < ApplicationController
-  include SetModifier
-
   before_filter :set_photo_gallery, only: [:show, :edit, :update, :destroy]
   before_filter :new_photo_gallery_from_params, only: [:new, :create]
   before_filter :pundit_authorize
@@ -59,7 +57,7 @@ class PhotoGalleriesController < ApplicationController
   end
 
   def photo_gallery_params
-    params.require(:photo_gallery).permit(*policy(@photo_gallery || PhotoGallery).permitted_attributes)
+    permitted_params(:photo_gallery)
   end
 
   def set_photo_gallery

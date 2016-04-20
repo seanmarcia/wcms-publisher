@@ -32,4 +32,26 @@ class ApplicationController < WcmsApplicationController
   def parent_edit_path(parent, options = {})
     send("edit_#{parent.class.to_s.underscore}_path", parent.id, options) if parent
   end
+
+  # permitted_params(:name, [&block])
+  #
+  # Example usage:
+  #
+  #   permitted_params(:page_edition) do |p|
+  #     # process params before permit
+  #   end.tap do |p|
+  #     # process params after permit
+  #   end
+  #
+  def permitted_params(name, &block)
+    return {} unless params[name]
+    _params = params.require(name)
+
+    # This allows you to process any of the fields before it is passed
+    # through the permit policy
+    block.call(_params) if block_given?
+
+    policy_item = instance_variable_get("@#{name}") || name.to_s.classify.constantize
+    _params.permit(*policy(policy_item).permitted_attributes).set_modifier(current_user)
+  end
 end

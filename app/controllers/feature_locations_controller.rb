@@ -1,6 +1,4 @@
 class FeatureLocationsController < ApplicationController
-  include SetModifier
-
   before_filter :set_feature_location, only: [:update, :destroy]
   before_filter :new_feature_location_from_params, only: :create
   before_filter :pundit_authorize
@@ -49,7 +47,7 @@ class FeatureLocationsController < ApplicationController
   end
 
   def feature_location_params
-    params.require(:feature_location).permit(*policy(@feature_location || FeatureLocation).permitted_attributes)
+    permitted_params(:feature_location)
   end
 
   def set_feature_location

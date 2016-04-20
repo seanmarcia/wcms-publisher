@@ -1,6 +1,4 @@
 class ActorsController < ApplicationController
-  include SetModifier
-
   def create
     authorize @parent, :create_actor?
 

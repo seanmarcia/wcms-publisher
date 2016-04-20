@@ -48,13 +48,7 @@ class EventCollectionsController < ApplicationController
   private
 
   def event_collection_params
-    if params[:event_collection]
-      params.require(:event_collection).permit(*policy(@event_collection || EventCollection).permitted_attributes).tap do |whitelisted|
-        whitelisted[:modifier_id] = current_user.id.to_s
-      end
-    else
-      {}
-    end
+    permitted_params(:event_collection)
   end
 
   def new_event_collection_from_params

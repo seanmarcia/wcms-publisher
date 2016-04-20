@@ -1,6 +1,4 @@
 class ImportantDatesController < ApplicationController
-  include SetModifier
-
   before_filter :set_important_date, only: [:show, :edit, :update, :destroy]
   before_filter :new_important_date_from_params, only: [:new, :create]
   before_filter :pundit_authorize
@@ -79,8 +77,9 @@ class ImportantDatesController < ApplicationController
   end
 
   def important_date_params
-    params[:important_date][:categories] = params[:important_date][:categories].split(',') if params[:important_date][:categories].present?
-    params.require(:important_date).permit(*policy(@important_date || ImportantDate).permitted_attributes)
+    permitted_params(:important_date) do |p|
+      p[:categories] = p[:categories].split(',').map(&:strip) if p[:categories]
+    end
   end
 
   def set_important_date

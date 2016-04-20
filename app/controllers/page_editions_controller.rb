@@ -135,11 +135,7 @@ class PageEditionsController < ApplicationController
   end
 
   def new_page_edition_from_params
-    if params[:page_edition]
-      PageEdition.new(page_edition_params)
-    else
-      PageEdition.new
-    end
+    PageEdition.new(page_edition_params)
   end
 
   def page_edition_params

@@ -14,12 +14,12 @@ class EventCollectionsController < ApplicationController
   end
 
   def new
-    @event_collection = new_event_collection_from_params
+    @event_collection = EventCollection.new(event_collection_params)
     authorize(@event_collection)
   end
 
   def create
-    @event_collection = new_event_collection_from_params
+    @event_collection = EventCollection.new(event_collection_params)
     authorize(@event_collection)
     if @event_collection.save
       flash[:notice] = "'#{@event_collection.title}' created."
@@ -32,6 +32,7 @@ class EventCollectionsController < ApplicationController
   def edit
     @event_collection = EventCollection.find(params[:id])
     authorize(@event_collection)
+    @page_name = @event_collection.title
   end
 
   def update
@@ -49,13 +50,5 @@ class EventCollectionsController < ApplicationController
 
   def event_collection_params
     permitted_params(:event_collection)
-  end
-
-  def new_event_collection_from_params
-    if params[:event_collection]
-      EventCollection.new(event_collection_params)
-    else
-      EventCollection.new
-    end
   end
 end

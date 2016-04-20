@@ -40,11 +40,7 @@ class CampusLocationsController < ApplicationController
   private
 
   def new_campus_location_from_params
-    if params[:campus_location]
-      @campus_location = CampusLocation.new(campus_location_params)
-    else
-      @campus_location = CampusLocation.new
-    end
+    @campus_location = CampusLocation.new(campus_location_params)
   end
 
   def campus_location_params

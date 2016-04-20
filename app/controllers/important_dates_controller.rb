@@ -69,11 +69,7 @@ class ImportantDatesController < ApplicationController
   end
 
   def new_important_date_from_params
-    if params[:important_date]
-      @important_date = ImportantDate.new(important_date_params)
-    else
-      @important_date = ImportantDate.new
-    end
+    @important_date = ImportantDate.new(important_date_params)
   end
 
   def important_date_params

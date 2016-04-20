@@ -39,11 +39,7 @@ class FeatureLocationsController < ApplicationController
   protected
 
   def new_feature_location_from_params
-    if params[:feature_location]
-      @feature_location = FeatureLocation.new(feature_location_params)
-    else
-      @feature_location = FeatureLocation.new
-    end
+    @feature_location = FeatureLocation.new(feature_location_params)
   end
 
   def feature_location_params

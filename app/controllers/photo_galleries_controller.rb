@@ -49,11 +49,7 @@ class PhotoGalleriesController < ApplicationController
   private
 
   def new_photo_gallery_from_params
-    if params[:photo_gallery]
-      @photo_gallery = PhotoGallery.new(photo_gallery_params)
-    else
-      @photo_gallery = PhotoGallery.new
-    end
+    @photo_gallery = PhotoGallery.new(photo_gallery_params)
   end
 
   def photo_gallery_params

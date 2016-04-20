@@ -1,8 +1,8 @@
 class AttachmentsController < ApplicationController
-  before_filter :pundit_authorize
   before_filter :set_parent
   before_filter :new_attachment_from_params, only: [:new, :create]
   before_filter :set_attachment, only: [:destroy, :edit, :update]
+  before_filter :pundit_authorize
 
   def create
     # Bypassing strong parameters because metadata can be anything
@@ -61,11 +61,7 @@ class AttachmentsController < ApplicationController
   end
 
   def new_attachment_from_params
-    if params[:attachment]
-      @attachment = Attachment.new(attachment_params)
-    else
-      @attachment = Attachment.new
-    end
+    @attachment = Attachment.new(attachment_params)
   end
 
   def attachment_params

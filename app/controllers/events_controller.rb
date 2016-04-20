@@ -124,11 +124,7 @@ class EventsController < ApplicationController
   end
 
   def new_event_from_params
-    if params[:event]
-      Event.new(event_params)
-    else
-      Event.new
-    end
+    Event.new(event_params)
   end
 
   def add_links

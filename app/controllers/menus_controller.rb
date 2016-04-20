@@ -50,11 +50,7 @@ class MenusController < ApplicationController
   private
 
   def new_menu_from_params
-    if params[:menu]
-      @menu = Menu.new(menu_params)
-    else
-      @menu = Menu.new
-    end
+    @menu = Menu.new(menu_params)
   end
 
   def menu_params

@@ -44,11 +44,7 @@ class MediaController < ApplicationController
   private
 
   def new_medium_from_params
-    if params[:medium]
-      @medium = Medium.new(medium_params)
-    else
-      @medium = Medium.new
-    end
+    @medium = Medium.new(medium_params)
   end
 
   def medium_params

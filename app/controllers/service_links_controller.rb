@@ -55,11 +55,7 @@ class ServiceLinksController < ApplicationController
   end
 
   def new_service_link_from_params
-    if params[:service_link]
-      @service_link = ServiceLink.new(service_link_params)
-    else
-      @service_link = ServiceLink.new
-    end
+    @service_link = ServiceLink.new(service_link_params)
   end
 
   def service_link_params

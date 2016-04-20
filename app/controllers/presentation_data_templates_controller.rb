@@ -37,11 +37,7 @@ class PresentationDataTemplatesController < ApplicationController
 
   private
   def new_presentation_data_template_from_params
-    if params[:presentation_data_template]
-      @presentation_data_template = PresentationDataTemplate.new(presentation_data_template_params)
-    else
-      @presentation_data_template = PresentationDataTemplate.new
-    end
+    @presentation_data_template = PresentationDataTemplate.new(presentation_data_template_params)
   end
 
   def presentation_data_template_params

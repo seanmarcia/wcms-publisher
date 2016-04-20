@@ -42,11 +42,7 @@ class SitesController < ApplicationController
   private
 
   def new_site_from_params
-    if params[:site]
-      @site = Site.new(site_params)
-    else
-      @site = Site.new
-    end
+    @site = Site.new(site_params)
   end
 
   def site_params

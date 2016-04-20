@@ -49,11 +49,7 @@ class SiteCategoriesController < ApplicationController
   end
 
   def new_site_category_from_params
-    if params[:site_category]
-      @site_category = SiteCategory.new(site_category_params)
-    else
-      @site_category = SiteCategory.new
-    end
+    @site_category = SiteCategory.new(site_category_params)
   end
 
   def site_category_params

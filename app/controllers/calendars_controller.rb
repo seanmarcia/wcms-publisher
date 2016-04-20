@@ -69,11 +69,7 @@ class CalendarsController < ApplicationController
   end
 
   def new_calendar_from_params
-    if params[:calendar]
-      @calendar = Calendar.new(calendar_params)
-    else
-      @calendar = Calendar.new
-    end
+    @calendar = Calendar.new(calendar_params)
   end
 
   def calendar_params

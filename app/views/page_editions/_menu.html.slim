@@ -16,13 +16,23 @@
 
   .list-group
     .list-group-item.top-item
-      | Associated Sources
+      | Associated Source
     - if @page_edition.source.present?
       .list-group-item
         = source_link_for @page_edition.source, text: "View related #{@page_edition.source_type.underscore.titleize} source"
     - else
       .list-group-item
         | This page does not have a source
+
+  .list-group
+    .list-group-item.top-item
+      | Associated Menu
+    - if @page_edition.menu.present?
+      .list-group-item
+        = link_to "View related menu", @page_edition.menu
+    - else
+      .list-group-item
+        = link_to "Create menu for this page", new_menu_path(site_id: @page_edition.site.id.to_s, title: @page_edition.title, page_edition_id: @page_edition.id.to_s)
 
   .list-group
     - if @page_edition.draft?

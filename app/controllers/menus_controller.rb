@@ -1,10 +1,8 @@
 class MenusController < ApplicationController
-  before_filter :set_menu, only: [:show, :edit, :update]
-  before_filter :new_menu_from_params, only: [:new, :create]
   before_filter :set_page_editions
-  before_filter :pundit_authorize
 
   def index
+    authorize(Menu)
     @menus = policy_scope(Menu)
 
     unless @menus.none?
@@ -20,13 +18,25 @@ class MenusController < ApplicationController
   end
 
   def show
+    @menu = Menu.find(params[:id])
+    authorize(@menu)
     redirect_to [:edit, @menu]
   end
 
   def new
+    @menu = Menu.new(menu_params)
+    authorize(@menu)
+
+    # Allow some default values set through the params
+    @menu.site_id = params[:site_id]
+    @menu.title = params[:title]
+    # For some reason this isn't working yet
+    # @menu.page_edition_ids = [params[:page_edition_id]] if params[:page_edition_id]
   end
 
   def create
+    @menu = Menu.new(menu_params)
+    authorize(@menu)
     if @menu.save && @menu.update_attributes(page_edition_ids: menu_params[:page_edition_ids])
       flash[:notice] = "'#{@menu.title}' created."
       redirect_to edit_menu_path(@menu, page: params[:page])
@@ -36,9 +46,14 @@ class MenusController < ApplicationController
   end
 
   def edit
+    @menu = Menu.find(params[:id])
+    authorize(@menu)
+    @page_name = @menu.try(:title)
   end
 
   def update
+    @menu = Menu.find(params[:id])
+    authorize(@menu)
     if @menu.update_attributes(menu_params)
       flash[:notice] = "'#{@menu.title}' updated."
       redirect_to edit_menu_path(@menu, page: params[:page])
@@ -49,21 +64,8 @@ class MenusController < ApplicationController
 
   private
 
-  def new_menu_from_params
-    @menu = Menu.new(menu_params)
-  end
-
   def menu_params
     permitted_params(:menu)
-  end
-
-  def set_menu
-    @menu = Menu.find(params[:id]) if params[:id]
-    @page_name = @menu.try(:title)
-  end
-
-  def pundit_authorize
-    authorize (@menu || Menu)
   end
 
   def set_page_editions

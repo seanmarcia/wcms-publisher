@@ -15,7 +15,7 @@ module RouteHelper
     when Group
       Settings.universe[env].profile_publisher + "/groups/#{obj.id}" if obj.present?
     when Event
-      Settings.universe[env].news_publisher + "/events/#{obj.id}" if obj.present?
+      edit_event_url(obj)
     else
       nil
     end

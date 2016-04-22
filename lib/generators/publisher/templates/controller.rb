@@ -1,6 +1,4 @@
 class <%= plural_table_name.camelize %>Controller < ApplicationController
-  include SetModifier
-
   before_filter :set_<%= singular_table_name %>, only: [:show, :edit, :update]
   before_filter :new_<%= singular_table_name %>_from_params, only: [:new, :create]
   before_filter :pundit_authorize

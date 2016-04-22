@@ -19,7 +19,7 @@ class EventsController < ApplicationController
         @events = @events.by_site(params[:site]) if params[:site]
         @events = @events.by_department(params[:department]) if params[:department]
         @events = @events.request_review if params[:request_review]
-        @events = @events.desc(:publish_at).page(params[:page]).per(25)
+        @events = @events.desc('event_occurrences.start_time').page(params[:page]).per(25)
       end
       format.json do
         @events = @events.future_events unless params[:all]

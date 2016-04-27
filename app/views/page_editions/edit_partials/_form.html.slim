@@ -1,3 +1,6 @@
+ruby:
+  @available_sites = Site.where(has_page_editions: true).asc(:url)
+
 = render 'shared/javascript_multiselect_include', obj: @page_edition, site_categories: @site_categories, site_titles: @site_titles
 
 = form_for @page_edition do |f|
@@ -14,7 +17,7 @@
     .form-group
       = f.label :site_id, "Site"
       / The javascript below looks for changes on this and updates the site_url_preview
-      = f.collection_select :site_id, Site.where(has_page_editions: true), :id, :url, {}, class: 'form-control site_multiselect'
+      = f.collection_select :site_id, @available_sites, :id, :url, {}, class: 'form-control site_multiselect'
 
     .row
       .col-sm-6#site_category hidden=true
@@ -43,7 +46,7 @@
     .form-group
       = f.label :slug
       .input-group
-        span.input-group-addon#site_url_preview = "#{(f.object.site || Site.first).url}/"
+        span.input-group-addon#site_url_preview = "#{(f.object.site || @available_sites.first).url}/"
         = f.text_field :slug, class: 'form-control', placeholder: 'path/to/page'
 
     .row

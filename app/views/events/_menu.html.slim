@@ -41,4 +41,5 @@
         .list-group-item.list-group-item
           | No available page editions
           br
-          = link_to 'Create one', "#{Settings.universe[Rails.env].wcms_publisher}/page_editions/new", target: "_blank"
+          = link_to 'Create one', new_page_edition_path(source_type: "Event", source_id: @event.id.to_s), target: "_blank"
+

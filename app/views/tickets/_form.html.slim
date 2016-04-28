@@ -1,0 +1,27 @@
+= form_for [@event, @ticket] do |f|
+  .modal-header
+    button.close type="button" data-dismiss="modal" aria-hidden="true"  &times;
+    h4.modal-title Add a Ticket
+  .modal-body
+    .form-section
+      .form-group
+        = f.label :description
+        .pull-right.text-muted = '(100 Character Max)'
+        = f.text_field :description, class: 'form-control', maxlength: 100
+
+      .form-group
+        = f.label :cost, 'Ticket Price'
+        = f.text_field :cost, class: 'form-control', maxlength: 10
+
+      .form-group
+        = f.label :fine_print
+        .pull-right.text-muted = '(200 Character Max)'
+        = f.text_area :fine_print, class: 'form-control', maxlength: 200
+
+      .form-group
+        = f.label :link
+        = f.text_field :link, class: 'form-control'
+
+  .modal-footer
+    button.btn.btn-default type="button" data-dismiss="modal" Cancel
+    = f.submit '+ Add Ticket', class: 'btn btn-primary'

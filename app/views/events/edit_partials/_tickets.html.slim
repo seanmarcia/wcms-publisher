@@ -1,5 +1,35 @@
 .panel.panel-default
   .panel-heading
+    strong Registration Info
+  .panel-body
+    = permitted_form_for @event, html: {multipart: true} do |f|
+      = hidden_field_tag :page, 'tickets'
+      .row.form-section
+        .col-md-12
+          .form-group
+            label Event type
+            .checkbox
+              label
+                =' f.check_box :paid
+                | Paid
+
+        .col-md-12
+          .form-group
+            = f.label :registration_info
+            - if permission_to_edit?(@event, :registration_info)
+              = wcms_component 'forms/redactor_editor', form: f, attribute: :registration_info
+            - else
+              .well.well-faux-input = @event.registration_info.to_s.html_safe
+
+
+      hr
+      .form-footer
+        .pull-right
+          = f.submit "Save", class: 'btn btn-biola'
+
+
+.panel.panel-default
+  .panel-heading
     strong Tickets
   .panel-body
     .row.form-section

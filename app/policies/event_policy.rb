@@ -57,6 +57,7 @@ class EventPolicy < PermissionsPolicy
       :start_date, :end_date, :summary, :related_object_tags, :categories, :image, :contact_name,
       :contact_email, :contact_phone, :paid, :description, :publish_sidekiq_id, :archive_sidekiq_id,
       :crop_x, :crop_y, :crop_w, :crop_h, :imported, :ws_source, :ws_id, :user_id, :primary_page_id,
+      :registration_info,
       audience: [], department_ids: [], group_ids: [], external_sponsor_ids: [],
       event_collection_ids: [], site_category_ids: [], link_ids: [],
       address: [:line1, :street, :city, :state, :zip, :use_associated_title],

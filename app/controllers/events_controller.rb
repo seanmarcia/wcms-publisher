@@ -43,7 +43,7 @@ class EventsController < ApplicationController
       format.html do
         if @event.save
           flash[:notice] = "'#{@event.title}' created."
-          redirect_to edit_event_path @event
+          redirect_to edit_event_path @event, page: params[:page]
         else
           render :new
         end
@@ -88,7 +88,7 @@ class EventsController < ApplicationController
       format.html do
         if @event.update_attributes(event_params)
           flash[:notice] = "'#{@event.title}' updated."
-          redirect_to edit_event_path @event
+          redirect_to edit_event_path @event, page: params[:page]
         else
           render :edit
         end

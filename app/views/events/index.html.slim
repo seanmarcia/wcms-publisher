@@ -27,9 +27,6 @@
     .pull-right.pad-right
       - if policy(Event).create?
         = link_to 'New Event', new_event_path, class: 'btn btn-default'
-    .pull-right.pad-right
-      - if policy(Event).update_from_ws?
-        = link_to 'Sync with Web Services', update_from_ws_events_path, class: 'btn btn-info', method: :post
     .clearfix
 
   - if @events.empty?

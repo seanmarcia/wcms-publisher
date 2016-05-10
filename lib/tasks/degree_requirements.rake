@@ -6,6 +6,7 @@ CATALOGS = {
   "2013-2014" => "5408a0117275626e8b0a0000",
   "2014-2015" => "5408a03f72756223d7180000",
   "2015-2016" => "5515c92f7275621c23210000",
+  "2016-2017" => "56feb726121567610cd2b196",
 }
 
 YEARS = [
@@ -14,6 +15,7 @@ YEARS = [
   "2013-2014",
   "2014-2015",
   "2015-2016",
+  "2016-2017",
 ]
 
 namespace :degree_requirements do
@@ -28,9 +30,9 @@ namespace :degree_requirements do
 
   def import_row(row)
     begin
-      academic_program = AcademicProgram.find(row['AcademicProgramID'])
+      academic_program = AcademicProgram.find(row['AcademicProgramSlug'])
     rescue
-      puts "Could not find Academic Program matching '#{row['AcademicProgramID']}'"
+      puts "Could not find Academic Program matching '#{row['AcademicProgramSlug']}'"
     end
 
 
@@ -38,9 +40,9 @@ namespace :degree_requirements do
       concentration = nil
 
       if row['Concentration'] == "TRUE"
-        if row['ConcentrationID'].present?
-          # Lookup by id
-          concentration = Concentration.where(id: row['ConcentrationID']).first
+        if row['ConcentrationSlug'].present?
+          # Lookup by slug
+          concentration = academic_program.concentrations.where(slug: row['ConcentrationSlug']).first
         else
           # Lookup by title
           concentration ||= academic_program.concentrations.where(title: row['title']).first

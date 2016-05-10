@@ -6,6 +6,7 @@ CATALOGS = {
   "2013-2014" => "5408a0117275626e8b0a0000",
   "2014-2015" => "5408a03f72756223d7180000",
   "2015-2016" => "5515c92f7275621c23210000",
+  "2016-2017" => "56feb726121567610cd2b196",
 }
 
 YEARS = [
@@ -14,26 +15,34 @@ YEARS = [
   "2013-2014",
   "2014-2015",
   "2015-2016",
+  "2016-2017",
 ]
 
 namespace :degree_requirements do
 
   desc 'import degree requirements'
   task import: [:environment] do
-    path = "./tmp/undergrad.csv"
+    path = "./tmp/degree_requirements.csv"
     CSV.foreach(path, {headers: :first_row}) do |row|
       import_row(row)
     end
   end
 
   def import_row(row)
-    if academic_program = AcademicProgram.where(id: row['AcademicProgramID']).first
+    begin
+      academic_program = AcademicProgram.find(row['AcademicProgramSlug'])
+    rescue
+      puts "Could not find Academic Program matching '#{row['AcademicProgramSlug']}'"
+    end
+
+
+    if academic_program
       concentration = nil
 
       if row['Concentration'] == "TRUE"
-        if row['ConcentrationID'].present?
-          # Lookup by id
-          concentration = Concentration.where(id: row['ConcentrationID']).first
+        if row['ConcentrationSlug'].present?
+          # Lookup by slug
+          concentration = academic_program.concentrations.where(slug: row['ConcentrationSlug']).first
         else
           # Lookup by title
           concentration ||= academic_program.concentrations.where(title: row['title']).first

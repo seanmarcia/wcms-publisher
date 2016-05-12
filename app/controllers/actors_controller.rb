@@ -3,7 +3,7 @@ class ActorsController < ApplicationController
     authorize @parent, :create_actor?
 
     # First find the actor's person record from the given person id
-    if person_record_for_actor = Person.where(id: params[:_person_id]).first
+    if (person_record_for_actor = Person.where(id: params[:_person_id]).first)
       # Find the user record for that person, since it is the user we need to authenticate
       actor = User.where(person_id: person_record_for_actor.id).first
     end
@@ -14,9 +14,10 @@ class ActorsController < ApplicationController
     # Not all people belong to a user. They need to log in before their user record gets created.
     if actor.nil?
       if person_record_for_actor.nil?
-        flash[:error] = "Person was not found."
+        flash[:error] = 'Person was not found.'
       else
-        flash[:info] = "#{person_record_for_actor.name} needs to log into this site before he/she can be given access to this profile."
+        flash[:info] = "#{person_record_for_actor.name} needs to log " \
+          'into this site before he/she can be given access to this profile.'
       end
     # @parent refers to the person we are adding the actor to
     elsif @parent.has_permission_to?(ability, actor)
@@ -24,7 +25,7 @@ class ActorsController < ApplicationController
     elsif @parent.authorize!(actor, ability)
       flash[:info] = "#{actor.name}'s permissions have been successfully saved."
     else
-      flash[:error] = "Something went wrong. Please try again."
+      flash[:error] = 'Something went wrong. Please try again.'
     end
     redirect_to parent_edit_path(@parent, page: 'permissions')
   end
@@ -33,13 +34,13 @@ class ActorsController < ApplicationController
     authorize @parent, :destroy_actor?
 
     actor = User.find(params[:id])
-    actor_roles = @parent.permissions.by_actor(actor).map{|perm| perm.ability}.to_sentence.humanize
+    @parent.permissions.by_actor(actor).map(&:ability).to_sentence.humanize
     if @parent.unauthorize_all!(actor)
-      flash[:info] = "#{actor.name}'s permissions have been successfully removed. <a href=/wcms_components/changes/#{@parent.history_tracks.last.id}/undo_destroy>Undo</a>"
+      flash[:info] = "#{actor.name}'s permissions have been successfully removed. " \
+        "<a href=/wcms_components/changes/#{@parent.history_tracks.last.id}/undo_destroy>Undo</a>"
     else
-      flash[:error] = "Something went wrong. Please try again."
+      flash[:error] = 'Something went wrong. Please try again.'
     end
     redirect_to parent_edit_path(@parent, page: 'permissions')
   end
-
 end

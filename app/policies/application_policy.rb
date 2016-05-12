@@ -49,19 +49,20 @@ class ApplicationPolicy
     []
   end
 
-  def can_manage?(attribute)
+  # Overwrite this method in subclass
+  def can_manage?(_attribute)
     false
   end
 
   def can_change?(parameter)
-    flat_permitted_attributes = permitted_attributes.map { |attribute|
+    flat_permitted_attributes = permitted_attributes.map do |attribute|
       case attribute
       when Hash
         attribute.keys
       else
         attribute
       end
-    }.flatten
+    end.flatten
 
     flat_permitted_attributes.include? parameter.to_sym
   end

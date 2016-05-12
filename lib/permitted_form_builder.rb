@@ -24,11 +24,12 @@ class PermittedFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def array_fields(name, options = {})
-    disabled = if options[:disabled].nil?
-      policy.cant_change?(name)
-    else
-      options[:disabled]
-    end
+    disabled =
+      if options[:disabled].nil?
+        policy.cant_change?(name)
+      else
+        options[:disabled]
+      end
 
     content_tag :div, class: 'array-input' do
       tags = []

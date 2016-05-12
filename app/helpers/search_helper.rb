@@ -33,11 +33,12 @@ module SearchHelper
   end
 
   def link_to_multi_select_param(title, param, value = true)
-    param_value = if Array(params[param]).include?(value.to_s)
-      Array(params[param]) - [value]
-    else
-      Array(params[param]) + [value]
-    end
+    param_value =
+      if Array(params[param]).include?(value.to_s)
+        Array(params[param]) - [value]
+      else
+        Array(params[param]) + [value]
+      end
     link_to title, params.merge(param => param_value, page: nil)
   end
 
@@ -50,9 +51,10 @@ module SearchHelper
   end
 
   def nav_list_header(title, param)
-    close_link =  if params[param]
-      link_to('&times;'.html_safe, params.merge(param => nil), class: 'close pull-right')
-    end
+    close_link =
+      if params[param]
+        link_to('&times;'.html_safe, params.merge(param => nil), class: 'close pull-right')
+      end
 
     content_tag(:li, class: 'nav-header') do
       title.html_safe + close_link.to_s
@@ -64,27 +66,29 @@ module SearchHelper
 
   def nav_pill_dropdown(title, param, &ye_ol_block)
     css_class = (params[param] ? 'active' : nil)
-    close_link = if params[param]
-      link_to('clear'.html_safe, params.merge(param => nil), class: 'clear')
-    end
+    close_link =
+      if params[param]
+        link_to('clear'.html_safe, params.merge(param => nil), class: 'clear')
+      end
 
     content_tag(:li, class: "#{css_class} dropdown") do
-      safe_join([content_tag(:a, "#{title} #{fa_icon('caret-down')}".html_safe, class: "dropdown-toggle", data: { toggle:"dropdown"}, href: "#"),
-      content_tag(:ul, class: "dropdown-menu") do
+      safe_join([content_tag(:a, "#{title} #{fa_icon('caret-down')}".html_safe, class: 'dropdown-toggle', data: { toggle:"dropdown"}, href: "#"),
+      content_tag(:ul, class: 'dropdown-menu') do
         safe_join([(close_link ? content_tag(:li, close_link) : nil), capture(&ye_ol_block)])
       end])
     end
   end
 
-  def multi_select_nav_pill_dropdown(title, param, value = true, &ye_ol_block)
+  def multi_select_nav_pill_dropdown(title, param, _value = true, &ye_ol_block)
     css_class = (Array(params[param]).blank? ? nil : 'active')
-    close_link = if params[param]
-      link_to('clear'.html_safe, params.merge(param => nil), class: 'clear')
-    end
+    close_link =
+      if params[param]
+        link_to('clear'.html_safe, params.merge(param => nil), class: 'clear')
+      end
 
     content_tag(:li, class: "#{css_class} dropdown") do
-      safe_join([content_tag(:a, "#{title} #{fa_icon('caret-down')}".html_safe, class: "dropdown-toggle", data: { toggle:"dropdown"}, href: "#"),
-      content_tag(:ul, class: "dropdown-menu") do
+      safe_join([content_tag(:a, "#{title} #{fa_icon('caret-down')}".html_safe, class: 'dropdown-toggle', data: { toggle:"dropdown"}, href: "#"),
+      content_tag(:ul, class: 'dropdown-menu') do
         safe_join([(close_link ? content_tag(:li, close_link) : nil), capture(&ye_ol_block)])
       end])
     end

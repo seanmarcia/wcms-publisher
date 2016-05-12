@@ -1,0 +1,16 @@
+AllCops:
+  Include:
+    - '**/Rakefile'
+    - '**/config.ru'
+  Exclude:
+    - 'bin/**/*'
+    - 'db/**/*'
+    - 'config/**/*'
+    - 'script/**/*'
+    - 'lib/generators/**/*'
+
+Rails:
+  Enabled: true
+
+Metrics/LineLength:
+  Max: 100

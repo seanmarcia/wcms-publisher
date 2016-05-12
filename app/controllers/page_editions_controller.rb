@@ -73,7 +73,10 @@ class PageEditionsController < ApplicationController
     if @page_edition.update_attributes(page_edition_params)
       update_state
       flash[:notice] = "'#{@page_edition.title}' updated."
-      redirect_to edit_page_edition_path @page_edition, page: params[:page], choose_template: params[:choose_template]
+      redirect_to(
+        edit_page_edition_path(@page_edition),
+        page: params[:page], choose_template: params[:choose_template]
+      )
     else
       render :edit
     end
@@ -94,7 +97,7 @@ class PageEditionsController < ApplicationController
   def create_tag
     if @page_edition.slug.blank?
       flash[:error] = 'You need to set a slug before creating a tag.'
-    elsif tag = Tag.create_from_object(@page_edition, current_user: current_user, class_slug: 'page_edition')
+    elsif (tag = Tag.create_from_object(@page_edition, current_user: current_user, class_slug: 'page_edition'))
       if @page_edition.update_attributes({my_object_tag: tag.tag})
         flash[:info] = 'Tag Created.'
       else
@@ -122,11 +125,11 @@ class PageEditionsController < ApplicationController
   def set_author
     unless policy(@page_edition).edit?
       author = Permission.new(
-                      actor_id: current_user.id,
-                      actor_type: 'User',
-                      ability: :edit,
-                      modifier_id: current_user.id
-                    )
+        actor_id: current_user.id,
+        actor_type: 'User',
+        ability: :edit,
+        modifier_id: current_user.id
+      )
       # Pushing the author onto the permissions array in case set author is
       #  ever called after create and permissions already exist.
       @page_edition.permissions << author

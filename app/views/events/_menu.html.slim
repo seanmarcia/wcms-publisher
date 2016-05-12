@@ -36,7 +36,7 @@
       - if pages = @event.page_editions.presence
         - pages.each do |page|
           .list-group-item.list-group-item
-            = page_editions_link_for page, text: "View related #{page.to_s}"
+            = link_to page, [:edit, page]
       - else
         .list-group-item.list-group-item
           | No available page editions

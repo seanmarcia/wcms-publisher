@@ -2,21 +2,17 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.2.5.1'
 
-# Gems used only for assets and not required
-# in production environments by default.
-gem 'bootstrap-sass', '~> 3.3.3'
-gem 'coffee-rails', '>= 4.1'
-gem 'font-awesome-rails', '~> 4.4'
-gem 'jquery-rails', '~> 4.1.0'
-gem 'sass-rails', '>= 5.0.1'
-gem 'uglifier', '>= 1.3.0'
 
 gem 'biola_deploy', '~> 0.7'
 gem 'biola_frontend_toolkit', '~> 0.4.4'
 gem 'biola_wcms_components', '~> 0.23.0'
 gem 'blazing', '~> 0.5.0'
+gem 'bootstrap-sass', '~> 3.3.3'
 gem 'buweb_content_models', github: 'biola/buweb-content-models', branch: 'events'
+gem 'coffee-rails', '>= 4.1'
+gem 'font-awesome-rails', '~> 4.4'
 gem 'jbuilder', '~> 2.3', '>= 2.3.2'
+gem 'jquery-rails', '~> 4.1.0'
 gem 'kaminari-bootstrap', '~> 3.0', '>= 3.0.1'
 gem 'mongoid', '~> 5.1'
 gem 'newrelic_rpm', '~> 3.14'
@@ -26,9 +22,11 @@ gem 'pundit', '~> 1.1'
 gem 'rack-cas', '>= 0.12.0'
 gem 'rails_config', '~> 0.4.2'
 gem 'react-rails', '~> 1.6.2'
+gem 'sass-rails', '>= 5.0.1'
 gem 'slim', '>= 2.1'
 gem 'therubyracer', platforms: :ruby
 gem 'turnout', '~> 2.2', '>= 2.2.1'
+gem 'uglifier', '>= 1.3.0'
 
 group :development do
   gem 'better_errors', '~> 2.1', '>= 2.1.1'

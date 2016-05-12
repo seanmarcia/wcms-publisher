@@ -68,7 +68,7 @@ class ServiceLinksController < ApplicationController
   end
 
   def pundit_authorize
-    authorize (@service_link || ServiceLink)
+    authorize(@service_link || ServiceLink)
   end
 
 end

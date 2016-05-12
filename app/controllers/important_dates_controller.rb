@@ -84,7 +84,7 @@ class ImportantDatesController < ApplicationController
   end
 
   def pundit_authorize
-    authorize (@important_date || ImportantDate)
+    authorize(@important_date || ImportantDate)
   end
 
 end

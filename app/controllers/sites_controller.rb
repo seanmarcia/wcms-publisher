@@ -55,6 +55,6 @@ class SitesController < ApplicationController
   end
 
   def pundit_authorize
-    authorize (@site || Site)
+    authorize(@site || Site)
   end
 end

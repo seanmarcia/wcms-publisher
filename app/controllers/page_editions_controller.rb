@@ -150,7 +150,7 @@ class PageEditionsController < ApplicationController
   end
 
   def pundit_authorize
-    authorize (@page_edition || PageEdition)
+    authorize(@page_edition || PageEdition)
   end
 
   def update_state

@@ -50,6 +50,6 @@ class PresentationDataTemplatesController < ApplicationController
   end
 
   def pundit_authorize
-    authorize (@presentation_data_template || PresentationDataTemplate)
+    authorize(@presentation_data_template || PresentationDataTemplate)
   end
 end

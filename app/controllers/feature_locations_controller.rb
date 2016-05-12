@@ -52,6 +52,6 @@ class FeatureLocationsController < ApplicationController
   end
 
   def pundit_authorize
-    authorize (@feature_location || FeatureLocation)
+    authorize(@feature_location || FeatureLocation)
   end
 end

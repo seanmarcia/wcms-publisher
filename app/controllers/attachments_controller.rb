@@ -76,6 +76,6 @@ class AttachmentsController < ApplicationController
   end
 
   def pundit_authorize
-    authorize (@attachment || Attachment)
+    authorize(@attachment || Attachment)
   end
 end

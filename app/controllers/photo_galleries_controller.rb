@@ -62,6 +62,6 @@ class PhotoGalleriesController < ApplicationController
   end
 
   def pundit_authorize
-    authorize (@photo_gallery || PhotoGallery)
+    authorize(@photo_gallery || PhotoGallery)
   end
 end

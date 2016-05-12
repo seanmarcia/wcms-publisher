@@ -89,7 +89,7 @@ class CalendarsController < ApplicationController
   end
 
   def pundit_authorize
-    authorize (@calendar || Calendar)
+    authorize(@calendar || Calendar)
   end
 
 end

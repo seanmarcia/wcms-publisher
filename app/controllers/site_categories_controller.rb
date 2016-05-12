@@ -57,6 +57,6 @@ class SiteCategoriesController < ApplicationController
   end
 
   def pundit_authorize
-    authorize (@site_category || SiteCategory)
+    authorize(@site_category || SiteCategory)
   end
 end

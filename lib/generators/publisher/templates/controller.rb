@@ -59,6 +59,6 @@ class <%= plural_table_name.camelize %>Controller < ApplicationController
   end
 
   def pundit_authorize
-    authorize (@<%= singular_table_name %> || <%= class_name %>)
+    authorize(@<%= singular_table_name %> || <%= class_name %>)
   end
 end

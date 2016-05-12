@@ -53,7 +53,7 @@ class CampusLocationsController < ApplicationController
   end
 
   def pundit_authorize
-    authorize (@campus_location || CampusLocation)
+    authorize(@campus_location || CampusLocation)
   end
 
 end

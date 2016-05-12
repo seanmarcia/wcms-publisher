@@ -57,7 +57,7 @@ class MediaController < ApplicationController
   end
 
   def pundit_authorize
-    authorize (@medium || Medium)
+    authorize(@medium || Medium)
   end
 
 end

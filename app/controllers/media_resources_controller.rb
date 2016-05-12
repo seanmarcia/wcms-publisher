@@ -40,7 +40,7 @@ class MediaResourcesController < ApplicationController
   end
 
   def pundit_authorize
-    authorize (@media_resource || MediaResource)
+    authorize(@media_resource || MediaResource)
   end
 
 end

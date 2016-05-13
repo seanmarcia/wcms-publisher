@@ -1,6 +1,4 @@
 class <%= plural_table_name.camelize %>Controller < ApplicationController
-  include SetModifier
-
   before_filter :set_<%= singular_table_name %>, only: [:show, :edit, :update]
   before_filter :new_<%= singular_table_name %>_from_params, only: [:new, :create]
   before_filter :pundit_authorize
@@ -48,17 +46,11 @@ class <%= plural_table_name.camelize %>Controller < ApplicationController
   end
 
   def <%= singular_table_name %>_params
-    <%- Array(attributes).each do |attr| -%><%- if attr.type == :array -%>
-    params[:<%= singular_table_name %>][:<%= attr.name.to_sym %>] = params[:<%= singular_table_name %>][:<%= attr.name.to_sym %>].split(',')
-    <%- end -%><%- end -%>
-    <%- if options[:presentation_data] -%>
-    params.require(:<%= singular_table_name %>).permit(*policy(@<%= singular_table_name %> || <%= class_name %>).permitted_attributes).tap do |whitelisted|
-      # You have to whitelist the hash this way, see https://github.com/rails/rails/issues/9454
-      whitelisted[:presentation_data] = params[:pdata] if params[:pdata].present?
+    permitted_params(:<%= singular_table_name %>) do |p|
+      <%- Array(attributes).each do |attr| -%><%- if attr.type == :array -%>
+      p[:<%= attr.name.to_sym %>] = p[:<%= attr.name.to_sym %>].split(',').map(&:strip) if p[:<%= attr.name.to_sym %>]
+      <%- end -%><%- end -%>
     end
-    <%- else -%>
-    params.require(:<%= singular_table_name %>).permit(*policy(@<%= singular_table_name %> || <%= class_name %>).permitted_attributes)
-    <%- end -%>
   end
 
   def set_<%= singular_table_name %>
@@ -67,6 +59,6 @@ class <%= plural_table_name.camelize %>Controller < ApplicationController
   end
 
   def pundit_authorize
-    authorize (@<%= singular_table_name %> || <%= class_name %>)
+    authorize(@<%= singular_table_name %> || <%= class_name %>)
   end
 end

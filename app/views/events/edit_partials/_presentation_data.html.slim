@@ -1,0 +1,18 @@
+.panel.panel-default
+  .panel-heading
+    strong Presentation Data
+  .panel-body
+    = form_for @event do |f|
+      = hidden_field_tag :page, 'presentation_data'
+      .form-section
+        = wcms_component "forms/data_template_picker", form: f
+        hr
+
+        - if @event.presentation_data_template
+          = wcms_component "forms/presentation_data_editor", form: f
+          hr
+
+      .form-footer
+        .pull-right
+          = f.submit 'Save', class: 'btn btn-biola'
+        .clearfix

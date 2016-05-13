@@ -1,6 +1,4 @@
 class CampusLocationsController < ApplicationController
-  include SetModifier
-
   before_filter :set_campus_location, only: [:show, :edit, :update]
   before_filter :new_campus_location_from_params, only: [:new, :create]
   before_filter :pundit_authorize
@@ -42,15 +40,11 @@ class CampusLocationsController < ApplicationController
   private
 
   def new_campus_location_from_params
-    if params[:campus_location]
-      @campus_location = CampusLocation.new(campus_location_params)
-    else
-      @campus_location = CampusLocation.new
-    end
+    @campus_location = CampusLocation.new(campus_location_params)
   end
 
   def campus_location_params
-    params.require(:campus_location).permit(*policy(@campus_location || CampusLocation).permitted_attributes)
+    permitted_params(:campus_location)
   end
 
   def set_campus_location
@@ -59,7 +53,7 @@ class CampusLocationsController < ApplicationController
   end
 
   def pundit_authorize
-    authorize (@campus_location || CampusLocation)
+    authorize(@campus_location || CampusLocation)
   end
 
 end

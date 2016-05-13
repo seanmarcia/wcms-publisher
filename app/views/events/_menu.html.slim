@@ -1,0 +1,45 @@
+.side-menu
+  .list-group
+    .list-group-item.top-item
+      = @event
+    = menu_block(class: 'list-group-item') do |menu|
+      = menu.add_item('Overview', default: true) { edit_event_path(@event, page: 'form') }
+      = menu.add_item('Tickets / Registration') { edit_event_path(@event, page: 'tickets') }
+      = menu.add_item('Multiple Occurrences') { edit_event_path(@event, page: 'occurrences') }
+      = menu.add_item('Links') { edit_event_path(@event, page: 'links') }
+      = menu.add_item('Relationships') { edit_event_path(@event, page: 'relationships') }
+      = menu.add_item('Presentation Data') { edit_event_path(@event, page: 'presentation_data') }
+      = menu.add_item('Pages') { edit_event_path(@event, page: 'pages') } if policy(@event).can_manage?(:pages)
+      = menu.add_item('SEO') { edit_event_path(@event, page: 'seo') } if policy(@event).can_manage?(:seo)
+      = menu.add_item('History') { object_index_wcms_components_changes_path(klass: Event, id: @event.id) } if policy(@event).can_manage?(:logs)
+
+  .list-group
+    = link_to fa_icon('files-o', text: "Duplicate Event"), duplicate_event_path(@event), class: 'list-group-item' if wcms_source? @event
+
+  .list-group
+    - if @event.draft?
+      .list-group-item.list-group-item-warning = fa_icon 'exclamation-triangle', text: "This Event is a draft"
+
+    - elsif @event.request_review?
+      .list-group-item.list-group-item-info = fa_icon 'info-circle', text: "This Event is up for review"
+
+    - elsif @event.published?
+      .list-group-item.list-group-item-success = fa_icon 'check', text: "This Event is published"
+
+    - else
+      .list-group-item.list-group-item-warning = fa_icon 'archive', text: "This Event is archived"
+
+  - if current_user.admin?
+    .list-group
+      .list-group-item.top-item
+        | Associated Page Editions
+      - if pages = @event.page_editions.presence
+        - pages.each do |page|
+          .list-group-item.list-group-item
+            = link_to page, [:edit, page]
+      - else
+        .list-group-item.list-group-item
+          | No available page editions
+          br
+          = link_to 'Create one', new_page_edition_path(source_type: "Event", source_id: @event.id.to_s), target: "_blank"
+

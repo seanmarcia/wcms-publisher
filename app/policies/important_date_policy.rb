@@ -19,8 +19,10 @@ class ImportantDatePolicy < ApplicationPolicy
   alias :destroy? :create?
 
   def permitted_attributes
-    attrs = [:modifier_id, :title, :url, :start_date, :end_date, :deadline, {categories: []}, {audiences: []}, {calendar_ids: []}]
-    attrs
+    [
+      :modifier_id, :title, :url, :start_date, :end_date, :deadline,
+      {categories: []}, {audiences: []}, {calendar_ids: []}
+    ]
   end
 
   ##### Special non-action permissions

@@ -1,6 +1,4 @@
 class MediaResourcesController < ApplicationController
-  include SetModifier
-
   before_action :set_medium, :pundit_authorize
 
   def create
@@ -30,15 +28,11 @@ class MediaResourcesController < ApplicationController
   end
 
   def new_media_resource_from_params
-    if params[:media_resource]
-      @media_resource = @medium.media_resources.new(media_resource_params)
-    else
-      @media_resource = @medium.media_resources.new
-    end
+    @media_resource = @medium.media_resources.new(media_resource_params)
   end
 
   def media_resource_params
-    params.require(:media_resource).permit(*policy(@media_resource || MediaResource).permitted_attributes)
+    permitted_params(:media_resource)
   end
 
   def set_media_resource
@@ -46,7 +40,7 @@ class MediaResourcesController < ApplicationController
   end
 
   def pundit_authorize
-    authorize (@media_resource || MediaResource)
+    authorize(@media_resource || MediaResource)
   end
 
 end

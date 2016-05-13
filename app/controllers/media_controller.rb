@@ -1,6 +1,4 @@
 class MediaController < ApplicationController
-  include SetModifier
-
   before_filter :set_medium, only: [:show, :edit, :update]
   before_filter :new_medium_from_params, only: [:new, :create]
   before_filter :pundit_authorize
@@ -46,15 +44,11 @@ class MediaController < ApplicationController
   private
 
   def new_medium_from_params
-    if params[:medium]
-      @medium = Medium.new(medium_params)
-    else
-      @medium = Medium.new
-    end
+    @medium = Medium.new(medium_params)
   end
 
   def medium_params
-    params.require(:medium).permit(*policy(@medium || Medium).permitted_attributes)
+    permitted_params(:medium)
   end
 
   def set_medium
@@ -63,7 +57,7 @@ class MediaController < ApplicationController
   end
 
   def pundit_authorize
-    authorize (@medium || Medium)
+    authorize(@medium || Medium)
   end
 
 end

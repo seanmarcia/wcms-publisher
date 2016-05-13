@@ -1,0 +1,26 @@
+= form_for @event, html: {multipart: true} do |f|
+  = hidden_field_tag :page, 'links'
+  .panel.panel-default
+    .panel-heading
+      strong Associated Links
+    .panel-body
+      .row.form-section
+        .form-group.col-md-12
+          table.table
+            tbody
+              - Array(f.object.links).each do |link|
+                - if link.persisted?
+                  tr
+                    td = link.title
+                    td = link.url
+                    - if policy(link).destroy?
+                      td = link_to fa_icon('trash-o'), [@event] + [link], confirm: 'Are you sure?', method: :delete, class: 'pull-right'
+          .form-inline.input_link_fields_wrap
+          br
+          button.btn.btn-success.add_link_button type="button" = fa_icon('plus', text: "Add a new link")
+
+      hr
+      .form-footer
+        .pull-right.form-inline
+          .form-group.pull-right.pad-right
+            = f.submit 'Save', class: 'btn btn-biola'

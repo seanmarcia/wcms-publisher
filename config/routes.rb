@@ -24,6 +24,14 @@ Wcms::Application.routes.draw do
 
   resources :presentation_data_templates
 
+  resources :events do
+    resources :links
+    resources :tickets, except: [:index, :show]
+    get :duplicate, on: :member
+    post :update_from_ws, on: :collection
+  end
+  resources :event_collections
+
   resources :sites do
     resources :site_categories, only: [:create, :update, :destroy]
     resources :feature_locations, only: [:create, :update, :destroy]

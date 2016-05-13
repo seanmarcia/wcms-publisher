@@ -2,8 +2,8 @@ require 'spec_helper'
 include AuthenticationHelpers
 
 describe ActorsController do
-  let (:page) { create :page_edition }
-  let (:person) { create :person }
+  let(:page) { create :page_edition }
+  let(:person) { create :person }
 
   describe "POST #create" do
     def create_actor(person_id=nil)
@@ -33,7 +33,7 @@ describe ActorsController do
       end
 
       context "person is tied to user" do
-        let! (:user) { create :user, person_id: person.id }
+        let!(:user) { create :user, person_id: person.id }
 
         it "gives user permission to the parent object" do
           create_actor(person.id)

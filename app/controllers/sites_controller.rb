@@ -1,5 +1,4 @@
 class SitesController < ApplicationController
-  include SetModifier
 
   before_filter :set_site, only: [:show, :edit, :update]
   before_filter :new_site_from_params, only: [:new, :create]
@@ -43,15 +42,11 @@ class SitesController < ApplicationController
   private
 
   def new_site_from_params
-    if params[:site]
-      @site = Site.new(site_params)
-    else
-      @site = Site.new
-    end
+    @site = Site.new(site_params)
   end
 
   def site_params
-    params.require(:site).permit(*policy(@site || Site).permitted_attributes)
+    permitted_params(:site)
   end
 
   def set_site
@@ -60,6 +55,6 @@ class SitesController < ApplicationController
   end
 
   def pundit_authorize
-    authorize (@site || Site)
+    authorize(@site || Site)
   end
 end

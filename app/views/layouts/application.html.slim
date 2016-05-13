@@ -12,7 +12,7 @@ html lang="en-us"
     = stylesheet_link_tag "application", media: "all"
     = javascript_include_tag "application"
 
-  body
+  body class="#{controller_name} #{action_name}"
 
     / account_list must be before biola_header otherwise the list won't be defined in time.
     = render 'layouts/account_list'
@@ -23,6 +23,8 @@ html lang="en-us"
         {body: 'Calendars', url: :calendars_path},
         {body: 'Campus Locations', url: :campus_locations_path},
         {body: 'Data Templates', url: :presentation_data_templates_path},
+        {body: 'Events', url: :events_path},
+        {body: 'Event Collections', url: :event_collections_path},
         {body: 'Important Dates', url: :important_dates_path},
         {body: 'Media', url: :media_path},
         {body: 'Menus', url: :menus_path},

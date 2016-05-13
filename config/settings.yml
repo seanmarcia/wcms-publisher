@@ -71,3 +71,11 @@ trackable_relations:
     - permissions
   Site:
     - site_categories
+
+audience:
+  - 'Alumni'
+  - 'Faculty'
+  - 'General Public'
+  - 'Parents'
+  - 'Staff'
+  - 'Students'

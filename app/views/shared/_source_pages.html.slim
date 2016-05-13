@@ -1,0 +1,26 @@
+ruby:
+  source ||= nil
+  raise 'you need to pass in a source to _source_pages' unless source
+  klass = source.class.to_s
+  name ||= klass.underscore
+  friendly_name ||= name.humanize(capitalize: false)
+
+.panel.panel-default
+  .panel-heading
+    strong Pages
+  .panel-body
+    table.table
+      - if source.page_editions.present?
+        - source.page_editions.each do |page|
+          tr
+            td = link_to page, page
+            td
+              - if page.id.to_s == source.primary_page_id
+                = "Primary"
+              - else
+                = button_to "Make Primary", source, {method: :patch, params: {"#{name}[primary_page_id]" => page.id.to_s, page: 'pages'}, class: 'btn btn-default'}
+
+      - else
+        .alert.alert-info This #{friendly_name} has no pages tied to it.
+
+= link_to "Create page for this #{friendly_name}", new_page_edition_path(source_type: "#{klass}", source_id: source.id.to_s), class: 'btn btn-default'

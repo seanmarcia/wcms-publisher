@@ -1,97 +1,15 @@
+ruby:
+  @available_sites = Site.where(has_page_editions: true).asc(:url)
+
 = render 'shared/javascript_multiselect_include', obj: @page_edition, site_categories: @site_categories, site_titles: @site_titles
+
 = form_for @page_edition do |f|
+  - if !@page_edition.persisted? && @page_edition.source
+    = f.hidden_field :source_type
+    = f.hidden_field :source_id
+    .alert.alert-info Linked #{@page_edition.source_type}: #{@page_edition.source.to_s}
+
   .form-section
-    .row
-      .col-md-6
-        / lets the controller know when to redo the source
-        = hidden_field_tag :source_change, 'source_change'
-        .form-group
-          = label_tag 'Page Type'
-          input name="page_edition[source_type][]" type="hidden" value=""
-          = wcms_component "forms/multiselect",
-            attribute: :source_type,
-            collection: PageEdition::AVAILABLE_SOURCE_TYPES,
-            value_method: :to_s,
-            text_method: :titleize,
-            multiple: false,
-            prompt: "None",
-            selected: @page_edition.source_type.try(:underscore)
-
-      .col-md-6.source_select#academic_subject hidden=true
-        .form-group
-          = label_tag 'Academic subjects'
-          = wcms_component "forms/multiselect",
-            attribute: :academic_subject,
-            collection: AcademicSubject.asc(:title),
-            value_method: :id,
-            text_method: :to_s,
-            multiple: false,
-            prompt: "Select one",
-            selected: @page_edition.source_id
-
-      .col-md-6.source_select#academic_program hidden=true
-        .form-group
-          = label_tag 'Academic programs'
-          = wcms_component "forms/multiselect",
-            attribute: :academic_program,
-            collection: AcademicProgram.asc(:full_name),
-            value_method: :id,
-            text_method: :to_s,
-            multiple: false,
-            prompt: "Select one",
-            selected: @page_edition.source_id
-
-      .col-md-6.source_select#concentration hidden=true
-        .form-group
-          / TODO: We should probably load these in asynchronously in the future.
-          = label_tag 'Concentrations'
-          = wcms_component "forms/multiselect",
-            attribute: :concentration,
-            collection: Concentration.asc(:title),
-            value_method: :id,
-            text_method: (lambda{|c| "#{c.title} - #{c.academic_program.title}"}),
-            multiple: false,
-            prompt: "Select one",
-            selected: @page_edition.source_id
-
-      .col-md-6.source_select#department hidden=true
-        .form-group
-          = label_tag 'Departments'
-          = wcms_component "forms/multiselect",
-            attribute: :department,
-            collection: Department.asc(:title),
-            value_method: :id,
-            text_method: :to_s,
-            multiple: false,
-            prompt: "Select one",
-            selected: @page_edition.source_id
-
-      .col-md-6.source_select#event hidden=true
-        .form-group
-          = label_tag 'Events'
-          = wcms_component "forms/multiselect",
-            attribute: :event,
-            collection: Event.asc(:title),
-            value_method: :id,
-            text_method: :to_s,
-            multiple: false,
-            prompt: "Select one",
-            selected: @page_edition.source_id
-
-      .col-md-6.source_select#group hidden=true
-        .form-group
-          = label_tag 'Groups'
-          = wcms_component "forms/multiselect",
-            attribute: :group,
-            collection: Group.asc(:title),
-            value_method: :id,
-            text_method: :to_s,
-            multiple: false,
-            prompt: "Select one",
-            selected: @page_edition.source_id
-
-    hr
-
     .form-group
       = f.label :title
       = f.text_field :title, class: 'form-control'
@@ -99,7 +17,7 @@
     .form-group
       = f.label :site_id, "Site"
       / The javascript below looks for changes on this and updates the site_url_preview
-      = f.collection_select :site_id, Site.where(has_page_editions: true), :id, :url, {}, class: 'form-control site_multiselect'
+      = f.collection_select :site_id, @available_sites, :id, :url, {}, class: 'form-control site_multiselect'
 
     .row
       .col-sm-6#site_category hidden=true
@@ -128,7 +46,7 @@
     .form-group
       = f.label :slug
       .input-group
-        span.input-group-addon#site_url_preview = "#{(f.object.site || Site.first).url}/"
+        span.input-group-addon#site_url_preview = "#{(f.object.site || @available_sites.first).url}/"
         = f.text_field :slug, class: 'form-control', placeholder: 'path/to/page'
 
     .row
@@ -160,10 +78,6 @@
         attribute: :keywords_string
 
   .form-section
-    br
-    h3 Page Content
-    hr
-
     .form-group
       = f.label :body
       = wcms_component "forms/redactor_editor",

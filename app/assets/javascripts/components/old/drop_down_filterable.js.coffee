@@ -33,13 +33,13 @@ determineCategories = (site_id) ->
   selected_site_categories = []
 
   # Site categories is defined in the view
-  categories = site_categories[site_id]
-  categories.forEach (category) ->
-    selected_site_categories.push
-      label: category.title
-      title: category.title
-      value: category.id
-      selected: categoryIsSelected(category.id)
+  if categories = site_categories[site_id]
+    categories.forEach (category) ->
+      selected_site_categories.push
+        label: category.title
+        title: category.title
+        value: category.id
+        selected: categoryIsSelected(category.id)
 
   $(".multi_category_select select").multiselect "dataprovider", selected_site_categories
 
@@ -51,9 +51,12 @@ $(document).ready ->
     if preselectedPagesExist()
       determinePages(site_id)
     setIcons()
+  else
+    $(".multi_category_select").hide()
 
   # This should get fired once a site has been manually selected
   $(".site_multiselect").change ->
+    $(".multi_category_select").show()
     if preselectedCategoriesExist()
       determineCategories(this.value)
     if preselectedPagesExist()

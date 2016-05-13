@@ -1,6 +1,4 @@
 class PresentationDataTemplatesController < ApplicationController
-  include SetModifier
-
   before_filter :new_presentation_data_template_from_params, only: [:new, :create]
   before_filter :set_presentation_data_template, only: [:show, :edit, :update, :destroy]
   before_filter :pundit_authorize
@@ -39,15 +37,11 @@ class PresentationDataTemplatesController < ApplicationController
 
   private
   def new_presentation_data_template_from_params
-    if params[:presentation_data_template]
-      @presentation_data_template = PresentationDataTemplate.new(presentation_data_template_params)
-    else
-      @presentation_data_template = PresentationDataTemplate.new
-    end
+    @presentation_data_template = PresentationDataTemplate.new(presentation_data_template_params)
   end
 
   def presentation_data_template_params
-    params.require(:presentation_data_template).permit(*policy(@presentation_data_template || PresentationDataTemplate).permitted_attributes)
+    permitted_params(:presentation_data_template)
   end
 
   def set_presentation_data_template
@@ -56,6 +50,6 @@ class PresentationDataTemplatesController < ApplicationController
   end
 
   def pundit_authorize
-    authorize (@presentation_data_template || PresentationDataTemplate)
+    authorize(@presentation_data_template || PresentationDataTemplate)
   end
 end

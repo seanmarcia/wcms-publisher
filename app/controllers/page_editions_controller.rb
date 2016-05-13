@@ -1,13 +1,9 @@
 class PageEditionsController < ApplicationController
   include SetSiteCategories
-  include SetModifier
 
   before_filter :set_page_edition, only: [:show, :edit, :update, :destroy, :create_tag]
-  before_filter :new_page_edition_from_params, only: [:new, :create]
   before_filter :set_categories_for_page_edition
-  before_filter :set_source, only: [:create, :update]
   before_filter :pundit_authorize
-  before_filter :new_audience_collection, only: [:edit, :update, :new, :create]
 
   def index
     respond_to do |format|
@@ -38,9 +34,15 @@ class PageEditionsController < ApplicationController
   end
 
   def new
-    @page_edition = PageEdition.new
+    @page_edition = new_page_edition_from_params
+
+    # Allow some default values set through the params
     @page_edition.site_id = params[:site_id]
     @page_edition.parent_page_id = params[:parent_page_id]
+    if PageEdition::AVAILABLE_SOURCE_TYPES.include?(params[:source_type])
+      @page_edition.source_type = params[:source_type]
+      @page_edition.source_id = params[:source_id]
+    end
     if @page_edition.parent_page
       @page_edition.site_id = @page_edition.parent_page.site_id # ensure site id matches parent
       @page_edition.slug = @page_edition.parent_page.slug + '/'
@@ -52,9 +54,8 @@ class PageEditionsController < ApplicationController
   end
 
   def create
-    if @error
-      flash[:notice] = @error
-    elsif @page_edition.save
+    @page_edition = new_page_edition_from_params
+    if @page_edition.save
       set_author
       update_state
       flash[:notice] = "'#{@page_edition.title}' created."
@@ -69,13 +70,13 @@ class PageEditionsController < ApplicationController
   end
 
   def update
-    if @error
-      flash[:warning] = @error
-      render :edit
-    elsif @page_edition.update_attributes(page_edition_params)
+    if @page_edition.update_attributes(page_edition_params)
       update_state
       flash[:notice] = "'#{@page_edition.title}' updated."
-      redirect_to edit_page_edition_path @page_edition, page: params[:page], choose_template: params[:choose_template]
+      redirect_to(
+        edit_page_edition_path(@page_edition),
+        page: params[:page], choose_template: params[:choose_template]
+      )
     else
       render :edit
     end
@@ -96,7 +97,7 @@ class PageEditionsController < ApplicationController
   def create_tag
     if @page_edition.slug.blank?
       flash[:error] = 'You need to set a slug before creating a tag.'
-    elsif tag = Tag.create_from_object(@page_edition, current_user: current_user, class_slug: 'page_edition')
+    elsif (tag = Tag.create_from_object(@page_edition, current_user: current_user, class_slug: 'page_edition'))
       if @page_edition.update_attributes({my_object_tag: tag.tag})
         flash[:info] = 'Tag Created.'
       else
@@ -124,11 +125,11 @@ class PageEditionsController < ApplicationController
   def set_author
     unless policy(@page_edition).edit?
       author = Permission.new(
-                      actor_id: current_user.id,
-                      actor_type: 'User',
-                      ability: :edit,
-                      modifier_id: current_user.id
-                    )
+        actor_id: current_user.id,
+        actor_type: 'User',
+        ability: :edit,
+        modifier_id: current_user.id
+      )
       # Pushing the author onto the permissions array in case set author is
       #  ever called after create and permissions already exist.
       @page_edition.permissions << author
@@ -136,48 +137,14 @@ class PageEditionsController < ApplicationController
     end
   end
 
-  def set_source
-    if params[:source_change].present?
-      case params[:source_type]
-      when 'academic_subject'
-        source = AcademicSubject.where(id: params[:academic_subject]).first
-      when 'academic_program'
-        source = AcademicProgram.where(id: params[:academic_program]).first
-      when 'concentration'
-        source = Concentration.where(id: params[:concentration]).first
-      when 'department'
-        source = Department.where(id: params[:department]).first
-      when 'event'
-        source = Event.where(id: params[:event]).first
-      when 'group'
-        source = Group.where(id: params[:group]).first
-      else
-        source = nil
-      end
-      if params[:source_type].present? && source.nil?
-        @error = "A #{params[:source_type].titleize} needs to be selected."
-      end
-      @page_edition.source = source
-    end
-  end
-
-  def new_audience_collection
-    @page_edition.audience_collection = AudienceCollection.new if @page_edition.audience_collection.nil?
-  end
-
   def new_page_edition_from_params
-    if params[:page_edition]
-      @page_edition = PageEdition.new(page_edition_params)
-    else
-      @page_edition = PageEdition.new
-    end
+    PageEdition.new(page_edition_params)
   end
 
   def page_edition_params
-    if params[:page_edition] && params[:page_edition][:meta_keywords]
-      params[:page_edition][:meta_keywords] = params[:page_edition][:meta_keywords].split(',')
+    permitted_params(:page_edition) do |p|
+      p[:meta_keywords] = p[:meta_keywords].split(',').map(&:strip) if p[:meta_keywords]
     end
-    params.require(:page_edition).permit(*policy(@page_edition || PageEdition).permitted_attributes)
   end
 
   def set_page_edition
@@ -186,7 +153,7 @@ class PageEditionsController < ApplicationController
   end
 
   def pundit_authorize
-    authorize (@page_edition || PageEdition)
+    authorize(@page_edition || PageEdition)
   end
 
   def update_state

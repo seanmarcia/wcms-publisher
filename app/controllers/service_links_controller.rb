@@ -1,6 +1,4 @@
 class ServiceLinksController < ApplicationController
-  include SetModifier
-
   before_filter :set_service_link, only: [:show, :edit, :update]
   before_filter :new_service_link_from_params, only: [:new, :create]
   before_filter :pundit_authorize
@@ -57,15 +55,11 @@ class ServiceLinksController < ApplicationController
   end
 
   def new_service_link_from_params
-    if params[:service_link]
-      @service_link = ServiceLink.new(service_link_params)
-    else
-      @service_link = ServiceLink.new
-    end
+    @service_link = ServiceLink.new(service_link_params)
   end
 
   def service_link_params
-    params.require(:service_link).permit(*policy(@service_link || ServiceLink).permitted_attributes)
+    permitted_params(:service_link)
   end
 
   def set_service_link
@@ -74,7 +68,7 @@ class ServiceLinksController < ApplicationController
   end
 
   def pundit_authorize
-    authorize (@service_link || ServiceLink)
+    authorize(@service_link || ServiceLink)
   end
 
 end

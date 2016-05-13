@@ -1,6 +1,5 @@
 class GalleryPhotosController < ApplicationController
   before_action :set_parent
-  before_filter :set_gallery_photo, only: [:destroy]
 
   def create
     authorize GalleryPhoto # Not sure how to authorize this array when it hasn't been built so just authorizing that the user can create gallery photo objects in general
@@ -9,7 +8,11 @@ class GalleryPhotosController < ApplicationController
       @upload_response = []
 
       Array(params[:gallery_photos]).each do |gallery_photo|
-        @upload_response << @parent.gallery_photos.new(photo: gallery_photo.last[:photo], caption: gallery_photo.last[:caption]).save
+        @upload_response << @parent.gallery_photos.new(
+          photo: gallery_photo.last[:photo],
+          caption: gallery_photo.last[:caption],
+          modifier_id: current_user.id.to_s
+        ).save
       end
 
       if @upload_response.include? false
@@ -20,10 +23,10 @@ class GalleryPhotosController < ApplicationController
   end
 
   def destroy
+    @gallery_photo = @parent.gallery_photos.find(params[:id])
+    @gallery_photo.modifier_id = current_user.id.to_s
     authorize @gallery_photo
-
     @gallery_photo.destroy
-
     redirect_to :back
   end
 
@@ -46,9 +49,5 @@ class GalleryPhotosController < ApplicationController
       @parent = PhotoGallery.find(params[:photo_gallery_id])
     end
     @page_name = @parent.try(:title)
-  end
-
-  def set_gallery_photo
-    @gallery_photo = @parent.gallery_photos.find(params[:id])
   end
 end

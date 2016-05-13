@@ -1,0 +1,14 @@
+= form_for @page_edition do |f|
+  .form-section
+    .row
+      .col-md-6
+        = f.label :source_type
+        = f.collection_select :source_type, PageEdition::AVAILABLE_SOURCE_TYPES, :to_s, :to_s, {include_blank: true}, class: 'form-control'
+      .col-md-6
+        = f.label :source_id, "Source ID"
+        = f.text_field :source_id, class: 'form-control'
+
+  hr
+  .form-footer
+    .text-right
+      = f.submit 'Save', class: 'btn btn-biola'

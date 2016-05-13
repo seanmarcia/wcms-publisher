@@ -1,0 +1,9 @@
+.table-responsive
+  table.table.table-striped
+    thead
+      tr
+        th Title
+    tbody
+      - @event_collections.each do |collection|
+        tr
+          td = link_to collection.title, collection

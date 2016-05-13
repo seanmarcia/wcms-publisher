@@ -1,0 +1,68 @@
+.panel.panel-default
+  .panel-heading
+    strong Registration Info
+  .panel-body
+    = permitted_form_for @event, html: {multipart: true} do |f|
+      = hidden_field_tag :page, 'tickets'
+      .row.form-section
+        .col-md-12
+          .form-group
+            label Event type
+            .checkbox
+              label
+                =' f.check_box :paid
+                | Paid
+
+        .col-md-12
+          .form-group
+            = f.label :registration_info
+            - if permission_to_edit?(@event, :registration_info)
+              = wcms_component 'forms/redactor_editor', form: f, attribute: :registration_info
+            - else
+              .well.well-faux-input = @event.registration_info.to_s.html_safe
+
+
+      hr
+      .form-footer
+        .pull-right
+          = f.submit "Save", class: 'btn btn-biola'
+
+
+.panel.panel-default
+  .panel-heading
+    strong Tickets
+  .panel-body
+    .row.form-section
+      .form-group.col-md-12
+        table.table.table-striped
+          thead
+            th
+            th Description
+            th Cost
+            th Fine Print
+            th Link
+          tbody
+            - @event.tickets.each do |ticket|
+              - if ticket.persisted?
+                tr
+                  .modal.fade tabindex="-1" role="dialog" aria-labelledby="ticket" aria-hidden="true" id="ticket-edit-#{ticket.id.to_s}"
+                    .modal-dialog
+                      .modal-content
+                  td.dropdown
+                    .dropdown-toggle id="dropdownMenu1" data-toggle="dropdown"
+                      = link_to fa_icon('cog')
+                    ul.dropdown-menu role="menu" aria-labelledby="dropdownMenu1"
+                      li
+                        a href=send("edit_event_ticket_path", @event.id, ticket.id) data-toggle="modal" data-target="#ticket-edit-#{ticket.id.to_s}" Edit Ticket
+                      - if policy(ticket).destroy?
+                        li = link_to 'Delete', [@event] + [ticket], confirm: 'Are you sure?', method: :delete
+                  td = ticket.description
+                  td = ticket.cost
+                  td = ticket.fine_print
+                  td = ticket.link
+
+    hr
+    button.btn.btn-default.pull-right data-toggle="modal" data-target="#ticket-modal" + new ticket
+    .modal.fade#ticket-modal data-remote=new_event_ticket_path(@event) tabindex="-1" role="dialog" aria-labelledby="ticket" aria-hidden="true"
+      .modal-dialog
+        .modal-content

@@ -11,7 +11,7 @@ determineLocationType = (location_type) ->
 
 
 $(document).ready ->
-  if $('body.events').length > 0
+  if $("body[data-controller='events']").length > 0
     if location_type = $('#event_location_type').val()
       determineLocationType(location_type)
 

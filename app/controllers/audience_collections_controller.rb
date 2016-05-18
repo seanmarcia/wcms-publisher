@@ -2,7 +2,7 @@ class AudienceCollectionsController < ApplicationController
 
   def update
     @audience_collection = @parent.audience_collection
-    authroize @audience_collection
+    authorize @audience_collection
     if @audience_collection.update_attributes(audience_collection_params)
       flash[:notice] = "Audience Collection was successfully updated."
     else

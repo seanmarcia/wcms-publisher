@@ -13,7 +13,7 @@ class UsersController < ApplicationController
   end
 
   def stop_impersonating
-    authroize(User)
+    authorize(User)
     stop_impersonating_user
     redirect_to users_path
   end

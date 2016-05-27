@@ -74,8 +74,9 @@ class PageEditionsController < ApplicationController
       update_state
       flash[:notice] = "'#{@page_edition.title}' updated."
       redirect_to(
-        edit_page_edition_path(@page_edition),
-        page: params[:page], choose_template: params[:choose_template]
+        edit_page_edition_path(@page_edition,
+          page: params[:page], choose_template: params[:choose_template]
+        )
       )
     else
       render :edit

@@ -141,7 +141,9 @@ class EventsController < ApplicationController
 
   def set_status
     if @event.valid?
-      if params[:commit] == "Submit for Review"
+      if params[:commit] == "Publish" && policy(@event).publish?
+        @event.publish
+      elsif params[:commit] == "Submit for Review"
         @event.submit_for_review
       elsif params[:commit] == "Return to Draft" && policy(@event).publish?
         @event.return_to_draft

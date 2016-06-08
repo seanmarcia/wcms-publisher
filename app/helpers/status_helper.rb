@@ -1,16 +1,12 @@
 module StatusHelper
   def status_for(item)
-    status =
-      if item.published?
-        ["success", "Published"]
-      elsif item.archived?
-        ["warning", "Archived"]
-      elsif item.request_review?
-        ["info", "Up for Review"]
-      else
-        ["default", "Draft"]
-      end
+    label_class = case item.aasm_state
+    when 'published' then 'success'
+    when 'archived' then 'warning'
+    when 'ready_for_review' then 'info'
+    else 'default'
+    end
 
-    content_tag :span, status.last, class: "label label-#{status.first}"
+    content_tag :span, item.aasm_state.titleize, class: "label label-#{label_class}"
   end
 end

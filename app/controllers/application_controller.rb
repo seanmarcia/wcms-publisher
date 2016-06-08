@@ -14,10 +14,12 @@ class ApplicationController < WcmsApplicationController
         PageEdition.find(params[:page_edition_id])
       elsif params[:calendar_id].present?
         Calendar.find(params[:calendar_id])
-      elsif params[:important_date_id].present?
-        ImportantDate.find(params[:important_date_id])
       elsif params[:campus_location_id].present?
         CampusLocation.find(params[:campus_location_id])
+      elsif params[:event_id].present?
+        Event.find(params[:event_id])
+      elsif params[:important_date_id].present?
+        ImportantDate.find(params[:important_date_id])
       elsif params[:menu_id].present?
         Menu.find(params[:menu_id])
       elsif params[:site_id].present?

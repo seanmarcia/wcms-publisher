@@ -6,10 +6,8 @@
     ul.nav.nav-pills.pull-left
       = nav_pill_header 'Options'
       = nav_pill_dropdown 'Status', :status do
-        = nav_list_link 'Draft', :status, 'draft'
-        = nav_list_link 'Up for Review', :status, 'request_review'
-        = nav_list_link 'Published', :status, 'published'
-        = nav_list_link 'Archived', :status, 'archived'
+        - Event.new.aasm.states.each do |state|
+          = nav_list_link state.name.to_s.titleize, :status, state.name
       - if @available_sites.present?
         = nav_pill_dropdown 'Sites', :site do
           - @available_sites.each do |site|
@@ -18,8 +16,6 @@
         = nav_pill_dropdown 'Department', :department do
           - @available_departments.each do |dept|
             = nav_list_link dept, :department, dept.id
-      - if @request_review_count > 0
-        = nav_pill_link "#{@request_review_count} events need publishing", :request_review
 
     .pull-right
       = form_tag events_path, method: :get do

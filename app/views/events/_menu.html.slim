@@ -17,17 +17,8 @@
     = link_to fa_icon('files-o', text: "Duplicate Event"), duplicate_event_path(@event), class: 'list-group-item' if wcms_source? @event
 
   .list-group
-    - if @event.draft?
-      .list-group-item.list-group-item-warning = fa_icon 'exclamation-triangle', text: "This Event is a draft"
-
-    - elsif @event.request_review?
-      .list-group-item.list-group-item-info = fa_icon 'info-circle', text: "This Event is up for review"
-
-    - elsif @event.published?
-      .list-group-item.list-group-item-success = fa_icon 'check', text: "This Event is published"
-
-    - else
-      .list-group-item.list-group-item-warning = fa_icon 'archive', text: "This Event is archived"
+    .list-group-item.list-group-item-info
+      = fa_icon 'info-circle', text: "This Event is #{@event.aasm_state.titleize}"
 
   - if current_user.admin?
     .list-group

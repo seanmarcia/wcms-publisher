@@ -12,13 +12,11 @@ class EventsController < ApplicationController
       format.html do
         @available_sites = Site.where(has_events: true).asc(:title)
         @available_departments = Department.in(id: @events.distinct(:department_ids)).asc(:name)
-        @request_review_count = @events.request_review.count
 
         @events = @events.custom_search(params[:q]) if params[:q]
         @events = @events.by_status(params[:status]) if params[:status]
         @events = @events.by_site(params[:site]) if params[:site]
         @events = @events.by_department(params[:department]) if params[:department]
-        @events = @events.request_review if params[:request_review]
         @events = @events.desc('event_occurrences.start_time').page(params[:page]).per(25)
       end
       format.json do
@@ -82,7 +80,6 @@ class EventsController < ApplicationController
     authorize @event
     set_status
     add_links
-    # @event.site_categories = []
 
     respond_to do |format|
       format.html do
@@ -104,16 +101,16 @@ class EventsController < ApplicationController
   end
 
   def duplicate
+    @event = Event.find(params[:id])
+    authorize @event
     duplicated_event = @event.clone
-    if duplicated_event
-      log_activity(duplicated_event.previous_changes, parent: duplicated_event)
 
-      flash[:info] = "#{@event} duplicated."
+    if duplicated_event
       @event = duplicated_event
       render :new
     else
       flash[:error] = "Something went wrong, please try again."
-      redirect_to event_path
+      redirect_to @event
     end
   end
 
@@ -140,15 +137,12 @@ class EventsController < ApplicationController
   end
 
   def set_status
-    if @event.valid?
-      if params[:commit] == "Publish" && policy(@event).publish?
-        @event.publish
-      elsif params[:commit] == "Submit for Review"
-        @event.submit_for_review
-      elsif params[:commit] == "Return to Draft" && policy(@event).publish?
-        @event.return_to_draft
-      end
-    end
+    return unless @event.valid?
+    return unless params[:transition].present?
+    transition = params[:transition].to_s.downcase.gsub(/\s/, '_').to_sym
+    return unless @event.aasm.events.include?(transition)
+    return unless policy(@event).permitted_aasm_events.include?(transition)
+    @event.send(transition)
   end
 
   def new_address

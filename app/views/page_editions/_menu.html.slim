@@ -34,16 +34,10 @@
       .list-group-item
         = link_to "Create menu for this page", new_menu_path(site_id: @page_edition.site.id.to_s, title: @page_edition.title, page_edition_id: @page_edition.id.to_s)
 
+
   .list-group
-    - if @page_edition.draft?
-      .list-group-item.list-group-item-warning = fa_icon 'exclamation-triangle', text: "#{@page_edition.title} is a draft"
-
-    - elsif @page_edition.published?
-      .list-group-item.list-group-item-success = fa_icon 'check', text: "#{@page_edition.title} is published"
-      .list-group-item = link_to 'View on Site', @page_edition.url, target: "_blank"
-
-    - else
-      .list-group-item.list-group-item-warning = fa_icon 'archive', text: "#{@page_edition.title} is archived"
+    .list-group-item.list-group-item-info
+      = fa_icon 'info-circle', text: "This Page is #{@page_edition.aasm_state.titleize}"
 
     - if @page_edition.redirected?
       .list-group-item.list-group-item-warning

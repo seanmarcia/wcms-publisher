@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
   include SetSiteCategories
+  include IsWorkflow
 
   skip_after_action :verify_policy_scoped
   before_filter :set_categories_for_event, except: [:index, :show]
@@ -36,6 +37,7 @@ class EventsController < ApplicationController
   def create
     @event = new_event_from_params
     authorize @event
+    set_state(@event)
 
     respond_to do |format|
       format.html do
@@ -78,7 +80,7 @@ class EventsController < ApplicationController
   def update
     @event = Event.find(params[:id])
     authorize @event
-    set_status
+    set_state(@event)
     add_links
 
     respond_to do |format|
@@ -134,15 +136,6 @@ class EventsController < ApplicationController
         flash[:warning] = 'One or more of the links failed to add. Please try again.'
       end
     end
-  end
-
-  def set_status
-    return unless @event.valid?
-    return unless params[:transition].present?
-    transition = params[:transition].to_s.downcase.gsub(/\s/, '_').to_sym
-    return unless @event.aasm.events.include?(transition)
-    return unless policy(@event).permitted_aasm_events.include?(transition)
-    @event.send(transition)
   end
 
   def new_address

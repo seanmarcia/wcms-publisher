@@ -61,6 +61,18 @@ class PageEditionPolicy < PermissionsPolicy
     page_admin?
   end
 
+  def publish?
+    page_publisher_for?(record)
+  end
+
+  def permitted_aasm_events
+    if publish?
+      [:submit_for_review, :return_to_draft, :approve, :unapprove, :publish, :archive]
+    elsif update?
+      [:submit_for_review]
+    end
+  end
+
   def permitted_attributes
     attrs = super || []
     attrs += [ :title, :slug, :site_id, :parent_page_id, :body, :page_template, :modifier_id,

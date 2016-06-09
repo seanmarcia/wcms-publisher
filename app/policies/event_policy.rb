@@ -49,7 +49,7 @@ class EventPolicy < PermissionsPolicy
   end
 
   def permitted_aasm_events
-    if event_publisher?
+    if publish?
       [:submit_for_review, :return_to_draft, :approve, :unapprove, :publish, :archive]
     elsif update?
       [:submit_for_review]

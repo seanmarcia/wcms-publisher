@@ -26,7 +26,6 @@ publishers:
     url: http://academic-publisher.dev/catalogs
   - title: Courses
     url: http://academic-publisher.dev/courses
-  - class_name: PresentationDataTemplate
   - title: Departments
     url: http://profile-publisher.dev/offices-services
   - class_name: Event
@@ -51,6 +50,7 @@ publishers:
   - title: People
     url: http://profile-publisher.dev/people
   - class_name: PhotoGallery
+  - class_name: PresentationDataTemplate
   - title: Publications
     url: http://news-publisher.dev/publications
   - title: Publication Categories

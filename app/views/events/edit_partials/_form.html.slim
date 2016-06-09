@@ -107,9 +107,9 @@
             = f.text_field :contact_phone, class: 'form-control'
 
 
-      .row.form-section
-        = render 'shared/image_crop', f: f, object: @event
-      hr
+      / .row.form-section
+      /   = render 'shared/image_crop', f: f, object: @event
+      / hr
 
       h3 Publishing Details
       .row.form-section
@@ -225,12 +225,8 @@
                   => f.check_box :featured
                   | Featured
 
-
-      hr
-
       - if policy(@event).publish?
-
-
+        hr
         h3 Status
         .row.form-section
           .col-md-6.form-group
@@ -244,14 +240,8 @@
       hr
       .form-footer
         .pull-right.form-inline
+          - (@event.aasm.events & policy(@event).permitted_aasm_events).each do |event|
+            .form-group.pull-right.pad-right
+              = f.submit event.to_s.titleize, name: 'transition', class: 'btn btn-biola'
           .form-group.pull-right.pad-right
-            = f.submit "Save #{'Draft' if @event.draft?}", class: 'btn btn-default'
-          - if @event.draft?
-            .form-group.pull-right.pad-right
-              - if policy(@event).publish?
-                = f.submit 'Publish', class: 'btn btn-biola'
-              - else
-                = f.submit 'Submit for Review', class: 'btn btn-biola'
-          - if @event.request_review? && policy(@event).publish?
-            .form-group.pull-right.pad-right
-              = f.submit 'Return to Draft', class: 'btn btn-biola'
+            = f.submit "Save", class: 'btn btn-default'

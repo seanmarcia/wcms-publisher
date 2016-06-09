@@ -1,5 +1,6 @@
 class EventsController < ApplicationController
   include SetSiteCategories
+  include IsWorkflow
 
   skip_after_action :verify_policy_scoped
   before_filter :set_categories_for_event, except: [:index, :show]
@@ -12,13 +13,11 @@ class EventsController < ApplicationController
       format.html do
         @available_sites = Site.where(has_events: true).asc(:title)
         @available_departments = Department.in(id: @events.distinct(:department_ids)).asc(:name)
-        @request_review_count = @events.request_review.count
 
         @events = @events.custom_search(params[:q]) if params[:q]
         @events = @events.by_status(params[:status]) if params[:status]
         @events = @events.by_site(params[:site]) if params[:site]
         @events = @events.by_department(params[:department]) if params[:department]
-        @events = @events.request_review if params[:request_review]
         @events = @events.desc('event_occurrences.start_time').page(params[:page]).per(25)
       end
       format.json do
@@ -38,6 +37,7 @@ class EventsController < ApplicationController
   def create
     @event = new_event_from_params
     authorize @event
+    set_state(@event)
 
     respond_to do |format|
       format.html do
@@ -80,9 +80,8 @@ class EventsController < ApplicationController
   def update
     @event = Event.find(params[:id])
     authorize @event
-    set_status
+    set_state(@event)
     add_links
-    # @event.site_categories = []
 
     respond_to do |format|
       format.html do
@@ -104,16 +103,16 @@ class EventsController < ApplicationController
   end
 
   def duplicate
+    @event = Event.find(params[:id])
+    authorize @event
     duplicated_event = @event.clone
-    if duplicated_event
-      log_activity(duplicated_event.previous_changes, parent: duplicated_event)
 
-      flash[:info] = "#{@event} duplicated."
+    if duplicated_event
       @event = duplicated_event
       render :new
     else
       flash[:error] = "Something went wrong, please try again."
-      redirect_to event_path
+      redirect_to @event
     end
   end
 
@@ -135,18 +134,6 @@ class EventsController < ApplicationController
       end
       if upload_response == false
         flash[:warning] = 'One or more of the links failed to add. Please try again.'
-      end
-    end
-  end
-
-  def set_status
-    if @event.valid?
-      if params[:commit] == "Publish" && policy(@event).publish?
-        @event.publish
-      elsif params[:commit] == "Submit for Review"
-        @event.submit_for_review
-      elsif params[:commit] == "Return to Draft" && policy(@event).publish?
-        @event.return_to_draft
       end
     end
   end

@@ -1,5 +1,6 @@
 class PageEditionsController < ApplicationController
   include SetSiteCategories
+  include IsWorkflow
 
   before_filter :set_page_edition, only: [:show, :edit, :update, :destroy, :create_tag]
   before_filter :set_categories_for_page_edition
@@ -55,9 +56,9 @@ class PageEditionsController < ApplicationController
 
   def create
     @page_edition = new_page_edition_from_params
+    set_state(@page_edition)
     if @page_edition.save
       set_author
-      update_state
       flash[:notice] = "'#{@page_edition.title}' created."
       redirect_to [:edit, @page_edition]
     else
@@ -70,8 +71,8 @@ class PageEditionsController < ApplicationController
   end
 
   def update
+    set_state(@page_edition)
     if @page_edition.update_attributes(page_edition_params)
-      update_state
       flash[:notice] = "'#{@page_edition.title}' updated."
       redirect_to(
         edit_page_edition_path(@page_edition,

@@ -11,7 +11,7 @@ $(document).ready ->
     status = switch node.status
       when "published" then ["success", "Published"]
       when "archived" then ["warning", "Archived"]
-      when "request_review" then ["info", "Up for Review"]
+      when "ready_for_review" then ["info", "Up for Review"]
       else ["default", "Draft"]
     if node.type == "PageEdition"
       new Handlebars.SafeString("<span class='label label-#{status[0]}'>#{status[1]}</span>")

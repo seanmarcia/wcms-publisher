@@ -11,7 +11,7 @@ PageNavigator.StatusLabel = React.createClass({
       case 'archived':
         label = {className: "label label-warning", title: 'Archived'}
         break;
-      case 'request_review':
+      case 'ready_for_review':
         label = {className: "label label-info", title: 'Up for Review'}
         break;
       default:

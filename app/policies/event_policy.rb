@@ -48,6 +48,14 @@ class EventPolicy < PermissionsPolicy
     event_publisher?
   end
 
+  def permitted_aasm_events
+    if publish?
+      [:submit_for_review, :return_to_draft, :approve, :unapprove, :publish, :archive]
+    elsif update?
+      [:submit_for_review]
+    end
+  end
+
   def permitted_attributes
     pa = []
     # if its new than check that its an Event, otherwise check to see if its origin is wcms through the update? method

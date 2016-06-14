@@ -80,7 +80,7 @@ GEM
       sass (>= 3.3.4)
     bson (4.1.1)
     builder (3.2.2)
-    buweb_content_models (1.24.0)
+    buweb_content_models (1.26.0)
       aasm (~> 3.3)
       carrierwave-mongoid (~> 0.7)
       carrierwave-roz (~> 0.3)
@@ -209,8 +209,8 @@ GEM
     mongoid-compatibility (0.4.0)
       activesupport
       mongoid (>= 2.0)
-    mongoid-grid_fs (2.2.1)
-      mime-types (>= 1.0, < 3.0)
+    mongoid-grid_fs (2.2.2)
+      mime-types (>= 1.0, < 4.0)
       mongoid (>= 3.0, < 6.0)
     mongoid-history (0.5.0)
       activesupport
@@ -359,7 +359,7 @@ DEPENDENCIES
   biola_wcms_components (~> 0.23.0)
   blazing (~> 0.5.0)
   bootstrap-sass (~> 3.3.3)
-  buweb_content_models (~> 1.24)
+  buweb_content_models (~> 1.26)
   capybara (~> 2.6, >= 2.6.2)
   coffee-rails (>= 4.1)
   factory_girl_rails (~> 4.5)

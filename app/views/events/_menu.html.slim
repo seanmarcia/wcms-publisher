@@ -5,8 +5,6 @@
     = menu_block(class: 'list-group-item') do |menu|
       = menu.add_item('Overview', default: true) { edit_event_path(@event, page: 'form') }
       = menu.add_item('Tickets / Registration') { edit_event_path(@event, page: 'tickets') }
-      = menu.add_item('Multiple Occurrences') { edit_event_path(@event, page: 'occurrences') }
-      = menu.add_item('Links') { edit_event_path(@event, page: 'links') }
       = menu.add_item('Relationships') { edit_event_path(@event, page: 'relationships') }
       = menu.add_item('Presentation Data') { edit_event_path(@event, page: 'presentation_data') }
       = menu.add_item('Pages') { edit_event_path(@event, page: 'pages') } if policy(@event).can_manage?(:pages)

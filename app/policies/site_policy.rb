@@ -42,7 +42,7 @@ class SitePolicy < PermissionsPolicy
 
   def permitted_attributes
     [:modifier_id, :title, :url, :preferred_image_height, :preferred_image_width, :user_ids, :has_events, :has_articles,
-      :has_features, :has_audience_collections, :has_page_editions, article_author_roles: [], event_author_roles: []]
+      :has_features, :has_audience_collections, :has_page_editions, article_author_roles: [], event_author_roles: [], :site_layout]
   end
 
   def can_manage?(attribute)

@@ -10,6 +10,9 @@
         .form-group.col-md-6
           = f.label :url
           = f.text_field :url, class: 'form-control'
+        .form-group.col-md-12
+          = f.label :site_layout
+          = f.text_field :site_layout, class: 'form-control'
         .form-group.col-md-4
           label
             =' f.check_box :has_events

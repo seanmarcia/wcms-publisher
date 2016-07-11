@@ -5,7 +5,7 @@ gem 'rails', '4.2.5.1'
 
 gem 'biola_deploy', '~> 0.7'
 gem 'biola_frontend_toolkit', '~> 0.4.4'
-gem 'biola_wcms_components', '~> 0.24.0'
+gem 'biola_wcms_components', '~> 0.24.1'
 gem 'blazing', '~> 0.5.0'
 gem 'bootstrap-sass', '~> 3.3.3'
 gem 'buweb_content_models', '~> 1.28'

@@ -85,7 +85,7 @@ class PageEditionPolicy < PermissionsPolicy
     attrs += [ :publish_at, :archive_at, :featured ] if page_publisher_for?(record)
     attrs = attrs | SEO_FIELDS if user.admin? # Inherited from ApplicationPolicy
 
-    attrs += [:end_of_head_html, :end_of_body_html, :design_css, :design_js, :page_layout] if can_manage?(:design)
+    attrs += [:end_of_head_html, :end_of_body_html, :page_layout] if can_manage?(:design)
 
     attrs
   end

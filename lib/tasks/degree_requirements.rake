@@ -30,9 +30,10 @@ namespace :degree_requirements do
 
   def import_row(row)
     begin
-      academic_program = AcademicProgram.find(row['AcademicProgramSlug'])
+      # Lookup by slug or ID
+      academic_program = AcademicProgram.find(row['AcademicProgramID'])
     rescue
-      puts "Could not find Academic Program matching '#{row['AcademicProgramSlug']}'"
+      puts "Could not find Academic Program matching '#{row['AcademicProgramID']}'"
     end
 
 
@@ -40,9 +41,11 @@ namespace :degree_requirements do
       concentration = nil
 
       if row['Concentration'] == "TRUE"
-        if row['ConcentrationSlug'].present?
-          # Lookup by slug
-          concentration = academic_program.concentrations.where(slug: row['ConcentrationSlug']).first
+        if row['ConcentrationID'].present?
+          # Lookup by slug or ID
+          concentration = academic_program.concentrations.where(
+            { "$or" => [ {_id: row['ConcentrationID']}, {slug: row['ConcentrationID']} ] }
+          ).first
         else
           # Lookup by title
           concentration ||= academic_program.concentrations.where(title: row['title']).first

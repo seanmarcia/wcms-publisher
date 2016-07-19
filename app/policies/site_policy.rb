@@ -59,6 +59,8 @@ class SitePolicy < PermissionsPolicy
       site_admin_for?(record) && record.has_articles
     when :feature_locations
       (site_admin_for?(record) || user.has_role?(:feature_admin)) && record.has_features
+    when :design
+      user.admin? || user.has_role?(:designer)
     else
       false
     end

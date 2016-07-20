@@ -1,0 +1,17 @@
+.panel.panel-default
+  .panel-heading
+    strong Design
+  .panel-body
+    = form_for @site do |f|
+      = hidden_field_tag :page, 'design'
+      .row.form-section
+       .col-xs-12
+        .form-group
+          = f.label :site_layout
+          = f.text_field :site_layout, class: "form-control"        
+        hr    
+        .form-footer
+          .pull-right
+            = f.submit 'Save', class: 'btn btn-biola'
+            = link_to 'Cancel', site_path, class: 'btn btn-link'
+          .clearfix

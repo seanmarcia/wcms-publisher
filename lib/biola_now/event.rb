@@ -3,9 +3,9 @@ class BiolaNow::Event
               :summary, :audience, :admission_info, :contact_name, :contact_email,
               :contact_phone, :location, :map_url, :sponsor, :sponsor_site,
               :registration_info, :image_id, :image_url, :start_date, :end_date,
-              :published, :broadcast, :broadcasted, :connection
+              :published, :broadcast, :broadcasted, :dates
 
-  def initialize(params, connection = nil)
+  def initialize(params, dates = nil)
     @id = params['id']
     @source = params['source']
     @event_id = params['event_id']
@@ -32,8 +32,8 @@ class BiolaNow::Event
     @broadcast = params['broadcast']
     @broadcasted = params['broadcasted']
 
-    # Cache db connection for getting occurrences
-    @connection = connection
+    # Cache dates (occurrences)
+    @dates = dates
   end
 
   def occurrences
@@ -41,10 +41,9 @@ class BiolaNow::Event
   end
 
   def get_occurrences
-    return nil if connection.nil?
-    result = connection.exec("SELECT * FROM events_date where event_id = #{id}")
-    if result.count > 0
-      BiolaNow::EventDate.new_from_array(result.to_a)
+    return [] if dates.nil?
+    if dates.count > 0
+      BiolaNow::EventDate.new_from_array(dates)
     else
       [BiolaNow::EventDate.new(start_date: start_date, end_date: end_date)]
     end

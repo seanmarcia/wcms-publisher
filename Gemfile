@@ -16,7 +16,6 @@ gem 'jquery-rails', '~> 4.1.0'
 gem 'kaminari-bootstrap', '~> 3.0', '>= 3.0.1'
 gem 'mongoid', '~> 5.1'
 gem 'newrelic_rpm', '~> 3.14'
-gem 'pg', '~> 0.18.4' # just being used for the biola_now event import
 gem 'pinglish', '~> 0.2'
 gem 'puma', '~> 2.16'
 gem 'pundit', '~> 1.1'

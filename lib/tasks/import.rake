@@ -1,21 +1,26 @@
-# require 'csv'
-require 'pg'
+require 'csv'
 
 namespace :import do
 
   desc 'Import CSV data dump from Biola Now'
   task now_events: [:environment] do
-    if Settings.external_database.now.nil?
-      abort "Please add database credentials for now.biola.edu"
+    puts "---------------\nImporting\n---------------"
+
+    # Process event dates.
+    dates = Hash.new([])
+    path = "./tmp/biola_now_event_dates.csv"
+    CSV.foreach(path, {headers: :first_row}) do |row|
+      dates[row["event_id"]] += [row]
     end
 
-    conn = PG.connect(Settings.external_database.now.to_hash)
-
-    puts "---------------\nImporting\n---------------"
-    conn.exec("SELECT * FROM events_event") do |result|
-      result.each do |row|
-        result = BiolaNow::Event.new(row, conn).import
+    # Import from CSV
+    path = "./tmp/biola_now_events.csv"
+    index = 1
+    CSV.foreach(path, {headers: :first_row}) do |row|
+      if index == 1
+        result = BiolaNow::Event.new(row, dates[row["id"]]).import
       end
+      index += 1
     end
 
     puts "\n---------------\nAll Done\n---------------"

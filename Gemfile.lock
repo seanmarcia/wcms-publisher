@@ -233,7 +233,6 @@ GEM
       pkg-config (~> 1.1.7)
     nori (2.6.0)
     origin (2.2.0)
-    pg (0.18.4)
     pinglish (0.2.1)
       rack
     pkg-config (1.1.7)
@@ -374,7 +373,6 @@ DEPENDENCIES
   mongoid (~> 5.1)
   mongoid-rspec (~> 3.0)
   newrelic_rpm (~> 3.14)
-  pg (~> 0.18.4)
   pinglish (~> 0.2)
   pry (>= 0.10.3)
   puma (~> 2.16)

@@ -3,3 +3,11 @@ secret_token:
 
 sentry:
   url: # Set me!
+
+external_database:
+  now:
+    dbname:
+    user:
+    password:
+    host:
+    port:

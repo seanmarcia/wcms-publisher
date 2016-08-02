@@ -18,6 +18,7 @@ class EventsController < ApplicationController
         @events = @events.by_status(params[:status]) if params[:status]
         @events = @events.by_site(params[:site]) if params[:site]
         @events = @events.by_department(params[:department]) if params[:department]
+        @events = @events.where(imported: true) if params[:imported]
         @events = @events.desc('event_occurrences.start_time').page(params[:page]).per(25)
       end
       format.json do

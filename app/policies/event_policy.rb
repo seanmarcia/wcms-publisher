@@ -85,6 +85,8 @@ class EventPolicy < PermissionsPolicy
       event_author?
     when :logs, :seo
       user.admin?
+    when :permissions
+      event_admin?
     else
       false
     end

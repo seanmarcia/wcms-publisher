@@ -8,6 +8,7 @@
       = menu.add_item('Relationships') { edit_event_path(@event, page: 'relationships') }
       = menu.add_item('Presentation Data') { edit_event_path(@event, page: 'presentation_data') }
       = menu.add_item('Pages') { edit_event_path(@event, page: 'pages') } if policy(@event).can_manage?(:pages)
+      = menu.add_item('Permissions') { edit_event_path(@event, page: 'permissions') } if policy(@event).can_manage?(:permissions)
       = menu.add_item('SEO') { edit_event_path(@event, page: 'seo') } if policy(@event).can_manage?(:seo)
       = menu.add_item('History') { object_index_wcms_components_changes_path(klass: Event, id: @event.id) } if policy(@event).can_manage?(:logs)
 
@@ -31,4 +32,3 @@
           | No available page editions
           br
           = link_to 'Create one', new_page_edition_path(source_type: "Event", source_id: @event.id.to_s), target: "_blank"
-

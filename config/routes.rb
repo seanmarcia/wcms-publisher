@@ -27,6 +27,7 @@ Wcms::Application.routes.draw do
   resources :events do
     resources :links
     resources :tickets, except: [:index, :show]
+    resources :actors, only: [:create, :destroy]
     get :duplicate, on: :member
     post :update_from_ws, on: :collection
   end

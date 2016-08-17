@@ -34,14 +34,14 @@ class EventPolicy < PermissionsPolicy
   end
 
   def edit?
-    site_event_author?(record.site)
+    record.site && site_event_author?(record.site)
   end
   alias :show? :edit?
   alias :destroy? :edit?
   alias :duplicate? :edit?
 
   def update?
-    site_event_editor?(record.site) || record.user == user
+    record.user == user || (record.site && site_event_editor?(record.site))
   end
 
   def publish?
@@ -53,6 +53,8 @@ class EventPolicy < PermissionsPolicy
       [:submit_for_review, :return_to_draft, :approve, :unapprove, :publish, :archive]
     elsif update?
       [:submit_for_review]
+    else
+      []
     end
   end
 

@@ -7,12 +7,14 @@ class EventPolicy < PermissionsPolicy
     end
 
     def resolve
-      if event_admin? || user.has_role?(:event_viewer)
+      if global_event_admin? || global_event_viewer?
         scope.all
-      elsif event_editor?
-        scope.in(site_id: Site.with_any_permission_to([:event_publisher, :event_editor], user).pluck(:id))
-      elsif event_author?
-        scope.where(user_id: user.id)
+      elsif event_viewer?
+        scope.any_of(
+          {user_id: user.id.to_s},
+          {'permissions.actor_id' => user.id.to_s}, 
+          {:site_id.in => permitted_sites_ids }
+        )
       else
         scope.none
       end
@@ -34,14 +36,15 @@ class EventPolicy < PermissionsPolicy
   end
 
   def edit?
-    record.site && site_event_author?(record.site)
+    can_edit?
   end
+
   alias :show? :edit?
   alias :destroy? :edit?
   alias :duplicate? :edit?
 
   def update?
-    record.user == user || (record.site && site_event_editor?(record.site))
+    can_update?
   end
 
   def publish?
@@ -52,7 +55,7 @@ class EventPolicy < PermissionsPolicy
     if publish?
       [:submit_for_review, :return_to_draft, :approve, :unapprove, :publish, :archive]
     elsif update?
-      [:submit_for_review]
+      [:submit_for_review, :return_to_draft]
     else
       []
     end
@@ -62,7 +65,7 @@ class EventPolicy < PermissionsPolicy
     pa = []
     # if its new than check that its an Event, otherwise check to see if its origin is wcms through the update? method
     # If the record is a draft it can be edited but if its in the review process only editors and above can edit it
-    if record == Event || ((record.new_record? || update?) && (record.draft? || event_editor?))
+    if record == Event || can_change_form_fields_by_aasm_state?(record.aasm_state) #((record.new_record? || update?) && (record.draft? || event_editor?))
       pa += [:title, :subtitle, :slug, :location_type, :campus_location_id, :custom_campus_location,
       :start_date, :end_date, :summary, :related_object_tags, :categories, :image, :contact_name,
       :contact_email, :contact_phone, :paid, :description, :publish_sidekiq_id, :archive_sidekiq_id,
@@ -91,6 +94,40 @@ class EventPolicy < PermissionsPolicy
       event_admin?
     else
       false
+    end
+  end
+  
+  private
+
+  def can_edit?
+    can_update? ||
+    (record.site && event_author_for_site?(record.site))
+  end
+
+  def can_update?
+    global_event_editor? ||
+    record.user == user ||
+    record.has_permission_to?(:edit, user) ||
+    (record.site && event_editor_for_site?(record.site))
+  end
+
+  def can_change_form_fields_by_aasm_state?(aasm_state)
+    case aasm_state.to_sym
+    when :draft
+      # global editor or higher, site editor or higher, owner, event with permission to edit
+      global_event_editor? || (record.site && event_editor_for_site?(record.site)) || record.user == user || record.has_permission_to?(:edit, user)
+    when :ready_for_review
+      # global editor or higher, site editor or higher
+      global_event_editor? || (record.site && event_editor_for_site?(record.site))
+    when :approved
+      # global editor or higher, site editor or higher
+      global_event_editor? || (record.site && event_editor_for_site?(record.site))
+    when :published
+      # global editor or higher, site editor or higher, owner, event with permission to edit
+      global_event_editor? || (record.site && event_editor_for_site?(record.site)) || record.user == user || record.has_permission_to?(:edit, user)
+    when :archived
+      # global editor or higher, site editor or higher
+      global_event_editor? || (record.site && event_editor_for_site?(record.site))
     end
   end
 end

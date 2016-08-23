@@ -265,8 +265,12 @@
       hr
       .form-footer
         .pull-right.form-inline
+          .form-group
+            => f.submit "Save", class: 'btn btn-biola'
+        .clearfix
+        hr
+        .pull-right.form-inline
+          ' ...or <strong> Save </strong> and: 
           - (@event.aasm.events & policy(@event).permitted_aasm_events).each do |event|
-            .form-group.pull-right.pad-right
-              = f.submit event.to_s.titleize, name: 'transition', class: 'btn btn-biola'
-          .form-group.pull-right.pad-right
-            = f.submit "Save", class: 'btn btn-default'
+            .form-group.pad-right
+              = f.submit event.to_s.titleize, name: 'transition', class: 'btn btn-default'

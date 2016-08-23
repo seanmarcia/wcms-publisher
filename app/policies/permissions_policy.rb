@@ -69,47 +69,108 @@ class PermissionsPolicy < ApplicationPolicy
 
   # Generic if a user has this role at all
   def event_admin?
-    user.admin? ||
-    user.has_role?(:event_admin)
+    global_event_admin?
   end
 
   # Generic if a user has this role at all
   def event_publisher?
     event_admin? ||
-    Site.with_permission_to(:event_publisher, user).present?
+    site_event_publisher? ||
+    Event.with_permission_to(:publish, user).present?
   end
 
   def event_editor?
     event_publisher? ||
-    Site.with_permission_to(:event_editor, user).present?
+    site_event_editor? ||
+    Event.with_permission_to(:edit, user).present?
   end
 
   def event_author?
     event_editor? ||
-    user.has_role?(:employee) ||
-    Site.with_permission_to(:event_author, user).present?
+    site_event_author? ||
+    Event.with_permission_to(:author, user).present?
   end
 
   def event_viewer?
     event_author? ||
+    site_event_viewer? ||
+    Event.with_permission_to(:view, user).present?
+  end
+
+  # Generic roles for any site
+  def site_event_publisher?
+    site_admin? ||
+    global_event_publisher? ||
+    Site.with_permission_to(:event_publisher, user).present?
+  end
+
+  def site_event_editor?
+    site_event_publisher? ||
+    global_event_editor? ||
+    Site.with_permission_to(:event_editor, user).present?
+  end
+
+  def site_event_author?
+    site_event_editor? ||
+    global_event_author? ||
+    Site.with_permission_to(:event_author, user).present? ||
+    (Site.pluck(:event_author_roles).flatten.uniq & user.affiliations).present?
+  end
+
+  def site_event_viewer?
+    site_event_author? ||
+    global_event_viewer? ||
+    Site.with_permission_to(:event_viewer, user).present?
+  end
+
+  # Global event roles (based on person not on another object)
+  def global_event_admin?
+    user.admin? ||
+    user.has_role?(:event_admin)
+  end
+
+  def global_event_publisher?
+    global_event_admin? ||
+    user.has_role?(:event_publisher)
+  end
+
+  def global_event_editor?
+    global_event_publisher? ||
+    user.has_role?(:event_editor)
+  end
+
+  def global_event_author?
+    global_event_editor? ||
+    user.has_role?(:event_author)
+  end
+
+  def global_event_viewer?
+    global_event_author? ||
     user.has_role?(:event_viewer)
   end
 
   # Site specific user roles
-  def site_event_publisher?(site)
-    event_admin? ||
+  def event_publisher_for_site?(site) # RENAME to event_publisher_for_site(site)
+    global_event_admin? ||
+    site_admin? ||
     site.has_permission_to?(:event_publisher, user)
   end
 
-  def site_event_editor?(site)
-    site_event_publisher?(site) ||
+  def event_editor_for_site?(site)
+    event_publisher_for_site?(site) ||
+    global_event_editor? ||
     site.has_permission_to?(:event_editor, user)
   end
 
-  def site_event_author?(site)
-    site_event_editor?(site) ||
+  def event_author_for_site?(site)
+    event_editor_for_site?(site) ||
+    global_event_author? ||
     site.has_permission_to?(:event_author, user) ||
     (site.event_author_roles & user.affiliations).present?
+  end
+
+  def permitted_sites_ids
+    Site.where('permissions.actor_id' => user.id.to_s, :'permissions.ability'.in => [:site_admin, :event_author, :event_viewer, :event_editor, :event_publisher]).pluck(:id)
   end
 
   #############################################

@@ -12,7 +12,7 @@ urn_namespaces:
 - "urn:biola:apps:all:"
 
 cas:
-  url: "https://login.biola.edu/cas"
+  url: "https://login.biola.edu/rubycas"
 
 email:
   from: no-reply@biola.edu
@@ -79,3 +79,8 @@ audience:
   - 'Parents'
   - 'Staff'
   - 'Students'
+
+
+# List academic years you want to import events from chapel api
+chapel_import_years: []
+#  - "2016-2017"

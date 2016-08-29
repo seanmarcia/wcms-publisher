@@ -28,7 +28,7 @@
               = wcms_component 'forms/redactor_editor', form: f, attribute: :description, buttons: ['formatting', 'bold', 'italic', 'underline', 'deleted', 'unorderedlist', 'orderedlist', 'outdent', 'indent', 'image', 'video', 'table', 'link', 'alignment', 'horizontalrule'], formatting: ['p', 'blockquote', 'h1', 'h2', 'h3', 'h4', 'h5']
             - else
               .well.well-faux-input
-                = @event.description.html_safe
+                = @event.description.try(:html_safe)
       hr
 
       h3 Times

@@ -7,7 +7,7 @@ class SitePolicy < PermissionsPolicy
     end
 
     def resolve
-      if user.admin? || true
+      if user.admin?
         scope.all
       else
         # Return all sites that the user has access to edit
@@ -21,18 +21,18 @@ class SitePolicy < PermissionsPolicy
 
 
   def create?
-    site_admin?  || true
+    site_admin?
   end
   alias :new? :create?
 
   def index?
-    site_admin? || true
+    site_admin?
   end
   alias :search? :index?
   alias :show? :index?
 
   def edit?
-    site_admin_for?(record)  || true
+    site_admin_for?(record)
   end
   alias :update? :edit?
 

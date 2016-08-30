@@ -32,11 +32,13 @@ class EventsController < ApplicationController
 
   def new
     @event = new_event_from_params
+    @event.user = current_user if current_user.present?
     authorize @event
   end
 
   def create
     @event = new_event_from_params
+    @event.user = current_user if current_user.present?
     authorize @event
     set_state(@event)
 
@@ -80,6 +82,7 @@ class EventsController < ApplicationController
 
   def update
     @event = Event.find(params[:id])
+    @event.user = current_user if current_user.present?
     authorize @event
     set_state(@event)
     add_links

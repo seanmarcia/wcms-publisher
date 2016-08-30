@@ -61,8 +61,9 @@
                   td = ticket.fine_print
                   td = ticket.link
 
-    hr
-    button.btn.btn-default.pull-right data-toggle="modal" data-target="#ticket-modal" + new ticket
-    .modal.fade#ticket-modal data-remote=new_event_ticket_path(@event) tabindex="-1" role="dialog" aria-labelledby="ticket" aria-hidden="true"
-      .modal-dialog
-        .modal-content
+    - if policy(@event.tickets.new).new?
+      hr
+      button.btn.btn-default.pull-right data-toggle="modal" data-target="#ticket-modal" + new ticket
+      .modal.fade#ticket-modal data-remote=new_event_ticket_path(@event) tabindex="-1" role="dialog" aria-labelledby="ticket" aria-hidden="true"
+        .modal-dialog
+          .modal-content

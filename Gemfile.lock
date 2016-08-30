@@ -39,6 +39,7 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.4.0)
+    analytics-ruby (2.1.0)
     api-auth (1.5.0)
     arel (6.0.3)
     autoprefixer-rails (6.3.1)
@@ -159,6 +160,7 @@ GEM
     httparty (0.14.0)
       multi_xml (>= 0.5.2)
     i18n (0.7.0)
+    immutable-struct (2.2.2)
     jbuilder (2.4.0)
       activesupport (>= 3.0.0, < 5.1)
       multi_json (~> 1.2)
@@ -346,6 +348,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  analytics-ruby (~> 2.1)
   better_errors (~> 2.1, >= 2.1.1)
   binding_of_caller (>= 0.7.2)
   biola_deploy (~> 0.7)
@@ -359,6 +362,7 @@ DEPENDENCIES
   faker (~> 1.6, >= 1.6.1)
   font-awesome-rails (~> 4.4)
   httparty (~> 0.14.0)
+  immutable-struct
   jbuilder (~> 2.3, >= 2.3.2)
   jquery-rails (~> 4.1.0)
   kaminari-bootstrap (~> 3.0, >= 3.0.1)

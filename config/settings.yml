@@ -14,6 +14,10 @@ urn_namespaces:
 cas:
   url: "https://login.biola.edu/rubycas"
 
+analytics:
+  segment:
+    key: #set in settings.local.yml
+
 email:
   from: no-reply@biola.edu
   developer: appdev@biola.edu

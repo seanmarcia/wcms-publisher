@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.2.5.1'
 
-
+gem 'analytics-ruby', '~> 2.1', :require => "segment"
 gem 'biola_deploy', '~> 0.7'
 gem 'biola_frontend_toolkit', '~> 0.4.4'
 gem 'biola_wcms_components', '~> 0.24.1'
@@ -11,6 +11,7 @@ gem 'buweb_content_models', '~> 1.30'
 gem 'coffee-rails', '>= 4.1'
 gem 'font-awesome-rails', '~> 4.4'
 gem 'httparty', '~> 0.14.0'
+gem 'immutable-struct'
 gem 'jbuilder', '~> 2.3', '>= 2.3.2'
 gem 'jquery-rails', '~> 4.1.0'
 gem 'kaminari-bootstrap', '~> 3.0', '>= 3.0.1'

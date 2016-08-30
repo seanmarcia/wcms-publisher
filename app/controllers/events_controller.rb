@@ -38,13 +38,14 @@ class EventsController < ApplicationController
 
   def create
     @event = new_event_from_params
-    @event.user = current_user if current_user.present?
+    @event.user ||= current_user if current_user.present?
     authorize @event
     set_state(@event)
 
     respond_to do |format|
       format.html do
         if @event.save
+          result = ActivityTracker::Event.new.track!(current_user, :created, @event) if current_user
           flash[:notice] = "'#{@event.title}' created."
           redirect_to edit_event_path @event, page: params[:page]
         else
@@ -78,11 +79,12 @@ class EventsController < ApplicationController
   def edit
     @event = Event.find(params[:id])
     authorize @event
+    result = ActivityTracker::Event.new.track!(current_user, :viewed, @event) if current_user
   end
 
   def update
     @event = Event.find(params[:id])
-    @event.user = current_user if current_user.present?
+    @event.user ||= current_user if current_user.present?
     authorize @event
     set_state(@event)
     add_links
@@ -90,6 +92,7 @@ class EventsController < ApplicationController
     respond_to do |format|
       format.html do
         if @event.update_attributes(event_params)
+          result = ActivityTracker::Event.new.track!(current_user, :updated, @event) if current_user
           flash[:notice] = "'#{@event.title}' updated."
           redirect_to edit_event_path @event, page: params[:page]
         else
@@ -113,6 +116,7 @@ class EventsController < ApplicationController
 
     if duplicated_event
       @event = duplicated_event
+      result = ActivityTracker::Event.new.track!(current_user, :duplicated, @event) if current_user
       render :new
     else
       flash[:error] = "Something went wrong, please try again."

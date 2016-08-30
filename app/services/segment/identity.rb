@@ -3,8 +3,8 @@ module Segment
     attr_reader :id, :traits
 
     def initialize(user)
-      raise "Missing required segment_id value. Make sure to set one first." if user.tracking_id.blank?
-      raise "Missing required primary email. Make sure to set one first." if user.email.blank?
+      raise "Segment::Identity -- Missing required segment_id value. Make sure to set one first." if user.tracking_id.blank?
+      raise "Segment::Identity -- Missing required primary email. Make sure to set one first." if user.email.blank?
       @user = user
       @id = user.tracking_id
     end

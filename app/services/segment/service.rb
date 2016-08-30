@@ -56,7 +56,7 @@ module Segment
     attr_accessor :api, :write_key
 
     def validate_arguments(options)
-      raise(ArgumentError, "Invalid argument. Must pass a hash or nothing.") unless options.is_a?(Hash)
+      raise(ArgumentError, "Segment::Service -- Invalid argument. Must pass a hash or nothing.") unless options.is_a?(Hash)
     end
   end
 

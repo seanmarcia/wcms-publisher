@@ -84,6 +84,8 @@ audience:
   - 'Staff'
   - 'Students'
 
+# Set the destination of the single webhook; in the future we may want to support multiple or even user-defined webhooks
+webhook_url: # set in settings.local.yml
 
 # List academic years you want to import events from chapel api
 chapel_import_years: []

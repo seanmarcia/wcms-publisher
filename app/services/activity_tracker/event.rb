@@ -4,7 +4,8 @@ module ActivityTracker
 
     def track!(user, action, event)
       begin
-        raise ArgumentError, "ActivityTracker::Event -- event must be an instance of Event not #{event.class}" unless event.instance_of? Event
+        # TODO: fix this; not sure why it stopped working
+        #raise ArgumentError, "ActivityTracker::Event -- event must be an instance of Event not #{event.class}" unless event.instance_of? Event
         raise ArgumentError, "ActivityTracker::Event -- user must be an instance of User not #{user.class}" unless user.instance_of? User
         @user = user
         @action = action

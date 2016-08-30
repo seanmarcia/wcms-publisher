@@ -55,7 +55,7 @@ class EventPolicy < PermissionsPolicy
     if publish?
       [:submit_for_review, :return_to_draft, :approve, :unapprove, :publish, :archive]
     elsif update?
-      [:submit_for_review, :return_to_draft]
+      [:submit_for_review, :return_to_draft, :archive]
     else
       []
     end
@@ -126,8 +126,8 @@ class EventPolicy < PermissionsPolicy
       # global editor or higher, site editor or higher, owner, event with permission to edit
       global_event_editor? || (record.site && event_editor_for_site?(record.site)) || record.user == user || record.has_permission_to?(:edit, user)
     when :archived
-      # global editor or higher, site editor or higher
-      global_event_editor? || (record.site && event_editor_for_site?(record.site))
+      # global editor or higher, site editor or higher, owner, event with permission to edit
+      global_event_editor? || (record.site && event_editor_for_site?(record.site)) || record.user == user || record.has_permission_to?(:edit, user)
     end
   end
 end

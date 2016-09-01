@@ -90,6 +90,12 @@ class ChapelApiEvent
       end
     end
 
+    # Try setting the presentation_data
+    if presentation_data_template
+      event.presentation_data_template = presentation_data_template
+      event.presentation_data = presentation_data
+    end
+
     if !event.valid?
       puts 'e'
       puts "Error: id(#{id}) - " + event.errors.full_messages.to_sentence
@@ -116,6 +122,34 @@ class ChapelApiEvent
     else
       nil # TODO: set default image by `type`
     end
+  end
+
+  # finds the PresentationDataTemplate for chapels
+  def presentation_data_template
+    template = PresentationDataTemplate.where(title: "Chapel Event", target_class: "Event").first
+  end
+
+  # has to match the "Chapel Event" PresentationDataTemplate
+  def presentation_data
+    {
+      "type"=>type,
+      "scripture"=>scripture,
+      "speakers"=> speakers_array,
+      "import_data"=>{
+        "chapel_id"=>id, 
+        "last_imported_at"=>Time.now.to_s(:long)}
+    }
+  end
+
+  def speakers_array
+    arr = []
+    speakers.each do |speaker|
+      arr << { 
+        "name"=>speaker['name'],
+        "photo_url"=>speaker['profile_photo_url'],
+        "profile"=>speaker['profile']['medium_bio']}
+    end
+    arr
   end
 
 end

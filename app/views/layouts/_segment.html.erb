@@ -16,7 +16,8 @@
       }, 
       {
         Intercom: {
-          user_hash: '<%= OpenSSL::HMAC.hexdigest("sha256", Settings.analytics.intercom.secure_mode_key, current_user.tracking_id) %>'
+          user_hash: '<%= OpenSSL::HMAC.hexdigest("sha256", Settings.analytics.intercom.secure_mode_key, current_user.tracking_id) %>',
+          hideDefaultLauncher: <%= IntercomPolicy.new(current_user, request).hide_messenger? %>
         }
     });
     <% if params[:login] == "true" %>

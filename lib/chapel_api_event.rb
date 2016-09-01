@@ -31,10 +31,13 @@ class ChapelApiEvent
       import_source: 'chapel-api',
       import_id: id,
     })
-
+    Rails.logger.debug "ChapelApiEvent#import [chapel_id=#{id}][id=#{event.id.to_s}]: Created new WCMS event" if event.new_record?
+    Rails.logger.debug "ChapelApiEvent#import [chapel_id=#{id}][id=#{event.id.to_s}]: Found existing WCMS event" unless event.new_record?
     event.assign_attributes({
       title: title,
+      slug: "Chapel #{DateTime.parse(starts_at).strftime('%B %d')} #{title} #{id}".parameterize,
       subtitle: subtitle,
+      remote_image_url: image_url,
       description: summary.presence || "No description available",
       contact_email: 'chapel@biola.edu',
       contact_phone: '(562) 903-4874',
@@ -42,12 +45,12 @@ class ChapelApiEvent
       site_id: site_id,
       audience: ["Students"],
     })
-
     # Only do this stuff for new events
     unless event.persisted?
       event.assign_attributes({
         aasm_state: 'published',
       })
+      Rails.logger.debug "ChapelApiEvent#import [chapel_id=#{id}][id=#{event.id.to_s}]: setting aasm_state to 'published'"
     end
 
     # Populate event occurrence
@@ -90,13 +93,29 @@ class ChapelApiEvent
     if !event.valid?
       puts 'e'
       puts "Error: id(#{id}) - " + event.errors.full_messages.to_sentence
+      Rails.logger.error "ChapelApiEvent#import [chapel_id=#{id}][id=#{event.id.to_s}]: Error: - " + event.errors.full_messages.to_sentence
     elsif event.persisted?
       print 'u'
     else
       print '.'
     end
 
-    event.save
+    if event.save
+      event.save # temporary work around for indexing the right image url
+      Rails.logger.info "ChapelApiEvent#import [chapel_id=#{id}][id=#{event.id.to_s}]: Successfully added/updated event with attributes: slug='#{event.slug}' title='#{event.title}' start_date='#{event.start_date}'"
+    else
+      Rails.logger.error "ChapelApiEvent#import [chapel_id=#{id}][id=#{event.id.to_s}]: Error - failed to add/update event with attributes: slug='#{event.slug}' title='#{event.title}' start_date='#{event.start_date}'"
+    end
+  end
+
+  private
+
+  def image_url
+    if speakers.present?
+      speakers.first['original_photo_url']
+    else
+      nil # TODO: set default image by `type`
+    end
   end
 
 end

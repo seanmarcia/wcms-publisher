@@ -3,17 +3,15 @@
     thead
       tr
         th Title
-        th First Date
+        th = sortable 'start_date', 'Start Date'
         th #
         th
         th Status
     tbody
       - @events.each do |event|
-        - occurrence_count = event.event_occurrences.count
         tr
           td = link_to event.title, event
-          td = event.event_occurrences.first.start_time.to_formatted_s(:long_ordinal)
+          td = event.start_date.try(:to_formatted_s, :long_ordinal)
           td = event.event_occurrences.count
           td = content_tag :span, "Imported", class: "label label-default", title: event.ws_source if event.imported
           td = status_for event
-

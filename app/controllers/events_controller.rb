@@ -15,14 +15,16 @@ class EventsController < ApplicationController
         @available_departments = Department.in(id: @events.distinct(:department_ids)).asc(:name)
 
         @events = @events.custom_search(params[:q]) if params[:q]
+        @events = @events.order(params[:sort] + ' ' + params[:direction]) if params[:sort]
         @events = @events.by_status(params[:status]) if params[:status]
         @events = @events.by_site(params[:site]) if params[:site]
         @events = @events.by_department(params[:department]) if params[:department]
+        @events = @events.future if params[:future]
         @events = @events.where(imported: true) if params[:imported]
         @events = @events.desc('event_occurrences.start_time').page(params[:page]).per(25)
       end
       format.json do
-        @events = @events.future_events unless params[:all]
+        @events = @events.future unless params[:all]
         @events = @events.limit(params[:limit]) if params[:limit]
         @events = @events.where(id: params[:id]) if params[:id]
         # index.json.jbuilder

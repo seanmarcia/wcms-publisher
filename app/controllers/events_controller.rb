@@ -12,7 +12,7 @@ class EventsController < ApplicationController
     respond_to do |format|
       format.html do
         @available_sites = Site.where(has_events: true).asc(:title)
-        @available_departments = Department.in(id: @events.distinct(:department_ids)).asc(:name)
+        @available_departments = Department.in(id: @events.distinct(:department_ids)).asc(:title)
 
         @events = @events.custom_search(params[:q]) if params[:q]
         @events = @events.order(params[:sort] + ' ' + params[:direction]) if params[:sort]

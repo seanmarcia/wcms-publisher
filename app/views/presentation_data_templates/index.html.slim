@@ -4,7 +4,11 @@
 .container.page
   .white-shadowed-panel
     .page-header
-      .pull-right = link_to 'New Template', new_presentation_data_template_path, class: 'btn btn-default'
+      .pull-right
+        = form_tag presentation_data_templates_path, method: :get do
+          = text_field_tag 'q', params[:q], class: 'form-control', placeholder: 'Search', tabindex: '1'
+      .pull-right.pad-right 
+        = link_to 'New Template', new_presentation_data_template_path, class: 'btn btn-default'
       .clearfix
 
     - if @presentation_data_templates.empty?

@@ -1,4 +1,4 @@
-class CalendarPolicy < ApplicationPolicy
+class CalendarPolicy < PermissionsPolicy
   class Scope < Struct.new(:user, :scope)
     def resolve
       scope.all
@@ -29,7 +29,9 @@ class CalendarPolicy < ApplicationPolicy
     case attribute.try(:to_sym)
     when nil, :form, :logs
       true
-    when :permissions, :calendar_sections, :seo
+    when :calendar_sections, :seo
+      calendar_editor?
+    when :permissions
       user.admin?
     else
       false

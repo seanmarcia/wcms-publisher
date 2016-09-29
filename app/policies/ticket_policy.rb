@@ -5,14 +5,21 @@ class TicketPolicy < ApplicationPolicy
     end
   end
 
-  def index?
-    user.admin? || user.has_role?(:designer)
+  # def index?
+  #   user.admin? || user.has_role?(:designer)
+  # end
+  def create?
+    event_editor? || user.admin? || user.event_admin?
   end
-  alias :create? :index?
-  alias :destroy? :index?
-  alias :new? :index?
-  alias :update? :index?
-  alias :edit? :index?
+  
+  alias :destroy? :create?
+  alias :new? :create?
+  alias :update? :create?
+  alias :edit? :create?
+
+  def event_editor?
+    record.try(:event) && EventPolicy.new(user, record.try(:event)).edit?
+  end
 
   def permitted_attributes
     [:description, :link, :cost, :fine_print]

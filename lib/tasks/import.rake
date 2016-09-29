@@ -21,4 +21,21 @@ namespace :import do
 
     puts "\n---------------\nAll Done\n---------------"
   end
+
+  desc 'Import Chapel events from Chapel api'
+  task chapel_events: [:environment] do
+    api = ChapelApi.new
+    site_id = Site.where(slug: "biola-edu").first.try(:id)
+
+    Array(api.academic_years).each do |year|
+      if Settings.chapel_import_years.include? year['years']
+        Rails.logger.info "Rake Task [chapel_events]: Importing chapel events for #{year}"
+        Array(api.events_for_academic_year(year['id'])).each_with_index do |event, i|
+          Rails.logger.info "Rake Task [chapel_events]: [#{i}/#{Array(api.events_for_academic_year(year['id'])).count}] Importing chapel event chapel_id=#{event['id']}"
+          event['site_id'] = site_id
+          ChapelApiEvent.new(event).import
+        end
+      end
+    end
+  end
 end

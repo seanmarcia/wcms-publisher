@@ -12,7 +12,11 @@ urn_namespaces:
 - "urn:biola:apps:all:"
 
 cas:
-  url: "https://login.biola.edu/cas"
+  url: "https://login.biola.edu/rubycas"
+
+analytics:
+  segment:
+    key: #set in settings.local.yml
 
 email:
   from: no-reply@biola.edu
@@ -79,3 +83,10 @@ audience:
   - 'Parents'
   - 'Staff'
   - 'Students'
+
+# Set the destination of the single webhook; in the future we may want to support multiple or even user-defined webhooks
+webhook_url: # set in settings.local.yml
+
+# List academic years you want to import events from chapel api
+chapel_import_years: []
+#  - "2016-2017"

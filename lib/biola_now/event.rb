@@ -92,9 +92,17 @@ class BiolaNow::Event
       registration_info: registration_info,
       sponsor: sponsor,
       sponsor_site: sponsor_site,
-      aasm_state: status,
+      # aasm_state: status, # only do for new events
       site_id: BSON::ObjectId('556cf04472756208f1030000'), # biola.edu site
     })
+
+    # Only do this stuff for new events
+    unless event.persisted?
+      event.assign_attributes({
+        aasm_state: status,
+      })
+    end
+
     if event.image.file.nil? && image_url.to_s.match(/http/) && !image_url.to_s.match(/\.gif|\.psd/)
       # Do image upload
       event.remote_image_url = image_url

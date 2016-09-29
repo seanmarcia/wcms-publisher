@@ -4,12 +4,16 @@
       strong Basic Info
     .panel-body
       .row.form-section
-        .form-group.col-md-6
+        .form-group.col-md-4
           = f.label :title
           = f.text_field :title, class: 'form-control'
-        .form-group.col-md-6
+        .form-group.col-md-4
           = f.label :url
           = f.text_field :url, class: 'form-control'
+        .form-group.col-md-4
+          = f.label :staging_url
+          = f.text_field :staging_url, class: 'form-control'
+        
         .form-group.col-md-4
           label
             =' f.check_box :has_events

@@ -13,6 +13,7 @@ html lang="en-us"
     = javascript_include_tag "application"
 
   body data-controller=controller_name data-action=action_name
+    = render 'layouts/segment'
 
     / account_list must be before biola_header otherwise the list won't be defined in time.
     = render 'layouts/account_list'

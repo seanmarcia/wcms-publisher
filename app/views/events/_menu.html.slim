@@ -12,12 +12,17 @@
       = menu.add_item('SEO') { edit_event_path(@event, page: 'seo') } if policy(@event).can_manage?(:seo)
       = menu.add_item('History') { object_index_wcms_components_changes_path(klass: Event, id: @event.id) } if policy(@event).can_manage?(:logs)
 
-  .list-group
-    = link_to fa_icon('files-o', text: "Duplicate Event"), duplicate_event_path(@event), class: 'list-group-item' if wcms_source? @event
+  - if policy(@event).duplicate?
+    .list-group
+      = link_to fa_icon('files-o', text: "Duplicate Event"), duplicate_event_path(@event), class: 'list-group-item'
 
-  .list-group
-    .list-group-item.list-group-item-info
-      = fa_icon 'info-circle', text: "This Event is #{@event.aasm_state.titleize}"
+  .list-group 
+    .list-group-item.list-group-top class=("list-group-item-#{class_partial_for(@event.aasm_state)}")
+      = "This event is <strong>#{@event.aasm_state.titleize}</strong>".html_safe
+    - if @event.published?
+      = link_to "View live page", @event.site.url+"/events/#{@event.start_date.year}/#{@event.slug}", target: "_blank", class: 'list-group-item'
+    = link_to fa_icon('external-link', text: "Preview on staging"), @event.site.try(:staging_url)+"/events/#{@event.start_date.year}/#{@event.slug}", target: "_blank", class: 'list-group-item'
+
 
   - if current_user.admin?
     .list-group

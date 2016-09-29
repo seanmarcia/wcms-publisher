@@ -8,6 +8,7 @@
       = nav_pill_dropdown 'Status', :status do
         - Event.new.aasm.states.each do |state|
           = nav_list_link state.name.to_s.titleize, :status, state.name
+      = nav_pill_link 'Future Events', :future
       - if @available_sites.present?
         = nav_pill_dropdown 'Sites', :site do
           - @available_sites.each do |site|

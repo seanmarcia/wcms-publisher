@@ -9,7 +9,7 @@ publishers:
   - title: Academic Subjects
     url: https://wcms.staging.biola.edu/academics/academic_subjects
   - title: Articles
-    url: https://wcms.staging.biola.edu/news/articles
+    url: https://wcms.staging.biola.edu/articles
   - title: Attachments
     url: https://wcms.staging.biola.edu/academics/attachments
   - class_name: Calendar

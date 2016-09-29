@@ -3,3 +3,11 @@ secret_token:
 
 sentry:
   url: # Set me!
+
+  ws:
+    key_path: # set me!
+    key_password: # set me!
+    cert_path: # set me!
+
+email:
+  email_to: # set me!

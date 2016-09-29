@@ -55,3 +55,6 @@ publishers:
   - title: University Learning Outcomes
     url: https://wcms.biola.edu/academics/university_learning_outcomes
   - class_name: User
+
+ws:
+  url: https://ws.biola.edu

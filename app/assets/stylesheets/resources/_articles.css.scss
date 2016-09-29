@@ -1,0 +1,21 @@
+body.articles {
+  form {
+    .divider { margin-bottom: 20px; }
+    .bootstrap-tagsinput { margin-bottom: 0; } // None of the other inputs have a bottom margin.
+    .help-text { margin-top: 5px; display: block; color: #777777; } // this text should appear under the input it is supporting
+
+    .yes_no_toggle { color: #ddd;
+      .options .option { letter-spacing: 4px; color: #ddd; cursor: pointer; transition: color .4s ease;
+        &:nth-child(2) { color: #ea5b4d; }
+      }
+      input { display: none; }
+      input:checked ~ .options .option {
+        &:nth-child(1) { color: #428bca; }
+        &:nth-child(2) { color: #ddd; }
+      }
+    }
+  }
+  .extra_photo { border-bottom-left-radius: 0px; border-bottom-right-radius: 0px; border-bottom: none; }
+  .photo_delete_button { width: 110px; border-top-left-radius: 0px; border-top-right-radius: 0px; padding: 1px; }
+  .extra_photo_layout { display: inline-block; margin-right: 5px; margin-bottom: 5px; }
+}

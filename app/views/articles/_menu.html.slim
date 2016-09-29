@@ -1,0 +1,15 @@
+.side-menu
+  .list-group
+    .list-group-item.top-item
+      = @article
+    = menu_block(class: 'list-group-item') do |menu|
+      = menu.add_item('Article', default: true) { edit_article_path(@article, page: 'form') }
+      = menu.add_item('Gallery Photos') { edit_article_path(@article, page: 'gallery_photos') } if policy(@article).can_manage?(:gallery_photos)
+      = menu.add_item('SEO') { edit_article_path(@article, page: 'seo') } if policy(@article).can_manage?(:seo)
+      = menu.add_item('Design') { edit_article_path(@article, page: 'design') } if policy(@article).can_manage?(:design)
+      = menu.add_item('History') { object_index_wcms_components_changes_path(klass: @article.class, id: @article.id) } if policy(@article).can_manage?(:logs)
+
+
+  .list-group
+    .list-group-item.list-group-item-info
+      = fa_icon 'info-circle', text: "This Article is #{@article.aasm_state.titleize}"

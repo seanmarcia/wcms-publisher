@@ -1,0 +1,19 @@
+.panel.panel-default
+  .panel-heading
+    strong Design
+  .panel-body
+    = form_for @article do |f|
+      = hidden_field_tag :page, 'design'
+      .row.form-section
+       .col-xs-12
+        .form-group
+          = f.label :article_template
+          = f.text_field :article_template, class: "form-control"
+          
+        hr
+        
+        .form-footer
+          .pull-right
+            = f.submit 'Save', class: 'btn btn-biola'
+            = link_to 'Cancel', article_path, class: 'btn btn-link'
+          .clearfix

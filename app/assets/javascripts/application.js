@@ -16,6 +16,8 @@
 //= require react_ujs
 //= require bootstrap-multiselect
 //= require bootstrap-upload
+//= require jquery-ui/autocomplete
+//= require jquery-tagsinput
 //= require jquery.Jcrop
 //= require moment
 //= require bootstrap-datetimepicker

@@ -2,6 +2,7 @@
 @import "biola-frontend-toolkit";  // biola specific mixins, settins, and stylesheets
 @import "biola-wcms-components";
 @import "bootstrap-upload";
+@import "jquery-tagsinput";
 @import "jquery.Jcrop";
 @import "bootstrap-multiselect";
 @import "bootstrap-datetimepicker";
@@ -15,7 +16,7 @@
 // Controller or view specific resources
 // @import "./application/*";
 @import "./resources/*";
-
+@import "./shared/*"
 
 //====================================
 // Please try to keep this file free of css.

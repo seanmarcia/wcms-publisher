@@ -1,0 +1,25 @@
+.table-responsive
+  table.table.table-striped.table-hover
+    thead
+      tr
+        th Title
+        th Author
+        th Created By
+        th Sites
+        th Published On
+        th
+        th Status
+
+    tbody
+      - @articles.each do |article|
+        tr
+          td = link_to_if policy(article).edit?, truncate(article.title), article_path(article)
+          td = article.author || article.ws_author
+          td = article.user
+          td = article.site
+          td = article.publish_at.try :to_formatted_s, :long_ordinal
+          td = content_tag :span, "Imported", class: "label label-default", title: article.ws_source if article.imported
+          td = status_for article
+
+
+.text-center = paginate @articles

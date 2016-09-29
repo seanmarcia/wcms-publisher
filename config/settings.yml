@@ -16,11 +16,13 @@ cas:
 
 analytics:
   segment:
-    key: #set in settings.local.yml
+    key: # set in settings.local.yml
 
 email:
+  enabled: true
   from: no-reply@biola.edu
   developer: appdev@biola.edu
+  email_to: # set in settings.local.yml
   smtp:
     server: postfix.biola.edu
 
@@ -90,3 +92,10 @@ webhook_url: # set in settings.local.yml
 # List academic years you want to import events from chapel api
 chapel_import_years: []
 #  - "2016-2017"
+
+ws:
+  url: https://wsdev.biola.edu
+  key_path: # set in settings.local.yml
+  key_password: # set in settings.local.yml
+  cert_path: # set in settings.local.yml
+  verify_ssl: false

@@ -1,0 +1,14 @@
+form .people_search { margin: 0 5px 0 0;}
+// form .ui-helper-hidden-accessible { display: none; }
+ul.ui-autocomplete { width: 220px; background: white; border: 1px solid #ddd; list-style: none; z-index: 101;
+  li {
+    &:hover, .ui-state-hover { background-color: #ECF6FD; }
+    a { padding: 4px; display: block; height: 100%; text-decoration: none; color: inherit; cursor: pointer;
+    }
+    img { width: 40px; margin-right: 10px; }
+    .person_details { vertical-align: middle; display: inline-block; max-width: 160px;
+      .department { line-height: 10px; font-size: 11px; display: block; }
+      .affiliation { color: #999; line-height: 10px; font-size: 11px; display: block; }
+    }
+  }
+}

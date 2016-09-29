@@ -1,0 +1,4 @@
+FireArticleImportWorker:
+  cron: "0 * * * *"
+  class: "FireArticleImportWorker"
+  queue: default

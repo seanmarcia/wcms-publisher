@@ -1,6 +1,14 @@
 Wcms::Application.routes.draw do
   resources :menus, :calendars, :campus_locations
 
+  resources :articles do
+    resources :gallery_photos do
+      put :sort, on: :collection
+    end
+    get :search, on: :collection
+    post :update_from_ws, on: :collection
+  end
+
   resources :service_links do
     resources :audience_collections, only: [:update]
   end

@@ -58,7 +58,7 @@ class ArticlePolicy < PermissionsPolicy
     # if its new than check that its an Article, otherwise check to see if its origin is wcms through the update? method
     # If the record is a draft it can be edited but if its in the review process only editors and above can edit it
     if record == Article || ((record.try(:new_record?) || update?) && (record.draft? || article_editor?))
-      pa << [:title, :body, :topics_string, :teaser, :article_template, :publish_sidekiq_id,
+      pa << [:title, :subtitle, :body, :topics_string, :teaser, :article_template, :publish_sidekiq_id,
       :archive_sidekiq_id, :author_id, :slug, :related_object_tags, :image, :crop_x, :crop_y, :crop_w, :crop_h, :ws_id,
       :ws_source, :ws_author, :user_id, :press_release, :site_id, department_ids: [], audience: [], gallery_photos: [],
       site_category_ids: [], related_person_ids: []]

@@ -10,11 +10,11 @@ class EventPolicy < PermissionsPolicy
       if global_event_admin? || global_event_viewer?
         scope.all
       elsif event_viewer?
-        scope.any_of(
+        scope.and({"$or"=>[
           {user_id: user.id.to_s},
           {'permissions.actor_id' => user.id.to_s}, 
           {:site_id.in => permitted_sites_ids }
-        )
+        ]})
       else
         scope.none
       end

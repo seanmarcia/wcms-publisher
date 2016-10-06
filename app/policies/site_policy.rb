@@ -41,8 +41,10 @@ class SitePolicy < PermissionsPolicy
   end
 
   def permitted_attributes
-    [:modifier_id, :title, :url, :staging_url, :preferred_image_height, :preferred_image_width, :user_ids, :has_events, :has_articles,
+    attrs = [:modifier_id, :title, :url, :staging_url, :preferred_image_height, :preferred_image_width, :user_ids, :has_events, :has_articles,
       :has_features, :has_audience_collections, :has_page_editions, :site_layout, article_author_roles: [], event_author_roles: []]
+    attrs += [:presentation_data_json, :presentation_data_template_id] if user.admin?
+    attrs
   end
 
   def can_manage?(attribute)
@@ -61,6 +63,8 @@ class SitePolicy < PermissionsPolicy
       (site_admin_for?(record) || user.has_role?(:feature_admin)) && record.has_features
     when :design
       user.admin? || user.has_role?(:designer)
+    when :presentation_data
+      user.admin?
     else
       false
     end

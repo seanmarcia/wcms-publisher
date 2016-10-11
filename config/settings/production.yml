@@ -58,3 +58,16 @@ publishers:
 
 ws:
   url: https://ws.biola.edu
+
+# Classes that have aasm_states that should be auto published and archived
+aasm_state_classes:
+  auto_archive:
+    - Article
+    - PageEdition
+    - Event
+    - Feature
+  auto_publish:
+    - Article
+    - PageEdition
+    - Event
+    - Feature

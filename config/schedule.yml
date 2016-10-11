@@ -1,4 +1,17 @@
+# Every hour at the beginning of the hour
 FireArticleImportWorker:
   cron: "0 * * * *"
   class: "FireArticleImportWorker"
+  queue: default
+
+# Every hour at the beginning and the middle of the hour
+FireArchiveObjectWorker:
+  cron: "0,15,30,45 * * * *"
+  class: "FireArchiveObjectWorker"
+  queue: default
+
+# Every hour at 15 and 45 minute marks
+FirePublishObjectWorker:
+  cron: "0,15,30,45 * * * *"
+  class: "FirePublishObjectWorker"
   queue: default

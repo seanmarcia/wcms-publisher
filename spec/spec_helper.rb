@@ -4,6 +4,7 @@ require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'capybara/rspec'
 require 'pundit/rspec'
+require 'sidekiq/testing'
 # require 'rspec/autorun'
 
 Mongoid.load!('spec/config/mongoid.yml', :test)
@@ -42,6 +43,14 @@ RSpec.configure do |config|
   #  This turns the behavior back on.
   # Otherwise you will need to manually label spec types
   config.infer_spec_type_from_file_location!
+
+  config.before(:context, type: :feature) do
+    Sidekiq::Testing.inline!
+  end
+
+  config.before(:context, type: :unit) do
+    Sidekiq::Testing.fake!
+  end
 
   config.before(:each) do
     Mongoid.purge!

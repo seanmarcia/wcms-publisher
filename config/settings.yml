@@ -99,3 +99,6 @@ ws:
   key_password: # set in settings.local.yml
   cert_path: # set in settings.local.yml
   verify_ssl: false
+
+ws_syncable_sites:
+  - 'Biola Now'

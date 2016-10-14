@@ -93,7 +93,7 @@
 
         .form-group.col-sm-6.col-xs-12
           div class="#{'field_with_errors' if @article.errors.include?(:author)}"
-            =' label_tag "Author"
+            => label_tag "Author"
             - if permission_to_edit?(@article, :author_id)
               = text_field_tag :a, nil, id: 'users', value: @article.author.try(&:biola_email), required: true, 'data-source' => search_articles_url, class: 'form-control people_search'
               em.help-text = "Type author's name"
@@ -151,5 +151,5 @@
           .form-group.pull-right.pad-right
             .checkbox style="margin-top: 7px;"
               label
-                =' f.check_box :press_release
+                => f.check_box :press_release
                 | Press Release

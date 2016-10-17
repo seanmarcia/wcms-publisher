@@ -153,7 +153,11 @@ class ArticlesController < ApplicationController
   def article_params
     if params[:article]
       params[:article][:meta_keywords] = params[:article][:meta_keywords].split(',') unless params[:article][:meta_keywords].nil?
-      params.require(:article).permit(*policy(@article || Article).permitted_attributes)
+      # We're not using `require` here because it could be blanak when updating presentation data
+      ActionController::Parameters.new(params[:article]).permit(*policy(@article || Article).permitted_attributes).tap do |whitelisted|
+        # You have to whitelist the hash this way, see https://github.com/rails/rails/issues/9454
+        whitelisted[:presentation_data] = params[:pdata] if params[:pdata].present?
+      end
     else
       {}
     end

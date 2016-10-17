@@ -64,6 +64,7 @@ class ArticlePolicy < PermissionsPolicy
       site_category_ids: [], related_person_ids: []]
 
       pa << [:publish_at, :archive_at] if article_publisher?
+      pa << [:presentation_data_json, :presentation_data_template_id] if user.admin?
       pa = pa | SEO_FIELDS if user.admin? # Inherited from ApplicationPolicy
     end
     return pa.flatten
@@ -75,7 +76,7 @@ class ArticlePolicy < PermissionsPolicy
       article_editor? || user.try(:admin?)
     when :gallery_photos, :seo
       article_admin?
-    when :design
+    when :design, :presentation_data
       user.admin? || user.has_role?(:designer)
     else
       false

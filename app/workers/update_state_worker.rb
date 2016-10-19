@@ -7,21 +7,15 @@ class UpdateStateWorker
   # @param obj_id [String] The id of the object to be updated.
   # @return [true]
   def perform(klass: nil, obj_id: nil)
-    begin
-      object = klass.find obj_id
-      old_aasm = object.aasm_state
-      object.save!
+    object = klass.find obj_id
+    old_aasm = object.aasm_state
+    object.save!
 
-      object.reload
-      if old_aasm != object.aasm_state
-        logger.info %{#{object.aasm_state.titleize} class: #{object.class} id: "#{object.id}"}
-      elsif old_aasm == object.aasm_state
-        logger.info %{No action taken on class: #{object.class} id: "#{object.id}"}
-      end
-
-    rescue StandardError => err
-      Raven.capture_exception(err) if defined? Raven
-      logger.error %{Error: when trying to update an objects state. "#{err}"}
+    object.reload
+    if old_aasm != object.aasm_state
+      logger.info %{#{object.aasm_state.titleize} class: #{object.class} id: "#{object.id}"}
+    elsif old_aasm == object.aasm_state
+      logger.info %{No action taken on class: #{object.class} id: "#{object.id}"}
     end
 
     true

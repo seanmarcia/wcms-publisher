@@ -19,6 +19,12 @@ gem 'jquery-ui-rails', '~> 5.0.5'
 gem 'kaminari-bootstrap', '~> 3.0', '>= 3.0.1'
 gem 'mongoid', '~> 5.1'
 gem 'newrelic_rpm', '~> 3.14'
+# There is an error with origin 2.2.1, which is a dependency of mongoid,
+# so for now we are locking the version to 2.2.0
+# until they release the fix (>= 2.2.3),
+# at which point you can remove this gem declaration.
+# https://github.com/mongoid/origin/commit/155a0550629e09c3a96984ab6fe14e2d7931e629
+gem 'origin', '2.2.0'
 gem 'pinglish', '~> 0.2'
 gem 'puma', '~> 2.16'
 gem 'pundit', '~> 1.1'

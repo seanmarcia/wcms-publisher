@@ -1,0 +1,11 @@
+.state_dates
+  h3 Status
+  .row.form-section.date-time-range-group
+    .form-group.col-md-6
+      .pull-left.pad-right.lead Publish from
+      = f.datetime_select :publish_at, {}, class: 'date-from'
+      
+    - if hide_archive == false
+      .form-group.col-md-5
+        .pull-left.pad-right.lead style='padding-right: 25px;' to
+        = f.datetime_select :archive_at, {}, class: 'date-to'

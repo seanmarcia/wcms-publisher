@@ -89,8 +89,6 @@
             .well.well-faux-input
               = @article.audience.try(:join, ', ')
 
-
-
         .form-group.col-sm-6.col-xs-12
           div class="#{'field_with_errors' if @article.errors.include?(:author)}"
             => label_tag "Author"
@@ -132,13 +130,7 @@
           = render 'shared/image_crop', f: f, object: @article
 
       - if policy(@article).publish?
-        h3 Status
-        .row.form-section
-          .form-group.col-md-12
-            .pull-left.pad-right.lead Publish from
-            .pull-left.pad-right = f.text_field :publish_at, value: @article.publish_at.try(:to_formatted_s, :long_ordinal), class: 'form-control chronic_ping', placeholder: 'publish date'
-            .pull-left.pad-right.lead to
-            .pull-left.pad-right= f.text_field :archive_at, value: @article.archive_at.try(:to_formatted_s, :long_ordinal), class: 'form-control chronic_ping', placeholder: 'archive date'
+        = render 'shared/state_dates', f: f, object: @article, hide_archive: true
 
       hr
       .form-footer

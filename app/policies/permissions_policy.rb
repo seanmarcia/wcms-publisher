@@ -283,6 +283,15 @@ class PermissionsPolicy < ApplicationPolicy
 
 
   #############################################
+  ############ CALENDAR PERMISSIONS ###########
+  #############################################
+  def calendar_editor?
+    user.admin? ||
+    Calendar.with_permission_to(:edit, user).present?
+  end
+
+
+  #############################################
   ############# ACTOR PERMISSIONS #############
   #############################################
   def create_actor?

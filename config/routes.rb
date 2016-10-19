@@ -1,5 +1,9 @@
 Wcms::Application.routes.draw do
-  resources :menus, :calendars, :campus_locations
+  resources :menus, :campus_locations
+
+  resources :calendars do
+    resources :actors, only: [:create, :destroy]
+  end
 
   resources :articles do
     resources :gallery_photos do

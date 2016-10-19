@@ -7,24 +7,18 @@ class FirePublishObjectWorker
   # @note Hits before_save callback in buweb which publishes.
   def perform
     logger.info %{Start publishing all objects via aasm.}
-    begin
-      klasses = Settings.aasm_state_classes.auto_publish
-      klasses = klasses.map(&:safe_constantize)
+    klasses = Settings.aasm_state_classes.auto_publish
+    klasses = klasses.map(&:safe_constantize)
 
-      klasses.each do |klass|
-        objects = klass.should_transition_to_published
+    klasses.each do |klass|
+      objects = klass.should_transition_to_published
 
-        objects.each do |object|
-          UpdateStateWorker.perform_async(klass: klass, obj_id: object.id)
-        end
+      objects.each do |object|
+        UpdateStateWorker.perform_async(klass: klass, obj_id: object.id)
       end
-    rescue StandardError => err
-      Raven.capture_exception(err) if defined? Raven
-      logger.error %{Error: when trying to publish an object. "#{err}"}
     end
     logger.info %{Finish publishing all objects via aasm.}
 
     true
   end
-
 end

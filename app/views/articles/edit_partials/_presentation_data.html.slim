@@ -1,0 +1,21 @@
+.panel.panel-default
+  .panel-heading
+    strong Presentation Data
+  .panel-body
+    = form_for @article do |f|
+      = hidden_field_tag :page, params[:page]
+      .row.form-section
+        .col-xs-12
+          .form-group
+            - if @article.presentation_data_template
+              = wcms_component "forms/presentation_data_editor", form: f
+            - elsif policy(PresentationDataTemplate).index?
+              = wcms_component "forms/data_template_picker", form: f
+            - else
+              p The site manager must first configure this program for presentation data.
+
+      .form-footer
+        .pull-right
+          = f.submit 'Save', class: 'btn btn-biola'
+          = link_to "Cancel", articles_path, class: 'btn btn-link'
+        .clearfix

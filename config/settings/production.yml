@@ -10,7 +10,7 @@ publishers:
   - title: Academic Subjects
     url: https://wcms.biola.edu/academics/academic_subjects
   - title: Articles
-    url: https://wcms.biola.edu/news/articles
+    url: https://wcms.biola.edu/articles
   - title: Attachments
     url: https://wcms.biola.edu/academics/attachments
   - class_name: Calendar
@@ -55,3 +55,19 @@ publishers:
   - title: University Learning Outcomes
     url: https://wcms.biola.edu/academics/university_learning_outcomes
   - class_name: User
+
+ws:
+  url: https://ws.biola.edu
+
+# Classes that have aasm_states that should be auto published and archived
+aasm_state_classes:
+  auto_archive:
+    - Article
+    - PageEdition
+    - Event
+    - Feature
+  auto_publish:
+    - Article
+    - PageEdition
+    - Event
+    - Feature

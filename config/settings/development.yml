@@ -16,8 +16,8 @@ publishers:
     url: http://academic-publisher.dev/academic_programs
   - title: Academic Subjects
     url: http://academic-publisher.dev/academic_subjects
-  - title: Articles
-    url: http://news-publisher.dev/articles
+  - class_name: Article
+    title: Articles
   - title: Attachments
     url: http://academic-publisher.dev/attachments
   - class_name: Calendar

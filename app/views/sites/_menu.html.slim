@@ -10,4 +10,6 @@
       = menu.add_item('Page Edition Categories') { edit_site_path(@site, page: 'page_edition_categories') } if policy(@site).can_manage?(:page_edition_categories)
       = menu.add_item('Feature Locations') { edit_site_path(@site, page: 'feature_locations') } if policy(@site).can_manage?(:feature_locations)
       = menu.add_item('Design') { edit_site_path(@site, page: 'design') } if policy(@site).can_manage?(:design)
+      = menu.add_item('Presentation Data') { edit_site_path(@site, page: 'presentation_data') } if policy(@site).can_manage?(:presentation_data)
+      = menu.add_item('SEO') { edit_site_path(@site, page: 'seo') } if policy(@site).can_manage?(:seo)
       = menu.add_item('History') { object_index_wcms_components_changes_path(klass: @site.class, id: @site.id) } if policy(@site).can_manage?(:logs)

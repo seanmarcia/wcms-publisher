@@ -10,8 +10,8 @@ class ApplicationController < WcmsApplicationController
 
   def set_parent
     @parent =
-      if params[:page_edition_id].present?
-        PageEdition.find(params[:page_edition_id])
+      if params[:article_id].present?
+        Article.find(params[:article_id])
       elsif params[:calendar_id].present?
         Calendar.find(params[:calendar_id])
       elsif params[:campus_location_id].present?
@@ -22,6 +22,8 @@ class ApplicationController < WcmsApplicationController
         ImportantDate.find(params[:important_date_id])
       elsif params[:menu_id].present?
         Menu.find(params[:menu_id])
+      elsif params[:page_edition_id].present?
+        PageEdition.find(params[:page_edition_id])
       elsif params[:site_id].present?
         Site.find(params[:site_id])
       elsif params[:service_link_id].present?

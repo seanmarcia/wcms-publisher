@@ -1,5 +1,52 @@
 class PermissionsPolicy < ApplicationPolicy
   #############################################
+  ############ ARTICLE PERMISSIONS ############
+  #############################################
+  # Generic if a user has this role at all
+  def article_admin?
+    user.admin? ||
+    user.has_role?(:article_admin)
+  end
+
+  # Generic if a user has this role at all
+  def article_publisher?
+    article_admin? ||
+    Site.with_permission_to(:article_publisher, user).present?
+  end
+
+  def article_editor?
+    article_publisher? ||
+    Site.with_permission_to(:article_editor, user).present?
+  end
+
+  def article_author?
+    article_editor? ||
+    Site.with_permission_to(:article_author, user).present?
+  end
+
+  def article_viewer?
+    article_author? ||
+    user.has_role?(:article_viewer)
+  end
+
+  # Site specific user roles
+  def site_article_publisher?(site)
+    article_admin? ||
+    site.has_permission_to?(:article_publisher, user)
+  end
+
+  def site_article_editor?(site)
+    site_article_publisher?(site) ||
+    site.has_permission_to?(:article_editor, user)
+  end
+
+  def site_article_author?(site)
+    site_article_editor?(site) ||
+    site.has_permission_to?(:article_author, user) ||
+    (site.article_author_roles & user.affiliations).present?
+  end
+
+  #############################################
   ######### PAGE EDITION PERMISSIONS ##########
   #############################################
   # Generic if a user has this role at all

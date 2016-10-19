@@ -1,0 +1,155 @@
+= render 'shared/javascript_multiselect_include', obj: @article, site_categories: @site_categories, site_titles: @site_titles
+
+= permitted_form_for @article, html: {multipart: true} do |f|
+  .panel.panel-default.articles
+    .panel-heading
+      strong Basic Info
+    .panel-body
+      .row.form-section
+        .form-group.col-md-4.col-sm-6.col-xs-12
+          = f.label :title
+          = f.text_field :title, class: 'form-control'
+
+        .form-group.col-md-4.col-sm-6.col-xs-12
+          = f.label :subtitle
+          = f.text_field :subtitle, class: 'form-control'
+
+        .form-group.col-md-4.col-sm-6.col-xs-12
+          = f.label :ws_source
+          = f.text_field :ws_source, class: 'form-control', disabled: true
+
+        .form-group.col-md-4.col-sm-6.col-xs-12.form-site
+          = label_tag 'article[site_id]', 'Site'
+          br
+          - if permission_to_edit?(@article, :site_id) && @article.draft?
+            = select_tag 'article[site_id]', options_for_select(@sites.with_articles_enabled.map{|site| [site.title, site.id] }, @article.site_id), include_blank: true, class: "form-control site_multiselect"
+          - else
+            .well.well-faux-input
+              = @article.site
+            = hidden_field_tag :disabled_site_id, @article.site_id.to_s
+
+
+        .form-group.col-md-4.col-sm-6.col-xs-12.form-categories
+          = f.label :categories
+          br
+          - if permission_to_edit?(@article, :site_category_ids)
+            .multi_category_select
+              = select_tag 'article[site_category_ids]', options_for_select([], @article.site_category_ids), multiple: true, class: "multiselect"
+          - else
+            .well.well-faux-input
+              = @article.site_categories.join(', ')
+
+        .form-group.col-md-4.col-sm-6.col-xs-12
+          = f.label :slug
+          = f.text_field :slug, class: 'form-control'
+          em.help-text = 'leave blank to autofill'
+
+        .form-group.col-xs-12
+          = f.label :topics
+          - if permission_to_edit?(@article, :topics_string)
+            = f.text_field :topics_string, class: 'form-control', id: 'tags-topic'
+            em.help-text = 'Comma separated'
+          - else
+            = f.text_field :topics_string, class: 'form-control'
+
+        .form-group.col-xs-12
+          = f.label :teaser
+          = f.text_field :teaser, class: 'form-control'
+
+      h3 Relationships
+      .row.form-section
+        .form-group.col-md-3.col-sm-6.col-xs-12
+          = label_tag 'article[department_ids]', 'Departments'
+          br
+          - if permission_to_edit?(@article, :department_ids)
+            = wcms_component "forms/multiselect",
+              form: f,
+              attribute: :department_ids,
+              collection: Department.asc(:title),
+              value_method: :id,
+              text_method: :title,
+              multiple: true
+
+          - else
+            .well.well-faux-input
+              = @article.departments.try(:join, ', ')
+        .form-group.col-md-3.col-sm-6.col-xs-12
+          = label_tag 'article[audience]', 'Audience'
+          br
+          - if permission_to_edit?(@article, :audience)
+            = wcms_component "forms/multiselect",
+              form: f,
+              attribute: :audience,
+              collection: Settings.audience,
+              value_method: :to_s,
+              text_method: :to_s,
+              multiple: true
+
+          - else
+            .well.well-faux-input
+              = @article.audience.try(:join, ', ')
+
+
+
+        .form-group.col-sm-6.col-xs-12
+          div class="#{'field_with_errors' if @article.errors.include?(:author)}"
+            => label_tag "Author"
+            - if permission_to_edit?(@article, :author_id)
+              = text_field_tag :a, nil, id: 'users', value: @article.author.try(&:biola_email), required: true, 'data-source' => search_articles_url, class: 'form-control people_search'
+              em.help-text = "Type author's name"
+            - else
+              br
+              .well.well-faux-input
+                = @article.ws_author
+
+        .form-group.col-xs-12
+          = label_tag 'Associated People'
+          - if permission_to_edit?(@article, :related_person_ids)
+            = text_field_tag :rp, '', name: "rp", value: @article.related_people.map(&:biola_email).join(', '),'data-source' => search_articles_url, class: 'form-control people_search', id: "tags-autocomplete"
+            em.help-text = "Type people's name"
+          - else
+            .well.well-faux-input
+              = @article.related_people.map(&:biola_email).join(', ')
+
+        .form-group.col-xs-12
+          = label_tag :related_objects_string
+          - if permission_to_edit?(@article, :related_objects_string)
+            = text_field_tag :related_objects_string, @article.related_object_tags.join('|'), class: 'form-control tags-input'
+            em.help-text = "Hit enter to create a tag"
+          - else
+            .well.well-faux-input
+              = @article.related_object_tags.join('|')
+
+      h3 Article Body
+      .row.form-section
+        .form-group.col-xs-12
+          - if permission_to_edit?(@article, :body)
+            = wcms_component 'forms/redactor_editor', form: f, attribute: :body, buttons: ['formatting', 'bold', 'italic', 'underline', 'deleted', 'unorderedlist', 'orderedlist', 'outdent', 'indent', 'image', 'video', 'table', 'link', 'alignment', 'horizontalrule'], formatting: ['p', 'blockquote', 'h1', 'h2', 'h3', 'h4', 'h5']
+          - else
+            .well.well-faux-input
+              = @article.body.html_safe
+        .form-section.col-xs-12
+          = render 'shared/image_crop', f: f, object: @article
+
+      - if policy(@article).publish?
+        h3 Status
+        .row.form-section
+          .form-group.col-md-12
+            .pull-left.pad-right.lead Publish from
+            .pull-left.pad-right = f.text_field :publish_at, value: @article.publish_at.try(:to_formatted_s, :long_ordinal), class: 'form-control chronic_ping', placeholder: 'publish date'
+            .pull-left.pad-right.lead to
+            .pull-left.pad-right= f.text_field :archive_at, value: @article.archive_at.try(:to_formatted_s, :long_ordinal), class: 'form-control chronic_ping', placeholder: 'archive date'
+
+      hr
+      .form-footer
+        .pull-right.form-inline
+          - (@article.aasm.events & policy(@article).permitted_aasm_events).each do |event|
+            .form-group.pull-right.pad-right
+              = f.submit event.to_s.titleize, name: 'transition', class: 'btn btn-biola'
+          .form-group.pull-right.pad-right
+            = f.submit "Save", class: 'btn btn-default'
+          .form-group.pull-right.pad-right
+            .checkbox style="margin-top: 7px;"
+              label
+                => f.check_box :press_release
+                | Press Release

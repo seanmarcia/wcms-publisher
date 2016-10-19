@@ -39,7 +39,9 @@ class GalleryPhotosController < ApplicationController
   private
 
   def set_parent
-    if params[:department_id].present?
+    if params[:article_id].present?
+      @parent = Article.find(params[:article_id])
+    elsif params[:department_id].present?
       @parent = Department.find(params[:department_id])
     elsif params[:bio_edition_id].present?
       @parent = BioEdition.find(params[:bio_edition_id])

@@ -21,6 +21,7 @@ html lang="en-us"
 
     #body
       = wcms_component('navigation/site_nav', { menu: [ \
+        {body: 'Articles', url: :articles_path},
         {body: 'Calendars', url: :calendars_path},
         {body: 'Campus Locations', url: :campus_locations_path},
         {body: 'Data Templates', url: :presentation_data_templates_path},

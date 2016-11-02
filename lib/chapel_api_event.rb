@@ -96,6 +96,12 @@ class ChapelApiEvent
       event.presentation_data = presentation_data
     end
 
+    # Set default image if one isn't already set
+    if image_url.blank? && event.image_url.blank?
+      img_src = Rails.root.join("lib/chapel_api/chapel-images/#{default_image}")
+      event.image = File.new(img_src)
+    end
+
     if !event.valid?
       puts 'e'
       puts "Error: id(#{id}) - " + event.errors.full_messages.to_sentence
@@ -117,10 +123,26 @@ class ChapelApiEvent
   private
 
   def image_url
-    if speakers.present?
-      speakers.first['original_photo_url']
+    speakers.first['original_photo_url'] if speakers.present?
+  end
+
+  # Provide a default image for chapels if no speaker image exists
+  def default_image
+    case type
+    when 'AfterDark'
+      'chapel-after-dark.jpg'
+    when 'Biola Hour'
+      'chapel-biola-hour.jpg'
+    when 'Fives'
+      'chapel-fives.jpg'
+    when 'Midday'
+      'chapel-midday.jpg'
+    when 'Sabbathing'
+      'chapel-sabbathing.jpg'
+    when 'Singspiration'
+      'chapel-singspiration.jpg'
     else
-      nil # TODO: set default image by `type`
+      'chapel-default-2016.jpg'
     end
   end
 
@@ -136,7 +158,7 @@ class ChapelApiEvent
       "scripture"=>scripture,
       "speakers"=> speakers_array,
       "import_data"=>{
-        "chapel_id"=>id, 
+        "chapel_id"=>id,
         "last_imported_at"=>Time.now.to_s(:long)}
     }
   end
@@ -144,7 +166,7 @@ class ChapelApiEvent
   def speakers_array
     arr = []
     speakers.each do |speaker|
-      arr << { 
+      arr << {
         "name"=>speaker['name'],
         "photo_url"=>speaker['profile_photo_url'],
         "profile"=>speaker['profile']['medium_bio']}

@@ -8,7 +8,7 @@ gem 'biola_frontend_toolkit', '~> 0.5.6'
 gem 'biola_wcms_components', '~> 0.24.1'
 gem 'biola_web_services', '~> 1.1.2'
 gem 'bootstrap-sass', '~> 3.3.3'
-gem 'buweb_content_models', '~> 1.34'
+gem 'buweb_content_models', '~> 1.35'
 gem 'coffee-rails', '>= 4.1'
 gem 'font-awesome-rails', '~> 4.4'
 gem 'httparty', '~> 0.14.0'
@@ -60,9 +60,6 @@ group :development, :test do
 
   # Needed for better_errors to work properly
   gem 'binding_of_caller', '>= 0.7.2'
-
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring', '>= 1.6.2'
 
   gem 'factory_girl_rails', '~> 4.5'
   gem 'mongoid-rspec', '~> 3.0'

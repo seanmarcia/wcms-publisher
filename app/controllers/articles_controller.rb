@@ -19,7 +19,7 @@ class ArticlesController < ApplicationController
       @available_sites = Site.in(id: @articles.distinct(:site_id)).asc(:title)
       @available_topics = @articles.distinct(:topics).sort_by{|a| a.downcase}
       @available_categories = SiteCategory.in(id: @articles.distinct(:site_category_ids)).asc(:title)
-      @available_authors = Person.in(id: @articles.distinct(:author_id)).asc(:name)
+      @available_authors = Person.in(id: @articles.distinct(:author_ids)).asc(:name)
       @available_departments = Department.in(id: @articles.distinct(:department_ids)).asc(:name)
 
       @articles = @articles.custom_search(params[:q]) if params[:q]
@@ -127,7 +127,7 @@ class ArticlesController < ApplicationController
   def add_people
     related_people = []
     if params[:rp]
-      params[:rp].split(',').each do |rp|
+      params[:rp].split('|').each do |rp|
         related_people << Person.where(biola_email: rp).first
       end
 
@@ -136,9 +136,11 @@ class ArticlesController < ApplicationController
         @log_related_people = {"related_person_ids" => [@article.related_people.try(:map, &:name).join(', ').presence, related_people.map(&:name).join(', ')]}
       end
 
-      author = Person.where(biola_email: params[:a]).first
+      authors = Person.where(biola_email: {'$in' => params[:a].to_s.split('|')})
       @article.related_people = related_people
-      @article.author = author
+      @article.authors = authors
+      # # saving here to maintain author order of  the author array
+      @article.save
     end
   end
 

@@ -91,9 +91,9 @@
 
         .form-group.col-sm-6.col-xs-12
           div class="#{'field_with_errors' if @article.errors.include?(:author)}"
-            => label_tag "Author"
-            - if permission_to_edit?(@article, :author_id)
-              = text_field_tag :a, nil, id: 'users', value: @article.author.try(&:biola_email), required: true, 'data-source' => search_articles_url, class: 'form-control people_search'
+            => label_tag "Authors"
+            - if permission_to_edit?(@article, :author_ids)
+              = text_field_tag :a, nil, id: 'users', value: @article.authors.to_a.map(&:biola_email).join('|'), required: true, 'data-source' => search_articles_url, class: 'form-control people_search tags-input'
               em.help-text = "Type author's name"
             - else
               br
@@ -103,7 +103,7 @@
         .form-group.col-xs-12
           = label_tag 'Associated People'
           - if permission_to_edit?(@article, :related_person_ids)
-            = text_field_tag :rp, '', name: "rp", value: @article.related_people.map(&:biola_email).join(', '),'data-source' => search_articles_url, class: 'form-control people_search', id: "tags-autocomplete"
+            = text_field_tag :rp, '', name: "rp", value: @article.related_people.to_a.map(&:biola_email).join('|'),'data-source' => search_articles_url, class: 'form-control people_search tags-input'
             em.help-text = "Type people's name"
           - else
             .well.well-faux-input

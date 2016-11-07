@@ -3,7 +3,7 @@
     thead
       tr
         th Title
-        th Author
+        th Authors
         th Created By
         th Sites
         th Published On
@@ -14,7 +14,7 @@
       - @articles.each do |article|
         tr
           td = link_to_if policy(article).edit?, truncate(article.title), article_path(article)
-          td = article.author || article.ws_author
+          td = article.authors.pluck(:name).join(', ') || article.ws_author
           td = article.user
           td = article.site
           td = article.publish_at.try :to_formatted_s, :long_ordinal

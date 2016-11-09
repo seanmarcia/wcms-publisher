@@ -21,28 +21,41 @@
         .form-group.col-md-4.col-sm-6.col-xs-12.form-site
           = label_tag 'article[site_id]', 'Site'
           br
-          - if permission_to_edit?(@article, :site_id) && @article.draft?
+          - if permission_to_edit?(@article, :site_id)
             = select_tag 'article[site_id]', options_for_select(@sites.with_articles_enabled.map{|site| [site.title, site.id] }, @article.site_id), include_blank: true, class: "form-control site_multiselect"
           - else
-            .well.well-faux-input
+            .well.well-faux-input style="padding: 6px;"
               = @article.site
             = hidden_field_tag :disabled_site_id, @article.site_id.to_s
 
 
-        .form-group.col-md-4.col-sm-6.col-xs-12.form-categories
-          = f.label :categories
-          br
-          - if permission_to_edit?(@article, :site_category_ids)
-            .multi_category_select
-              = select_tag 'article[site_category_ids]', options_for_select([], @article.site_category_ids), multiple: true, class: "multiselect"
-          - else
-            .well.well-faux-input
-              = @article.site_categories.join(', ')
+        - if @article.site_category_ids.present?
+          .form-group.col-md-4.col-sm-6.col-xs-12.form-categories
+            = f.label :categories
+            br
+            - if permission_to_edit?(@article, :site_category_ids)
+              .multi_category_select
+                = select_tag 'article[site_category_ids]', options_for_select([], @article.site_category_ids), multiple: true, class: "multiselect"
+            - else
+              .well.well-faux-input style="padding: 6px;"
+                = @article.site_categories.join(', ')
 
         .form-group.col-md-4.col-sm-6.col-xs-12
           = f.label :slug
           = f.text_field :slug, class: 'form-control'
           em.help-text = 'leave blank to autofill'
+
+        .form-group.col-sm-4.col-xs-12
+          .checkbox
+            label
+              => f.check_box :featured
+              | Featured
+
+        .form-group.col-sm-4.col-xs-12
+          .checkbox
+            label
+              => f.check_box :press_release
+              | Press Release
 
         .form-group.col-xs-12
           = f.label :topics
@@ -140,8 +153,3 @@
               = f.submit event.to_s.titleize, name: 'transition', class: 'btn btn-biola'
           .form-group.pull-right.pad-right
             = f.submit "Save", class: 'btn btn-default'
-          .form-group.pull-right.pad-right
-            .checkbox style="margin-top: 7px;"
-              label
-                => f.check_box :press_release
-                | Press Release

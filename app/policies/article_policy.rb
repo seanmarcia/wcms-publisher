@@ -60,10 +60,11 @@ class ArticlePolicy < PermissionsPolicy
     if record == Article || ((record.try(:new_record?) || update?) && (record.draft? || article_editor?))
       pa << [:title, :subtitle, :body, :topics_string, :teaser, :article_template, :publish_sidekiq_id,
       :archive_sidekiq_id, :author_ids, :slug, :related_object_tags, :image, :crop_x, :crop_y, :crop_w, :crop_h, :ws_id,
-      :ws_source, :ws_author, :user_id, :press_release, :site_id, department_ids: [], audience: [], gallery_photos: [],
+      :ws_source, :ws_author, :user_id, :press_release, department_ids: [], audience: [], gallery_photos: [],
       site_category_ids: [], related_person_ids: []]
 
-      pa << [:publish_at, :archive_at] if article_publisher?
+      pa << :site_id if record == Article || record.draft?
+      pa << [:publish_at, :archive_at, :featured] if article_publisher?
       pa << [:presentation_data_json, :presentation_data_template_id] if user.admin?
       pa = pa | SEO_FIELDS if user.admin? # Inherited from ApplicationPolicy
     end

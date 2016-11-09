@@ -21,7 +21,8 @@
       = "This event is <strong>#{@event.aasm_state.titleize}</strong>".html_safe
     - if @event.published?
       = link_to "View live page", @event.site.url+"/events/#{@event.start_date.year}/#{@event.slug}", target: "_blank", class: 'list-group-item'
-    = link_to fa_icon('external-link', text: "Preview on staging"), @event.site.try(:staging_url)+"/events/#{@event.start_date.year}/#{@event.slug}", target: "_blank", class: 'list-group-item'
+    - if @event.site.staging_url.present?
+      = link_to fa_icon('external-link', text: "Preview on staging"), "#{@event.site.staging_url}/events/#{@event.start_date.year}/#{@event.slug}", target: "_blank", class: 'list-group-item'
 
 
   - if current_user.admin?

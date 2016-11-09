@@ -29,16 +29,15 @@
             = hidden_field_tag :disabled_site_id, @article.site_id.to_s
 
 
-        - if @article.site_category_ids.present?
-          .form-group.col-md-4.col-sm-6.col-xs-12.form-categories
-            = f.label :categories
-            br
-            - if permission_to_edit?(@article, :site_category_ids)
-              .multi_category_select
-                = select_tag 'article[site_category_ids]', options_for_select([], @article.site_category_ids), multiple: true, class: "multiselect"
-            - else
-              .well.well-faux-input style="padding: 6px;"
-                = @article.site_categories.join(', ')
+        .form-group.col-md-4.col-sm-6.col-xs-12.form-categories
+          = f.label :categories
+          br
+          - if permission_to_edit?(@article, :site_category_ids)
+            .multi_category_select
+              = select_tag 'article[site_category_ids]', options_for_select([], @article.site_category_ids), multiple: true, class: "multiselect"
+          - else
+            .well.well-faux-input style="padding: 6px;"
+              = @article.site_categories.join(', ')
 
         .form-group.col-md-4.col-sm-6.col-xs-12
           = f.label :slug

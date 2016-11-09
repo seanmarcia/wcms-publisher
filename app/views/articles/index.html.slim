@@ -9,7 +9,8 @@
     .pull-right.pad-right
       - if policy(Article).update_from_ws?
         = link_to 'Sync with Web Services', update_from_ws_articles_path, class: 'btn btn-info', method: :post
-
+    br
+    br
     ul.nav.nav-pills.pull-left
       = nav_pill_header 'Options'
       = nav_pill_dropdown 'Status', :status do
@@ -35,6 +36,7 @@
         = nav_pill_dropdown 'Department', :department do
           - @available_departments.each do |dept|
             = nav_list_link dept, :department, dept.id
+      = nav_pill_link 'Featured', :featured
 
     .clearfix
 

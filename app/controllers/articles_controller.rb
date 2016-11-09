@@ -29,6 +29,7 @@ class ArticlesController < ApplicationController
       @articles = @articles.by_category(params[:category]) if params[:category]
       @articles = @articles.by_author(params[:author]) if params[:author]
       @articles = @articles.by_department(params[:department]) if params[:department]
+      @articles = @articles.featured if params[:featured]
     end
 
     @articles = @articles.desc(:publish_at).page(params[:page]).per(25)

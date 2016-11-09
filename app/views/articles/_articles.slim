@@ -14,7 +14,7 @@
       - @articles.each do |article|
         tr
           td = link_to_if policy(article).edit?, truncate(article.title), article_path(article)
-          td = article.authors.pluck(:name).join(', ') || article.ws_author
+          td = article.authors.map(&:name).join(', ') || article.ws_author
           td = article.user
           td = article.site
           td = article.publish_at.try :to_formatted_s, :long_ordinal

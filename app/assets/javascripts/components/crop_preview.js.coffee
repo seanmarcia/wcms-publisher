@@ -64,4 +64,5 @@ $(document).ready ->
     # if a user hits the 'change' button, you want to destroy the old JCrop
     $(".btn-file input:file").click ->
       JcropAPI = $('#cropbox').data('Jcrop');
-      JcropAPI.destroy();
+      if (JcropAPI != undefined)
+        JcropAPI.destroy();

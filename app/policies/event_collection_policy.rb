@@ -23,7 +23,7 @@ class EventCollectionPolicy < PermissionsPolicy
   alias :destroy? :index?
 
   def permitted_attributes
-    [:title, :primary_page_id]
+    [:title, :slug, :primary_page_id]
   end
 
   def can_manage?(attribute)

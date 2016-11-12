@@ -8,7 +8,11 @@
           .form-group
             = f.label :title
             = f.text_field :title, class: 'form-control', title: @event_collection.title
-
+            
+          .form-group
+            = f.label :slug
+            = f.text_field :slug, class: 'form-control'
+            
       hr
       .form-footer
         .pull-right.form-inline

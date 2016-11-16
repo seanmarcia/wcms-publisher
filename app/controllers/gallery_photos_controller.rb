@@ -18,8 +18,8 @@ class GalleryPhotosController < ApplicationController
       if @upload_response.include? false
         flash[:warning] = "One or more of the files failed to upload because they are not recognized as images."
       end
-      redirect_to polymorphic_url([:edit, @parent], page: params[:page])
     end
+    redirect_to polymorphic_url([:edit, @parent], page: params[:page])
   end
 
   def destroy

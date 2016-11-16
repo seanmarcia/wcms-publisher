@@ -52,7 +52,9 @@ class TicketsController < ApplicationController
   end
 
   def ticket_params
-    permitted_params(:ticket)
+    permitted_params(:ticket).tap do |t|
+      t[:cost].delete!('$') if t[:cost]
+    end
   end
 
 end

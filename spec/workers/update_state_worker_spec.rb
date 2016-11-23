@@ -11,7 +11,7 @@ describe UpdateStateWorker, type: :unit do
 
         it 'publishes the object' do
           archivable_object.set aasm_state: 'published'
-          UpdateStateWorker.new.perform(klass: archivable_object.class, obj_id: archivable_object.id)
+          UpdateStateWorker.new.perform(archivable_object.class.to_s, archivable_object.id)
           expect(archivable_object.reload.aasm_state).to eq 'archived'
         end
       end
@@ -22,7 +22,7 @@ describe UpdateStateWorker, type: :unit do
         let(:drafe_object) { create klass.underscore.to_sym, publish_at: Date.tomorrow, aasm_state: 'draft' }
 
         it 'does nothing to the object' do
-          UpdateStateWorker.new.perform(klass: drafe_object.class, obj_id: drafe_object.id)
+          UpdateStateWorker.new.perform(drafe_object.class.to_s, drafe_object.id)
           expect(drafe_object.reload.aasm_state).to eq 'draft'
         end
       end
@@ -31,7 +31,7 @@ describe UpdateStateWorker, type: :unit do
         let(:published_object) { create klass.underscore.to_sym, publish_at: Time.new(0), aasm_state: 'published' }
 
         it 'does nothing to the object' do
-          UpdateStateWorker.new.perform(klass: published_object.class, obj_id: published_object.id)
+          UpdateStateWorker.new.perform(published_object.class.to_s, published_object.id)
           expect(published_object.reload.aasm_state).to eq 'published'
         end
       end
@@ -40,7 +40,7 @@ describe UpdateStateWorker, type: :unit do
         let(:archived_object) { create klass.underscore.to_sym, publish_at: Time.new(0), archive_at: Time.new(1), aasm_state: 'archived' }
 
         it 'does nothing to the object' do
-          UpdateStateWorker.new.perform(klass: archived_object.class, obj_id: archived_object.id)
+          UpdateStateWorker.new.perform(archived_object.class.to_s, archived_object.id)
           expect(archived_object.reload.aasm_state).to eq 'archived'
         end
       end
@@ -57,7 +57,7 @@ describe UpdateStateWorker, type: :unit do
 
         it 'publishes the object' do
           publishable_object.set aasm_state: 'approved'
-          UpdateStateWorker.new.perform(klass: publishable_object.class, obj_id: publishable_object.id)
+          UpdateStateWorker.new.perform(publishable_object.class.to_s, publishable_object.id)
           expect(publishable_object.reload.aasm_state).to eq 'published'
         end
       end
@@ -68,7 +68,7 @@ describe UpdateStateWorker, type: :unit do
         let(:drafe_object) { create klass.underscore.to_sym, publish_at: Date.tomorrow, aasm_state: 'draft' }
 
         it 'does nothing to the object' do
-          UpdateStateWorker.new.perform(klass: drafe_object.class, obj_id: drafe_object.id)
+          UpdateStateWorker.new.perform(drafe_object.class.to_s, drafe_object.id)
           expect(drafe_object.reload.aasm_state).to eq 'draft'
         end
       end
@@ -77,7 +77,7 @@ describe UpdateStateWorker, type: :unit do
         let(:published_object) { create klass.underscore.to_sym, publish_at: Time.new(0), aasm_state: 'published' }
 
         it 'does nothing to the object' do
-          UpdateStateWorker.new.perform(klass: published_object.class, obj_id: published_object.id)
+          UpdateStateWorker.new.perform(published_object.class.to_s, published_object.id)
           expect(published_object.reload.aasm_state).to eq 'published'
         end
       end
@@ -86,7 +86,7 @@ describe UpdateStateWorker, type: :unit do
         let(:archived_object) { create klass.underscore.to_sym, publish_at: Time.new(0), archive_at: Time.new(1), aasm_state: 'archived' }
 
         it 'does nothing to the object' do
-          UpdateStateWorker.new.perform(klass: archived_object.class, obj_id: archived_object.id)
+          UpdateStateWorker.new.perform(archived_object.class.to_s, archived_object.id)
           expect(archived_object.reload.aasm_state).to eq 'archived'
         end
       end

@@ -6,7 +6,7 @@ class FirePublishObjectWorker
   # @return [true]
   # @note Hits before_save callback in buweb which publishes.
   def perform
-    logger.info %{Start publishing all objects via aasm.}
+    logger.info %(Start publishing all objects via aasm.)
     klasses = Settings.aasm_state_classes.auto_publish
     klasses = klasses.map(&:safe_constantize)
 
@@ -14,10 +14,10 @@ class FirePublishObjectWorker
       objects = klass.should_transition_to_published
 
       objects.each do |object|
-        UpdateStateWorker.perform_async(klass: klass, obj_id: object.id)
+        UpdateStateWorker.perform_async(klass.to_s, object.id)
       end
     end
-    logger.info %{Finish publishing all objects via aasm.}
+    logger.info %(Finish publishing all objects via aasm.)
 
     true
   end

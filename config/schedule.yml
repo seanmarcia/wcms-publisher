@@ -1,8 +1,12 @@
+#
+# This importer has been disabled. We need fix it before enabling it again.
+# There is an error "wrong number of arguments (0 for 2)" when calling it here.
+#
 # Every hour at the beginning of the hour
-FireArticleImportWorker:
-  cron: "0 * * * *"
-  class: "FireArticleImportWorker"
-  queue: default
+# FireArticleImportWorker:
+#   cron: "0 * * * *"
+#   class: "FireArticleImportWorker"
+#   queue: default
 
 # Every hour at the beginning and the middle of the hour
 FireArchiveObjectWorker:

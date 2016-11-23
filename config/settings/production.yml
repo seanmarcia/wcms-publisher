@@ -4,6 +4,9 @@ elasticsearch:
   - elastic1b.prod.biola.edu
   index_name: directory
 
+redis:
+  url: "redis://redis1.prod.biola.edu:6379/0"
+
 publishers:
   - title: Academic Programs
     url: https://wcms.biola.edu/academics/academic_programs
@@ -58,16 +61,3 @@ publishers:
 
 ws:
   url: https://ws.biola.edu
-
-# Classes that have aasm_states that should be auto published and archived
-aasm_state_classes:
-  auto_archive:
-    - Article
-    - PageEdition
-    - Event
-    - Feature
-  auto_publish:
-    - Article
-    - PageEdition
-    - Event
-    - Feature

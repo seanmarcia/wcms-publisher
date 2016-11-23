@@ -3,6 +3,9 @@ elasticsearch:
   - elastic1.staging.biola.edu
   index_name: directory
 
+redis:
+  url: "redis://redis1.staging.biola.edu:6379/0"
+
 publishers:
   - title: Academic Programs
     url: https://wcms.staging.biola.edu/academics/academic_programs

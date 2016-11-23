@@ -1,24 +1,23 @@
 require 'csv'
 
-CATALOGS = {
-  "2011-2012" => "54089fc77275626e8b030000",
-  "2012-2013" => "54089fee7275626e8b060000",
-  "2013-2014" => "5408a0117275626e8b0a0000",
-  "2014-2015" => "5408a03f72756223d7180000",
-  "2015-2016" => "5515c92f7275621c23210000",
-  "2016-2017" => "56feb726121567610cd2b196",
-}
-
-YEARS = [
-  "2011-2012",
-  "2012-2013",
-  "2013-2014",
-  "2014-2015",
-  "2015-2016",
-  "2016-2017",
-]
-
 namespace :degree_requirements do
+  catalogs = {
+    '2011-2012' => '54089fc77275626e8b030000',
+    '2012-2013' => '54089fee7275626e8b060000',
+    '2013-2014' => '5408a0117275626e8b0a0000',
+    '2014-2015' => '5408a03f72756223d7180000',
+    '2015-2016' => '5515c92f7275621c23210000',
+    '2016-2017' => '56feb726121567610cd2b196',
+  }
+
+  years = [
+    '2011-2012',
+    '2012-2013',
+    '2013-2014',
+    '2014-2015',
+    '2015-2016',
+    '2016-2017',
+  ]
 
   desc 'import degree requirements'
   task import: [:environment] do
@@ -57,9 +56,9 @@ namespace :degree_requirements do
         end
       end
 
-      YEARS.each do |year|
+      years.each do |year|
         if row[year].present?
-          catalog = Catalog.find(CATALOGS[year])
+          catalog = Catalog.find(catalogs[year])
           pdf_url = row[year]
 
           degree_requirement = DegreeRequirement.where({

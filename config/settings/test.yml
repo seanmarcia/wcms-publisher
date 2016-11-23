@@ -3,16 +3,3 @@ secret_token: 73dea7a86a6e64252c496ebe2bdbd25262bcf745d7e79365bc858af10fd47583da
 
 elasticsearch:
   index_name: directory_test
-
-# Classes that have aasm_states that should be auto published and archived
-aasm_state_classes:
-  auto_archive:
-    - Article
-    - PageEdition
-    - Event
-    - Feature
-  auto_publish:
-    - Article
-    - PageEdition
-    - Event
-    - Feature

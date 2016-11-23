@@ -63,6 +63,7 @@ group :development, :test do
   gem 'factory_girl_rails', '~> 4.5'
   gem 'mongoid-rspec', '~> 3.0'
   gem 'rspec-rails', '~> 3.4', '>= 3.4.1'
+  gem 'rspec-core', '>= 3.4.4' # fixes rake deprication error
   gem 'pry', '>= 0.10.3'
 end
 

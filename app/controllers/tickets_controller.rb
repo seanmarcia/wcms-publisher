@@ -13,7 +13,7 @@ class TicketsController < ApplicationController
     if @ticket.save
       flash[:info] = 'Ticket successfully added.'
     else
-      flash[:error] = 'Something went wrong. Please try again.'
+      flash[:error] = @ticket.errors.full_messages.to_sentence
     end
     redirect_to edit_event_path(@event, page: 'tickets')
   end
@@ -29,7 +29,7 @@ class TicketsController < ApplicationController
     if @ticket.update_attributes(ticket_params)
       flash[:info] = "Ticket has been successfully updated."
     else
-      flash[:error] = "Something went wrong. Please try again."
+      flash[:error] = @ticket.errors.full_messages.to_sentence
     end
     redirect_to edit_event_path(@event, page: 'tickets')
   end
@@ -40,7 +40,7 @@ class TicketsController < ApplicationController
     if @ticket.destroy
       flash[:info] = "Ticket has been successfully removed."
     else
-      flash[:error] = "Somthing went wrong. Please try again."
+      flash[:error] = @ticket.errors.full_messages.to_sentence
     end
     redirect_to :back
   end

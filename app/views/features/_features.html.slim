@@ -1,0 +1,16 @@
+.table-responsive
+  table.table.table-striped
+    thead
+      tr
+        th Title
+        th Location
+        th Status
+    tbody
+      - @features.each do |feature|
+        tr
+          td = link_to feature.title, feature
+          td
+            a href="#" data-toggle="modal" data-target="#edit#{feature.id}" =' fa_icon 'sort-numeric-asc'
+            =' feature.feature_location
+            = render 'feature_order', feature: feature
+          td = status_for feature

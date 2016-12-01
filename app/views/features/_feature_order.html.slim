@@ -1,0 +1,21 @@
+.modal.fade aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="edit#{feature.id}"
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close aria-label="Close" data-dismiss="modal" type="button"
+          span aria-hidden="true"  &times;
+        h4#myModalLabel.modal-title = "Order for #{feature.feature_location}"
+      .modal-body
+        .table-responsive
+          table.table.table-striped.table-sortable data-update_url= sort_features_path
+            thead
+              tr
+                th Name
+                th Published?
+                th`
+              tbody
+                - feature.feature_location.features.ne(aasm_state: 'archived').sort_by{|f| f.order }.each do |feat|
+                  = content_tag_for :tr, feat, class: "sortable-item #{'warning' if feat == feature}" do
+                    td = link_to feat.title, feature_path(feat)
+                    td = fa_icon 'check' if feat.published?
+                    td.handle.ignore-width = fa_icon 'bars'

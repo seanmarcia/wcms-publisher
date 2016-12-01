@@ -31,8 +31,8 @@ publishers:
     url: https://wcms.biola.edu/news/external_articles
   - title: External Blogs
     url: https://wcms.biola.edu/news/external_blogs
-  - title: Features
-    url: https://wcms.biola.edu/news/features
+  - class_name: Feature
+    title: Features
   - title: Forms
     url: https://forms.biola.edu/admin
   - title: Groups

@@ -18,6 +18,8 @@ class ApplicationController < WcmsApplicationController
         CampusLocation.find(params[:campus_location_id])
       elsif params[:event_id].present?
         Event.find(params[:event_id])
+      elsif params[:feature_id].present?
+        Feature.find(params[:feature_id])
       elsif params[:important_date_id].present?
         ImportantDate.find(params[:important_date_id])
       elsif params[:menu_id].present?

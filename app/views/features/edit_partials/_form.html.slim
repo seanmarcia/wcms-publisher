@@ -1,0 +1,105 @@
+= permitted_form_for @feature, html: {multipart: true} do |f|
+  .panel.panel-default
+    .panel-heading
+      strong Basic Info
+    .panel-body
+      .row.form-section
+        .form-group.col-md-6
+          = f.label :title
+          = f.text_field :title, class: 'form-control'
+        .form-group.col-md-6
+          = f.label :layout
+          - if permission_to_edit?(@feature, :layout)
+            = f.select :layout, Feature::LAYOUTS.map {|layout| [layout.to_s.humanize, layout]}, {}, class: 'form-control'
+          - else
+            .well.well-faux-input
+              = @feature.layout
+        .form-group.col-md-6
+          = f.label :type, 'Feature Type'
+          - if permission_to_edit?(@feature, :type)
+            = f.select :type, Feature::TYPES.map {|type| [type.to_s.humanize, type]}, {include_blank: true}, class: 'form-control', id: 'feature_type'
+          - else
+            .well.well-faux-input
+              = @feature.type
+        .form-group.col-md-6
+          = label_tag 'feature[feature_location_id]', 'Location'
+          br
+          - if permission_to_edit?(@feature, :feature_location_id)
+            = select_tag 'feature[feature_location_id]', grouped_options_for_select(@feature_locations, @feature.feature_location_id.to_s), include_blank: true, class: "form-control"
+          - else
+            .well.well-faux-input
+              = @feature.feature_location
+        .form-group.col-md-6.call-to-action
+          = f.label :call_to_action_link
+          = f.text_field :call_to_action_link, class: 'form-control'
+        .form-group.col-md-6.call-to-action
+          = f.label :call_to_action_text
+          = f.text_area :call_to_action_text, class: 'form-control', rows: 2
+        .form-group.col-md-12
+          = f.label :body
+          - if permission_to_edit?(@feature, :body)
+            = wcms_component 'forms/redactor_editor', form: f, attribute: :body, buttons: ['formatting', 'bold', 'italic', 'underline', 'unorderedlist', 'orderedlist', 'video', 'link', 'alignment', 'horizontalrule'], formatting: ['p', 'blockquote', 'h1', 'h2', 'h3', 'h4', 'h5']
+
+          - else
+            .well.well-faux-input
+              = @feature.body.html_safe
+        - if @feature.feature_location && @feature.persisted?
+          .form-group.col-md-12
+            - if permission_to_edit?(@feature, :order)
+              a.btn.btn-default href="#" data-toggle="modal" data-target="#edit#{@feature.id}" =' fa_icon('sort-numeric-asc', text: 'Reorder Features')
+              = render 'feature_order', feature: @feature
+            - else
+              a.btn.btn-default disabled="disabled" =' fa_icon('sort-numeric-asc', text: 'Reorder Features')
+
+      .row.form-section#video_feature
+        .form-group.col-md-12
+          = f.label :hd_video_url, 'HD video url'
+          = f.text_field :hd_video_url, class: 'form-control'
+        .form-group.col-md-12
+          = f.label :standard_video_url
+          = f.text_field :standard_video_url, class: 'form-control'
+
+      .row.form-section#audio_feature
+        .form-group.col-md-12
+          = f.label :audio_url
+          = f.text_field :audio_url, class: 'form-control'
+
+      .row.form-section#thumb_url
+        .form-group.col-md-12
+          = f.label :media_thumbnail_url, 'Thumbnail Url'
+          = f.text_field :media_thumbnail_url, class: 'form-control'
+
+      hr
+      h4 Images
+      .row.form-section
+        .form-group.col-md-6
+          = f.label :image_type, 'Type'
+          = f.select :image_type, Feature::IMAGE_TYPES.map {|image_type| [image_type.to_s.humanize, image_type]}, {}, class: 'form-control', disabled: !policy(f.object).update?
+
+      .row.form-section
+        - [:image, :mobile_image].each do |img|
+          .form-group.col-md-6
+            = f.label img, img.to_s.titleize
+            br
+            .fileinput.fileinput-new data-provides="fileinput" style="width: 100%;"
+              .fileinput-preview.thumbnail data-trigger="fileinput" style="width: 100%; min-height: 150px;"
+               = image_tag @feature.send("#{img}_url") if @feature.send("#{img}_url")
+              div
+                span.btn.btn-default.btn-file.btn-block
+                  span.fileinput-new = "Select #{img.to_s.titleize}"
+                  span.fileinput-exists Change
+                  = file_field_tag img
+                a.btn.btn-danger.btn-block.fileinput-exists data-dismiss="fileinput" href="#"  Remove
+
+
+      - if policy(@feature).publish?
+        hr
+        = render 'shared/state_dates', f: f, object: @feature, hide_archive: false
+      hr
+      .form-footer
+        .pull-right.form-inline
+          - (@feature.aasm.events & policy(@feature).permitted_aasm_events).each do |event|
+            .form-group.pull-right.pad-right
+              = f.submit event.to_s.titleize, name: 'transition', class: 'btn btn-biola'
+          .form-group.pull-right.pad-right
+            = f.submit "Save", class: 'btn btn-default'

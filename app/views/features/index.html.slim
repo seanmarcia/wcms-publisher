@@ -1,0 +1,27 @@
+.container.page
+  .page-header
+    ul.nav.nav-pills.pull-left
+      = nav_pill_header 'Options'
+      = nav_pill_dropdown 'Status', :status do
+        - Feature.new.aasm.states.each do |state|
+          = nav_list_link state.name.to_s.titleize, :status, state.name
+      - if @available_feature_locations.present?
+        = nav_pill_dropdown 'Locations', :feature_location do
+          - @available_feature_locations.each do |feature_location|
+            = nav_list_link feature_location, :feature_location, feature_location.id
+
+    .pull-right
+      = form_tag features_path, method: :get do
+        = text_field_tag 'q', params[:q], class: 'form-control', placeholder: 'Search', tabindex: '1'
+    .pull-right.pad-right
+      - if policy(Feature).create?
+        = link_to 'New Feature', new_feature_path, class: 'btn btn-default'
+    .clearfix
+
+  - if @features.empty?
+    .alert.alert-warning
+      = fa_icon 'warning', text: "No features were found"
+  - else
+    = render 'features'
+
+    .text-center = paginate @features

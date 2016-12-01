@@ -52,19 +52,15 @@ universe:
   development:
     academic_publisher: # set in settings.local.yml
     profile_publisher: # set in settings.local.yml
-    news_publisher: # set in settings.local.yml
   staging:
     academic_publisher: "https://wcms.staging.biola.edu/academics"
     profile_publisher: "https://wcms.staging.biola.edu/profiles"
-    news_publisher: "https://wcms.staging.biola.edu/news"
   production:
     academic_publisher: "https://wcms.biola.edu/academics"
     profile_publisher: "https://wcms.biola.edu/profiles"
-    news_publisher: "https://wcms.biola.edu/news"
   test:
     academic_publisher: "https://wcms.examplations.com/academics"
     profile_publisher: "https://wcms.examplations.com/profiles"
-    news_publisher: "https://wcms.examplations.com/news"
 
 # for mongoid history -- assigns additional child object logs to be shown
 trackable_relations:

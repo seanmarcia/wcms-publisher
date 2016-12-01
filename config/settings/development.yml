@@ -34,10 +34,6 @@ publishers:
     url: http://profile-publisher.dev/offices-services
   - class_name: Event
   - class_name: EventCollection
-  - title: External Articles
-    url: http://news-publisher.dev/external_articles
-  - title: External Blogs
-    url: http://news-publisher.dev/external_blogs
   - class_name: Feature
     title: Features
   - title: Forms
@@ -55,10 +51,6 @@ publishers:
     url: http://profile-publisher.dev/people
   - class_name: PhotoGallery
   - class_name: PresentationDataTemplate
-  - title: Publications
-    url: http://news-publisher.dev/publications
-  - title: Publication Categories
-    url: http://news-publisher.dev/publication_categories
   - title: Schools
     url: http://academic-publisher.dev/schools
   - class_name: ServiceLink

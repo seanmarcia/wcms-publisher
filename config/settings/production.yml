@@ -27,10 +27,6 @@ publishers:
     url: https://wcms.biola.edu/profiles/offices-services
   - class_name: Event
   - class_name: EventCollection
-  - title: External Articles
-    url: https://wcms.biola.edu/news/external_articles
-  - title: External Blogs
-    url: https://wcms.biola.edu/news/external_blogs
   - class_name: Feature
     title: Features
   - title: Forms
@@ -47,10 +43,6 @@ publishers:
   - title: People
     url: https://wcms.biola.edu/profiles/people
   - class_name: PhotoGallery
-  - title: Publications
-    url: https://wcms.biola.edu/news/publications
-  - title: Publication Categories
-    url: https://wcms.biola.edu/news/publication_categories
   - title: Schools
     url: https://wcms.biola.edu/academics/schools
   - class_name: ServiceLink

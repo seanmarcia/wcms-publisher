@@ -7,6 +7,6 @@ class ApplicationMailer < ActionMailer::Base
   def new_published_articles(article_ids)
     @articles = Article.in(id: article_ids)
 
-    mail to: Settings.email.email_to, subject: "[News Publisher] #{@articles.count} articles have been published." if @articles.present?
+    mail to: Settings.email.email_to, subject: "[WCMS Publisher] #{@articles.count} articles have been published." if @articles.present?
   end
 end

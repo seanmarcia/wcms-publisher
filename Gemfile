@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.2.5.1'
 
-gem 'analytics-ruby', '~> 2.1', :require => "segment"
+gem 'analytics-ruby', '~> 2.1', require: 'segment'
 gem 'biola_deploy', '~> 0.7'
 gem 'biola_frontend_toolkit', '~> 0.5.6'
 gem 'biola_wcms_components', '~> 0.24.1'
@@ -40,7 +40,6 @@ gem 'sidekiq-cron', '~> 0.3.1'
 # don't use the Web UI. So we need to include sinatra here.
 gem 'sinatra', require: false
 gem 'slim', '>= 2.1'
-gem 'therubyracer', platforms: :ruby
 gem 'turnout', '~> 2.2', '>= 2.2.1'
 gem 'uglifier', '>= 1.3.0'
 
@@ -53,13 +52,7 @@ group :development, :staging, :test do
 end
 
 group :development, :test do
-  # # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  # gem 'byebug'
-  # # Access an IRB console on exception pages or by using <%= console %> in views
-  # gem 'web-console', '~> 2.0'
-
-  # Needed for better_errors to work properly
-  gem 'binding_of_caller', '>= 0.7.2'
+  gem 'binding_of_caller', '>= 0.7.2' # Needed for better_errors to work properly
   gem 'factory_girl_rails', '~> 4.5'
   gem 'mongoid-rspec', '~> 3.0'
   gem 'rspec-rails', '~> 3.4', '>= 3.4.1'

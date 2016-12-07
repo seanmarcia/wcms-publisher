@@ -14,11 +14,12 @@ ruby:
         - source.page_editions.each do |page|
           tr
             td = link_to page, page
-            td
-              - if page.id.to_s == source.primary_page_id
-                = "Primary"
-              - else
-                = button_to "Make Primary", source, {method: :patch, params: {"#{name}[primary_page_id]" => page.id.to_s, page: 'pages'}, class: 'btn btn-default'}
+            - if page.id.to_s == source.primary_page_id
+              td = "Primary"
+              td = button_to "Unset", source, {method: :patch, params: {"#{name}[primary_page_id]" => nil, page: 'pages'}, class: 'btn btn-default'}
+            - else
+              td
+              td = button_to "Make Primary", source, {method: :patch, params: {"#{name}[primary_page_id]" => page.id.to_s, page: 'pages'}, class: 'btn btn-default'}
 
       - else
         .alert.alert-info This #{friendly_name} has no pages tied to it.

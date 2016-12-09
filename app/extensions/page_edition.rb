@@ -16,4 +16,8 @@ PageEdition.class_eval do
       PageEdition.none
     end
   }
+
+  def enabled_roles
+    [['Editor', :edit], ['Publisher', :publish]]
+  end
 end

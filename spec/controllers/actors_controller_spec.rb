@@ -57,7 +57,12 @@ describe ActorsController do
     let(:user) { create :user }
 
     def delete_actor(user_id=nil)
-      delete :destroy, page_edition_id: page.id, id: user_id
+      delete :destroy, page_edition_id: page.id, id: user_id, role: :all_roles
+      page.reload
+    end
+
+    def delete_actor_role(user_id=nil)
+      delete :destroy, page_edition_id: page.id, id: user_id, role: :edit
       page.reload
     end
 
@@ -68,10 +73,18 @@ describe ActorsController do
 
       let(:admin) { create :user, affiliations: [:admin]}
 
-      it "removes permissions for user" do
+      it "removes all permissions for user" do
         expect(page.permissions.count).to eql 1
         expect(page.has_permission?(user)).to be true
         delete_actor(user.id)
+        expect(page.permissions.count).to eql 0
+        expect(page.has_permission?(user)).to be false
+      end
+
+      it "removes edit permissions for user" do
+        expect(page.permissions.count).to eql 1
+        expect(page.has_permission?(user)).to be true
+        delete_actor_role(user.id)
         expect(page.permissions.count).to eql 0
         expect(page.has_permission?(user)).to be false
       end

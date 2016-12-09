@@ -33,13 +33,20 @@ class ActorsController < ApplicationController
   def destroy
     authorize @parent, :destroy_actor?
 
+    ability = params[:role]
     actor = User.find(params[:id])
-    @parent.permissions.by_actor(actor).map(&:ability).to_sentence.humanize
-    if @parent.unauthorize_all!(actor)
-      flash[:info] = "#{actor.name}'s permissions have been successfully removed. " \
-        "<a href=/wcms_components/changes/#{@parent.history_tracks.last.id}/undo_destroy>Undo</a>"
+    if ability == 'all_roles'
+      if @parent.unauthorize_all!(actor)
+        flash[:info] = "#{actor.name}'s permissions have been successfully removed."
+      else
+        flash[:error] = 'Something went wrong. Please try again.'
+      end
     else
-      flash[:error] = 'Something went wrong. Please try again.'
+      if @parent.unauthorize!(actor, ability)
+        flash[:info] = "#{actor.name}'s #{ability.to_s.titleize} permission has been successfully removed."
+      else
+        flash[:error] = 'Something went wrong. Please try again.'
+      end
     end
     redirect_to parent_edit_path(@parent, page: 'permissions')
   end

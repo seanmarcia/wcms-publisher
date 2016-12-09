@@ -23,8 +23,10 @@
                     = link_to fa_icon('cog')
                   ul.dropdown-menu role="menu" aria-labelledby="dropdownMenu1"
                     li
-                      - if actor != current_user
-                        = link_to 'Revoke Permissions', send("#{obj.class.to_s.underscore}_actor_path", obj.id.to_s, id: actor.id.to_s), method: :delete, data: { confirm: "Are you sure that you want to revoke #{actor.name}'s permissions?" }, class: 'btn-default'
+                      - if (actor != current_user) || current_user.admin?
+                        - obj.permissions.by_actor(actor).map{|perm| perm.ability}.each do |role|
+                          = link_to "Revoke #{role.to_s.titleize} Permission", send("#{obj.class.to_s.underscore}_actor_path", obj.id.to_s, id: actor.id.to_s, role: role), method: :delete, data: { confirm: "Are you sure that you want to revoke #{actor.name}'s permissions?" }, class: 'btn-default'
+                        = link_to "Revoke All Permissions", send("#{obj.class.to_s.underscore}_actor_path", obj.id.to_s, id: actor.id.to_s, role: :all_roles), method: :delete, data: { confirm: "Are you sure that you want to revoke #{actor.name}'s permissions?" }, class: 'btn-default'
 
                       - else
                         = link_to 'Revoke Permissions', '#', onclick: "alert('You cannot remove your own permissions.')", class: 'btn btn-link'
@@ -41,7 +43,10 @@
             .form-group> = wcms_component 'forms/person_lookup', person_id_key: :_person_id
             - if obj.respond_to?(:enabled_roles)
               .form-group>
-                = select_tag :role, grouped_options_for_select(obj.enabled_roles), class: "form-control multiselect"
+                - if obj.enabled_roles.is_a?(Hash)
+                  = select_tag :role, grouped_options_for_select(obj.enabled_roles), class: "form-control multiselect"
+                - if obj.enabled_roles.is_a?(Array)
+                  = select_tag :role, options_for_select(obj.enabled_roles), class: "form-control multiselect"
 
             .form-group = submit_tag '+ add user', class: 'btn btn-default'
       div#note

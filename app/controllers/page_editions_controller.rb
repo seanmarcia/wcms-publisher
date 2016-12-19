@@ -73,6 +73,7 @@ class PageEditionsController < ApplicationController
   def update
     set_state(@page_edition)
     if @page_edition.update_attributes(page_edition_params)
+      broadcast(:track!, current_user, :updated, @page_edition) if current_user
       flash[:notice] = "'#{@page_edition.title}' updated."
       redirect_to(
         edit_page_edition_path(@page_edition,
@@ -86,8 +87,9 @@ class PageEditionsController < ApplicationController
 
   def destroy
     child_pages = @page_edition.child_pages
-
+    cached_page = @page_edition
     if @page_edition.destroy
+      broadcast(:track!, current_user, :destroyed, cached_page) if current_user
       child_pages.each{|child| child.update_attributes({parent_page_id: nil})} if child_pages.present?
       flash[:info] = "Page has been successfully removed. <a href=/wcms_components/changes/#{@page_edition.history_tracks.last.id}/undo_destroy>Undo</a>"
     else

@@ -1,13 +1,17 @@
 class WebHook
   include ServiceObject
+  attr_reader :url
 
-  URL = Settings.webhook_url
+  def initialize(url, errors=[])
+    @url = url
+    @errors = errors
+  end
 
   def send!(params={})
     raise ArgumentError, "params must be a Hash" unless params.instance_of? Hash
-    return if URL.blank?
+    return if url.blank?
     begin
-      post WebHook::URL, params
+      post url, params
     rescue => error
       return result_with_errors(error)
     end
@@ -23,7 +27,7 @@ class WebHook
       return response.body
     else
       # TODO: Log error?
-      raise "There was an error calling #{URL} with parameters: #{query}"
+      raise "There was an error calling #{url} with parameters: #{query}"
     end
   end
 

@@ -1,6 +1,7 @@
 class ApplicationController < WcmsApplicationController
   # We are inheriting from WcmsApplicationController.
   #  This contains many of the controller configuration code.
+  include Wisper::Publisher
 
   protect_from_forgery with: :exception
 

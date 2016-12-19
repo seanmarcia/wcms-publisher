@@ -82,8 +82,10 @@ audience:
   - 'Staff'
   - 'Students'
 
-# Set the destination of the single webhook; in the future we may want to support multiple or even user-defined webhooks
-webhook_url: # set in settings.local.yml
+# Set the destination of zapier webhooks.
+zapier:
+  event_change_webhook_url: # set in settings.local.yml
+  page_change_webhook_url: # set in settings.local.yml
 
 # List academic years you want to import events from chapel api
 chapel_import_years: []

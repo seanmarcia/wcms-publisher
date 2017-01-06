@@ -73,7 +73,7 @@ class PageEditionsController < ApplicationController
   def update
     set_state(@page_edition)
     if @page_edition.update_attributes(page_edition_params)
-      broadcast(:track!, current_user, :updated, @page_edition) if current_user
+      broadcast(:track!, current_user, :updated, @page_edition) if current_user && @page_edition.previous_changes.present?
       flash[:notice] = "'#{@page_edition.title}' updated."
       redirect_to(
         edit_page_edition_path(@page_edition,

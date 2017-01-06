@@ -39,8 +39,10 @@ module ActivityTracker
         site: @page_edition.site.url,
         url: @page_edition.url,
         state: @page_edition.aasm_state,
+        fields_changed: @page_edition.previous_changes.except(:updated_at, :version).keys.join(', '),
         edit_link: edit_link,
-        undo_link: undo_link
+        undo_link: undo_link,
+        page_history_link: page_history_link
       }
     end
 
@@ -60,5 +62,12 @@ module ActivityTracker
       end
     end
 
+    def page_history_link
+      if @action == :updated
+        Rails.application.routes.url_helpers.object_index_wcms_components_changes_url(id: @page_edition.id, klass: @page_edition.class, host: Settings.app.host)
+      else
+        'n/a'
+      end
+    end
   end
 end

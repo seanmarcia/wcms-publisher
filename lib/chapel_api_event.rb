@@ -113,8 +113,12 @@ class ChapelApiEvent
   #
   def set_contact_information
     processed_type = type.titleize.parameterize('_')
-    event.contact_email = Settings.send(processed_type).try(:email) || Settings.chapel.email
-    event.contact_phone = Settings.send(processed_type).try(:phone) || Settings.chapel.phone
+    contact_info = Settings.chapel_contact_info
+
+    event.contact_email =
+      contact_info.try(processed_type).try('email') || contact_info.default_email
+    event.contact_phone =
+      contact_info.try(processed_type).try('phone') || contact_info.default_phone
   end
 
   def set_location
@@ -154,19 +158,11 @@ class ChapelApiEvent
   # Use the default photo based on the type of chapel.
   #
   def set_image
-    if event.image.url.blank? && image_changed?(default_image)
+    if event.image.url.blank?
       img_src = Rails.root.join("lib/chapel_api/chapel-images/#{default_image}")
       event.image = File.new(img_src)
       @image_updated = true
     end
-  end
-
-  # Compare filenames to see if photo has changed
-  def image_changed?(new_url)
-    return false if new_url.blank?
-    return true if event.image.url.blank?
-    return false if new_url.match(event.image.file.filename)
-    true
   end
 
   # Provide a default image for chapels if no speaker image exists

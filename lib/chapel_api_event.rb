@@ -44,11 +44,9 @@ class ChapelApiEvent
       slug: "Chapel #{DateTime.parse(starts_at).strftime('%B %d')} #{title} #{id}".parameterize,
       subtitle: subtitle,
       description: summary.presence || 'No description available',
-      contact_email: 'chapel@biola.edu',
-      contact_phone: '(562) 903-4874',
       imported: true,
       site_id: site_id,
-      audience: ['Students']
+      audience: Settings.audience
     )
     # Only do this stuff for new events
     unless event.persisted?
@@ -64,6 +62,7 @@ class ChapelApiEvent
     set_site_category
     set_presentation_data
     set_image
+    set_contact_information
 
     log_attributes =
       "slug='#{event.slug}' title='#{event.title}' start_date='#{event.start_date}'"
@@ -109,6 +108,15 @@ class ChapelApiEvent
     )
   end
 
+  #
+  # Find settings for email and phone by event type or use defaults.
+  #
+  def set_contact_information
+    processed_type = type.titleize.parameterize('_')
+    event.contact_email = Settings.send(processed_type).try(:email) || Settings.chapel.email
+    event.contact_phone = Settings.send(processed_type).try(:phone) || Settings.chapel.phone
+  end
+
   def set_location
     if campus_location = CampusLocation.where(name: location).first
       event.location_type = 'on-campus'
@@ -143,23 +151,14 @@ class ChapelApiEvent
   end
 
   #
-  # Set image.
-  # Use the speaker photo if there is one, otherwise use
-  # the default photo based on the type of chapel.
+  # Use the default photo based on the type of chapel.
   #
   def set_image
-    if image_changed?(speaker_photo_url)
-      event.assign_attributes(remote_image_url: speaker_photo_url)
-      @image_updated = true # for some reason this isn't triggering a change
-    elsif event.image.url.blank? && image_changed?(default_image)
+    if event.image.url.blank? && image_changed?(default_image)
       img_src = Rails.root.join("lib/chapel_api/chapel-images/#{default_image}")
       event.image = File.new(img_src)
       @image_updated = true
     end
-  end
-
-  def speaker_photo_url
-    speakers.first['original_photo_url'] if speakers.present?
   end
 
   # Compare filenames to see if photo has changed

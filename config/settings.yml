@@ -119,10 +119,10 @@ chapel_contact_info:
   default_email: 'chapel@biola.edu'
   default_phone: '(562) 903-4874'
 
+  # Type specific contact information for chapel events.
+  #  To include other types just titleize and parameterize the type here.
+  #  It happens dynamically in the code.
+  #  So AfterDark would become after_dark and Biola Hour would be biola_hour.
   talbot:
     email: 'catherine.m.wilson@biola.edu'
     phone: '562-944-0351 ext.5521'
-# Type specific contact information for chapel events.
-# To include other types just titleize and parameterize the type here. It happens
-#  dynamically in the code.
-#  So AfterDark would become after_dark and Biola Hour would be biola_hour

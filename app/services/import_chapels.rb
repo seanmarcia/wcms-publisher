@@ -16,7 +16,12 @@ class ImportChapels
       year_events = Array(api.events_for_academic_year(year['id']))
       year_events.each do |event|
         event['site_id'] = site.id
-        ChapelApiEvent.new(event).import
+
+        if event['type'] == 'No Chapel'
+          ChapelApiImportantDate.new(event).import
+        else
+          ChapelApiEvent.new(event).import
+        end
       end
     end
   end

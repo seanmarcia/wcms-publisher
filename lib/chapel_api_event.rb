@@ -17,6 +17,7 @@ class ChapelApiEvent
     @location = attrs['location'].try(:[],'name')
     @site_id = attrs['site_id']
     @image_updated = false # a way to force save
+
     @event = Event.find_or_initialize_by(
       import_source: 'chapel-api',
       import_id: id,
@@ -44,11 +45,9 @@ class ChapelApiEvent
       slug: "Chapel #{DateTime.parse(starts_at).strftime('%B %d')} #{title} #{id}".parameterize,
       subtitle: subtitle,
       description: summary.presence || 'No description available',
-      contact_email: 'chapel@biola.edu',
-      contact_phone: '(562) 903-4874',
       imported: true,
       site_id: site_id,
-      audience: ['Students']
+      audience: Array(Settings.audience)
     )
     # Only do this stuff for new events
     unless event.persisted?
@@ -60,17 +59,19 @@ class ChapelApiEvent
 
     populate_event_occurrence
     set_location
+    set_contact_information
     set_department
     set_site_category
-    set_presentation_data
     set_image
+    set_presentation_data
 
     log_attributes =
       "slug='#{event.slug}' title='#{event.title}' start_date='#{event.start_date}'"
 
     if event.changed? || @image_updated
+      is_existing_event = event.persisted?
       if event.save
-        if event.persisted?
+        if is_existing_event
           print 'u' # updated
         else
           print '.' # created
@@ -109,6 +110,19 @@ class ChapelApiEvent
     )
   end
 
+  #
+  # Find settings for email and phone by event type or use defaults.
+  #
+  def set_contact_information
+    processed_type = type.titleize.parameterize('_')
+    contact_info = Settings.chapel_contact_info
+
+    event.contact_email =
+      contact_info.try(processed_type).try('email') || contact_info.default_email
+    event.contact_phone =
+      contact_info.try(processed_type).try('phone') || contact_info.default_phone
+  end
+
   def set_location
     if campus_location = CampusLocation.where(name: location).first
       event.location_type = 'on-campus'
@@ -143,50 +157,35 @@ class ChapelApiEvent
   end
 
   #
-  # Set image.
-  # Use the speaker photo if there is one, otherwise use
-  # the default photo based on the type of chapel.
+  # Use the default photo based on the type of chapel.
   #
   def set_image
-    if image_changed?(speaker_photo_url)
-      event.assign_attributes(remote_image_url: speaker_photo_url)
-      @image_updated = true # for some reason this isn't triggering a change
-    elsif event.image.url.blank? && image_changed?(default_image)
+    if event.image.url.blank?
       img_src = Rails.root.join("lib/chapel_api/chapel-images/#{default_image}")
       event.image = File.new(img_src)
       @image_updated = true
     end
   end
 
-  def speaker_photo_url
-    speakers.first['original_photo_url'] if speakers.present?
-  end
-
-  # Compare filenames to see if photo has changed
-  def image_changed?(new_url)
-    return false if new_url.blank?
-    return true if event.image.url.blank?
-    return false if new_url.match(event.image.file.filename)
-    true
-  end
-
-  # Provide a default image for chapels if no speaker image exists
+  # Provide a default image for chapels
   def default_image
     case type
     when 'AfterDark'
-      'chapel-after-dark.jpg'
+      'Chapel-AfterDark.jpg'
     when 'Biola Hour'
-      'chapel-biola-hour.jpg'
+      'Chapel-BiolaHour.jpg'
+    when 'Sabbathing' || 'Morning Prayer' || 'Thursday Morning Prayer'
+      'Chapel-CalvaryChap.jpg'
     when 'Fives'
-      'chapel-fives.jpg'
+      'Chapel-Fives.jpg'
     when 'Midday'
-      'chapel-midday.jpg'
-    when 'Sabbathing'
-      'chapel-sabbathing.jpg'
+      'Chapel-Midday.jpg'
     when 'Singspiration'
-      'chapel-singspiration.jpg'
+      'Chapel-Singspiration.jpg'
+    when 'Talbot'
+      'Chapel-Talbot.jpg'
     else
-      'chapel-default-2016.jpg'
+      'Chapel-Theme1617.jpg'
     end
   end
 
@@ -197,7 +196,7 @@ class ChapelApiEvent
     event.presentation_data = presentation_data
   end
 
-  # finds the PresentationDataTemplate for chapels
+  # Finds the PresentationDataTemplate for chapels
   def presentation_data_template
     PresentationDataTemplate.where(
       title: 'Chapel Event',
@@ -205,7 +204,7 @@ class ChapelApiEvent
     ).first
   end
 
-  # has to match the "Chapel Event" PresentationDataTemplate
+  # Has to match the "Chapel Event" PresentationDataTemplate
   def presentation_data
     {
       'type' => type,

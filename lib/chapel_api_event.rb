@@ -169,19 +169,21 @@ class ChapelApiEvent
   def default_image
     case type
     when 'AfterDark'
-      'chapel-after-dark.jpg'
+      'Chapel-AfterDark.jpg'
     when 'Biola Hour'
-      'chapel-biola-hour.jpg'
+      'Chapel-BiolaHour.jpg'
+    when 'Sabbathing' || 'Morning Prayer'
+      'Chapel-CalvaryChap.jpg'
     when 'Fives'
-      'chapel-fives.jpg'
+      'Chapel-Fives.jpg'
     when 'Midday'
-      'chapel-midday.jpg'
-    when 'Sabbathing'
-      'chapel-sabbathing.jpg'
+      'Chapel-Midday.jpg'
     when 'Singspiration'
-      'chapel-singspiration.jpg'
+      'Chapel-Singspiration.jpg'
+    when 'Talbot'
+      'Chapel-Talbot.jpg'
     else
-      'chapel-default-2016.jpg'
+      'Chapel-Theme1617.jpg'
     end
   end
 

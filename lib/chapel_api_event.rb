@@ -47,7 +47,7 @@ class ChapelApiEvent
       description: summary.presence || 'No description available',
       imported: true,
       site_id: site_id,
-      audience: Settings.audience
+      audience: Array(Settings.audience)
     )
     # Only do this stuff for new events
     unless event.persisted?

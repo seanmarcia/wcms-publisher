@@ -31,7 +31,6 @@ class ChapelApiImportantDate
     )
     important_date.end_date = nil if important_date.end_date <= important_date.start_date
 
-    set_calendar
     set_audience
     log_attributes =
       "title='#{important_date.title}' start_date='#{important_date.start_date}'"
@@ -68,20 +67,7 @@ class ChapelApiImportantDate
     Rails.logger.try(level, full_message)
   end
 
-  #
-  # Set calendars array. Dependent on when the important_date starts versus when
-  #  the calendars start and end.
-  #
-  def set_calendar
-    if important_date.calendars.blank?
-      calendars = Calendar.gte(end_date: starts_at).lte(start_date: starts_at)
-      if calendars
-        important_date.calendars = calendars
-      end
-    end
-  end
-
   def set_audience
-    important_date.audience_collection = AudienceCollection.new(affiliations: Settings.audience)
+    important_date.audience_collection = AudienceCollection.new(affiliations: Array(Settings.audience))
   end
 end

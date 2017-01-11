@@ -26,20 +26,20 @@ class ChapelApiImportantDate
       categories: ['Chapel'],
       title: title,
       imported: true,
-      site_id: site_id,
-      audience: Settings.audience,
       start_date: starts_at,
       end_date: ends_at
     )
+    important_date.end_date = nil if important_date.end_date <= important_date.start_date
 
     set_calendar
-
+    set_audience
     log_attributes =
       "title='#{important_date.title}' start_date='#{important_date.start_date}'"
 
     if important_date.changed?
+      is_existing_date = important_date.persisted?
       if important_date.save
-        if important_date.persisted?
+        if is_existing_date
           print 'u' # updated
         else
           print '.' # created
@@ -79,5 +79,9 @@ class ChapelApiImportantDate
         important_date.calendars = calendars
       end
     end
+  end
+
+  def set_audience
+    important_date.audience_collection = AudienceCollection.new(affiliations: Settings.audience)
   end
 end

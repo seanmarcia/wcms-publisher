@@ -17,6 +17,7 @@ class ChapelApiEvent
     @location = attrs['location'].try(:[],'name')
     @site_id = attrs['site_id']
     @image_updated = false # a way to force save
+
     @event = Event.find_or_initialize_by(
       import_source: 'chapel-api',
       import_id: id,
@@ -58,18 +59,19 @@ class ChapelApiEvent
 
     populate_event_occurrence
     set_location
+    set_contact_information
     set_department
     set_site_category
-    set_presentation_data
     set_image
-    set_contact_information
+    set_presentation_data
 
     log_attributes =
       "slug='#{event.slug}' title='#{event.title}' start_date='#{event.start_date}'"
 
     if event.changed? || @image_updated
+      is_existing_event = event.persisted?
       if event.save
-        if event.persisted?
+        if is_existing_event
           print 'u' # updated
         else
           print '.' # created
@@ -165,14 +167,14 @@ class ChapelApiEvent
     end
   end
 
-  # Provide a default image for chapels if no speaker image exists
+  # Provide a default image for chapels
   def default_image
     case type
     when 'AfterDark'
       'Chapel-AfterDark.jpg'
     when 'Biola Hour'
       'Chapel-BiolaHour.jpg'
-    when 'Sabbathing' || 'Morning Prayer'
+    when 'Sabbathing' || 'Morning Prayer' || 'Thursday Morning Prayer'
       'Chapel-CalvaryChap.jpg'
     when 'Fives'
       'Chapel-Fives.jpg'
@@ -194,7 +196,7 @@ class ChapelApiEvent
     event.presentation_data = presentation_data
   end
 
-  # finds the PresentationDataTemplate for chapels
+  # Finds the PresentationDataTemplate for chapels
   def presentation_data_template
     PresentationDataTemplate.where(
       title: 'Chapel Event',
@@ -202,7 +204,7 @@ class ChapelApiEvent
     ).first
   end
 
-  # has to match the "Chapel Event" PresentationDataTemplate
+  # Has to match the "Chapel Event" PresentationDataTemplate
   def presentation_data
     {
       'type' => type,

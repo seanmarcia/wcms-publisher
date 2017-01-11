@@ -174,7 +174,7 @@ class ChapelApiEvent
       'Chapel-AfterDark.jpg'
     when 'Biola Hour'
       'Chapel-BiolaHour.jpg'
-    when 'Sabbathing' || 'Morning Prayer' || 'Thursday Morning Prayer'
+    when 'Sabbathing', 'Morning Prayer', 'Thursday Morning Prayer'
       'Chapel-CalvaryChap.jpg'
     when 'Fives'
       'Chapel-Fives.jpg'

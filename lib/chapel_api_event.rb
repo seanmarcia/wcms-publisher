@@ -114,9 +114,10 @@ class ChapelApiEvent
   # Find settings for email and phone by event type or use defaults.
   #
   def set_contact_information
+    contact_info = Settings.chapel_contact_info
+
     if type.present?
       processed_type = type.titleize.parameterize('_')
-      contact_info = Settings.chapel_contact_info
 
       event.contact_email =
         contact_info.try(processed_type).try('email') || contact_info.default_email

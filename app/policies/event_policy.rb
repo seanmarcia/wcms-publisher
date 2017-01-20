@@ -12,7 +12,7 @@ class EventPolicy < PermissionsPolicy
       elsif event_viewer?
         scope.and({"$or"=>[
           {user_id: user.id.to_s},
-          {'permissions.actor_id' => user.id.to_s}, 
+          {'permissions.actor_id' => user.id.to_s},
           {:site_id.in => permitted_sites_ids }
         ]})
       else
@@ -77,6 +77,7 @@ class EventPolicy < PermissionsPolicy
       event_occurrences_attributes: [:id, :start_time, :end_time, :_destroy]]
 
       pa += [:presentation_data_json, :presentation_data_template_id]
+      pa += [:end_of_head_html, :end_of_body_html] if can_manage?(:design)
       pa += [:publish_at, :archive_at, :featured] if event_publisher?
       pa += [:site_id] if record == Event || record.site_id.blank? || record.draft?
       pa = pa | SEO_FIELDS if user.admin? # Inherited from ApplicationPolicy
@@ -92,11 +93,13 @@ class EventPolicy < PermissionsPolicy
       user.admin?
     when :permissions
       event_admin?
+    when :design
+      user.admin? || user.has_role?(:designer)
     else
       false
     end
   end
-  
+
   private
 
   def can_edit?

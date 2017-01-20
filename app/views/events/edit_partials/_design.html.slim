@@ -1,0 +1,35 @@
+.panel.panel-default
+  .panel-heading
+    strong Design
+  .panel-body
+    = form_for @event do |f|
+      = hidden_field_tag :page, params[:page]
+
+      .row.form-section
+        .col-xs-12
+          .form-group
+            div#note
+              strong> NOTE:
+              | When referencing classes or ID's please make sure to use something very unique and be very explicit in what you are referencing.
+
+          .form-group
+            = f.label :end_of_head_html, 'End of Head HTML'
+            = wcms_component 'forms/code_editor',
+              form: f,
+              mode: 'html',
+              attribute: :end_of_head_html,
+              value: @event.end_of_head_html
+
+          .form-group
+            = f.label :end_of_body_html, 'End of Body HTML'
+            = wcms_component 'forms/code_editor',
+              form: f,
+              mode: 'html',
+              attribute: :end_of_body_html,
+              value: @event.end_of_body_html
+
+      .form-footer
+        .pull-right
+          = f.submit 'Save', class: 'btn btn-biola'
+          = link_to 'Cancel', events_path, class: 'btn btn-link'
+        .clearfix

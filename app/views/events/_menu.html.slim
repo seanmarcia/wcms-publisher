@@ -7,6 +7,7 @@
       = menu.add_item('Tickets / Registration') { edit_event_path(@event, page: 'tickets') }
       = menu.add_item('Relationships') { edit_event_path(@event, page: 'relationships') }
       = menu.add_item('Presentation Data') { edit_event_path(@event, page: 'presentation_data') }
+      = menu.add_item('Design') { edit_event_path(@event, page: 'design') } if policy(@event).can_manage?(:design)
       = menu.add_item('Pages') { edit_event_path(@event, page: 'pages') } if policy(@event).can_manage?(:pages)
       = menu.add_item('Permissions') { edit_event_path(@event, page: 'permissions') } if policy(@event).can_manage?(:permissions)
       = menu.add_item('SEO') { edit_event_path(@event, page: 'seo') } if policy(@event).can_manage?(:seo)
@@ -16,7 +17,7 @@
     .list-group
       = link_to fa_icon('files-o', text: "Duplicate Event"), duplicate_event_path(@event), class: 'list-group-item'
 
-  .list-group 
+  .list-group
     .list-group-item.list-group-top class=("list-group-item-#{class_partial_for(@event.aasm_state)}")
       = "This event is <strong>#{@event.aasm_state.titleize}</strong>".html_safe
     / Some of the older events don't have sites so we need to check

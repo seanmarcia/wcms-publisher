@@ -11,7 +11,7 @@ class ChapelApiEvent
     @starts_at = attrs['starts_at']
     @ends_at = attrs['ends_at']
     @slug = attrs['slug']
-    @type = attrs['type']
+    @type = attrs['type'].try(:strip)
     @speakers = attrs['speakers']
     @series = attrs['series']
     @location = attrs['location'].try(:[],'name')

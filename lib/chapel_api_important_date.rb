@@ -7,7 +7,7 @@ class ChapelApiImportantDate
     @title = attrs['title']
     @starts_at = attrs['starts_at']
     @ends_at = attrs['ends_at']
-    @type = attrs['type']
+    @type = attrs['type'].try(:strip)
     @important_date = ImportantDate.find_or_initialize_by(
       import_source: 'chapel-api',
       import_id: id
@@ -46,8 +46,8 @@ class ChapelApiImportantDate
         log :debug, "Successfully added/updated important date with attributes: #{log_attributes}"
       else
         print 'e'
-        log :error, "Error - failed to add/update important date with attributes: "\
-          "#{log_attributes} messages=#{important_date.errors.full_messages}"
+        log :error, 'Error - failed to add/update important date with attributes: ' \
+                    "#{log_attributes} messages=#{important_date.errors.full_messages}"
       end
     else
       log :debug, "No changes - Skip important date with attributes: #{log_attributes}"
@@ -68,6 +68,7 @@ class ChapelApiImportantDate
   end
 
   def set_audience
-    important_date.audience_collection = AudienceCollection.new(affiliations: Array(Settings.audience))
+    important_date.audience_collection =
+      AudienceCollection.new(affiliations: Array(Settings.audience))
   end
 end

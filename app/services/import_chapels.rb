@@ -17,7 +17,7 @@ class ImportChapels
       year_events.each do |event|
         event['site_id'] = site.id
 
-        if event['type'] == 'NO CHAPEL'
+        if event['type'].try(:strip) == 'NO CHAPEL'
           ChapelApiImportantDate.new(event).import
         else
           ChapelApiEvent.new(event).import

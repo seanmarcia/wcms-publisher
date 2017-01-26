@@ -20,7 +20,7 @@ class ChapelApiEvent
 
     @event = Event.find_or_initialize_by(
       import_source: 'chapel-api',
-      import_id: id,
+      import_id: id
     )
     log :debug, 'Built new WCMS event' if event.new_record?
     log :debug, 'Found existing WCMS event' unless event.new_record?

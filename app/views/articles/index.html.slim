@@ -4,8 +4,12 @@
       = form_tag articles_path, method: :get do
         = text_field_tag 'q', params[:q], class: 'form-control', placeholder: 'Search', tabindex: '1'
     .pull-right.pad-right
-      - if policy(Article).create?
-        = link_to 'New Article', new_article_path, class: 'btn btn-default'
+      - if policy(Article).article_author? 
+        ul.nav-button
+          = new_site_button_dropdown 'New Article' do
+            li.dropdown-header Choose Site:
+            - policy(Article).authorable_sites.with_articles_enabled.order('title ASC').each do |site|
+              li = link_to site.title, new_article_path(site_id: site.id)
     .pull-right.pad-right
       - if policy(Article).update_from_ws?
         = link_to 'Sync with Web Services', update_from_ws_articles_path, class: 'btn btn-info', method: :post

@@ -1,10 +1,14 @@
 module SearchHelper
   def link_to_param(title, param, value = true, options = {})
-    link_to title, params.merge(param => (params[param] == value.to_s ? nil : value), page: nil), options
+    link_to title, params.merge(
+      param => (params[param] == value.to_s ? nil : value), page: nil
+    ), options
   end
 
   def link_to_nested_param(title, nested_value, param, value = true, options = {})
-    link_to title, params.merge(param => (params[param] == value.to_s ? nil : value), tab: nested_value), options
+    link_to title, params.merge(
+      param => (params[param] == value.to_s ? nil : value), tab: nested_value
+    ), options
   end
 
   def nav_list_link(title, param, value = true, options = {})
@@ -72,10 +76,22 @@ module SearchHelper
       end
 
     content_tag(:li, class: "#{css_class} dropdown") do
-      safe_join([content_tag(:a, "#{title} #{fa_icon('caret-down')}".html_safe, class: 'dropdown-toggle', data: { toggle:"dropdown"}, href: "#"),
-      content_tag(:ul, class: 'dropdown-menu') do
-        safe_join([(close_link ? content_tag(:li, close_link) : nil), capture(&ye_ol_block)])
-      end])
+      safe_join(
+        [
+          content_tag(
+            :a, "#{title} #{fa_icon('caret-down')}".html_safe,
+            class: 'dropdown-toggle', data: { toggle: 'dropdown' }, href: '#'
+          ),
+          content_tag(:ul, class: 'dropdown-menu') do
+            safe_join(
+              [
+                (close_link ? content_tag(:li, close_link) : nil),
+                capture(&ye_ol_block)
+              ]
+            )
+          end
+        ]
+      )
     end
   end
 
@@ -87,13 +103,19 @@ module SearchHelper
       end
 
     content_tag(:li, class: "#{css_class} dropdown") do
-      safe_join([content_tag(:a, "#{title} #{fa_icon('caret-down')}".html_safe, class: 'dropdown-toggle', data: { toggle:"dropdown"}, href: "#"),
-      content_tag(:ul, class: 'dropdown-menu') do
-        safe_join([(close_link ? content_tag(:li, close_link) : nil), capture(&ye_ol_block)])
-      end])
+      safe_join(
+        [
+          content_tag(
+            :a, "#{title} #{fa_icon('caret-down')}".html_safe, class: 'dropdown-toggle',
+            data: { toggle: 'dropdown' }, href: '#'
+          ),
+          content_tag(:ul, class: 'dropdown-menu') do
+            safe_join([(close_link ? content_tag(:li, close_link) : nil), capture(&ye_ol_block)])
+          end
+        ]
+      )
     end
   end
-
 
   def nav_pill_header(title)
     content_tag(:li, class: 'nav-header') do

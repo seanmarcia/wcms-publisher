@@ -13,12 +13,14 @@ class ArticlesController < ApplicationController
   def index
     authorize Article
     @articles = policy_scope(Article)
-    # This returns mongoid::none if you aren't authorized to scope which errors when you try to call @articles.anything so
+    # This returns mongoid::none if you aren't authorized to scope which errors when you try to call
+    #  @articles.anything so
     # we check and make sure that it actually has value
     unless @articles.none?
       @available_sites = Site.in(id: @articles.distinct(:site_id)).asc(:title)
-      @available_topics = @articles.distinct(:topics).sort_by{|a| a.downcase}
-      @available_categories = SiteCategory.in(id: @articles.distinct(:site_category_ids)).asc(:title)
+      @available_topics = @articles.distinct(:topics).sort_by(&:downcase)
+      @available_categories = SiteCategory.in(id: @articles.distinct(:site_category_ids))
+                                          .asc(:title)
       @available_authors = Person.in(id: @articles.distinct(:author_ids)).asc(:name)
       @available_departments = Department.in(id: @articles.distinct(:department_ids)).asc(:name)
 
@@ -40,6 +42,7 @@ class ArticlesController < ApplicationController
   end
 
   def new
+    @article.site_id = params[:site_id]
   end
 
   def create
@@ -53,7 +56,8 @@ class ArticlesController < ApplicationController
         if @article.save
           @article.image = params[:image] if params[:image]
 
-          flash[:notice] = "#{@article.title} created. You may need to refresh the page to see all the changes."
+          flash[:notice] = "#{@article.title} created. You may need to refresh the page to see " \
+            'all the changes.'
           redirect_to edit_article_path(@article, page: params[:page])
         else
           render :new
@@ -61,32 +65,35 @@ class ArticlesController < ApplicationController
       end
       format.json do
         if @article.save
-          render json: {success: true}
+          render json: { success: true }
         else
-          render json: {success: false, errors: @article.errors.full_messages}
+          render json: { success: false, errors: @article.errors.full_messages }
         end
       end
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if params[:gallery_photos].present?
       @upload_response = []
       add_gallery_photos
       if @upload_response.include? false
-        flash[:warning] = "One or more of the files failed to upload because they are not recognized as images."
+        flash[:warning] = 'One or more of the files failed to upload because they are not ' \
+          'recognized as images.'
       end
       redirect_to edit_article_path @article, page: params[:page]
     else
       @article.image = params[:image] if params[:image]
       set_state(@article)
-      @article.related_object_tags = params[:related_objects_string].to_s.split('|').map(&:strip) if params[:related_objects_string]
+      if params[:related_objects_string]
+        @article.related_object_tags = params[:related_objects_string].to_s.split('|').map(&:strip)
+      end
       @article.site_categories = []
       if @article.update article_params
-        flash[:notice] = "#{@article.title} updated. You may need to refresh the page to see all the changes."
+        flash[:notice] = "#{@article.title} updated. You may need to refresh the page to see " \
+        'all the changes.'
         redirect_to edit_article_path(@article, page: params[:page])
       else
         render :edit
@@ -105,7 +112,9 @@ class ArticlesController < ApplicationController
   end
 
   def search
-    respond_with Person.custom_search(params[:query] || params[:term]).limit(5).to_json(only: ["biola_email", "first_name", "last_name", "affiliations", "biola_photo_url", "department"])
+    respond_with Person.custom_search(params[:query] || params[:term]).limit(5).to_json(
+      only: %w(biola_email first_name last_name affiliations biola_photo_url department)
+    )
   end
 
   def update_from_ws
@@ -117,47 +126,57 @@ class ArticlesController < ApplicationController
   end
 
   protected
+
   def add_gallery_photos
-    if params[:gallery_photos]
-      Array(params[:gallery_photos]).each do |gallery_photo|
-        @upload_response << @article.gallery_photos.new(photo: gallery_photo.last[:photo], caption: gallery_photo.last[:caption]).save
-      end
+    return unless params[:gallery_photos]
+    Array(params[:gallery_photos]).each do |gallery_photo|
+      @upload_response << @article.gallery_photos.new(
+        photo: gallery_photo.last[:photo], caption: gallery_photo.last[:caption]
+      ).save
     end
   end
 
   def add_people
     related_people = []
-    if params[:rp]
-      params[:rp].split('|').each do |rp|
-        related_people << Person.where(biola_email: rp).first
-      end
+    return unless params[:rp]
 
-      @log_related_people = {}
-      if @article.related_people != related_people
-        @log_related_people = {"related_person_ids" => [@article.related_people.try(:map, &:name).join(', ').presence, related_people.map(&:name).join(', ')]}
-      end
-
-      authors = Person.where(biola_email: {'$in' => params[:a].to_s.split('|')})
-      @article.related_people = related_people
-      @article.authors = authors
-      # # saving here to maintain author order of  the author array
-      @article.save
+    params[:rp].split('|').each do |rp|
+      related_people << Person.where(biola_email: rp).first
     end
+
+    @log_related_people = {}
+    if @article.related_people != related_people
+      @log_related_people = { 'related_person_ids' => [
+        @article.related_people.try(:map, &:name).join(', ').presence,
+        related_people.map(&:name).join(', ')
+      ] }
+    end
+
+    authors = Person.where(biola_email: { '$in' => params[:a].to_s.split('|') })
+    @article.related_people = related_people
+    @article.authors = authors
+    # # saving here to maintain author order of  the author array
+    @article.save
   end
 
   def new_article_from_params
-    if params[:article]
-      @article = Article.new(article_params)
-    else
-      @article = Article.new
-    end
+    @article =
+      if params[:article]
+        Article.new(article_params)
+      else
+        Article.new
+      end
   end
 
   def article_params
     if params[:article]
-      params[:article][:meta_keywords] = params[:article][:meta_keywords].split(',') unless params[:article][:meta_keywords].nil?
+      unless params[:article][:meta_keywords].nil?
+        params[:article][:meta_keywords] = params[:article][:meta_keywords].split(',')
+      end
       # We're not using `require` here because it could be blanak when updating presentation data
-      ActionController::Parameters.new(params[:article]).permit(*policy(@article || Article).permitted_attributes).tap do |whitelisted|
+      ActionController::Parameters.new(params[:article]).permit(
+        *policy(@article || Article).permitted_attributes
+      ).tap do |whitelisted|
         # You have to whitelist the hash this way, see https://github.com/rails/rails/issues/9454
         whitelisted[:presentation_data] = params[:pdata] if params[:pdata].present?
       end
@@ -179,7 +198,8 @@ class ArticlesController < ApplicationController
   end
 
   def exportable?
-    @article.previous_changes.present? && @article.published? && Settings.ws_syncable_sites.include?(@article.site.title)
+    @article.previous_changes.present? && @article.published? &&
+      Settings.ws_syncable_sites.include?(@article.site.title)
   end
 
   def set_categories_for_article

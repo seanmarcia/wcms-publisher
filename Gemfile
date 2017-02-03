@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.5.1'
+gem 'rails', '4.2.7.1'
 
 gem 'analytics-ruby', '~> 2.1', require: 'segment'
 gem 'biola_deploy', '~> 0.7'

@@ -75,7 +75,7 @@
 
       h3 Relationships
       .row.form-section
-        .form-group.col-md-3.col-sm-6.col-xs-12
+        .form-group.col-sm-6.col-xs-12
           = label_tag 'article[department_ids]', 'Departments'
           br
           - if permission_to_edit?(@article, :department_ids)
@@ -90,7 +90,7 @@
           - else
             .well.well-faux-input
               = @article.departments.try(:join, ', ')
-        .form-group.col-md-3.col-sm-6.col-xs-12
+        .form-group.col-sm-6.col-xs-12
           = label_tag 'article[audience]', 'Audience'
           br
           - if permission_to_edit?(@article, :audience)
@@ -110,18 +110,47 @@
           div class="#{'field_with_errors' if @article.errors.include?(:author)}"
             => label_tag "Authors"
             - if permission_to_edit?(@article, :author_ids)
-              = text_field_tag :a, nil, id: 'a', value: @article.authors.to_a.map(&:biola_email).join('|'), 'data-source' => search_articles_url, class: 'form-control people_search tags-input'
-              em.help-text = "Type author's name"
+              .array-input
+                .list
+                  - people_ordered_by_array_of_ids(f.object.author_ids).each do |author|
+                    .form-inline
+                      .author
+                        = hidden_field_tag 'article[authors][]', author._id
+                        img.person_thumb src="#{author.biola_photo_url}"
+                        .person_details
+                          = author.name
+                          .department = author.department
+                          span.affiliation = author.affiliations.join(', ')
+                        button.btn.btn-danger.pull-right.delete type="button" = fa_icon('times')
+                        hr
+                .form-inline
+                  = hidden_field_tag 'article[authors][]', nil, 'data-source' => search_articles_url
+                  =' text_field_tag 'article[author_names][]', nil, 'data-source' => search_articles_url, style: 'width: 80%', placeholder: 'author name', class: 'form-control people_search'
+                  button.btn.btn-success.add type="button" = fa_icon('plus')
             - else
               br
               .well.well-faux-input
                 = @article.ws_author
 
-        .form-group.col-xs-12
+        .form-group.col-sm-6.col-xs-12
           = label_tag 'Associated People'
           - if permission_to_edit?(@article, :related_person_ids)
-            = text_field_tag :rp, '', name: "rp", value: @article.related_people.to_a.map(&:biola_email).join('|'),'data-source' => search_articles_url, class: 'form-control people_search tags-input'
-            em.help-text = "Type people's name"
+            .array-input
+              .list
+                - people_ordered_by_array_of_ids(f.object.related_person_ids).each do |person|
+                  .form-inline
+                    .author
+                      = hidden_field_tag 'article[related_people][]', person._id
+                      img.person_thumb src="#{person.biola_photo_url}"
+                      .person_details
+                        = person.name
+                        .department = person.department
+                        span.affiliation = person.affiliations.join(', ')
+                      button.btn.btn-danger.pull-right.delete type="button" = fa_icon('times')
+                      hr
+              .form-inline
+                =' text_field_tag 'article[related_people][]', nil, 'data-source' => search_articles_url, style: 'width: 80%', placeholder: 'related person name', class: 'form-control people_search'
+                button.btn.btn-success.add type="button" = fa_icon('plus')
           - else
             .well.well-faux-input
               = @article.related_people.map(&:biola_email).join(', ')

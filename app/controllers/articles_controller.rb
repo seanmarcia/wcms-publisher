@@ -46,7 +46,6 @@ class ArticlesController < ApplicationController
   end
 
   def create
-    author = Person.where(biola_email: params[:a]).first
     @article.user = current_user if current_user.present?
     authorize @article
     set_state @article
@@ -113,7 +112,7 @@ class ArticlesController < ApplicationController
 
   def search
     respond_with Person.custom_search(params[:query] || params[:term]).limit(5).to_json(
-      only: %w(biola_email first_name last_name affiliations biola_photo_url department)
+      only: %w(biola_email first_name last_name affiliations biola_photo_url department _id)
     )
   end
 
@@ -137,26 +136,12 @@ class ArticlesController < ApplicationController
   end
 
   def add_people
-    related_people = []
-    return unless params[:rp]
-
-    params[:rp].split('|').each do |rp|
-      related_people << Person.where(biola_email: rp).first
+    %w(authors related_people).each do |intent|
+      return unless params[:article]
+      people = params[:article][intent].try(:reject, &:empty?)
+      next if people.nil?
+      AddPeople.new(@article, people, intent).add_related_people
     end
-
-    @log_related_people = {}
-    if @article.related_people != related_people
-      @log_related_people = { 'related_person_ids' => [
-        @article.related_people.try(:map, &:name).join(', ').presence,
-        related_people.map(&:name).join(', ')
-      ] }
-    end
-
-    authors = Person.where(biola_email: { '$in' => params[:a].to_s.split('|') })
-    @article.related_people = related_people
-    @article.authors = authors
-    # # saving here to maintain author order of  the author array
-    @article.save
   end
 
   def new_article_from_params
@@ -169,19 +154,16 @@ class ArticlesController < ApplicationController
   end
 
   def article_params
-    if params[:article]
-      unless params[:article][:meta_keywords].nil?
-        params[:article][:meta_keywords] = params[:article][:meta_keywords].split(',')
-      end
-      # We're not using `require` here because it could be blanak when updating presentation data
-      ActionController::Parameters.new(params[:article]).permit(
-        *policy(@article || Article).permitted_attributes
-      ).tap do |whitelisted|
-        # You have to whitelist the hash this way, see https://github.com/rails/rails/issues/9454
-        whitelisted[:presentation_data] = params[:pdata] if params[:pdata].present?
-      end
-    else
-      {}
+    return {} unless params[:article]
+    unless params[:article][:meta_keywords].nil?
+      params[:article][:meta_keywords] = params[:article][:meta_keywords].split(',')
+    end
+    # We're not using `require` here because it could be blanak when updating presentation data
+    ActionController::Parameters.new(params[:article]).permit(
+      *policy(@article || Article).permitted_attributes
+    ).tap do |whitelisted|
+      # You have to whitelist the hash this way, see https://github.com/rails/rails/issues/9454
+      whitelisted[:presentation_data] = params[:pdata] if params[:pdata].present?
     end
   end
 

@@ -3,4 +3,8 @@
   h1.title, h2.title, h3.title { margin-top: 0; }
   .container.page { margin: 30px auto; }
   .panel { margin-bottom: 30px; }
+  .person_thumb { width: 40px; margin-right: 10px; }
+  .person_details { vertical-align: middle; display: inline-block; max-width: 160px; }
+  .department { line-height: 10px; font-size: 11px; display: block; }
+  .affiliation { color: #999; line-height: 10px; font-size: 11px; display: block; }
 }

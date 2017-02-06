@@ -12,4 +12,10 @@ module FormHelper
     end
     link_to(name, '#', class: "add_fields btn btn-default", data: {id: id, fields: fields.gsub("\n", "")})
   end
+
+  def people_ordered_by_array_of_ids(ids)
+    ordering = {}
+    ids.each_with_index { |id, i| ordering[id] = i }
+    Person.find(ids).sort_by { |o| ordering[o.id] }
+  end
 end

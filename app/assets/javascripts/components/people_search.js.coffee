@@ -1,8 +1,8 @@
-# Currently being used for articles and external articles.
+# Currently being used for articles
 # I want to eventually replace this with the component person search, but it doesn't
 #   Support multiple people per field.
-
 $(document).ready ->
+  $('.array-input').arrayInput()
   # This does an ajax search (through the members controller) to query ws and get a list of matching people to autocomplete.
   if $(".people_search").length > 0
     $(".people_search").autocomplete(
@@ -15,7 +15,7 @@ $(document).ready ->
           success: (data) ->
             response $.map(data, (person) ->
               label: (person.first_name + ' ' + person.last_name)
-              value: person.biola_email
+              value: person._id.$oid
               thumb: person.biola_photo_url
               department: person.department
               affiliations: person.affiliations.join(", ")
@@ -23,7 +23,11 @@ $(document).ready ->
       messages:
         noResults: ""
         results: ->
-    )
+      select: (event, ui) ->
+        @value = ui.item.label
+        $(this).siblings('input[type=hidden]').val ui.item.value
+        false
+      )
 
     # To support multiple forms on each page you need to iterate through each one.
     #   http://stackoverflow.com/questions/11415691/jquery-autocomplete-renderitem-issue-with-multiple-inputs-to-trigger-autocomple

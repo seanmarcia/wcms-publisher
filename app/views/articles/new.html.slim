@@ -1,4 +1,4 @@
 .container.page
-  h2.title New article
+  h2.title = "New article #{'for ' + Site.find(params[:site_id]).title if params[:site_id].present?}"
   hr
   .profile-pages = render 'articles/edit_partials/form'

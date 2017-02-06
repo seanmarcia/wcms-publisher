@@ -21,13 +21,12 @@
         .form-group.col-md-4.col-sm-6.col-xs-12.form-site
           = label_tag 'article[site_id]', 'Site'
           br
-          - if permission_to_edit?(@article, :site_id)
-            = select_tag 'article[site_id]', options_for_select(@sites.with_articles_enabled.map{|site| [site.title, site.id] }, @article.site_id), include_blank: true, class: "form-control site_multiselect"
+          - if policy(Article).article_admin?
+            = select_tag 'article[site_id]', options_for_select(policy(Article).authorable_sites.with_articles_enabled.order('title ASC').map{|site| [site.title, site.id] }, @article.site_id), include_blank: true, class: "form-control site_multiselect"
           - else
             .well.well-faux-input style="padding: 6px;"
               = @article.site
             = hidden_field_tag :disabled_site_id, @article.site_id.to_s
-
 
         .form-group.col-md-4.col-sm-6.col-xs-12.form-categories
           = f.label :categories

@@ -1,14 +1,18 @@
 # Add authors, related people and the like. Generally used with people_search
 #
 # @example
-#   AddPeople.new(@article, params[:a], 'authors').add_related_people
+#   AddPeople.new(@article, params[:a], 'authors', {allow_blank: true}).add_related_people
 #
 class AddPeople
   include ServiceObject
-  attr_accessor :object, :people_ids, :intent
+  attr_accessor :object, :people_ids, :intent, :options
 
-  def initialize(object, people_ids, intent)
-    return [] unless people_ids.present? && object.respond_to?(intent)
+  def initialize(object, people_ids, intent, options = {})
+    unless (people_ids.present? || options[:allow_blank].present?) && object.respond_to?(intent)
+      return []
+    end
+
+    @options = options
     @object = object
     @intent = intent
 
@@ -19,7 +23,6 @@ class AddPeople
 
   # Set relationship using the original array of ids to maintain order.
   def add_related_people
-    return unless people_ids
-    @object.send("#{intent.singularize}_ids=", people_ids)
+    @object.send("#{intent.singularize}_ids=", people_ids) if intent.present?
   end
 end

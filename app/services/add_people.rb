@@ -18,7 +18,7 @@ class AddPeople
 
     # clean out possible non-ids
     #  ref: https://github.com/Automattic/mongoose/issues/1959
-    @people_ids = people_ids.delete_if { |id| !id.match(/^[0-9a-fA-F]{24}$/) }
+    @people_ids = Array(people_ids).delete_if { |id| !id.match(/^[0-9a-fA-F]{24}$/) }
   end
 
   # Set relationship using the original array of ids to maintain order.

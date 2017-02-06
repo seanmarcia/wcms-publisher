@@ -4,7 +4,8 @@ class ArticlesController < ApplicationController
 
   before_filter :set_article, only: [:show, :edit, :update, :destroy]
   before_filter :new_article_from_params, only: [:new, :create]
-  before_filter :add_people, only: [:create, :update]
+  before_filter :add_related_people, only: [:create, :update]
+  before_filter :add_authors, only: [:create, :update]
   before_filter :pundit_authorize
   before_filter :set_categories_for_article, except: [:index, :show]
   after_filter :push_to_ws, only: [:update, :create]
@@ -135,13 +136,19 @@ class ArticlesController < ApplicationController
     end
   end
 
-  def add_people
-    %w(authors related_people).each do |intent|
-      return unless params[:article]
-      people = params[:article][intent].try(:reject, &:empty?)
-      next if people.nil?
-      AddPeople.new(@article, people, intent).add_related_people
-    end
+  def add_related_people
+    add_people('related_people', allow_blank: true)
+  end
+
+  def add_authors
+    add_people('authors', allow_blank: true)
+  end
+
+  def add_people(intent, options = {})
+    return unless params[:article] && intent
+    people = params[:article][intent].try(:reject, &:empty?)
+    return if people.nil? && options.blank?
+    AddPeople.new(@article, people, intent, options).add_related_people
   end
 
   def new_article_from_params

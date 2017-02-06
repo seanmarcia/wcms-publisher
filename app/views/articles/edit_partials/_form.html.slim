@@ -148,7 +148,8 @@
                       button.btn.btn-danger.pull-right.delete type="button" = fa_icon('times')
                       hr
               .form-inline
-                =' text_field_tag 'article[related_people][]', nil, 'data-source' => search_articles_url, style: 'width: 80%', placeholder: 'related person name', class: 'form-control people_search'
+                = hidden_field_tag 'article[related_people][]', nil, 'data-source' => search_articles_url
+                =' text_field_tag 'article[related_people_names][]', nil, 'data-source' => search_articles_url, style: 'width: 80%', placeholder: 'related person name', class: 'form-control people_search'
                 button.btn.btn-success.add type="button" = fa_icon('plus')
           - else
             .well.well-faux-input

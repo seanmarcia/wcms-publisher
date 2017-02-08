@@ -27,7 +27,7 @@ describe ActorsController do
       context "person has no user tied to it" do
         it "shows error and does not create permission" do
           create_actor(person.id)
-          expect(flash[:info]).to match "needs to log into"
+          expect(flash[:warning]).to match "needs to log in to"
           expect(page.permissions.count).to eql 0
         end
       end

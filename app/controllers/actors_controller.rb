@@ -16,8 +16,8 @@ class ActorsController < ApplicationController
       if person_record_for_actor.nil?
         flash[:error] = 'Person was not found.'
       else
-        flash[:info] = "#{person_record_for_actor.name} needs to log " \
-          'into this site before he/she can be given access to this profile.'
+        flash[:warning] = "#{person_record_for_actor.name} needs to log " \
+          'in to this site before he/she can be given access to this profile.'
       end
     # @parent refers to the person we are adding the actor to
     elsif @parent.has_permission_to?(ability, actor)

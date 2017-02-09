@@ -26,7 +26,7 @@
           - else
             .well.well-faux-input style="padding: 6px;"
               = @article.site
-            = hidden_field_tag 'article[site_id]', @article.site_id.to_s
+            = hidden_field_tag 'article[site_id]', @article.site_id.to_s, id: 'disabled_site_id'
 
         .form-group.col-md-4.col-sm-6.col-xs-12.form-categories
           = f.label :categories

@@ -1,6 +1,6 @@
 app:
-  name: Academic Publisher
-  host: academic-publisher.dev
+  name: WCMS Publisher
+  host: wcms-publisher.dev
   relative_url_root: /
 
 # Run rake secret to generate a new token

@@ -14,3 +14,5 @@
   .list-group
     .list-group-item.list-group-item-info
       = fa_icon 'info-circle', text: "This Article is #{@article.aasm_state.titleize}"
+    - if policy(@article).destroy? && @article.draft?
+      .list-group-item.list-group-item-danger = link_to (fa_icon 'trash', text: 'Delete this draft'), [@article], method: :delete, data: { confirm: "Are you sure that you want to delete \"#{@article.title}\"?"} 

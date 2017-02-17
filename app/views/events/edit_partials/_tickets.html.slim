@@ -20,6 +20,11 @@
               = wcms_component 'forms/redactor_editor', form: f, attribute: :registration_info
             - else
               .well.well-faux-input = @event.registration_info.to_s.html_safe
+        .col-md-12
+          .form-group
+            = f.label :registration_link 
+            = f.text_field :registration_link, class: 'form-control'
+
 
 
       hr

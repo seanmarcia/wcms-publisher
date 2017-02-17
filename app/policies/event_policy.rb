@@ -70,7 +70,7 @@ class EventPolicy < PermissionsPolicy
       :start_date, :end_date, :summary, :related_object_tags, :categories, :image, :contact_name,
       :contact_email, :contact_phone, :paid, :description, :publish_sidekiq_id, :archive_sidekiq_id,
       :crop_x, :crop_y, :crop_w, :crop_h, :imported, :ws_source, :ws_id, :user_id, :primary_page_id,
-      :registration_info,
+      :registration_link,
       audience: [], department_ids: [], group_ids: [], external_sponsor_ids: [],
       event_collection_ids: [], site_category_ids: [], link_ids: [],
       address: [:line1, :street, :city, :state, :zip, :use_associated_title],
@@ -80,6 +80,7 @@ class EventPolicy < PermissionsPolicy
       pa += [:end_of_head_html, :end_of_body_html] if can_manage?(:design)
       pa += [:publish_at, :archive_at, :featured] if event_publisher?
       pa += [:site_id] if record == Event || record.site_id.blank? || record.draft?
+      pa += [:registration_info] if event_admin?
       pa = pa | SEO_FIELDS if user.admin? # Inherited from ApplicationPolicy
     end
     return pa

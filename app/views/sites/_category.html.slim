@@ -20,6 +20,9 @@
               .form-group
                 = f.label :description
                 = f.text_field :description, class: 'form-control'
+              .form-group
+                = f.label :slug
+                = f.text_field :slug, class: 'form-control', placeholder: 'Slug will be automatically generated', readonly: true
             .modal-footer
               button.btn.btn-default data-dismiss="modal" type="button"  Close
               = f.submit 'Save', class: 'btn btn-biola'
@@ -32,12 +35,14 @@
           tr
             th Title
             th Description
+            th Slug
             th
         tbody
         - @site.categories(obj.titleize).sort_by{ |cat| cat.title.downcase }.each do |category|
             tr
               td = category.title
               td = category.description
+              td = category.slug
               td
                 .text-right
                   a href="#" data-toggle="modal" data-target="#edit#{category.id}" =' fa_icon 'pencil'
@@ -59,6 +64,9 @@
                           .form-group
                             = f.label :description
                             = f.text_field :description, class: 'form-control'
+                          .form-group
+                            = f.label :slug
+                            = f.text_field :slug, class: 'form-control'
                         .modal-footer
                           button.btn.btn-default data-dismiss="modal" type="button"  Close
                           = f.submit 'Save', class: 'btn btn-biola'

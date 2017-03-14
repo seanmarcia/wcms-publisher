@@ -13,6 +13,6 @@ class SiteCategoryPolicy < ApplicationPolicy
   alias :destroy? :index?
 
   def permitted_attributes
-    [:modifier_id, :title, :description, :type]
+    [:modifier_id, :title, :description, :slug, :type]
   end
 end

@@ -103,7 +103,9 @@ class ArticlePolicy < PermissionsPolicy
     case attribute.try(:to_sym)
     when nil, :form, :logs
       article_editor? || user.try(:admin?)
-    when :gallery_photos, :seo
+    when :gallery_photos
+      article_editor? || article_admin?
+    when :seo
       article_admin?
     when :design, :presentation_data
       user.admin? || user.has_role?(:designer)

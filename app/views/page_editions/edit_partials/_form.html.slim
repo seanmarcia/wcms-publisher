@@ -102,7 +102,7 @@ ruby:
           .col-md-6
             .form-group
               = r.label :type
-              = r.select :type, Redirect::TYPES, { include_blank: true }, class: 'form-control'
+              = r.select :type, Redirect::TYPES.sort, {}, class: 'form-control'
 
           .col-md-6
             .form-group

@@ -24,9 +24,11 @@
           .form-group
             = f.label :registration_link 
             = f.text_field :registration_link, class: 'form-control'
-
-
-
+        .col-md-4
+          .form-group
+            = f.label :registration_button_text
+            = f.select :registration_button_text, (Array(Settings.event_registration_button_text_options)), {}, class: 'form-control'
+            
       hr
       .form-footer
         .pull-right

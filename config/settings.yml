@@ -82,6 +82,10 @@ audience:
   - 'Staff'
   - 'Students'
 
+event_registration_button_text_options:
+  - "Register Now"
+  - "Buy Tickets Now"
+
 # Set the destination of zapier webhooks.
 zapier:
   event_change_webhook_url: # set in settings.local.yml

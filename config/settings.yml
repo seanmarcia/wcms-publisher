@@ -84,7 +84,7 @@ audience:
 
 event_registration_button_text_options:
   - "Register Now"
-  - "Buy Tickets Now"
+  - "Buy Tickets"
 
 # Set the destination of zapier webhooks.
 zapier:

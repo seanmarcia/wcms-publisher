@@ -25,3 +25,9 @@ ChapelImportWorker:
   cron: "37 2 * * *"
   class: "ChapelImportWorker"
   queue: default
+
+# Once a year on April 1st
+AnnualCourseFetchWorker:
+  cron: "0 0 1 4 *"
+  class: "AnnualCourseFetchWorker"
+  queue: default

@@ -130,3 +130,7 @@ chapel_contact_info:
   talbot:
     email: 'catherine.m.wilson@biola.edu'
     phone: '562-944-0351 ext.5521'
+
+# CourseLeaf API URL
+course_leaf:
+  url: http://catalog.biola.edu

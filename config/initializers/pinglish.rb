@@ -11,6 +11,10 @@ Wcms::Application.config.middleware.use Pinglish do |ping|
     BiolaWebServices.dirsvc.get_directories.map{|d| d['api'] }.compact.length > 0
   end
 
+  ping.check :elasticsearch do
+    Elasticsearch::Model.client.indices.exists index: Settings.elasticsearch.index_name
+  end
+
   ping.check :smtp do
     smtp = Net::SMTP.new(ActionMailer::Base.smtp_settings[:address])
     smtp.start

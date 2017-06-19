@@ -119,7 +119,8 @@
                         .person_details
                           = author.name
                           .department = author.department
-                          span.affiliation = author.affiliations.join(', ')
+                          - if author.affiliations
+                            span.affiliation = author.affiliations.join(', ')
                         button.btn.btn-danger.pull-right.delete type="button" = fa_icon('times')
                         hr
                 .form-inline

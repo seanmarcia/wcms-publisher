@@ -141,6 +141,7 @@ class ArticlesController < ApplicationController
   end
 
   def add_authors
+    return if params['page'].present?
     add_people('authors', allow_blank: true)
   end
 

@@ -20,9 +20,9 @@ FirePublishObjectWorker:
   class: "FirePublishObjectWorker"
   queue: default
 
-# At 2:37 in the morning
+# At 10:30am and 10:30pm
 ChapelImportWorker:
-  cron: "37 2 * * *"
+  cron: "30 10,17 * * *"
   class: "ChapelImportWorker"
   queue: default
 

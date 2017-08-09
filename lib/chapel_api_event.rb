@@ -191,7 +191,7 @@ class ChapelApiEvent
     when 'Tuesday Talbot'
       'Chapel-Talbot.jpg'
     else
-      'Chapel-Theme1617.jpg'
+      'illuminate.jpg'
     end
   end
 
